@@ -1,9 +1,23 @@
+def test():
+    a = 55
+    b = "55"
 
-a = 55
-b = "55"
+    if a == b:
+        print('true')
+    print(type(a))
 
-if a == b :
-    print('true')
+
+def main():
+    test()
+
+
+#
+# this is a comment
+
+
+main()
+
+
 
 
 
