@@ -24,7 +24,7 @@ print(len(os.listdir()))  # 현재폴더 안에 있는 파일 갯수 출력
 for i in os.listdir():  # 현재폴더 안에 있는 모든 파일을
     hwp.Open(os.path.join(BASE_DIR, i))  # 한/글로 열어서
     hwp.HAction.GetDefault('FileSaveAsPdf', hwp.HParameterSet.HFileOpenSave.HSet)  # PDF로 저장할 건데, 설정값은 아래와 같이.
-    hwp.HParameterSet.HFileOpenSave.filename = os.path.join(BASE_DIR, i.replace('.hwp', 'pdf'))  # 확장자는 .pdf로,
+    hwp.HParameterSet.HFileOpenSave.filename = os.path.join(BASE_DIR, i.replace('.hwp', '.pdf'))  # 확장자는 .pdf로,
     hwp.HParameterSet.HFileOpenSave.Format = 'PDF'  # 포맷은 PDF로,
     hwp.HAction.Execute('FileSaveAsPdf', hwp.HParameterSet.HFileOpenSave.HSet)  # 위 설정값으로 실행해줘.
 
@@ -33,4 +33,4 @@ hwp.XHwpDocuments.Close(isDirty=False)  # 열려있는 문서가 있다면 닫�
 hwp.Quit()  # 한/글 종료
 
 del hwp
-del win32
+del win32w
