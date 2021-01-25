@@ -2,7 +2,7 @@ import re
 
 # re.sub(r'[\w-]+@[\w.]+', 'great', 'test@gmail.com haha test2@gmail.com nice test test', count=1)
 def extract_brace(s):
-    pattern = r'\{{(\d{1}|\d{2})\}}'
+    pattern = r'\{{(\d{1}|\d{2}|\d{3})\}}'
     m = re.sub(pattern,'',s ,0)
     return m
 
@@ -36,6 +36,9 @@ def element_count(list, item):
     for i in list:
         if (pattern.search(i)): c+=1
     return c
+
+
+# return dictionary {"title":15,"spoint":2,"epoint":2}
 
 
 def get_index_num(list_a):
