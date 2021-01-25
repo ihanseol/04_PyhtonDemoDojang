@@ -34,20 +34,19 @@ def element_count(list, item):
     c=0
     pattern = re.compile(item)
     for i in list:
-        if (pattern.search(i)):
-           c+=1
+        if (pattern.search(i)): c+=1
     return c
 
 
-def getindex_n_count(list_a):
-    r = {}
+def get_index_num(list_a):
+    ret = {}
     uniq = uniq_list(list_a)
-    for i in uniq:
-        cnt = element_count(list_a, i)
+    for entity in uniq:
+        cnt = element_count(list_a, entity)
         # print(f'{i} : {cnt}')
-        r[i] = cnt
+        ret[entity] = cnt
 
-    return r
+    return ret
 
 
 if __name__ == '__main__':    # 프로그램의 시작점일 때만 아래 코드 실행
@@ -55,7 +54,7 @@ if __name__ == '__main__':    # 프로그램의 시작점일 때만 아래 코�
               'title{{5}}', 'spoint{{1}}', 'epoint{{1}}', 'title{{6}}', 'title{{7}}', 'title{{8}}', 'title{{9}}',
               'title{{10}}', 'title{{11}}', 'title{{12}}', 'title{{13}}', 'title{{14}}']
 
-    c = getindex_n_count(list_a)
+    c = get_index_num(list_a)
     print(c)
 
 
