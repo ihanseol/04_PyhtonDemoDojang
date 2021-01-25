@@ -6,9 +6,6 @@ import pandas as pd  # 그 유명한 판다스. 엑셀파일을 다루기 위함
 import numpy as np
 from datetime import datetime as dt  # 작업시간을 측정하기 위함. 지워도 됨.
 
-def isNaN(num):
-    return num != num
-
 
 excel = pd.read_excel(r"C:\Users\minhwasoo\Desktop\data_sisul.xlsx")  # 엑셀로 데이터프레임 생성
 hwp = win32.gencache.EnsureDispatch("HWPFrame.HwpObject")  # 한/글 열기
