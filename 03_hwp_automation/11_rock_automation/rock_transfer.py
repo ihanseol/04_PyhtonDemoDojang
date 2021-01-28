@@ -1,13 +1,15 @@
 from win32com.client import Dispatch
-import os
-import shutil
 import win32com.client as win32
 import openpyxl
-
 import os
 
 
-def goto_page(hwp, page):
+def goto_page(hwp: object, page: object) -> object:
+    """
+    hwp object
+    :type page: number
+    :type hwp: object
+    """
     hwp.HAction.GetDefault("Goto", hwp.HParameterSet.HGotoE.HSet)
     hwp.HParameterSet.HGotoE.HSet.SetItem("DialogResult", page)
     hwp.HParameterSet.HGotoE.SetSelectionIndex = 1
@@ -15,14 +17,19 @@ def goto_page(hwp, page):
 
     hwp.HAction.Run("MoveDown")
     hwp.HAction.Run("MoveDown")
-    hwp.HAction.Run("MoveNextWord")
-    hwp.HAction.Run("MoveNextWord")
-    hwp.HAction.Run("MoveRight")
-    hwp.HAction.Run("MoveNextWord")
-    hwp.HAction.Run("MoveRight")
 
 
-def paste_value(hwp):
+# function OnScriptMacro_사이즈2()
+# {
+# 	HAction.GetDefault("Paste", HParameterSet.HSelectionOpt.HSet);
+# 	with (HParameterSet.HSelectionOpt)
+# 	{
+# 		Option = 5;
+# 	}
+# 	HAction.Execute("Paste", HParameterSet.HSelectionOpt.HSet);
+# }
+
+def paste_value(hwp: object):
     # hwp.HAction.GetDefault("Paste", hwp.HParameterSet.HSelectionOpt.HSet)
     # hwp.HParameterSet.HSelectionOpt.Option = 5
     # hwp.HAction.Execute("Paste", hwp.HParameterSet.HSelectionOpt.HSet)
@@ -57,8 +64,8 @@ def get_excel(str_filename):
 
 def get_excel_data(wb, page):
     ws = wb.Worksheets(1)
-    i = (page-1)*18 + 2
-    j = i + 18
+    i = (page-1)*15 + 2
+    j = i + 14
     srange = f"b{i}:n{j}"
     ws.Range(srange).Copy()
     return
@@ -73,14 +80,14 @@ def get_last_row(str_filename):
     return nb_row
 
 
-def paste_work(c1, str_filename):
+def paste_work(page):
     desktop = get_desktop()
     wb = get_excel(f"{desktop}\\data.xlsx")
-    hwp = get_hwp(f"{desktop}\\data-soil.hwp")
+    hwp = get_hwp(f"{desktop}\\data-rock.hwp")
 
-    for i in range(c1+1):
-        get_excel_data(wb, i+1)
-        goto_page(hwp, i+1)
+    for i in range(1, page + 1):
+        get_excel_data(wb, i)
+        goto_page(hwp, i)
         paste_value(hwp)
 
     hwp.Save()
@@ -92,16 +99,10 @@ def main():
     if __name__ == '__main__':
         desktop = get_desktop()
         last_row = get_last_row(f"{desktop}\\data.xlsx") - 1
+        c1 = last_row // 15
 
-        cnt = last_row / 3
-        c1 = cnt // 6
-        d1 = int(c1)
-
-        paste_work(d1, f"{desktop}\\data.xlsx")
-
-        # ws = read_excel(f"{desktop}\\data.xlsx")
-        # write_data(ws, f"{desktop}\\data-soil.hwp")
-
+        print(f"c1 : {c1} ")
+        paste_work(c1)
 
 main()
 
