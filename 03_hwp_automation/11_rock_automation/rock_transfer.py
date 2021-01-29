@@ -30,16 +30,17 @@ def goto_page(hwp: object, page: object) -> object:
 # }
 
 def paste_value(hwp: object):
-    # hwp.HAction.GetDefault("Paste", hwp.HParameterSet.HSelectionOpt.HSet)
-    # hwp.HParameterSet.HSelectionOpt.Option = 5
-    # hwp.HAction.Execute("Paste", hwp.HParameterSet.HSelectionOpt.HSet)
-    hwp.Run('Paste')
+    hwp.HAction.GetDefault("Paste", hwp.HParameterSet.HSelectionOpt.HSet)
+    hwp.HParameterSet.HSelectionOpt.option = 5
+    hwp.HAction.Execute("Paste", hwp.HParameterSet.HSelectionOpt.HSet)
+    # hwp.Run('Paste')
 
 
 def get_desktop():
     desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
     return desktop
 
+# hwp.Open(r"C:\Users\minhwasoo\Desktop\data-rock.hwp")
 
 def get_hwp(filename):
     hwp = win32.gencache.EnsureDispatch('HWPFrame.HwpObject')
@@ -70,6 +71,9 @@ def get_excel_data(wb, page):
     ws.Range(srange).Copy()
     return
 
+# https://youtu.be/Pr5Ms0xwwBA
+# intRowCount = ws.UsedRange.Rows.Count
+# intColumnCount = ws.UsedRange.Columns.Count
 
 def get_last_row(str_filename):
     wb = openpyxl.load_workbook(str_filename)
