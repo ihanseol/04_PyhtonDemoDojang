@@ -131,5 +131,72 @@
 # <option value="189" >서귀포(무)</option>
 # <option value="188" >성산(무)</option>
 
+import datetime
+import os
+import pandas as pd
+from selenium import webdriver
+
+
+def get_desktop():
+    desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
+    return desktop
+
+# https://stackoverflow.com/questions/42370977/how-to-save-a-new-sheet-in-an-existing-excel-file-using-pandas
+
+
+def write_to_pdfile(weather_data, narea):
+    path = get_desktop() + f"\\pandas_to_excel_{str(narea)}.xlsx"
+    writer = pd.ExcelWriter(path, engine='xlsxwriter')
+
+    df1 = pd.DataFrame(weather_data)
+    df1.to_excel(writer, sheet_name=str(narea))
+
+    writer.save()
+    writer.close()
+
+
+def get_weatherdata(driver, nyear, narea):
+    url = "https://www.weather.go.kr/weather/climate/past_table.jsp?stn="+str(narea)+"&yy=" + str(nyear)+"&obs=21&x=22&y=12"
+    driver.get(url)
+    weather_data = [str(nyear)]
+
+    for i in range(2, 14):
+        search_string = f"/html/body/div/div[3]/div[2]/div[2]/table/tbody/tr[32]/td[{i}]"
+        elem = driver.find_element_by_xpath(search_string)
+        weather_data.append(elem.text)
+
+    return weather_data
+
+
+def get_10year(narea):
+    now = datetime.datetime.now()
+    year10_data = []
+    nyear = now.year - 1
+    j = nyear - 9  # 2020-9 = 2011
+
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('headless')
+    chrome_options.add_argument('window-size=1920x1080')
+    chrome_options.add_argument("disable-gpu")
+    driver = webdriver.Chrome(r"C:\Program Files\SeleniumBasic\chromedriver.exe", options=chrome_options)
+
+    driver.implicitly_wait(1)
+
+    for i in range(j, j+10):
+        weather_data = get_weatherdata(driver, i, narea)
+        year10_data.append(weather_data)
+        print(weather_data)
+
+    driver.close()
+    write_to_pdfile(year10_data, narea)
+
+
+def main():
+    if __name__ == '__main__':
+        get_10year(131)
+
+
+main()
+
 
 

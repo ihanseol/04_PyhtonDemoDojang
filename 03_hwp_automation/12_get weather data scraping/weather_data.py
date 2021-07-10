@@ -39,29 +39,6 @@ def get_weatherdata(driver, nyear, narea):
     return weather_data
 
 
-def get_10year(narea):
-    now = datetime.datetime.now()
-    year10_data = []
-    nyear = now.year - 1
-    j = nyear - 9  # 2020-9 = 2011
-
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument('headless')
-    chrome_options.add_argument('window-size=1920x1080')
-    chrome_options.add_argument("disable-gpu")
-    driver = webdriver.Chrome(r"C:\Program Files\SeleniumBasic\chromedriver.exe", options=chrome_options)
-
-    driver.implicitly_wait(3)
-
-    for i in range(j, j+10):
-        weather_data = get_weatherdata(driver, i, narea)
-        year10_data.append(weather_data)
-        print(weather_data)
-
-    driver.close()
-    write_to_pdfile(year10_data, narea)
-
-
 def get_30year(narea):
     now = datetime.datetime.now()
     year30_data = []
