@@ -141,17 +141,16 @@ def get_desktop():
     return desktop
 
 
-def write_to_pdfile(weather_data):
-    file_name = get_desktop() + "\\pandas_to_excel.xlsx"
+def write_to_pdfile(weather_data, narea):
+    file_name = get_desktop() + f"\\pandas_to_excel_{str(narea)}.xlsx"
     df = pd.DataFrame(weather_data)
-    df.to_excel(file_name, sheet_name='new_sheet_name')
+    df.to_excel(file_name, sheet_name=str(narea))
 
 
 def get_weatherdata(driver, nyear, narea):
-    url = "https://www.weather.go.kr/weather/climate/past_table.jsp?stn="  + str(narea)  +  "&yy=" + str(nyear) +  "&obs=21&x=22&y=12"
+    url = "https://www.weather.go.kr/weather/climate/past_table.jsp?stn="+str(narea)+"&yy=" + str(nyear)+"&obs=21&x=22&y=12"
     driver.get(url)
-    weather_data = []
-    weather_data.append(str(nyear))
+    weather_data = [str(nyear)]
 
     for i in range(2, 14):
         search_string = f"/html/body/div/div[3]/div[2]/div[2]/table/tbody/tr[32]/td[{i}]"
@@ -181,7 +180,7 @@ def get_10year(narea):
         print(weather_data)
 
     driver.close()
-    write_to_pdfile(year10_data)
+    write_to_pdfile(year10_data, narea)
 
 
 def get_30year(narea):
@@ -202,7 +201,7 @@ def get_30year(narea):
         print(weather_data)
 
     driver.close()
-    write_to_pdfile(year30_data)
+    write_to_pdfile(year30_data, narea)
 
 
 def main():
