@@ -13,7 +13,11 @@ headers = {
 
 
 def get_desktop():
-    desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
+
+    if os.name == 'posix':
+        desktop = os.path.expanduser('~/Desktop/')
+    else:
+        desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
     return desktop
 
 
