@@ -2,7 +2,7 @@ import os
 import sys
 import datetime
 from bs4 import BeautifulSoup
-from lxml import html, etree
+from lxml import etree
 import requests
 import pandas as pd
 
@@ -48,19 +48,17 @@ def write_file(weather_data, area):
     writer.save()
 
 
-def get_weatherdata(year, area):
-    url = "https://www.weather.go.kr/weather/climate/past_table.jsp?stn=" + str(area) + "&yy=" + str(
-        year) + "&obs=21&x=22&y=12"
+def get_weather_data(year, area):
+    url = "https://www.weather.go.kr/weather/climate/past_table.jsp?stn=" + str(area) + "&yy=" + str(year) + "&obs=21&x=22&y=12"
 
     page = requests.get(url, headers=headers)
     soup = BeautifulSoup(page.content, "html.parser")
-    dom = etree.HTML(str(soup))
+    tds = soup.findAll('table', {'class': 'table_develop'})[0].find_all('tr')[32].find_all('td')
 
     weather_data = [year]
-    for i in range(2, 14):
-        search_string = f"/html/body/div/div[3]/div[2]/div[2]/table/tbody/tr[32]/td[{i}]"
-        elem = dom.xpath(search_string)[0].text
-        weather_data.append(float(elem))
+
+    for td in tds[1:]:
+        weather_data.append(float(td.text))
 
     return weather_data
 
@@ -72,7 +70,7 @@ def get_30year(area):
     j = year - 29  # 2020-29 = 1991
 
     for i in range(j, j + 30):
-        weather_data = get_weatherdata(i, area)
+        weather_data = get_weather_data(i, area)
         year30_data.append(weather_data)
         print(weather_data)
 
@@ -87,7 +85,7 @@ def get_n_year(how_many_years, area):
     # 2020 - 3 - 1 = 2018
 
     for i in range(j, j + how_many_years):
-        weather_data = get_weatherdata(i, area)
+        weather_data = get_weather_data(i, area)
         year30_data.append(weather_data)
         print(weather_data)
 
@@ -103,7 +101,7 @@ def main():
         if n != 3:
             get_n_year(3, 133)
         else:
-            if sys.argv[1] != 30:
+            if int(sys.argv[1]) != 30:
                 area = int(sys.argv[2])
                 how_many = int(sys.argv[1])
                 get_n_year(how_many, area)
