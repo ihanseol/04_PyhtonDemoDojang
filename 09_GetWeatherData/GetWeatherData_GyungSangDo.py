@@ -6,16 +6,23 @@ from selenium.webdriver.support.select import Select
 import datetime
 import time
 
+keys = ["대구", "대구(기)", "울산", "부산", "경주시", "구미", "문경", "봉화", "상주", "안동", "영덕", "영주", "영천", "울릉도", "울진", "의성", "청송군",
+        "포항", "거제", "거창", "김해시", "남해", "밀양", "북창원", "산청", "양산시", "의령군", "진주", "창원", "통영", "함양군", "합천"]
 
-keys = ['보은', '제천', '청주', '추풍령', '충주', '대전', '세종', '금산', '보령', '부여', '서산', '천안', '홍성']
-values = [226, 221, 131, 135, 127, 133, 239, 238, 235, 236, 129, 232, 177]
-strict = [54, 54, 54, 54, 54, 28, 132, 60, 60, 60, 60, 60, 60]
+values = [143, 176, 152, 159, 283, 279, 273, 271, 137, 136, 277, 272, 281, 115, 130, 278, 276, 138, 294, 284, 253, 295,
+          288, 255, 289, 257, 263, 192, 155, 162, 264, 285]
+
+strict = [19, 19, 30, 17, 95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 110, 110, 110, 110, 110, 110, 110,
+          110, 110, 110, 110, 110, 110, 110]
+
 location_dict = dict(zip(keys, values))
 strict_dict = dict(zip(keys, strict))
 
+#
 # print(len(keys))
 # print(len(values))
 # print(len(strict))
+
 
 def get_location(name):
     one_string = 'ztree_' + str(strict_dict[name]) + '_switch'
@@ -79,5 +86,4 @@ def find_rainfall(name):
     time.sleep(1)
 
 
-find_rainfall('금산')
-
+find_rainfall('대구')
