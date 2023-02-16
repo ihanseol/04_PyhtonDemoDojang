@@ -11,6 +11,9 @@ cwd = os.getcwd()
 mp4_files = [f for f in os.listdir(cwd) if f.endswith(".mp4")]
 mp4_files.sort()
 
+smi_files = [f for f in os.listdir(cwd) if f.endswith(".smi")]
+smi_files.sort()
+
 
 file_names = []
 
@@ -19,9 +22,7 @@ for f in mp4_files:
     file_names.append(base_name)
    
 
-smi_files = [f for f in os.listdir(cwd) if f.endswith(".smi")]
-smi_files.sort()
-
+print('----------------------------------------------------')
 
 print(f'mp4file : {len(mp4_files)}')
 print(f'smifile : {len(smi_files)}')
@@ -29,6 +30,7 @@ print(f'filename : {len(file_names)}')
 
 
 if len(mp4_files) != len(smi_files):
+    print('something wrong with movie and subtitle file ....')
     quit()
 
 print('----------------------------------------------------')
@@ -42,7 +44,7 @@ for f in smi_files:
     i+=1
 print('----------------------------------------------------')
 
-# print(mp4_files)
+
 
 
 
