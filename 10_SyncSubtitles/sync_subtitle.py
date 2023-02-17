@@ -1,3 +1,7 @@
+
+#!/usr/bin/env python3
+
+
 import os
 
 def remove_extension(file_name):
@@ -5,31 +9,45 @@ def remove_extension(file_name):
     return os.path.splitext(file_name)[0]
 
 
-cwd = os.getcwd()
+# cwd = os.getcwd()
 # dir_path = "/path/to/directory"  # Replace with the path to the directory you want to search in
 
-mp4_files = [f for f in os.listdir(cwd) if f.endswith(".mp4")]
-mp4_files.sort()
+files = os.listdir()
+movie_files = []
 
-smi_files = [f for f in os.listdir(cwd) if f.endswith(".smi")]
+for file in files:
+    if file.endswith(('.mp4', '.avi', '.mov', '.mkv')):
+        movie_files.append(file)
+
+movie_files.sort()
+
+if len(movie_files) == 0:
+    print('folder has no movie files ...')
+    quit()
+
+
+# mp4_files = [f for f in os.listdir(cwd) if f.endswith(".mp4")]
+# mp4_files.sort()
+
+smi_files = [f for f in os.listdir() if f.endswith(('.smi','.srt','.sub','.sami'))]
 smi_files.sort()
 
 
 file_names = []
 
-for f in mp4_files:
+for f in movie_files:
     base_name = remove_extension(f)
     file_names.append(base_name)
    
 
 print('----------------------------------------------------')
 
-print(f'mp4file : {len(mp4_files)}')
-print(f'smifile : {len(smi_files)}')
+print(f'movie files : {len(movie_files)}')
+print(f'smi files : {len(smi_files)}')
 print(f'filename : {len(file_names)}')
 
 
-if len(mp4_files) != len(smi_files):
+if len(movie_files) != len(smi_files):
     print('something wrong with movie and subtitle file ....')
     quit()
 
