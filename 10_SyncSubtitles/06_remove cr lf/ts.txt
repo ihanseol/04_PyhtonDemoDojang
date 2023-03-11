@@ -1,0 +1,815 @@
+tommy here from lauren systems and we're
+going to talk about synology
+versus true nas and i've been wanting to
+do this video but it's
+not easy to articulate because it's not
+an easy decision because it's not like
+one or the other one has advantages over
+the other we're going to talk about that
+but it's not like there's an easy you
+know all this way or all that way
+it depends i know that's the part people
+hate the answer they want just a
+definitive answer tell me what to buy
+what i want to do is go over the
+scenarios
+and the solution you're looking for and
+help that steer you into what may
+make you happy and what may be the right
+fit for
+you and of course because we sell both
+these products and we deploy both of
+these products
+we're going to talk about our decision
+making process that leads to that
+before we jump all into that if you
+could click that like button and first
+if you'd like to learn more about me or
+my company head over to
+lawrencesystems.com
+if you'd like to hire a share project
+there's a hires button right at the top
+if you'd like to help keep this channel
+sponsor free and thank you to everyone
+who already has there is a join button
+here for youtube and a patreon page
+your support is greatly appreciated if
+you're looking for deals or discounts on
+products and services we offer on this
+channel
+check out the affiliate links down below
+they're in the description of all of our
+videos
+including a link to our shirt store we
+have a wide variety of shirts that we
+sell
+and new designs come out well randomly
+so check back frequently
+and finally our forums
+forums.laurensystems.com is where you
+can have a more in-depth discussion
+about this video and other tech topics
+you've seen on this channel
+now back to our content now don't make
+the assumption that because i stuck the
+synology on top of the freenas that i
+think it stacks up better just so
+happens the feet fit exactly this size
+but the opposite isn't true
+so if you were to buy both of these this
+fits on top um
+not ideal though it's not stable anyways
+this is the synology ds1520 plus and
+this is a freenas
+or trueness core i mini ix plus now both
+of these were sent to me by the
+respective companies for review
+ix system sent me this and of course
+analogy sent me this
+and i have them both turned on and
+running because the first thing i want
+to talk about is are they quiet
+that's one of those debates that come up
+a lot and synology's done a great job
+across their product line of making
+relatively quiet products that are in
+this form factor
+and i did review this analogy rack mount
+stuff it's a little bit louder but rack
+mount stuff generally noise is
+less of a concern we want it to be
+quieter but we also want it to be cool
+and it's going to be running a long time
+in a rack so
+the fans usually you know push a little
+more air create a little bit of noise
+these are designed possibly to sit next
+to you and with
+free nas truenast because you can build
+your own or
+get a turnkey product uh the one that
+they make these
+mini series which i really like uh offer
+turnkey and quiet solutions
+and like i said the disk station series
+these smaller ones like this are also
+quiet
+and it's a kind of across their product
+line now
+the nice thing about true nas though is
+because you can build it yourself and
+that would be a very distinct difference
+between synology
+i'm not going to address x penology
+it is essentially a kind of a fork but
+it's not officially supported it's 100
+community supported
+great if you're a home user and want to
+tinker with it uh so you can build on
+your own hardware we're going to stick
+specifically with the supported dsm
+because i'm assuming
+a little bit more maybe small business
+and other use cases homeland people well
+that's just having fun and not something
+i would you know deploy commercially
+so i'm not going to address that and
+we're going to keep this focused on
+synology
+and surenames because they're both
+solutions we deploy they're both
+solutions we use
+and i think that's a very important
+aspect to think about
+because a lot of people just regurgitate
+information off of spec sheets
+i'm going to talk about real world
+deployments i have not used many of the
+other ones out there so if you have your
+favorite nas system which seems to come
+up all the time hey tom please review
+this well i don't use it unless i
+actually plan to deploy it
+i'm not as likely to do a review on it
+so my experience is a lot of what this
+is going to be
+calling from we've sold a lot of the ix
+systems
+and we've done everything from the
+high-end enterprise as in
+50 50 000 plus servers
+with high availability that we have sold
+to large companies in the enterprise
+market you know of course
+you've seen some of the reviews if
+you've spent some time in this channel
+but you can find them for the true nas
+you know built purpose-built hardware
+for the enterprise which is awesome but
+this is the same software you can
+download and build yourself a small nas
+box or
+if you're going i don't feel like
+building something i want something that
+i know works that's
+what trueness mini ix sells is this
+right here now same with synology we've
+put
+a lot of these in small businesses we've
+used a lot of them for the surveillance
+station we've had these out in the field
+for a while we've been
+selling deploying using so all of my
+experience on both of these
+is at different levels of usage and of
+course
+internally we use freenas for well this
+video is being edited on a freenas
+server so
+i have a lot of experience using these
+so that's where my review is going to
+come from
+now let's break down the comparison i'll
+leave a link
+to this google sheet i put together but
+this is a
+one-to-one kind of objective comparison
+i wanted to start there there's always a
+subjective i just like something better
+and i try to keep that bias out at least
+here in the beginning there is of course
+some importance to that bias because
+maybe you
+like how much easier it is to set up
+something but even
+easy to set up is a real subjective easy
+to you but maybe not easy someone else
+so let's start right here
+and start with the file system i think
+this is really important when you talk
+about nash you're talking about the
+security
+and integrity of your files and
+synology's taking the approach of
+building it on the mdm
+raid system because it's a linux based
+system with butter fs
+now there's some contention you'll find
+if you read about butterfs handling hard
+drives and some issues this is why it's
+analogies went with mdadem raid
+butter fs and ext4 so they have a
+combination of things that they can do
+to take advantage of
+and keep it efficient and keep it good
+they also have bitrate protection et
+cetera et cetera
+so they've put this together and it's
+you know we
+find it very stable haven't really had
+problems with their file system or
+losses on there but nasa is not a backup
+just because you have a bunch of drives
+you should always be backing this up
+and that's even true with zfs but zfs is
+next level
+and i've heard it referred to many times
+as the billion dollar file system
+that is because of the amount of time
+research and development over the years
+that has gone into
+zfs and it is an outstanding file system
+for
+absolutely massive scalable storage so
+zfs hands down one of the you know
+really advanced file systems out there
+when it comes to what they refer to as
+copy on right now butter fs bt
+rfs is misspelled right here but also
+copy on right so that is
+also a feature of it but zfs much more
+advanced
+does it really really well and also with
+the upcoming trunas 12 release they've
+added features
+such as the fusion pools and it's a
+really interesting
+enhancement that they've brought to the
+table with
+zfs so it's it's a lot of power in zfs
+and i can't say enough good things about
+it and it's one of the reasons it's so
+popular
+and a lot of people sing praises about
+it now
+open source is a big factor so if you're
+into
+the open source ecosystem like i am and
+essentially an open source enthusiast
+like i refer to myself
+i'm even though synology's built on
+linux is not a fully open source system
+and this is common a lot of companies
+use the linux space and add some of
+their own code to it so you don't you
+can't just go grab the synology with the
+exception of what i said about
+exponology but that's still a fork and
+not
+fully supported et cetera but yeah it's
+not fully open source
+truenas core on the other hand fully
+open source and this is why true nasa
+and ix systems say
+well freenas and junas are the largest
+open source project when it comes to
+storage
+because they aren't kind of sorta open
+source they are
+open source and it's fully open source
+with bsd based with your nas and i will
+mention because i've done a video on it
+but it's
+you know future release is going to be
+true in a scale which is going to be
+linux based
+still all the great zfs features but a
+lot of people you know really like the
+options you may get and enhancements
+that may come with a linux based system
+so true nascale
+same thing open source and going to be
+based on linux but we're going to talk
+today about truenast core because it's
+available today
+on these systems even though it's in
+beta depending on when you're watching
+this what level of beta
+and that's going to be all bsd based
+expandable raid now this is one of those
+yes but type answers so yes for models
+that support satur synology hybrid rate
+so you can grab your pile of drives and
+throw them in there and have
+expansion going on and it will any
+intelligent way handle it
+you can expand true nas but the v-dubs
+have to match
+so i've got a separate video where i get
+more in depth than that so
+no you can't just grab random drives
+there is a methodology where you have to
+pair up the v-dubs in a similar way they
+don't have to be exactly the same drives
+they can be different
+sizes but the pools themselves have to
+be
+containing the v devs and it'll get
+complicated if i keep going on so i'll
+leave a link to that video
+so yes but is the answer on there which
+is you know
+i think it's important and if you want
+something that is a little bit easier
+we'll
+it sees from a back to that subjective
+versus objective
+yeah we're going to say it's just easier
+to do it in synology
+but part of the thing with zfs is a
+little bit more rigid
+and the way it works but that's also
+what gives it some of that resilience it
+has for
+protecting your data plugins synology
+and community supported
+uh ix systems and community so we do
+have um the systology based plugins on
+there
+and that comes down to if you have a
+plugin that is
+really specific to what you're looking
+for um and it's only available on one of
+these platforms
+that may be one of those deciding
+factors that you've made your decision
+on
+and we'll get to that a little bit more
+at the bottom but that is obviously
+a factor but the fact is you have a lot
+of flexibility with both of these
+because you can
+run some other things on them especially
+if it has docker support which we'll
+talk about later
+virtual machine storage support as a
+target so nfs nice because the error is
+supported on both of these
+so you can configure that and set that
+up snapshot replication
+yes via butter fs and yes via zfs now
+this is a feature of both of these file
+systems where you can create you know
+essentially snapshots to protect
+yourself against uh
+maybe something that catastrophically
+destroys data because you have a share
+and
+you know ransomware being popular here
+in 2020 if something happens you can
+just roll back to that snapshot or
+because you want to replicate it now
+snapshots create points in time that
+which you can replicate at essentially a
+block level
+zfs replication i've done videos on this
+extremely powerful extremely fast
+and it's based off of those snapshots
+that can be replicated to duplicate your
+data somewhere else and that feature
+based on butterfest is available in
+synology s3 target support
+maybe not everyone's looking for this
+but i think it's interesting that it's
+natively built into the juneau system
+which essentially means it can act as an
+s3 server i did a little searching i
+didn't find
+natively a way to do it on synology i
+did find people who had write-ups on
+doing it but i didn't see native support
+for s3 it's kind of an edge case it may
+not be a deciding factor but at least
+i'll mention it that it's built in there
+rsync now they both support rsync i
+find the rsync in synology to be a
+little bit trickier to use
+and i say that because it was easy to
+take two synologies and have them rsync
+to each other that part
+really simple uh having it talk to other
+devices less simple
+two nas core implements standard rsync
+so whether you're pushing or pulling
+data from rsync or want to set up an
+rsync port
+or our sync over ssh they just made it
+really simple to do
+in uh the true nas system freenas system
+however you want to look at it it's been
+in there for a long time and it's
+standard space
+rsync over standard ports and also
+standard ways to do it so
+i've used this quite a bit on trueness
+when we have people who want to
+synchronize with
+different devices as well as those other
+devices whether they be
+a standalone device or another nas as
+long as standards
+implemented our sync support is there in
+neither the nas or of course easy from
+the command line
+no problem syncing with this and a lot
+of people have a lot of custom solutions
+based on rsync so having that just as a
+built-in support is really nice to the
+web interface containerization uh
+docker is on supported models of
+synology
+sureness core uses bsd and io cage jails
+now
+when truenas scale comes out that's
+going to be docker-based once again
+that's a future release but hey it's
+something that is out there that's
+available
+so i thought i'd mentioned that you know
+in the future that'll be something else
+and i also bring up trueness scale every
+now and then because it runs essentially
+on the same hardware so if you ever
+wanted to switch between them
+your zfs pools should import finding be
+able to switch between them but you're
+if you have built things on
+containerization because it's a
+different platform well you'll have to
+rebuild all your plugins
+windows file sharing seems obvious but
+yes they fully support it
+manage users and permissions through the
+interface yes there's a user manager in
+both of these so
+i'm not talking about active directory
+business generally installing this and
+saying let's add some users let's build
+some permissions
+they both have acl access control list
+management so you can assign users and
+permissions
+all that is fully supported on both of
+these devices so if you just want to use
+a windows
+file server or a windows network it
+works and if you're in a small business
+office and you go hey i like active
+directory integration
+yes we have that in both devices where
+we can tie tack to directory so active
+directory
+can just understand this device and can
+control the permissions on it
+80 server replacement now while this is
+supported in synology
+it's not like a drop in automatically
+every feature in ad is there but it does
+have basic 80 support so it can kind of
+act as an
+active directory server inside your
+network that is not a feature
+currently supported in sure nas i don't
+know if it'll come in there or not
+but i've always had mixed feelings about
+this because it's
+not full 80 and sometimes you can have
+some quirkiness with it but for
+you know small office or a home user
+probably will work fine
+it all depends on what use cases you
+have for it surveillance software
+is something i've talked a lot about
+with synology we have cerney
+surveillance station
+requires licenses and
+you get the first two for free or if you
+buy the nvm models they come with a
+couple more but i've done whole videos
+on this i really like it
+people ask me a lot about doing this on
+truenast there's a community supported
+plug-in i don't feel it's very well
+developed it's not something i've ever
+used in the enterprise i've looked at it
+it seems
+well i can only say kind of basic and
+not well developed that's the only way i
+can really describe that
+it's not something that i would say is
+turnkey oh yeah it's an awesome drop in
+replacement
+they have it it's there so i'm not going
+to dwell on that much it's not something
+i would recom
+i've used or recommended for business
+backup software
+active backup is really cool i got to
+admit that's a great synology supported
+tool i've done videos on how this
+integrates for backing up
+windows computers windows servers how it
+can back up things like office 365 and g
+suite
+there's like a whole suite of software
+supported by synology that comes with
+these devices
+and it doesn't have any licenses with it
+it's part of when you buy synologies
+that support the active backup
+back to it has to be a device that
+supports it um as of right now
+it seems like a lot of them do but once
+again when you're choosing your nas
+that's something you think about
+community and third party support yes
+there's actually a lot of different
+plugins you can get and some of our
+community or third party plugins that
+are
+on there that may have other advanced
+features but there's nothing native
+supported by ax systems it's like an
+automatic turnkey
+management tool that's like active
+backup so if you came here looking for
+active backup and that's what you want
+and these are all those times when we're
+going to go back to why we deploy
+synology
+that active backup is a big one now back
+to that open source
+conversation now because you know we
+just because we chose these ix systems
+mini x plus is because what i have but i
+can really load
+free and astronauts anywhere i want i
+can grab the code i can do it if i have
+systems decided
+seems unlikely to stop releasing the
+code or anything like that
+someone would just fork it move on
+matter of fact there are forks already
+of that particular software
+and deviations but i don't see that ever
+changing it's 100
+your software open source that you do
+what you want with and that's a big
+factor i really like
+synology the device talks to synology
+to get all the plugins to get the
+software set up
+if synology says you know what i don't
+want to support it like i said i'm not
+saying this is likely
+but this is a factor if snalogy says
+we're going to expire and
+uh stop supporting and stop having
+updates for these models
+that's their choice to do so and that's
+it that's where the support will end
+if they decide to drop something out of
+their plugins
+and the way they get deliver them
+through their system and locked in then
+that's
+it that's synology's choice to do so
+because some of this is closed source
+there's not any easy ways to update this
+not that it's a real likely factor but
+it's something that may play into it
+doesn't stop us from deploying these
+because it just you know technology
+makes a good product especially when
+you're using things like the office 365
+backup
+if that's one of the solutions this one
+the times you're going to deploy it if
+they want that active backup of
+small office contacts us and say hey we
+need something to
+back up our workstations we don't want
+to buy some other type of service
+well then this is something that they're
+absolutely going to
+love where they can drop this in it's
+pretty turnkey it gives you a nice
+management
+web interface and a lot of internal i.t
+departments do like these technologies
+they can set a couple of these up and
+have
+easy local backups now cloud backups are
+awesome and both of these do support
+once you get the data here
+putting it in the cloud synology goes a
+step further and offers some of their
+own storage solutions
+and you know kind of a nice feature they
+do that versus
+and they have not locking because you
+can use other ones but you know it's a
+nice turnkey system
+and versus ix system still really nice
+we use backblaze to back these up and
+that's
+our solution that works now let's talk a
+little bit about the interfaces
+the synology dsm interface very much has
+a desktop ui
+look and feel with the control panel and
+just these simple things oh look here's
+my users i can create
+and uh click this little button at the
+top here there's my
+iscsi manager i can go to
+file station we can look at shares we
+have uh package center
+and we can load things like plex and all
+these different plugins they have
+nice plugins a lot of support a lot of
+different stuff that's supported in here
+i really like the
+extensiveness of the plug-ins the
+ease of use so to speak of just pulling
+them in there and away you go now you
+still have to do some mapping and
+drop some permissions in there and
+connect your plex server to wherever
+your storage is
+and i you know i gotta admit i really
+like this interface it's pretty
+intuitive easy to use
+this though is something i feel very at
+home in as well and this is where things
+get more subjective
+i like the interface a lot for trueness
+i find it
+very robust it gives me deep levels of
+access to tuning and setting things up
+so when you talk about something like
+iscsi you have some advanced options in
+here
+but you get a lot of very fine tuning
+options
+that may be very daunting and this may
+be the first problem you have going this
+is a bit much this is
+not my space i want something very
+simple and turnkey
+synology goes a little bit more on the
+simple side freenas i think it's
+relatively
+easy to use especially you know after
+you take a little time and i've done
+plenty of tutorials on this
+um but yeah it's going to be a little
+bit more complex they do have plug-in
+support here
+so you can still look up plug-ins from
+ix systems or community they haven't
+broke down here you can click the
+install
+we have plex server already loaded on
+here just as a quick test to test
+something on here
+and not a problem to install but it's a
+little bit different same with the acls
+and permissions the
+when you design the pools go to storage
+pools
+and if we look at go here
+edit acls this may seem a little bit
+more complicated than the way you do
+that over in synology with the file
+station
+and the way you do the permissions so
+there's like i said
+if you figure it out it seems easy but
+if their first timer yes analogy might
+be a little bit
+easier at least one to give them a fair
+shake on that
+so i don't know if this really helps you
+in which one to choose but i've now
+laid out a few of these use cases like i
+said we deployed both
+the nice thing that amazes me about the
+true nas is
+you can download for free something that
+i've
+deployed and set up in large scale
+enterprise environments on
+rack servers that cost 50 plus thousand
+dollars
+and that's your still your systems right
+here the same software
+that scalable now synology we've played
+with some of the larger synologies we've
+never deployed them
+our use cases mostly been targeted these
+small businesses and small offices
+and especially love the surveillance
+station so hopefully this kind of gives
+you some ideas of which one to get
+i think the trunas line being fully open
+source fits well with my open source
+enthusiasm
+and of course my love to tinker with
+things because i can just create all the
+jails i want and very
+custom create all kinds of different
+software on there uh set this up as
+different targets for things
+versus the uh synology for small
+business going you know what i just need
+something simple turnkey i need some
+backups
+i'd like it to run a couple of cameras
+in my office and some files
+can you do that yes analogies kind of
+turn key for that makes it really simple
+so if you're the more enthusiast type
+and love all the knobs being available
+to you to twist and turn and
+really customize with a very flexible
+and big community support
+free nas if you're going i just want
+turnkey and i like that
+uh ui that kind of feels like a desktop
+interface synology's got you covered
+there and
+you know the surveillance station grant
+it does take licenses but hey that's
+kind of a cool feature
+along with some basic file permissions
+for some sharing and maybe you want to
+replicate this to another synology or
+use that active backup or
+you want to back up your office 365 and
+g suite i've done a video on that and
+that's a cool feature that comes with a
+lot of these models of synology
+you're kind of locked into way they
+design things but they
+do a reliable job but i will mention
+that like hardware wise if you build it
+yourself
+synology kind of gets ruled out so if
+you are a tanker or a home lab you want
+to really dive deep into it the nuts and
+bolts building it
+well then you're going to go back over
+to your freenas again and go i want to
+build it myself with the freenash
+truenas line
+fully open source because i like to
+customize everything i don't want
+something talking to some proprietary
+servers i'm going to lock it down and do
+that
+you can do that there's no license or
+activation on these servers at all
+uh some of this analogy software just
+requires levels of activation to get it
+set up
+um not that that's the same as a license
+but that's the way they you know have
+control over it so
+just some thoughts and throwing them out
+there on you know final thoughts on this
+but they're both good products they're
+both very reliable that much i will save
+for them
+and whichever one you choose i think
+you'll be happy with it just you know
+look at the choices look at the options
+and decide which one works for you
+thanks and thank you for making it to
+the end of the video
+if you like this video please give it a
+thumbs up if you like to see more
+content from the channel hit the
+subscribe button and hit the bell icon
+if you like youtube to notify you
+when new videos come out if you'd like
+to hire us head over to
+launchsystems.com fill out our contact
+page
+and let us know what we can help you
+with and what projects you'd like us
+to work together on if you want to carry
+on the discussion head over to
+forums.lawrentsystems.com where we can
+carry on the discussion about this video
+other videos or other tech topics in
+general even suggestions for new videos
+they're accepted right there on
+our forums which are free also if you'd
+like to help the channel in other ways
+head over to our affiliate page
+we have a lot of great tech offers for
+you and once again thanks for watching
+and see you next time
+you
+
