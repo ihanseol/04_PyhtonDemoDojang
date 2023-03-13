@@ -31,7 +31,8 @@ if len(movie_files) == 0:
 # mp4_files = [f for f in os.listdir(cwd) if f.endswith(".mp4")]
 # mp4_files.sort()
 
-smi_files = [f for f in os.listdir() if f.endswith(('.smi','.srt','.sub','.sami'))]
+smi_files = [f for f in os.listdir() if f.endswith(('.smi','.ass','.srt','.sub','.sami'))]
+
 smi_files.sort()
 
 
