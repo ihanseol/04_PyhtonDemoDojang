@@ -168,6 +168,7 @@ def main():
     print('Shutdown AQTW32  Application ...')
     print('----------------------------------------------------------------')
     close_aqtesolvapp(n, args.mode)
+    time.sleep(1)
 
 if __name__ == "__main__":
     main()
