@@ -1,8 +1,6 @@
-import os
-import time
-import glob
+import os, time, glob
 import fnmatch
-import copy
+import copy, argparse
 import pyautogui
 
 program_path = r'C:\WHPA\AQTEver3.4(170414)\AQTW32.EXE'
@@ -121,7 +119,15 @@ if __name__ == "__main__":
 
 
 
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('mode', choices=['sub', 'mov'], help="Select 'sub' or 'mov' mode.")
+    args = parser.parse_args()
 
+    main_job(args.mode)
+
+if __name__ == "__main__":
+    main()
 
 
 

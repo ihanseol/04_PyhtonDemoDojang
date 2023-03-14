@@ -76,7 +76,7 @@
 
 
 import os
-
+import argparse
 
 def get_files_with_extension(extension):
     return [f for f in os.listdir() if f.endswith(extension)]
@@ -137,8 +137,6 @@ def main_job(mode):
 #         exit()
 
 #     main_job(mode)
-
-import argparse
 
 def main():
     parser = argparse.ArgumentParser()

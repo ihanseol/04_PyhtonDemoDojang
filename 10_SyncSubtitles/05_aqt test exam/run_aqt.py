@@ -1,10 +1,9 @@
-import copy
 import os
-import pyautogui
 import time
 import glob
-import re
 import fnmatch
+import copy
+import pyautogui
 
 program_path = r'C:\WHPA\AQTEver3.4(170414)\AQTW32.EXE'
 
