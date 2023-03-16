@@ -62,6 +62,10 @@ def change_filename():
                 new_name = name.replace(" - 복사본", "_01") + ext
                 os.rename(os.path.join(directory, filename), os.path.join(directory, new_name))
 
+            if "- Copy" in name:  # Moved this condition to the top of the if statement for readability 
+                new_name = name.replace(" - Copy", "_01") + ext
+                os.rename(os.path.join(directory, filename), os.path.join(directory, new_name))
+
 
 def remove_extension(file_name):
     return os.path.splitext(file_name)[0]
