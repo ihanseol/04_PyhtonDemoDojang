@@ -3,6 +3,7 @@ import fnmatch
 import copy, argparse
 import pyautogui
 import win32gui
+import ctypes
 
 # if install error occured
 # If the issue persists, you can try installing the pywin32 module instead of win32gui,
@@ -166,6 +167,9 @@ def main():
     parser.add_argument('mode', choices=['single', 'dual'])
     args = parser.parse_args()
 
+    user32 = ctypes.windll.user32
+    user32.BlockInput(True)
+
     n = main_job(args.mode)
     print('----------------------------------------------------------------')
     print(f'Process end .... return value from main_process is {n}')
@@ -174,5 +178,8 @@ def main():
     close_aqtesolvapp(n, args.mode)
     time.sleep(1)
 
+    user32.BlockInput(False)
+
 if __name__ == "__main__":
     main()
+
