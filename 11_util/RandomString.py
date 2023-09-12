@@ -4,7 +4,7 @@ import pyperclip
 
 def generate_random_string(length):
   """Generate a random string of the specified length."""
-  characters = string.ascii_lowercase + string.ascii_uppercase + string.digits + "_" + "-" + "!@#$%^&*"
+  characters = string.ascii_lowercase + string.digits  + string.ascii_uppercase  + "*_-@!^#*$^%^#&-_*@"
   return ''.join(random.choice(characters) for _ in range(length))
 
 def copy_to_clipboard(text):
