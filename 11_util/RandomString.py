@@ -3,6 +3,21 @@ import string
 import pyperclip
 from pick import pick
 
+
+def input_length():
+  
+  try:    
+    # Get the length of the random string to generate.
+    length = int(input("Enter the length of the random string: "))
+      
+  except ValueError:
+    print(' value error so length is set to default : 13')    
+    length = 13
+
+  return length
+
+
+
 def generate_random_string(length, choice):
   """Generate a random string of the specified length."""
   if choice == 0:
@@ -32,10 +47,7 @@ def main():
     
     print('----------------------------------------------------------------')
     
-
-
-    # Get the length of the random string to generate.
-    length = int(input("Enter the length of the random string: "))
+    length = input_length()
 
     # Generate the random string.
     random_string = generate_random_string(length, index)
@@ -49,9 +61,6 @@ def main():
 
     print('----------------------------------------------------------------')
 
-
-
-    
 
 if __name__ == "__main__":
   main()
