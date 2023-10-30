@@ -23,16 +23,10 @@ def read_weather_data(fname):
     pivot_df = df.pivot_table(index=df.index // 12, columns='month', values='data', aggfunc='first')
 
     # Rename the columns with month names
-    month_names = ['{}월'.format(i) for i in range(1, 13)]
+    # month_names = ['{}월'.format(i) for i in range(1, 13)]
+    month_names = [f'{i}월' for i in range(1, 13)]
     pivot_df.columns = month_names
-
-    # Pivot the table
-    pivot_df = df.pivot_table(index=df.index // 12, columns='month', values='data', aggfunc='first')
-
-    # Rename the columns with month names
-    month_names = ['{}월'.format(i) for i in range(1, 13)]
-    pivot_df.columns = month_names
-
+    
     years = range(1993, 1993 + 30)
     pivot_df['year'] = years
     # pivot_df.set_index('year', inplace=True)
