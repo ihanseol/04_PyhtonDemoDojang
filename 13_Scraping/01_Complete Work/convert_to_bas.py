@@ -101,7 +101,7 @@ def write_bas_data(fname):
     area_mapping = {
         "금산": "Geumsan",
         "대전": "Daejeon",
-        "보령": "Boryeong",
+        "보령": "BoRyung",
         "부여": "Buyeo",
         "서산": "Seosan",
         "천안": "Cheonan"
