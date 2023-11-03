@@ -12,9 +12,10 @@ import ctypes
 # pip install pywin32
 
 program_path = r'C:\WHPA\AQTEver3.4(170414)\AQTW32.EXE'
-isAqtOpen = False
-directory = "d:\\05_Send\\"
-_DELAY_ = 0.4
+ISAQTOPEN = False
+DIRECTORY = "d:\\05_Send\\"
+DELAY = 0.6
+IS_BLOCK = True
 
 
 def setview_mode(mode):
@@ -25,7 +26,7 @@ def setview_mode(mode):
         pyautogui.press('r')
     else:
         pyautogui.press('d')
-        
+
 
 def delete_pdf(dir_path):
     for filename in os.listdir(dir_path):
@@ -34,43 +35,54 @@ def delete_pdf(dir_path):
             print("Deleted existing PDF file: {}".format(filename))
 
 
-def delete_existing_pdffile():    
+def delete_existing_pdffile():
     print('----------------------------------------------------------------')
     dir_path = os.path.expanduser("~\\Documents\\")
     delete_pdf(dir_path)
-    delete_pdf(directory)
-
-def printpdf(fname):
-    pyautogui.hotkey('ctrl', 'p')
-    pyautogui.press('enter')
-    time.sleep(_DELAY_ )
-    pyautogui.typewrite(fname)
-    pyautogui.press('enter')
-    time.sleep(_DELAY_)
+    delete_pdf(DIRECTORY)
 
 
 def exit_program():
     pyautogui.hotkey('alt', 'f4')
-    time.sleep(_DELAY_)
+    time.sleep(DELAY)
     pyautogui.press('n')
 
 
 def change_filename():
-    global directory
-    for filename in os.listdir(directory):
+    global DIRECTORY
+    for filename in os.listdir(DIRECTORY):
         name, ext = os.path.splitext(filename)
         if ext == ".aqt" and "_01" not in name:  # Added condition to avoid renaming files that already have the "_01" suffix
             if "- 복사본" in name:  # Moved this condition to the top of the if statement for readability 
                 new_name = name.replace(" - 복사본", "_01") + ext
-                os.rename(os.path.join(directory, filename), os.path.join(directory, new_name))
+                os.rename(os.path.join(DIRECTORY, filename), os.path.join(DIRECTORY, new_name))
 
             if "- Copy" in name:  # Moved this condition to the top of the if statement for readability 
                 new_name = name.replace(" - Copy", "_01") + ext
-                os.rename(os.path.join(directory, filename), os.path.join(directory, new_name))
+                os.rename(os.path.join(DIRECTORY, filename), os.path.join(DIRECTORY, new_name))
 
 
 def remove_extension(file_name):
     return os.path.splitext(file_name)[0]
+
+
+def printpdf(fname):
+    pyautogui.hotkey('ctrl', 'p')
+    pyautogui.press('enter')
+    time.sleep(DELAY)
+    pyautogui.typewrite(fname)
+    pyautogui.press('enter')
+    time.sleep(DELAY)
+
+
+def open_file(filename):
+    pyautogui.hotkey('ctrl', 'o')
+    pyautogui.press('backspace')
+    pyautogui.typewrite(DIRECTORY+filename)
+    time.sleep(DELAY)
+    pyautogui.press('enter')
+    time.sleep(DELAY)
+
 
 
 def printing_job(well, i, filename, mode):
@@ -81,24 +93,16 @@ def printing_job(well, i, filename, mode):
     if mode == 'dual':
         setview_mode('report')
         printpdf(f'p{well}-{i}')
-        
+
 
 def open_aqt():
-    global isAqtOpen 
+    global ISAQTOPEN
 
-    if not isAqtOpen: 
-        os.startfile(program_path) 
-        isAqtOpen = True 
+    if not ISAQTOPEN:
+        os.startfile(program_path)
+        ISAQTOPEN = True
 
-    time.sleep(_DELAY_) 
-
-    
-def open_file(filename): 
-    pyautogui.hotkey('ctrl', 'o') 
-    pyautogui.typewrite(directory+filename) 
-    pyautogui.press('enter')
-
-    time.sleep(_DELAY_)  
+    time.sleep(DELAY)
 
 
 def get_wellnum(mode, f):
@@ -120,7 +124,6 @@ def get_window_title():
         return True
     else:
         return False
-    
 
 
 def close_aqtesolvapp(n, mode):
@@ -130,7 +133,7 @@ def close_aqtesolvapp(n, mode):
 
     print('Enter Shutdown Process ...')
 
-    if check: 
+    if check:
         pyautogui.hotkey('alt', 'f4')
 
     if mode == 'single':
@@ -143,24 +146,22 @@ def close_aqtesolvapp(n, mode):
     return 'exit dual ...'
 
 
-
 def main_job(mode):
     change_filename()
     delete_existing_pdffile()
 
     files = os.listdir()
-    aqtfiles = [f for f in os.listdir() if f.endswith('.aqt')]
+    aqtfiles = [f for f in files if f.endswith('.aqt')]
     print('----------------------------------------------------------------')
     print(f'aqtfiles : {len(aqtfiles)}')
     print('----------------------------------------------------------------')
 
-    for i in range(1, 13):
+    for i in range(1, 13): # maximum well number is 12
         wfiles = fnmatch.filter(files, f"w{i}*.aqt")
         if not wfiles: return len(aqtfiles)
-        for j, file in enumerate(wfiles): # Added enumerate to keep track of the index of the file in the list 
-            print(f'{get_wellnum(2, file)}-{j + 1}  - {file}') # Added +1 to j to start counting from 1 instead of 0 
+        for j, file in enumerate(wfiles):
+            print(f'{get_wellnum(2, file)}-{j + 1}  - {file}')            
             printing_job(i, j + 1, file, mode)
-
 
 
 def main():
@@ -169,7 +170,9 @@ def main():
     args = parser.parse_args()
 
     user32 = ctypes.windll.user32
-    user32.BlockInput(True)
+
+    if IS_BLOCK:
+        user32.BlockInput(True)
 
     n = main_job(args.mode)
     print('----------------------------------------------------------------')
@@ -179,8 +182,9 @@ def main():
     close_aqtesolvapp(n, args.mode)
     time.sleep(1)
 
-    user32.BlockInput(False)
+    if IS_BLOCK:
+        user32.BlockInput(False)
+
 
 if __name__ == "__main__":
     main()
-
