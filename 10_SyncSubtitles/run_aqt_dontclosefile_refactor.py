@@ -11,7 +11,7 @@ import ctypes
 # You can install it using the following command:
 # pip install pywin32
 
-program_path = r'C:\WHPA\AQTEver3.4(170414)\AQTW32.EXE'
+PROGRAM_PATH = r'C:\WHPA\AQTEver3.4(170414)\AQTW32.EXE'
 ISAQTOPEN = False
 DIRECTORY = "d:\\05_Send\\"
 DELAY = 0.6
@@ -36,6 +36,8 @@ def delete_pdf(dir_path):
 
 
 def delete_existing_pdffile():
+    global DIRECTORY
+
     print('----------------------------------------------------------------')
     dir_path = os.path.expanduser("~\\Documents\\")
     delete_pdf(dir_path)
@@ -43,6 +45,8 @@ def delete_existing_pdffile():
 
 
 def exit_program():
+    global DELAY
+
     pyautogui.hotkey('alt', 'f4')
     time.sleep(DELAY)
     pyautogui.press('n')
@@ -67,6 +71,8 @@ def remove_extension(file_name):
 
 
 def printpdf(fname):
+    global DELAY
+
     pyautogui.hotkey('ctrl', 'p')
     pyautogui.press('enter')
     time.sleep(DELAY)
@@ -76,6 +82,8 @@ def printpdf(fname):
 
 
 def open_file(filename):
+    global DELAY
+    
     pyautogui.hotkey('ctrl', 'o')
     pyautogui.press('backspace')  # 231103 this code , clear filename area text in aqtsolv file open area ...
     pyautogui.typewrite(DIRECTORY+filename)
@@ -97,9 +105,10 @@ def printing_job(well, i, filename, mode):
 
 def open_aqt():
     global ISAQTOPEN
+    global PROGRAM_PATH
 
     if not ISAQTOPEN:
-        os.startfile(program_path)
+        os.startfile(PROGRAM_PATH)
         ISAQTOPEN = True
 
     time.sleep(DELAY)
