@@ -77,7 +77,7 @@ def printpdf(fname):
 
 def open_file(filename):
     pyautogui.hotkey('ctrl', 'o')
-    pyautogui.press('backspace')
+    pyautogui.press('backspace')  # 231103 this code , clear filename area text in aqtsolv file open area ...
     pyautogui.typewrite(DIRECTORY+filename)
     time.sleep(DELAY)
     pyautogui.press('enter')
