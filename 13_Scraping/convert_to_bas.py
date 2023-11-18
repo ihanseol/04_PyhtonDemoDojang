@@ -1,4 +1,5 @@
 import os
+import datetime
 import pandas as pd
 
 Area = {
@@ -26,8 +27,11 @@ def read_weather_data(fname):
     # month_names = ['{}월'.format(i) for i in range(1, 13)]
     month_names = [f'{i}월' for i in range(1, 13)]
     pivot_df.columns = month_names
-    
-    years = range(1993, 1993 + 30)
+
+    current_year = datetime.datetime.now().year
+    start_year = current_year - 30
+
+    years = range(start_year, start_year + 30)
     pivot_df['year'] = years
     # pivot_df.set_index('year', inplace=True)
 
