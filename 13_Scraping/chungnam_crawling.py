@@ -230,7 +230,7 @@ def download_30year_data(driver, df, AreaSelection):
 
 def main():
     # Create a DataFrame from the data
-    CN_LIST = ["대전", "금산", "보령", "부여", "서산", "천안", "청주", "충주"]
+    CN_LIST = ["대전", "금산", "보령", "부여", "서산", "천안"]
     # CN_LIST = ["대구", "전주", "부산"]
 
     customService = Service(ChromeDriverManager().install())
