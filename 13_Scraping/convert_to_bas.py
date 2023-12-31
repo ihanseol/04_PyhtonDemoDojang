@@ -8,7 +8,9 @@ Area = {
     "보령" : "BoRyung",
     "부여" : "BuYeo",
     "서산" : "SeoSan",
-    "천안" : "CheonAn"
+    "천안" : "CheonAn",
+    "청주" : "CheongJu",
+    "충주" : "ChungJu"
 }
 
 
@@ -102,7 +104,9 @@ def write_bas_data(fname):
         "보령": "BoRyung",
         "부여": "Buyeo",
         "서산": "Seosan",
-        "천안": "Cheonan"
+        "천안": "Cheonan",
+        "청주": "CheongJu",
+        "충주": "ChungJu"
     }
 
     # Extract the area name from the file name
@@ -127,7 +131,7 @@ def write_bas_data(fname):
         # Read weather data and write it to the file
         df = read_weather_data(fname)
         for i, row in df.iterrows():
-            list_a = [int(row[0])] + list(row[1:])
+            list_a = [row[0]] + list(row[1:])
             print(list_a)
             for j, data in enumerate(list_a, start=1):
                 file.write(f"    myArray({i + 1}, {j}) = {data}\n")
