@@ -20,7 +20,7 @@ IS_BLOCK = True
 
 def setview_mode(mode):
     pyautogui.hotkey('alt', 'v')
-    time.sleep(0.2)
+    time.sleep(0.1)
 
     if mode == 'report':
         pyautogui.press('r')
@@ -96,10 +96,12 @@ def open_file(filename):
 def printing_job(well, i, filename, mode):
     open_aqt()
     open_file(filename)
+    time.sleep(DELAY)
     printpdf(f'a{well}-{i}')
 
     if mode == 'dual':
         setview_mode('report')
+        time.sleep(DELAY)
         printpdf(f'p{well}-{i}')
 
 
@@ -161,12 +163,14 @@ def main_job(mode):
 
     files = os.listdir()
     aqtfiles = [f for f in files if f.endswith('.aqt')]
+
+
     print('----------------------------------------------------------------')
     print(f'aqtfiles : {len(aqtfiles)}')
     print('----------------------------------------------------------------')
 
-    for i in range(1, 13): # maximum well number is 12
-        wfiles = fnmatch.filter(files, f"w{i}*.aqt")
+    for i in range(1, 15): # maximum well number is 14
+        wfiles = fnmatch.filter(aqtfiles, f"w{i}_*.aqt")
         if not wfiles: return len(aqtfiles)
         for j, file in enumerate(wfiles):
             print(f'{get_wellnum(2, file)}-{j + 1}  - {file}')            
@@ -179,7 +183,6 @@ def main():
     args = parser.parse_args()
 
     user32 = ctypes.windll.user32
-
     if IS_BLOCK:
         user32.BlockInput(True)
 
