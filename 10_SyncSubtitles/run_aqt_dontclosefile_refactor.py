@@ -177,11 +177,6 @@ def main_job(mode):
         for j, file in enumerate(wfiles):
             print(f'{get_wellnum(2, file)}-{j + 1}  - {file}')            
             printing_job(well_num, j + 1, file, mode)
-
-        if wfiles:
-            return n_aqtfiles
-        else:
-            return 0
     else:
         for i in range(1, 19): # maximum well number is 18
             wfiles = fnmatch.filter(aqtfiles, f"w{i}_*.aqt")
@@ -189,10 +184,10 @@ def main_job(mode):
                 print(f'{get_wellnum(2, file)}-{j + 1}  - {file}')            
                 printing_job(i, j + 1, file, mode)
 
-        if aqtfiles:
-            return n_aqtfiles
-        else:
-            return 0
+    if aqtfiles:
+        return n_aqtfiles
+    else:
+        return 0
 
 
 def main():
