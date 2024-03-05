@@ -1,6 +1,7 @@
-import os, time, glob
+import os
+import time
 import fnmatch
-import copy, argparse
+import argparse
 import pyautogui
 import win32gui
 import ctypes
@@ -92,7 +93,6 @@ def open_file(filename):
     time.sleep(DELAY)
 
 
-
 def printing_job(well, i, filename, mode):
     open_aqt()
     open_file(filename)
@@ -172,13 +172,14 @@ def main_job(mode):
     print(f'aqtfiles : {len(aqtfiles)}')
     print('----------------------------------------------------------------')
 
-    if (n_aqtfiles == 3) and  (well_num != '1'):
+    # if (3 <= n_aqtfiles <= 4) and (well_num != '1'):
+    if (n_aqtfiles in [3, 4]) and (well_num != '1'):
         wfiles = fnmatch.filter(aqtfiles, f"w{well_num}_*.aqt")
         for j, file in enumerate(wfiles):
-            print(f'{get_wellnum(2, file)}-{j + 1}  - {file}')            
+            print(f'{get_wellnum(2, file)}-{j + 1}  - {file}')
             printing_job(well_num, j + 1, file, mode)
     else:
-        for i in range(1, 19): # maximum well number is 18
+        for i in range(1, 19):  # maximum well number is 18
             wfiles = fnmatch.filter(aqtfiles, f"w{i}_*.aqt")
             for j, file in enumerate(wfiles):
                 print(f'{get_wellnum(2, file)}-{j + 1}  - {file}')            
