@@ -139,8 +139,9 @@ def get_window_title():
 
 def close_aqtesolvapp(n, mode):
     check = get_window_title()
-    if n == 0:
-        return 'Empty Files ....'
+
+    # if n is None:
+    #     return 'Empty Files ....'
 
     print('Enter Shutdown Process ...')
 
@@ -149,32 +150,49 @@ def close_aqtesolvapp(n, mode):
 
     if mode == 'single':
         return 'exit single ...'
+    else:
+        for i in range(1, n + 1):
+            pyautogui.press('n')
+            print(f'closing window {i} ... ')
 
-    for i in range(1, n + 1):
-        pyautogui.press('n')
-        print(f'closing window {i} ... ')
-
-    return 'exit dual ...'
+        return 'exit dual ...'
 
 
 def main_job(mode):
+    global DIRECTORY
     change_filename()
     delete_existing_pdffile()
 
-    files = os.listdir()
+    files = os.listdir(DIRECTORY)
     aqtfiles = [f for f in files if f.endswith('.aqt')]
-
+    n_aqtfiles = len(aqtfiles)
+    well_num = aqtfiles[0][1:2]
 
     print('----------------------------------------------------------------')
     print(f'aqtfiles : {len(aqtfiles)}')
     print('----------------------------------------------------------------')
 
-    for i in range(1, 15): # maximum well number is 14
-        wfiles = fnmatch.filter(aqtfiles, f"w{i}_*.aqt")
-        if not wfiles: return len(aqtfiles)
+    if (n_aqtfiles == 3) and  (well_num != '1'):
+        wfiles = fnmatch.filter(aqtfiles, f"w{well_num}_*.aqt")
         for j, file in enumerate(wfiles):
             print(f'{get_wellnum(2, file)}-{j + 1}  - {file}')            
-            printing_job(i, j + 1, file, mode)
+            printing_job(well_num, j + 1, file, mode)
+
+        if wfiles:
+            return n_aqtfiles
+        else:
+            return 0
+    else:
+        for i in range(1, 19): # maximum well number is 18
+            wfiles = fnmatch.filter(aqtfiles, f"w{i}_*.aqt")
+            for j, file in enumerate(wfiles):
+                print(f'{get_wellnum(2, file)}-{j + 1}  - {file}')            
+                printing_job(i, j + 1, file, mode)
+
+        if aqtfiles:
+            return n_aqtfiles
+        else:
+            return 0
 
 
 def main():
