@@ -102,7 +102,7 @@ def main():
             if len(wfiles) != 0:
                 for j, file in enumerate(wfiles):
                     open_aqt(file)
-                    main_job(f"w-{i}", G_ADDRESS, MyCompany[index])
+                    main_job(f"W-{i}", G_ADDRESS, MyCompany[index])
 
         close_aqt()
     else:
