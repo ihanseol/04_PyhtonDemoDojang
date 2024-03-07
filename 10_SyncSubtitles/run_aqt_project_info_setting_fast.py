@@ -6,6 +6,7 @@ import pyautogui
 import win32gui
 import ctypes
 import pyperclip
+from pick import pick
 
 
 PROGRAM_PATH = r'C:\WHPA\AQTEver3.4(170414)\AQTW32.EXE'
@@ -79,21 +80,34 @@ def main_job(well, address, company):
 
 
 def main():
+    title = 'Please choose your Company: '
+    options = ['SanSu', 'DaeWoong', 'WooKyung', 'HanIL', 'DongHae', 'HyunYoon', 'JunIL','BuYeo','TaeYang','SamWon','MainGeo']
+
+    MyCompany  = ["산수개발(주)", "대웅엔지니어링 주식회사", "(주) 우경엔지니어링", "주식회사 한일지하수", "(주)동해엔지니어링",
+                  "(주)현윤이앤씨",  "(주) 전일", "부여지하수개발 주식회사", "(주)태양이엔지", "삼원개발(주)",  "마인지오 주식회사"]
+
+    option, index = pick(options, title, indicator='==>', default_index=1)
+    print(option, index, MyCompany[index])
+
     user32 = ctypes.windll.user32
     if IS_BLOCK:
         user32.BlockInput(True)
 
     files = os.listdir(DIRECTORY)
     aqtfiles = [f for f in files if f.endswith('.aqt')]
-    
-    for i in range(1, 19):  # maximum well number is 18
-        wfiles = fnmatch.filter(aqtfiles, f"w{i}_*.aqt")
-        if len(wfiles) != 0:
-            for j, file in enumerate(wfiles):
-                open_aqt(file)
-                main_job(f"w-{i}", G_ADDRESS, G_COMPANY)
 
-    close_aqt()
+    if aqtfiles:
+        for i in range(1, 19):  # maximum well number is 18
+            wfiles = fnmatch.filter(aqtfiles, f"w{i}_*.aqt")
+            if len(wfiles) != 0:
+                for j, file in enumerate(wfiles):
+                    open_aqt(file)
+                    main_job(f"w-{i}", G_ADDRESS, MyCompany[index])
+
+        close_aqt()
+    else:
+        print('aqt files does not found ...')
+
     time.sleep(0.5)
 
     if IS_BLOCK:
