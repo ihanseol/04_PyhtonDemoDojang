@@ -14,8 +14,19 @@ DIRECTORY = "d:\\05_Send\\"
 DELAY = 0.5
 IS_BLOCK = True
 
-G_COMPANY = "동아인재(주)"
-G_ADDRESS = "대전시 유성구 장대동 278-13"
+G_COMPANY = "산수개발(주)"
+# G_COMPANY = "대웅엔지니어링 주식회사"
+# G_COMPANY = "(주) 우경엔지니어링"
+# G_COMPANY = "주식회사 한일지하수"
+# G_COMPANY = "(주)동해엔지니어링"
+# G_COMPANY = "(주)현윤이앤씨"
+# G_COMPANY = "(주) 전일"
+# G_COMPANY = "부여지하수개발 주식회사"
+# G_COMPANY = "(주)태양이엔지"
+# G_COMPANY = "삼원개발(주)"
+# G_COMPANY = "마인지오 주식회사"
+
+G_ADDRESS = "주소"
 
 
 def enter_project_info():
@@ -83,7 +94,7 @@ def main():
                 main_job(f"w-{i}", G_ADDRESS, G_COMPANY)
 
     close_aqt()
-    time.sleep(1)
+    time.sleep(0.5)
 
     if IS_BLOCK:
         user32.BlockInput(False)
