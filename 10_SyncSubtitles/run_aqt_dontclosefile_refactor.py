@@ -165,28 +165,26 @@ def main_job(mode):
 
     files = os.listdir(DIRECTORY)
     aqtfiles = [f for f in files if f.endswith('.aqt')]
-    n_aqtfiles = len(aqtfiles)
-    well_num = aqtfiles[0][1:2]
+    # n_aqtfiles = len(aqtfiles)
+    # well_num = aqtfiles[0][1:2]
 
     print('----------------------------------------------------------------')
     print(f'aqtfiles : {len(aqtfiles)}')
     print('----------------------------------------------------------------')
 
     # if (3 <= n_aqtfiles <= 4) and (well_num != '1'):
-    if (n_aqtfiles in [3, 4]) and (well_num != '1'):
-        wfiles = fnmatch.filter(aqtfiles, f"w{well_num}_*.aqt")
-        for j, file in enumerate(wfiles):
-            print(f'{get_wellnum(2, file)}-{j + 1}  - {file}')
-            printing_job(well_num, j + 1, file, mode)
-    else:
-        for i in range(1, 19):  # maximum well number is 18
-            wfiles = fnmatch.filter(aqtfiles, f"w{i}_*.aqt")
-            for j, file in enumerate(wfiles):
-                print(f'{get_wellnum(2, file)}-{j + 1}  - {file}')            
-                printing_job(i, j + 1, file, mode)
+    # if (n_aqtfiles in [3, 4]) and (well_num != '1'):
 
     if aqtfiles:
-        return n_aqtfiles
+        for i in range(1, 19):  # maximum well number is 18
+            wfiles = fnmatch.filter(aqtfiles, f"w{i}_*.aqt")
+            if wfiles:
+                for j, file in enumerate(wfiles):
+                    print(f'{get_wellnum(2, file)}-{j + 1}  - {file}')
+                    printing_job(i, j + 1, file, mode)
+
+    if aqtfiles:
+        return len(aqtfiles)
     else:
         return 0
 
