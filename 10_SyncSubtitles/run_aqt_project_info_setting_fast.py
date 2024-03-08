@@ -89,6 +89,13 @@ def main():
     option, index = pick(options, title, indicator='==>', default_index=1)
     print(option, index, MyCompany[index])
 
+    address = input('Enter the Company Address :')
+
+    if not address:
+        G_ADDRESS = "Empty Address"
+    else:
+        G_ADDRESS = address
+
     user32 = ctypes.windll.user32
     if IS_BLOCK:
         user32.BlockInput(True)
@@ -99,7 +106,7 @@ def main():
     if aqtfiles:
         for i in range(1, 19):  # maximum well number is 18
             wfiles = fnmatch.filter(aqtfiles, f"w{i}_*.aqt")
-            if len(wfiles) != 0:
+            if wfiles:
                 for j, file in enumerate(wfiles):
                     open_aqt(file)
                     main_job(f"W-{i}", G_ADDRESS, MyCompany[index])
