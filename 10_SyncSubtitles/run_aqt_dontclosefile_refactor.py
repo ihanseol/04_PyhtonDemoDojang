@@ -176,7 +176,7 @@ def main_job(mode):
     # if (n_aqtfiles in [3, 4]) and (well_num != '1'):
 
     if aqtfiles:
-        for i in range(1, 19):  # maximum well number is 18
+        for i in range(1, 33):  # maximum well number is 18
             wfiles = fnmatch.filter(aqtfiles, f"w{i}_*.aqt")
             if wfiles:
                 for j, file in enumerate(wfiles):
