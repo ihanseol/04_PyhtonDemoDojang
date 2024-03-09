@@ -104,7 +104,7 @@ def main():
     aqtfiles = [f for f in files if f.endswith('.aqt')]
 
     if aqtfiles:
-        for i in range(1, 19):  # maximum well number is 18
+        for i in range(1, 33):  # maximum well number is 18
             wfiles = fnmatch.filter(aqtfiles, f"w{i}_*.aqt")
             if wfiles:
                 for j, file in enumerate(wfiles):
