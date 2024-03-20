@@ -1,18 +1,55 @@
-# pip install beautifulsoup4
-# first remove </br> tag
-# and find value of data
-
-# simdo
-# well_diameter
-# Q
-# HP
-# tochool
-# yongdo
-# sebu_yongdo
-
-
+from selenium import webdriver
+import win32con
+import win32gui
+import win32process
+import psutil
+from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 import os
+
+
+# Function to get Chrome process ID
+def get_chrome_pid():
+    for proc in psutil.process_iter(['pid', 'name']):
+        if 'chrome' in proc.info['name'].lower():
+            return proc.info['pid']
+    return None
+
+
+def get_chrome_window_handle():
+    # Find the Chrome browser process ID
+    chrome_process_id = get_chrome_pid()
+    if chrome_process_id is None:
+        print("Chrome process not found.")
+        return
+
+    # Find the Chrome browser window handle
+    window_handle = win32gui.GetTopWindow(0)
+    while window_handle:
+        thread_id, pid = win32process.GetWindowThreadProcessId(window_handle)
+        if pid == chrome_process_id:
+            print(f"Chrome browser window handle: {window_handle}")
+            return window_handle
+        window_handle = win32gui.GetWindow(window_handle, win32con.GW_HWNDNEXT)
+
+    print("Chrome browser window not found.")
+    return None
+
+
+def get_xls_file():
+    print('-' * 55)
+    window_handle = get_chrome_window_handle()
+    if not window_handle: exit()
+
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_experimental_option('debuggerAddress', f"localhost:9222/devtools/browser/{window_handle}")
+
+    driver = webdriver.Chrome(options=chrome_options)
+    # page_source = driver.page_source
+    # print(page_source)
+
+    driver.find_element(By.CSS_SELECTOR, "#sp_info_detail1 > a").click()
+    driver.quit()
 
 
 def get_latest_filename():
@@ -44,20 +81,17 @@ def get_well_spec(file_name):
     else:
         yongdo = None
 
-
     sebu_yongdo = soup.find('th', string='지하수세부용도')
     if sebu_yongdo is not None:
         sebu_yongdo = sebu_yongdo.find_next_sibling('td').text
     else:
         sebu_yongdo = None
 
-
     simdo = soup.find('th', string='굴착심도(m)')
     if simdo is not None:
         simdo = simdo.find_next_sibling('td').text
     else:
         simdo = None
-
 
     well_diameter = soup.find('th', string='굴착직경(mm)')
     if well_diameter is not None:
@@ -127,11 +161,40 @@ def save_to_csv(my_list, csv_file='data.CSV'):
     print(f"List saved to '{csv_file}' successfully.")
 
 
+import os
+
+
+def delete_xls_files(folder_path=None):
+    if not folder_path:
+        folder_path = os.path.expanduser("~/Downloads")
+
+    try:
+        # List all files in the folder
+        files = os.listdir(folder_path)
+
+        # Iterate through each file
+        for file in files:
+            if file.endswith(".xls"):
+                # Construct the full path to the file
+                file_path = os.path.join(folder_path, file)
+
+                # Delete the file
+                os.remove(file_path)
+                print(f"Deleted: {file_path}")
+
+        print("All .xls files have been deleted.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+
 def main():
+    delete_xls_files()
+    get_xls_file()
+
     file_name = get_latest_filename()
     result = get_well_spec(file_name)
 
-    print('*'*50)
+    print('*' * 50)
     print(result)
     print('*' * 50)
     save_to_csv(result)
@@ -139,5 +202,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
