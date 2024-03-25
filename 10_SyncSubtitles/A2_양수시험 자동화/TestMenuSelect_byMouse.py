@@ -4,7 +4,6 @@ import os
 import pytesseract
 from PIL import Image
 
-
 PROGRAM_PATH = r'C:\WHPA\AQTEver3.4(170414)\AQTW32.EXE'
 ISAQTOPEN = False
 DIRECTORY = "d:\\05_Send\\"
@@ -12,7 +11,7 @@ DELAY = 0.5
 IS_BLOCK = True
 
 
-# AQTSOLVE 는 듀얼모니터 상에 메인윈도우에 위치 해야한다.
+# ABSOLVE 는 듀얼모니터 상에 메인윈도우에 위치 해야한다.
 # 그래야 pyautogui 를 사용할수가 있다.
 
 
@@ -23,7 +22,7 @@ def open_aqt(filename):
         os.startfile("d:\\05_Send\\w3_02_long.aqt")
 
     time.sleep(1)
-    pyautogui.click(x=1557, y=93)  #maximize sub window
+    pyautogui.click(x=1557, y=93)  # maximize sub window
     time.sleep(0.5)
 
 
@@ -33,7 +32,6 @@ def maxmize_aqtsolv():
         win.activate()
     if not win.isMaximized:
         win.maximize()
-
 
 
 open_aqt("d:\\05_Send\\w3_02_long.aqt")
@@ -46,7 +44,6 @@ time.sleep(DELAY)
 pyautogui.press('enter')
 time.sleep(DELAY)
 
-
 # browse for filename
 pyautogui.hotkey('alt', 'r')
 time.sleep(DELAY)
@@ -56,40 +53,39 @@ pyautogui.typewrite("c:\\Users\\minhwasoo\\Documents\\A3_ge_janggi_01.dat")
 time.sleep(DELAY)
 pyautogui.press('enter')
 time.sleep(DELAY)
-pyautogui.hotkey('alt', 'f') #finish
+pyautogui.hotkey('alt', 'f')  # finish
 time.sleep(DELAY)
 pyautogui.press('enter')
 
-#Set Unit
+# Set Unit
 
 time.sleep(DELAY)
-pyautogui.hotkey('alt', 'e') #Edit
-pyautogui.press('u') #unit
+pyautogui.hotkey('alt', 'e')  # Edit
+pyautogui.press('u')  # unit
 time.sleep(DELAY)
-pyautogui.hotkey('alt', 't') #time
-pyautogui.press('m') #unit
+pyautogui.hotkey('alt', 't')  # time
+pyautogui.press('m')  # unit
 time.sleep(DELAY)
 pyautogui.press('enter')
 time.sleep(DELAY)
 
-#End Set Unit
+# End Set Unit
 
 
-#Automatic Match
+# Automatic Match
 
 time.sleep(DELAY)
-pyautogui.hotkey('alt', 'm') #match
-pyautogui.press('u') # automatic
-time.sleep(DELAY)
-pyautogui.press('enter')
+pyautogui.hotkey('alt', 'm')  # match
+pyautogui.press('u')  # automatic
 time.sleep(DELAY)
 pyautogui.press('enter')
 time.sleep(DELAY)
 pyautogui.press('enter')
 time.sleep(DELAY)
+pyautogui.press('enter')
+time.sleep(DELAY)
 
-#Automatic Match
-
+# Automatic Match
 
 
 # GetText YangSoo Result
@@ -101,8 +97,8 @@ time.sleep(DELAY)
 # time.sleep(DELAY)
 
 
-im3 = pyautogui.screenshot(region=(1026, 263, 130, 40)) # : 메인창 결과화면을 캡쳐
-#im3 = pyautogui.screenshot(region=(1134, 651, 80, 30))
+im3 = pyautogui.screenshot(region=(1026, 263, 130, 40))  # : 메인창 결과화면을 캡쳐
+# im3 = pyautogui.screenshot(region=(1134, 651, 80, 30))
 
 
 for i in range(70, 100, 2):
@@ -110,7 +106,3 @@ for i in range(70, 100, 2):
     image = Image.open(DIRECTORY + 'screenshot.jpg')
     text = pytesseract.image_to_string(image)
     print(i, text)
-
-
-
-
