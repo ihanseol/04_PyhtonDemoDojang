@@ -4,6 +4,7 @@ import os
 import pytesseract
 from PIL import Image
 
+
 PROGRAM_PATH = r'C:\WHPA\AQTEver3.4(170414)\AQTW32.EXE'
 ISAQTOPEN = False
 DIRECTORY = "d:\\05_Send\\"
@@ -24,6 +25,16 @@ def open_aqt(filename):
     time.sleep(1)
     pyautogui.click(x=1557, y=93)  # maximize sub window
     time.sleep(0.5)
+
+
+def maximize_child_window(window_title):
+    # Get the window object by its title
+    window = gw.getWindowsWithTitle(window_title)
+
+    # Check if the window exists
+    if window:
+        # Maximize the window
+        window[0].maximize()
 
 
 def maxmize_aqtsolv():

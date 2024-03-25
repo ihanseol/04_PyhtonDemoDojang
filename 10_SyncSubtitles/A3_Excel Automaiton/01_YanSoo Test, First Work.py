@@ -99,6 +99,10 @@ def inject_value_to_sheet(file_name):
         click_excel_button(ws, "CommandButton6")
         if DEBUG_YES: print('Input, Button6')
         time.sleep(1)
+        click_excel_button(ws, "CommandButton1")
+        # PumpingTest Click
+        if DEBUG_YES: print('Input, Button1')
+        time.sleep(1)
 
         # StepTest Fit
         ws = wb.Worksheets("stepTest")

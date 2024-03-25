@@ -54,7 +54,6 @@ def import_dat_and_rest(file_name):
     open_aqt()
 
     # aqtesolve window make front maximize
-
     win = pyautogui.getWindowsWithTitle('AQTESOLV')[0]
     if not win.isActive:  win.activate()
     if not win.isMaximized:  win.maximize()
