@@ -207,9 +207,8 @@ def inject_value_to_sheet(file_path, file_name, well):
         try:
             wb.DisplayAlerts = False
             # helpful if saving multiple times to save file, it means you won't get a pop-up for overwrite and will default to save it.
-            #wb.SaveAs(DOCUMENTS + "out_" + file_name, FileFormat=52, CreateBackup=False)
+            wb.SaveAs(DOCUMENTS + "out_" + file_name, FileFormat=52, CreateBackup=False)
 
-            wb.SaveCopyAs(DOCUMENTS + "out_" + file_name, FileFormat=52, CreateBackup=False)
             # wb.Close(SaveChanges=True)
         except Exception as e:
             print("failed to save the excel file")
