@@ -97,66 +97,68 @@ def click_excel_button(ws, button_name):
 
 
 def inject_value_to_sheet(file_name):
-    # excel = win32com.client.Dispatch("Excel.Application")
-    # excel = win32com.client.gencache.EnsureDispatch("Excel.Application")
+    try:
+        # excel = win32com.client.Dispatch("Excel.Application")
+        # excel = win32com.client.gencache.EnsureDispatch("Excel.Application")
 
-    excel = win32.gencache.EnsureDispatch('Excel.Application')
-    # excel = win32.Dispatch('Excel.Application')
+        excel = win32.gencache.EnsureDispatch('Excel.Application')
+        # excel = win32.Dispatch('Excel.Application')
 
-    excel.ScreenUpdating = False
-    book = excel.Workbooks.Open(file_name)
-    excel.Visible = True
+        excel.ScreenUpdating = False
+        book = excel.Workbooks.Open(file_name)
+        excel.Visible = True
 
-    ws = book.Worksheets("Input")
-    ws.Activate()
+        ws = book.Worksheets("Input")
+        ws.Activate()
 
-    inject_value_to_cells(book, cell_values)
-    print('inject value to cell')
-    ws.Activate()
+        inject_value_to_cells(book, cell_values)
+        print('inject value to cell')
+        ws.Activate()
 
-    click_excel_button(ws, "CommandButton2")
-    print('Input, Button2')
-    time.sleep(1)
-    click_excel_button(ws, "CommandButton3")
-    print('Input, Button3')
-    time.sleep(1)
-    click_excel_button(ws, "CommandButton6")
-    print('Input, Button6')
-    time.sleep(1)
+        click_excel_button(ws, "CommandButton2")
+        print('Input, Button2')
+        time.sleep(1)
+        click_excel_button(ws, "CommandButton3")
+        print('Input, Button3')
+        time.sleep(1)
+        click_excel_button(ws, "CommandButton6")
+        print('Input, Button6')
+        time.sleep(1)
 
-    # StepTest Fit
-    ws = book.Worksheets("stepTest")
-    ws.Activate()
+        # StepTest Fit
+        ws = book.Worksheets("stepTest")
+        ws.Activate()
 
-    time.sleep(5)
+        time.sleep(1)
 
+        click_excel_button(ws, "CommandButton1")
+        print('Step, Button1')
+        time.sleep(2)
+        click_excel_button(ws, "CommandButton2")
+        print('Step, Button2')
+        time.sleep(1)
 
-    click_excel_button(ws, "CommandButton1")
-    print('Step, Button1')
-    time.sleep(2)
-    click_excel_button(ws, "CommandButton2")
-    print('Step, Button2')
-    time.sleep(1)
+        # LongTermTes
+        ws = book.Worksheets("LongTest")
+        ws.Activate()
 
-    # LongTermTes
-    ws = book.Worksheets("LongTest")
-    ws.Activate()
+        time.sleep(1)
+        click_excel_button(ws, "CommandButton5")
+        print('Long, Button5')
+        time.sleep(3)
+        click_excel_button(ws, "CommandButton4")
+        print('Long, Button5')
+        time.sleep(1)
+        click_excel_button(ws, "CommandButton7")
+        print('Long, Button7')
 
-    time.sleep(1)
-    click_excel_button(ws, "CommandButton5")
-    print('Long, Button5')
-    time.sleep(3)
-    click_excel_button(ws, "CommandButton4")
-    print('Long, Button5')
-    time.sleep(1)
-    click_excel_button(ws, "CommandButton7")
-    print('Long, Button7')
-
-    excel.ScreenUpdating = True
-    sheet = None
-    book.Close(SaveChanges=True)
-    excel.Quit()
-    excel = None
+        excel.ScreenUpdating = True
+        sheet = None
+        book.Close(SaveChanges=True)
+        excel.Quit()
+        excel = None
+    except Exception as e:
+        print(f"An error occurred, {file_name} : ", e)
 
 
 def main():
