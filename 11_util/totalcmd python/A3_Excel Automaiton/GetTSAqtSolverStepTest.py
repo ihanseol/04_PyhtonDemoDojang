@@ -63,11 +63,11 @@ def capture_in_main_screen():
 
     text1 = replace_comma_to_dot(text1)
     val_T = extract_real_numbers(text1)
-    print(val_T)
+    # print(val_T)
 
     text2 = replace_comma_to_dot(text2)
     val_S = extract_real_numbers(text2)
-    print(val_S)
+    # print(val_S)
 
     return [val_T, val_S]
 
@@ -220,7 +220,6 @@ def AqtesolverMain(filename, running_step):
     time.sleep(DELAY)
     # AqtSolv Program Close
 
-    print(result[0], result[1])
     return result[0], result[1]
 
 

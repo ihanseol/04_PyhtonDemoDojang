@@ -1,11 +1,15 @@
+#********************************************************************************************
+# 2024.3.25
+# 이파일을 양수시험 2단계 로서
+# 필요한것은, 양수시험 XLSM 파일과, AQTESOLVER FIle 3가지가 필요하다. 단계 , 장기, 회복
+# 하나하나 데이타를 써주는 1차작업을 한다.
+#
+#********************************************************************************************
+
 import win32com.client as win32
 import time
-import pandas as pd
-import subprocess
-import pyautogui
 import re
 import os
-import random
 import shutil
 import fnmatch
 import ctypes
@@ -109,13 +113,100 @@ def click_excel_button(ws, button_name):
     if button:
         button.Object.Value = True
 
-
-# inject_value_to_sheet(DIRECTORY + file, well)
 def inject_value_to_sheet(file_path, file_name, well):
     try:
         def duplicate_file(well):
             dest_file = DIRECTORY + f"w{well}_02_long_01.aqt"
             shutil.copyfile(DIRECTORY + f"w{well}_02_long.aqt", dest_file)
+
+        def InjecttionStep(ws_step):
+            print('**************************************************')
+            print('*  StepTest Starting ....                        *')
+            print('**************************************************')
+
+            ws_step.Activate()
+            os.chdir(DIRECTORY)
+
+            click_excel_button(ws_step, "CommandButton1")
+            if DEBUG_YES: print('Step.Select,  StepPrn_Button1')
+            time.sleep(1)
+            val_T, val_S = GetTS.AqtesolverMain(f"w{well}_01_step.aqt", 1)
+
+            print(val_T, val_S)
+
+        def InjecttionLongTest_01(ws_janggi, ws_skin):
+            print('**************************************************')
+            print('*  LongTermTest Phase 1 Starting ....            *')
+            print('**************************************************')
+
+            # 장기 1단계 양수시험, T,S 구하기
+            ws_janggi.Activate()
+
+            # toggle radius click
+            click_excel_button(ws_janggi, "CommandButton4")
+            if DEBUG_YES: print('Janggi.Select,  ToggleRadius_Button4')
+            time.sleep(1)
+
+            click_excel_button(ws_janggi, "CommandButton1")
+            if DEBUG_YES: print('Janggi.Select,  JangGi*01_Button1')
+            time.sleep(1)
+
+            val_T, val_S = GetTS.AqtesolverMain(f"w{well}_02_long.aqt", 2)
+            print(val_T, val_S)
+
+            ws_skin.Activate()
+            ws_skin.Range("D5").Value = val_T
+            ws_skin.Range("E10").Value = val_S
+            time.sleep(1)
+
+
+        def InjecttionLongTest_02(ws_janggi, ws_skin):
+            print('**************************************************')
+            print('*  LongTermTest Phase 2 Starting ....            *')
+            print('**************************************************')
+
+            # 장기 2단계 양수시험, T,S 구하기
+            ws_janggi.Activate()
+            click_excel_button(ws_janggi, "CommandButton2")
+            if DEBUG_YES: print('Janggi.Select,  JangGi*02_Button2')
+            time.sleep(1)
+            val_T, val_S = GetTS.AqtesolverMain(f"w{well}_02_long_01.aqt", 3)
+            print(val_T, val_S)
+
+            ws_skin.Activate()
+            ws_skin.Range("I16").Value = val_S
+            time.sleep(0.5)
+
+        def InjectionRecover(ws_recover, ws_skin):
+            print('**************************************************')
+            print('*  RecoverTest Starting ....                     *')
+            print('**************************************************')
+
+            # 회복 양수시험, T,S 구하기
+            ws_recover.Activate()
+            click_excel_button(ws_recover, "CommandButton1")
+            if DEBUG_YES: print('Recover.Select,  Recover Prn_Button1')
+            time.sleep(1)
+            val_T, val_S = GetTS.AqtesolverMain(f"w{well}_03_recover.aqt", 4)
+            print(val_T, val_S)
+
+            ws_skin.Activate()
+            ws_skin.Range("H13").Value = val_T
+            ws_skin.Range("I13").Value = val_S
+            time.sleep(0.5)
+
+        def IsStepFileExist(well):
+            #w1_01_step.aqt
+            files = os.listdir()
+            aqtfiles = [f for f in files if f.endswith('.aqt')]
+            aqtfiles = fnmatch.filter(aqtfiles, f"w{well}_01_step.aqt")
+
+            if aqtfiles:
+                return True
+            else:
+                return False
+
+
 
         excel = win32.gencache.EnsureDispatch('Excel.Application')
         excel.ScreenUpdating = False
@@ -125,74 +216,20 @@ def inject_value_to_sheet(file_path, file_name, well):
         duplicate_file(well)
 
         # StepTest
-        # Input - 3,  SkinFactor - 4, SafeYield - 5, StepTest - 6, LongTest - 7
-        # Step.Select - 8, Janggi.Select - 9, Recover.Select - 10
+        # Input * 3,  SkinFactor * 4, SafeYield * 5, StepTest * 6, LongTest * 7
+        # Step.Select * 8, Janggi.Select * 9, Recover.Select * 10
 
         ws_skin = wb.Worksheets(4)
-        ws_LongTest = wb.Worksheets(7)
         ws_step = wb.Worksheets(8)
         ws_janggi = wb.Worksheets(9)
         ws_recover = wb.Worksheets(10)
 
-        # d:\05_Send\w9_01_step.aqt
-        # d:\05_Send\w9_02_long.aqt
-        # d:\05_Send\w9_02_long_01.aqt
-        # d:\05_Send\w9_03_recover.aqt
+        if IsStepFileExist(well):
+            InjecttionStep(ws_step)
 
-        ws_step.Activate()
-        os.chdir(DIRECTORY)
-
-        click_excel_button(ws_step, "CommandButton1")
-        if DEBUG_YES: print('Step.Select,  StepPrn_Button1')
-        time.sleep(1)
-        val_T, val_S = GetTS.AqtesolverMain(f"w{well}_01_step.aqt", 1)
-        print(val_T, val_S)
-
-        # 장기양수시험일보에서, 안정수위 도달시간 세팅 랜덤으로 ...
-
-        ws_LongTest.Activate()
-
-        # 장기 1단계 양수시험, T,S 구하기
-        ws_janggi.Activate()
-        click_excel_button(ws_janggi, "CommandButton4")
-        if DEBUG_YES: print('Janggi.Select,  ToggleRadius_Button4')
-        time.sleep(0.5)
-        # toggle radius click
-        click_excel_button(ws_janggi, "CommandButton1")
-        if DEBUG_YES: print('Janggi.Select,  JangGi-01_Button1')
-        time.sleep(1)
-        val_T, val_S = GetTS.AqtesolverMain(f"w{well}_02_long.aqt", 2)
-        print(val_T, val_S)
-
-        ws_skin.Activate()
-        ws_skin.Range("D5").Value = val_T
-        ws_skin.Range("E10").Value = val_S
-        time.sleep(0.5)
-
-        # 장기 2단계 양수시험, T,S 구하기
-        ws_janggi.Activate()
-        click_excel_button(ws_janggi, "CommandButton2")
-        if DEBUG_YES: print('Janggi.Select,  JangGi-02_Button2')
-        time.sleep(1)
-        val_T, val_S = GetTS.AqtesolverMain(f"w{well}_02_long_01.aqt", 3)
-        print(val_T, val_S)
-
-        ws_skin.Activate()
-        ws_skin.Range("I16").Value = val_S
-        time.sleep(0.5)
-
-        # 회복 양수시험, T,S 구하기
-        ws_recover.Activate()
-        click_excel_button(ws_recover, "CommandButton1")
-        if DEBUG_YES: print('Recover.Select,  Recover Prn_Button1')
-        time.sleep(1)
-        val_T, val_S = GetTS.AqtesolverMain(f"w{well}_03_recover.aqt", 4)
-        print(val_T, val_S)
-
-        ws_skin.Activate()
-        ws_skin.Range("H13").Value = val_T
-        ws_skin.Range("I13").Value = val_S
-        time.sleep(0.5)
+        InjecttionLongTest_01(ws_janggi, ws_skin)
+        InjecttionLongTest_02(ws_janggi, ws_skin)
+        InjectionRecover(ws_recover, ws_skin)
 
         # click_excel_button(ws_recover, "CommandButton2")
 
@@ -200,7 +237,7 @@ def inject_value_to_sheet(file_path, file_name, well):
 
         try:
             wb.DisplayAlerts = False
-            # helpful if saving multiple times to save file, it means you won't get a pop-up for overwrite and will default to save it.
+            # helpful if saving multiple times to save file, it means you won't get a pop up for overwrite and will default to save it.
             wb.SaveAs(DOCUMENTS + "out_" + file_name, FileFormat=52, CreateBackup=False)
 
             # wb.Close(SaveChanges=True)
@@ -232,45 +269,13 @@ def main():
     for file in xlsmfiles:
         initial_clear()
         well = extract_number(file)
+
         inject_value_to_sheet(DIRECTORY, file, well)
         after_work()
         time.sleep(2)
 
     if IS_BLOCK:
         user32.BlockInput(False)
-
-
-# def main():
-#     def duplicate_aqt_janggi(aqtfiles):
-#         wfiles = fnmatch.filter(aqtfiles, f"*long*.aqt")
-#         if wfiles:
-#             for file in wfiles:
-#                 duplicate_file(DIRECTORY + file)
-#
-#         return None
-#
-#     initial_clear()
-#     os.chdir(DIRECTORY)
-#     files = os.listdir()
-#
-#     xlsmfiles = [f for f in files if f.endswith('.xlsm')]
-#     aqtfiles = [f for f in files if f.endswith('.aqt')]
-#     aqtfiles = natsorted(aqtfiles)
-#
-#     duplicate_aqt_janggi(aqtfiles)
-#
-#     xlsmfiles = fnmatch.filter(xlsmfiles, "*_ge_OriginalSaveFile.xlsm")
-#     xlsmfiles = natsorted(xlsmfiles)
-#
-#     if xlsmfiles:
-#         for file in xlsmfiles:
-#             well = extract_number(file)
-#
-#             #open excel sheet by well
-#
-#             do_step_test(well)
-#             do_longTerm_test(well)
-#             do_recover_test(well)
 
 
 # 1, Step Test

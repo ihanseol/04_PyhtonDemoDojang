@@ -2,7 +2,10 @@ import os
 import ctypes
 
 from PIL import Image, ImageChops
+from natsort import natsorted
 from pdf2image import convert_from_path, convert_from_bytes
+
+DIRECTORY = "d:\\05_Send\\"
 
 
 def pdf_to_jpg(pdf_path):
@@ -20,23 +23,23 @@ def image_trim(input_filename):
     diff = ImageChops.add(diff, diff, 2.0, -100)
     bbox = diff.getbbox()
     if bbox:
-        cropped_image = image.crop(bbox)
+        cropped_image: Image = image.crop(bbox)
 
     cropped_image.save(input_filename)
 
 
 def main_job():
-    user32 = ctypes.windll.user32
-    user32.BlockInput(True)
-
-    image_files = [f for f in os.listdir() if f.endswith('.jpg')]
+    os.chdir(DIRECTORY)
+    files = os.listdir()
+    image_files = [f for f in files if f.endswith('.jpg')]
+    image_files = natsorted(image_files)
 
     for image_file in image_files:
-        print(image_file)
-        # image_trim(image_file)
-        image_trim(image_file)
-
-    user32.BlockInput(False)
+        try:
+            print(image_file)
+            image_trim(image_file)
+        except Exception as e:
+            print(f"An error occurred, {image_file} : ", e)
 
 
 if __name__ == "__main__":
