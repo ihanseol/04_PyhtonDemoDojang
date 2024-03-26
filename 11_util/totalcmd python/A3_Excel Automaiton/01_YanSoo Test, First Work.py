@@ -1,14 +1,17 @@
 import win32com.client
 import win32com.client as win32
+import win32api
 import time
 import pandas as pd
 import re
 import os
+import random
+import pyautogui
 from natsort import natsorted
 
 DIRECTORY = "d:\\05_Send\\"
 df = pd.read_excel(r"d:\05_Send\YanSoo_Spec.xlsx")
-DEBUG_YES = False
+DEBUG_YES = True
 
 
 def get_excel_row(df, row_index):
@@ -46,12 +49,14 @@ def inject_value_to_cells(book):
 
     filename = os.path.basename(book.Name)
     row_index = extract_number(filename) - 1
+
+    if DEBUG_YES: print(f'inject value to cell , processing make_cell_values ...')
     cell_values = make_cell_values(row_index)
 
     for cell, value in cell_values.items():
         sheet.Range(cell).Value = value
 
-    book.SaveAs("out_" + filename)
+    if DEBUG_YES: print(f'inject value to cell , finished ...')
     return None
 
 
@@ -74,8 +79,63 @@ def click_excel_button(ws, button_name):
 
 def inject_value_to_sheet(file_name):
     try:
-        # excel = win32com.client.Dispatch("Excel.Application")
-        # excel = win32com.client.gencache.EnsureDispatch("Excel.Application")
+        def InjectionInput(wb):
+            ws = wb.Worksheets("Input")
+            ws.Activate()
+            time.sleep(1)
+
+            inject_value_to_cells(wb)
+
+            excel.ActiveWindow.LargeScroll(Down=-1)
+            time.sleep(1)
+
+            click_excel_button(ws, "CommandButton2")
+            if DEBUG_YES: print('Input, Set_CB1 - Button2')
+            time.sleep(1)
+            click_excel_button(ws, "CommandButton3")
+            if DEBUG_YES: print('Input, Set_CB2 - Button3')
+            time.sleep(1)
+            click_excel_button(ws, "CommandButton6")
+            if DEBUG_YES: print('Input, Chart - Button6')
+            time.sleep(1)
+            click_excel_button(ws, "CommandButton1")
+            # PumpingTest Click
+            if DEBUG_YES: print('Input, PumpingTest - Button1')
+            time.sleep(1)
+
+        def InjectionStepTest(wb):
+            # StepTest Fit
+            ws = wb.Worksheets("stepTest")
+            ws.Activate()
+            time.sleep(1)
+
+            click_excel_button(ws, "CommandButton1")
+            if DEBUG_YES: print('StepTest, FindAnswer - Button1')
+            time.sleep(2)
+            click_excel_button(ws, "CommandButton2")
+            if DEBUG_YES: print('StepTest, Check - Button2')
+            time.sleep(1)
+
+        def InjectionLongTermTest(wb):
+            # LongTermTes
+            ws = wb.Worksheets("LongTest")
+            ws.Activate()
+
+            values = [720, 780, 840]
+            selected_value = random.choice(values)
+            ws.OLEObjects("ComboBox1").Object.Value = selected_value
+            if DEBUG_YES: print(f'LongTest, Assign {selected_value} at ComboBox')
+
+            time.sleep(1)
+            click_excel_button(ws, "CommandButton5")
+            if DEBUG_YES: print('LongTest, Reset 0.1 - Button5')
+            time.sleep(1)
+            click_excel_button(ws, "CommandButton4")
+            if DEBUG_YES: print('LongTest, FindAnswer - Button4')
+            time.sleep(2)
+            click_excel_button(ws, "CommandButton7")
+            if DEBUG_YES: print('LongTest, Check - Button7')
+
 
         excel = win32.gencache.EnsureDispatch('Excel.Application')
         # excel = win32.Dispatch('Excel.Application')
@@ -83,58 +143,19 @@ def inject_value_to_sheet(file_name):
         excel.ScreenUpdating = False
         wb = excel.Workbooks.Open(file_name)
         excel.Visible = True
+        excel.WindowState = -4137  # xlMaximizedWindow
 
-        ws = wb.Worksheets("Input")
-        ws.Activate()
-
-        inject_value_to_cells(wb)
-        if DEBUG_YES: print('inject value to cell')
-
-        click_excel_button(ws, "CommandButton2")
-        if DEBUG_YES: print('Input, Button2')
-        time.sleep(1)
-        click_excel_button(ws, "CommandButton3")
-        if DEBUG_YES: print('Input, Button3')
-        time.sleep(1)
-        click_excel_button(ws, "CommandButton6")
-        if DEBUG_YES: print('Input, Button6')
-        time.sleep(1)
-        click_excel_button(ws, "CommandButton1")
-        # PumpingTest Click
-        if DEBUG_YES: print('Input, Button1')
-        time.sleep(1)
-
-        # StepTest Fit
-        ws = wb.Worksheets("stepTest")
-        ws.Activate()
-
-        time.sleep(1)
-
-        click_excel_button(ws, "CommandButton1")
-        if DEBUG_YES: print('Step, Button1')
-        time.sleep(2)
-        click_excel_button(ws, "CommandButton2")
-        if DEBUG_YES: print('Step, Button2')
-        time.sleep(1)
-
-        # LongTermTes
-        ws = wb.Worksheets("LongTest")
-        ws.Activate()
-
-        time.sleep(1)
-        click_excel_button(ws, "CommandButton5")
-        if DEBUG_YES: print('Long, Button5')
-        time.sleep(2)
-        click_excel_button(ws, "CommandButton4")
-        if DEBUG_YES: print('Long, Button5')
-        time.sleep(1)
-        click_excel_button(ws, "CommandButton7")
-        if DEBUG_YES: print('Long, Button7')
+        InjectionInput(wb)
+        InjectionStepTest(wb)
+        InjectionLongTermTest(wb)
 
         excel.ScreenUpdating = True
         sheet = None
         wb.Close(SaveChanges=True)
         excel.Quit()
+        if DEBUG_YES: print(f'FileSaving , {file_name} ....')
+        time.sleep(3)
+
         excel = None
     except Exception as e:
         print(f"An error occurred, {file_name} : ", e)
@@ -154,6 +175,9 @@ def initial_delete_ouputfile():
                 print(f"{file} has been removed successfully.")
             else:
                 print(f"The file {file} does not exist in the folder {folder_path}.")
+
+    time.sleep(1)
+
 
 
 def main():

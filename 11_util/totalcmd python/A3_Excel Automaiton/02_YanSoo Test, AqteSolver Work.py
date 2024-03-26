@@ -54,7 +54,6 @@ def get_basename_of_file(file_path):
     return base_name
 
 
-
 def after_work():
     def move_file(source, destination):
         try:
@@ -75,7 +74,6 @@ def after_work():
 
     for file in datfiles:
         move_file(DOCUMENTS + file, destination_folder + file)
-
 
 
 def initial_clear():
@@ -145,25 +143,23 @@ def inject_value_to_sheet(file_path, file_name, well):
         os.chdir(DIRECTORY)
 
         click_excel_button(ws_step, "CommandButton1")
+        if DEBUG_YES: print('Step.Select,  StepPrn_Button1')
         time.sleep(1)
         val_T, val_S = GetTS.AqtesolverMain(f"w{well}_01_step.aqt", 1)
         print(val_T, val_S)
 
-
         # 장기양수시험일보에서, 안정수위 도달시간 세팅 랜덤으로 ...
 
         ws_LongTest.Activate()
-        values = [720, 780, 840]
-        selected_value = random.choice(values)
-        ws_LongTest.OLEObjects("ComboBox1").Object.Value = selected_value
-
 
         # 장기 1단계 양수시험, T,S 구하기
         ws_janggi.Activate()
         click_excel_button(ws_janggi, "CommandButton4")
+        if DEBUG_YES: print('Janggi.Select,  ToggleRadius_Button4')
         time.sleep(0.5)
         # toggle radius click
         click_excel_button(ws_janggi, "CommandButton1")
+        if DEBUG_YES: print('Janggi.Select,  JangGi-01_Button1')
         time.sleep(1)
         val_T, val_S = GetTS.AqtesolverMain(f"w{well}_02_long.aqt", 2)
         print(val_T, val_S)
@@ -173,24 +169,22 @@ def inject_value_to_sheet(file_path, file_name, well):
         ws_skin.Range("E10").Value = val_S
         time.sleep(0.5)
 
-
-
         # 장기 2단계 양수시험, T,S 구하기
         ws_janggi.Activate()
         click_excel_button(ws_janggi, "CommandButton2")
+        if DEBUG_YES: print('Janggi.Select,  JangGi-02_Button2')
         time.sleep(1)
-        val_T, val_S = GetTS.AqtesolverMain(f"w{well}_02_long_01.aqt",3)
+        val_T, val_S = GetTS.AqtesolverMain(f"w{well}_02_long_01.aqt", 3)
         print(val_T, val_S)
 
         ws_skin.Activate()
         ws_skin.Range("I16").Value = val_S
         time.sleep(0.5)
 
-
-
         # 회복 양수시험, T,S 구하기
         ws_recover.Activate()
         click_excel_button(ws_recover, "CommandButton1")
+        if DEBUG_YES: print('Recover.Select,  Recover Prn_Button1')
         time.sleep(1)
         val_T, val_S = GetTS.AqtesolverMain(f"w{well}_03_recover.aqt", 4)
         print(val_T, val_S)
@@ -287,10 +281,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
