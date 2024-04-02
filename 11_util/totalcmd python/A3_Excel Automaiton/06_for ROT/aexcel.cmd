@@ -1,0 +1,1 @@
+"c:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE"  -regserver %1
