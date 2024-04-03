@@ -1,3 +1,10 @@
+#
+# 이것은, 기사용관정시에 관정을 클릭하면 관정제원이 나오고
+# 다운로드 엑셀버튼을 누르면, 파일을 다운로드 받을수가 있는데
+# 그것을 이용해서, 관정데이타를 가져오는 일을 한다.
+#
+
+
 from selenium import webdriver
 import win32con
 import win32gui
@@ -160,8 +167,6 @@ def save_to_csv(my_list, csv_file='data.CSV'):
 
     print(f"List saved to '{csv_file}' successfully.")
 
-
-import os
 
 
 def delete_xls_files(folder_path=None):
