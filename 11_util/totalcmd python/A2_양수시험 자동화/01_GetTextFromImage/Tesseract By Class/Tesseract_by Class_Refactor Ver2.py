@@ -3,7 +3,8 @@ imageCapture Constraint
 2024/04/07
 
 imagecapture : 2560x1440
-edge full screen
+this is must run chrome debug window in total commander
+
 https://www.gims.go.kr/igis_infomap.do
 
 01_지하수용도 (YongDo) : 2430,530   105x46
@@ -95,20 +96,20 @@ class ImageCaptureReader:
         winsound.Beep(frequency, duration)
 
     @staticmethod
-    def get_screen_width(self) -> int:
+    def get_screen_width() -> int:
         screen = get_monitors()[0]
         return screen.width
 
     def capture_and_read_groundwater(self) -> object:
         result = []
         screen_2560x1440 = [
-            ([2430, 530, 105, 33], 'screenshot_01.jpg'),
-            ([2190, 566, 105, 33], 'screenshot_02.jpg'),
-            ([2190, 601, 105, 33], 'screenshot_03.jpg'),
-            ([2430, 601, 105, 33], 'screenshot_04.jpg'),
-            ([2430, 691, 105, 46], 'screenshot_05.jpg'),
-            ([2190, 691, 105, 46], 'screenshot_06.jpg'),
-            ([2190, 743, 105, 46], 'screenshot_07.jpg'),
+            ([2434, 543, 105, 33], 'screenshot_01.jpg'),
+            ([2194, 581, 105, 33], 'screenshot_02.jpg'),
+            ([2194, 619, 105, 33], 'screenshot_03.jpg'),
+            ([2434, 619, 105, 33], 'screenshot_04.jpg'),
+            ([2434, 707, 105, 46], 'screenshot_05.jpg'),
+            ([2194, 707, 105, 46], 'screenshot_06.jpg'),
+            ([2194, 760, 105, 46], 'screenshot_07.jpg'),
         ]
 
         screen_1920x1200 = [
@@ -139,6 +140,6 @@ class ImageCaptureReader:
 
 
 if __name__ == "__main__":
-    image_reader = ImageCaptureReader()
+    image_reader = ImageCaptureReader(resize_factor=3)
     result = image_reader.capture_and_read_groundwater()
     print(result)
