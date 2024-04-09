@@ -63,7 +63,7 @@ class CaptureScreen(AQTbase):
         # resized_size = tuple([int(dim * 2) for dim in original_size])
 
         resized_size = (w * 2, h * 2)
-        print(resized_size)
+        print(f"module resize_image : {image_path} --> {resized_size}")
 
         img = img.resize(resized_size, Image.Resampling.LANCZOS)
         resized_image_path = f"{image_path}_resized.jpg"
@@ -230,7 +230,7 @@ class AQTProcessor(AQTbase):
         return screen.width
 
     @staticmethod
-    def has_path(file_name) -> bool:
+    def has_path(file_name) -> bool:   # if file_name include path like c:\\user\\this ...
         head, tail = os.path.split(file_name)
 
         if head:
@@ -249,16 +249,15 @@ class AQTProcessor(AQTbase):
             if os.path.exists(file_name):
                 os.startfile(file_name)
                 print(f"open aqtsolver : {file_name} ....")
-        else:
-            print("The file does not exist.")
-            raise
+            else:
+                print("The file does not exist.")
+                raise
 
         if self.has_path(file_name):
             fn = os.path.basename(file_name)
             well = self.extract_number(fn)
         else:
-            well = 1
-            raise FileNotFoundError("The file does not exist.")
+            well = self.extract_number(file_name)
 
         time.sleep(1)
         if self.get_screen_width() == 2560:

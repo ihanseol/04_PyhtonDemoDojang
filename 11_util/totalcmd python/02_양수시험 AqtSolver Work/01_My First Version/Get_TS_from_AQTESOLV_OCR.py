@@ -17,7 +17,6 @@
 # 2024/04/09
 
 
-
 import time
 import os
 import cv2
@@ -127,12 +126,16 @@ def capture_area_to_file(area, filename):
 
 def resize_image(image_path) -> str:
     img = Image.open(image_path)
-    original_size = img.size
-    resized_size = tuple([int(dim * 2) for dim in original_size])
+    [w, h] = img.size
+    # resized_size = tuple([int(dim * 2) for dim in original_size])
+
+    resized_size = (w * 2, h * 2)
+    print(f"module resize_image : {image_path} --> {resized_size}")
 
     img = img.resize(resized_size, Image.Resampling.LANCZOS)
     resized_image_path = f"{image_path}_resized.jpg"
     img.save(resized_image_path)
+
     return resized_image_path
 
 
@@ -172,19 +175,20 @@ def open_aqt(file_name) -> int:
         if os.path.exists(file_name):
             os.startfile(file_name)
             print(f"open aqtsolver : {file_name} ....")
-    else:
-        print("The file does not exist.")
-        raise
+        else:
+            print("The file does not exist.")
+            raise
 
     if has_path(file_name):
         fn = os.path.basename(file_name)
         well = extract_number(fn)
+    else:
+        well = extract_number(file_name)
 
     time.sleep(1)
 
     if get_screen_width() == 2560:
         pyautogui.click(x=1557, y=93)  # maximize sub window 2560x1440
-
     else:
         pyautogui.click(x=1126, y=94)  # maximize sub window 1920x1200
 
@@ -192,7 +196,7 @@ def open_aqt(file_name) -> int:
     return well
 
 
-def maxmize_aqtsolv():
+def maxmize_aqtsolv() -> None:
     win = pyautogui.getWindowsWithTitle('AQTESOLV')[0]
     if not win.isActive:
         win.activate()
@@ -200,14 +204,14 @@ def maxmize_aqtsolv():
         win.maximize()
 
 
-def AqtesolverMain(file_name, running_step=1) -> int:
-    def determine_runningstep(file_name):
-        if os.path.exists(file_name):
-            if "step" in file_name:
+def AqtesolverMain(file_name, running_step=1) -> object:
+    def determine_runningstep(fname) -> int:
+        if os.path.exists(fname):
+            if "step" in fname:
                 return 1
-            elif "janggi_01" in file_name:
+            elif "janggi_01" in fname:
                 return 2
-            elif "janggi_02" in file_name:
+            elif "janggi_02" in fname:
                 return 3
             else:
                 return 4
@@ -217,7 +221,7 @@ def AqtesolverMain(file_name, running_step=1) -> int:
     well = open_aqt(file_name)
     running_step = determine_runningstep(file_name)
 
-    match (running_step):
+    match running_step:
         case (1):
             dat_file = f"A{well}_ge_step_01.dat"
         case (2):
@@ -227,6 +231,7 @@ def AqtesolverMain(file_name, running_step=1) -> int:
         case (4):
             dat_file = f"A{well}_ge_recover_01.dat"
         case _:
+            dat_file = f"A{well}_ge_step_01.dat"
             print('Match case exception ...')
 
     # import data
@@ -285,7 +290,7 @@ def AqtesolverMain(file_name, running_step=1) -> int:
     time.sleep(DELAY)
     # AqtSolv Program Close
 
-    return [result[0], result[1]]
+    return result
 
 
 def main():
