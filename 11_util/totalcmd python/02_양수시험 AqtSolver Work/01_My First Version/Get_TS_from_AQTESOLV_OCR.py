@@ -1,0 +1,297 @@
+# and this program must run in a 2560x1440 dual-monitor environment
+# Also, the AQTSOLVE.exe must be located on the main monitor
+# Can screen capture
+#
+# ABSOLVE shall be located in the main window on the dual monitor.
+# That's how you can use pyautogui.
+#
+#
+# file location ...
+#
+# c:\Users\minhwasoo\Documents\A1_ge_janggi_01.dat
+# c:\Users\minhwasoo\Documents\A1_ge_janggi_02.dat
+# c:\Users\minhwasoo\Documents\A1_ge_recover_01.dat
+# c:\Users\minhwasoo\Documents\A1_ge_step_01.dat
+#
+#  and screen support 2560x1440 and 1920x1200 and 1920x1080
+# 2024/04/09
+
+
+
+import time
+import os
+import cv2
+import pyautogui
+from PIL import Image
+import pygetwindow as gw
+import pytesseract
+import re
+from screeninfo import get_monitors
+
+PROGRAM_PATH = r'C:\WHPA\AQTEver3.4(170414)\AQTW32.EXE'
+ISAQTOPEN = False
+
+DIRECTORY = "d:\\05_Send\\"
+DOCUMENTS = "c:\\Users\\minhwasoo\\Documents\\"
+DELAY = 0.5
+IS_BLOCK = True
+
+
+def after_process(text):
+    def replace_comma_to_dot(text):
+        if ',' in text:
+            text = text.replace(',', '.')
+        if ' ' in text:
+            text = text.replace(' ', '.')
+
+        # print('after :', text)
+        return text
+
+    def extract_real_numbers(text):
+        pattern = r'[-+]?\d*\.\d+|\d+'  # This pattern matches floating-point numbers or integers
+        real_numbers = re.findall(pattern, text)
+
+        real_numbers = [float(number) for number in real_numbers]
+        numeric_value = float(real_numbers[0])
+
+        return numeric_value
+
+    text = replace_comma_to_dot(text)
+    return extract_real_numbers(text)
+
+
+# Example usage:
+# text = "There are 3.14 apples and -2.5 oranges."
+# numbers = extract_real_numbers(text)
+# print("Real numbers in the text:", numbers)
+
+
+def get_screen_width() -> int:
+    screen = get_monitors()[0]
+    return screen.width
+
+
+def change_window(name_title) -> None:
+    gwindows = gw.getWindowsWithTitle(name_title)
+    if gwindows:
+        window = gwindows[0]
+        window.activate()
+        if not window.isMaximized:
+            window.maximize()
+    else:
+        print(f"No  {name_title} found.")
+
+
+# capture in Main Screen
+def capture_in_main_screen():
+    screen_2560x1440 = [
+        ([1026, 263, 144, 24], 'screenshot_01_T.jpg'),
+        ([1026, 282, 144, 24], 'screenshot_02_S.jpg')
+    ]
+
+    screen_1920x1200 = [
+        ([917, 263, 49, 22], 'screenshot_01_T.jpg'),
+        ([917, 283, 76, 16], 'screenshot_02_S.jpg')
+    ]
+
+    if get_screen_width() == 2560:
+        areas_filenames = screen_2560x1440
+    else:
+        areas_filenames = screen_1920x1200
+
+    change_window(name_title="AQTESOLV")
+
+    result = []
+    for i, (area, filename) in enumerate(areas_filenames, 1):
+        capture_area_to_file(area, filename)
+        text = read_text_from_image(filename, use_english=True)
+        result.append(text)
+        print(text)
+
+    val_T = after_process(result[0])
+    val_S = after_process(result[1])
+
+    return [val_T, val_S]
+
+
+def get_tesseract_config(use_english) -> str:
+    if use_english:
+        return '-l eng  --psm 7'
+    else:
+        return '-l kor --oem 3 --psm 11'
+
+
+def capture_area_to_file(area, filename):
+    pyautogui.screenshot(region=area).save(filename, quality=95)
+
+
+def resize_image(image_path) -> str:
+    img = Image.open(image_path)
+    original_size = img.size
+    resized_size = tuple([int(dim * 2) for dim in original_size])
+
+    img = img.resize(resized_size, Image.Resampling.LANCZOS)
+    resized_image_path = f"{image_path}_resized.jpg"
+    img.save(resized_image_path)
+    return resized_image_path
+
+
+def read_text_from_image(image_path, use_english=False):
+    image_path = resize_image(image_path)
+
+    img = cv2.imread(image_path)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    processed_image_path = f"{image_path}_processed.jpg"
+    cv2.imwrite(processed_image_path, gray)
+
+    config = get_tesseract_config(use_english)
+    text = pytesseract.image_to_string(Image.open(processed_image_path), config=config)
+
+    return text
+
+
+# ------------------------------------------------------------------------------------------------------------
+
+def extract_number(s):
+    return int(re.findall(r'\d+', s)[0])
+
+
+def has_path(file_name) -> bool:
+    head, tail = os.path.split(file_name)
+
+    if head:
+        # print(f"The filename '{tail}' includes a path. Performing action...")
+        return True
+    else:
+        # print(f"The filename '{tail}' does not include a path.")
+        return False
+
+
+def open_aqt(file_name) -> int:
+    if has_path(file_name):
+        if os.path.exists(file_name):
+            os.startfile(file_name)
+            print(f"open aqtsolver : {file_name} ....")
+    else:
+        print("The file does not exist.")
+        raise
+
+    if has_path(file_name):
+        fn = os.path.basename(file_name)
+        well = extract_number(fn)
+
+    time.sleep(1)
+
+    if get_screen_width() == 2560:
+        pyautogui.click(x=1557, y=93)  # maximize sub window 2560x1440
+
+    else:
+        pyautogui.click(x=1126, y=94)  # maximize sub window 1920x1200
+
+    time.sleep(0.5)
+    return well
+
+
+def maxmize_aqtsolv():
+    win = pyautogui.getWindowsWithTitle('AQTESOLV')[0]
+    if not win.isActive:
+        win.activate()
+    if not win.isMaximized:
+        win.maximize()
+
+
+def AqtesolverMain(file_name, running_step=1) -> int:
+    def determine_runningstep(file_name):
+        if os.path.exists(file_name):
+            if "step" in file_name:
+                return 1
+            elif "janggi_01" in file_name:
+                return 2
+            elif "janggi_02" in file_name:
+                return 3
+            else:
+                return 4
+        else:
+            return 1
+
+    well = open_aqt(file_name)
+    running_step = determine_runningstep(file_name)
+
+    match (running_step):
+        case (1):
+            dat_file = f"A{well}_ge_step_01.dat"
+        case (2):
+            dat_file = f"A{well}_ge_janggi_01.dat"
+        case (3):
+            dat_file = f"A{well}_ge_janggi_02.dat"
+        case (4):
+            dat_file = f"A{well}_ge_recover_01.dat"
+        case _:
+            print('Match case exception ...')
+
+    # import data
+    pyautogui.click(x=42, y=33)  # file
+    time.sleep(DELAY)
+    pyautogui.click(x=92, y=173)  # import
+    time.sleep(DELAY)
+    pyautogui.press('enter')
+    time.sleep(DELAY)
+
+    # browse for filename
+    pyautogui.hotkey('alt', 'r')
+    time.sleep(DELAY)
+    pyautogui.press('backspace')
+    time.sleep(DELAY)
+    pyautogui.typewrite(DOCUMENTS + dat_file)
+
+    time.sleep(DELAY)
+    pyautogui.press('enter')
+    time.sleep(DELAY)
+    pyautogui.hotkey('alt', 'f')  # finish
+    time.sleep(DELAY)
+    pyautogui.press('enter')
+
+    # Set Unit, UnitSetting
+    time.sleep(DELAY)
+    pyautogui.hotkey('alt', 'e')  # Edit
+    pyautogui.press('u')  # unit
+    time.sleep(DELAY)
+    pyautogui.hotkey('alt', 't')  # time
+    pyautogui.press('m')  # unit
+    time.sleep(DELAY)
+    pyautogui.press('enter')
+    time.sleep(DELAY)
+    # End Set Unit
+
+    # Automatic Match
+    time.sleep(DELAY)
+    pyautogui.hotkey('alt', 'm')  # match
+    pyautogui.press('u')  # automatic
+    time.sleep(DELAY)
+    pyautogui.press('enter')
+    time.sleep(DELAY)
+    pyautogui.press('enter')
+    time.sleep(DELAY)
+    pyautogui.press('enter')
+    time.sleep(DELAY)
+    # Automatic Match
+
+    result = capture_in_main_screen()
+
+    # AqtSolv Program Close
+    pyautogui.hotkey('ctrl', 's')  # match
+    time.sleep(DELAY)
+    pyautogui.hotkey('alt', 'f4')  # match
+    time.sleep(DELAY)
+    # AqtSolv Program Close
+
+    return [result[0], result[1]]
+
+
+def main():
+    result = AqtesolverMain("d:\\05_Send\\w1_01_step.aqt")
+    print(result)
+
+
+if __name__ == '__main__':
+    main()
