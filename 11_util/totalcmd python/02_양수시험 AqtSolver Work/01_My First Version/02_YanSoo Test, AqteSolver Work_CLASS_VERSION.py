@@ -39,6 +39,12 @@ class AQTBASE:
         self.DEBUG_YES = False
         self.DELAY = 0.5
         self.IS_BLOCK = False
+        """
+        self.IS_BLOCK = False :
+         because while run the program cause block or wait for user input
+         then cann't do anything
+         so it must be False, userinput allowed ...
+        """
 
 
 class FileProcessing(AQTBASE):
@@ -50,10 +56,19 @@ class FileProcessing(AQTBASE):
 
     @property
     def directory(self):
+        """
+        directory , getter ...
+        :return:
+        """
         return self._directory
 
     @directory.setter
     def directory(self, value) -> None:
+        """
+        directory , setter
+        :param value: setting directory to
+        :return: void
+        """
         if self._directory != value:  # if _directory changed then refresh files
             self._directory = value
             self.files = os.listdir(value)
@@ -89,6 +104,7 @@ class FileProcessing(AQTBASE):
 
     def get_xlsm_filter(self, path="d:\\05_Send\\", sfilter="*_ge_OriginalSaveFile.xlsm") -> list:
         """
+        :param sfilter:
         :param path: the directory where the filter will run
         :paramsfilter: string to filter
         :return:
@@ -97,6 +113,11 @@ class FileProcessing(AQTBASE):
         """
 
         self.set_directory(path)
+        """ 
+            set directory to work
+            and refresh files : file list in the path
+            so xlsm, aqt, dat files retrived ...         
+        """
         xl_files = self.get_xlsm_files()
 
         xlsmfiles = fnmatch.filter(xl_files, sfilter)
@@ -110,13 +131,15 @@ class FileProcessing(AQTBASE):
 
         :param file_name: filename
         :return:
+            head --> file path
+            tail --> file
         """
         head, tail = os.path.split(file_name)
+        print(f"head :'{head}'  tail : {tail}  includes a path. Performing action...")
+
         if head:
-            # print(f"The filename '{tail}' includes a path. Performing action...")
             return True
         else:
-            # print(f"The filename '{tail}' does not include a path.")
             return False
 
     @staticmethod
@@ -148,7 +171,7 @@ class FileProcessing(AQTBASE):
     @staticmethod
     def move_file(source, destination) -> None:
         """
-            move file source to destination
+        move file source to destination
 
         :param source:
         :param destination:
@@ -186,7 +209,6 @@ class FileProcessing(AQTBASE):
 
         for file in datfiles:
             self.move_file(self.DOCUMENTS + file, self.DESTINATION + file)
-
 
 
 class InjetValueToSheet(FileProcessing):
