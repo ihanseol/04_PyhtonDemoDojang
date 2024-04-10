@@ -32,28 +32,46 @@ ISAQTOPEN = False
 
 DIRECTORY = "d:\\05_Send\\"
 DOCUMENTS = "c:\\Users\\minhwasoo\\Documents\\"
-DELAY = 0.5
+DELAY = 0.6
 IS_BLOCK = True
 
 
 def after_process(text):
-    def replace_comma_to_dot(text):
-        if ',' in text:
-            text = text.replace(',', '.')
-        if ' ' in text:
-            text = text.replace(' ', '.')
+    def replace_comma_to_dot(_text) -> str:
+        _text = _text.replace('\n', '')
+        print(f'replace comma to dot before -> {_text}')
+
+        if ',' in _text:
+            _text = _text.replace(',', '.')
+        if ' ' in _text and not ('m' in _text):
+            _text = _text.replace(' ', '.')
+
+        if _text.count(".") >= 2:
+            cleaned_number = _text.replace(".", "")
+            formatted_number = "0." + cleaned_number[1:]
+        else:
+            formatted_number = _text
+
+        if formatted_number.count(".") != 1:
+            formatted_number = move_decimal(formatted_number)
 
         # print('after :', text)
-        return text
+        print(f'replace comma to dot after ->  {formatted_number}')
+        return formatted_number
 
-    def extract_real_numbers(text):
+    def extract_real_numbers(_text) -> float:
         pattern = r'[-+]?\d*\.\d+|\d+'  # This pattern matches floating-point numbers or integers
-        real_numbers = re.findall(pattern, text)
+        real_numbers = re.findall(pattern, _text)
 
         real_numbers = [float(number) for number in real_numbers]
         numeric_value = float(real_numbers[0])
 
         return numeric_value
+
+    def move_decimal(num_str):
+        if len(num_str) == 1:
+            return "0." + num_str
+        return num_str[:1] + '.' + num_str[1:]
 
     text = replace_comma_to_dot(text)
     return extract_real_numbers(text)
@@ -84,8 +102,8 @@ def change_window(name_title) -> None:
 # capture in Main Screen
 def capture_in_main_screen():
     screen_2560x1440 = [
-        ([1026, 263, 144, 24], 'screenshot_01_T.jpg'),
-        ([1026, 282, 144, 24], 'screenshot_02_S.jpg')
+        ([1062, 263, 90, 21], 'screenshot_01_T.jpg'),
+        ([1062, 284, 90, 19], 'screenshot_02_S.jpg')
     ]
 
     screen_1920x1200 = [
@@ -155,35 +173,35 @@ def read_text_from_image(image_path, use_english=False):
 
 # ------------------------------------------------------------------------------------------------------------
 
-def extract_number(s):
-    return int(re.findall(r'\d+', s)[0])
+def extract_number(s) -> int:
+    if has_path(s):
+        s = os.path.basename(s)
+
+    numbers = re.findall(r'\d+', s)
+    if numbers:  # Check if numbers were found
+        return int(numbers[0])  # Return the last number found
+    else:
+        return False  # Return None if no numbers were found
 
 
 def has_path(file_name) -> bool:
     head, tail = os.path.split(file_name)
-
     if head:
-        # print(f"The filename '{tail}' includes a path. Performing action...")
         return True
     else:
-        # print(f"The filename '{tail}' does not include a path.")
         return False
 
 
 def open_aqt(file_name) -> int:
-    if has_path(file_name):
-        if os.path.exists(file_name):
-            os.startfile(file_name)
-            print(f"open aqtsolver : {file_name} ....")
-        else:
-            print("The file does not exist.")
-            raise
+    if not has_path(file_name):
+        file_name = DIRECTORY + file_name
 
-    if has_path(file_name):
-        fn = os.path.basename(file_name)
-        well = extract_number(fn)
+    if os.path.exists(file_name):
+        os.startfile(file_name)
+        print(f"open aqtsolver : {file_name} ....")
     else:
-        well = extract_number(file_name)
+        print("The file does not exist.")
+        raise
 
     time.sleep(1)
 
@@ -192,31 +210,31 @@ def open_aqt(file_name) -> int:
     else:
         pyautogui.click(x=1126, y=94)  # maximize sub window 1920x1200
 
+    well = extract_number(file_name)
     time.sleep(0.5)
+
     return well
 
 
-def maxmize_aqtsolv() -> None:
-    win = pyautogui.getWindowsWithTitle('AQTESOLV')[0]
-    if not win.isActive:
-        win.activate()
-    if not win.isMaximized:
-        win.maximize()
+#
+# def maxmize_aqtsolv() -> None:
+#     win = pyautogui.getWindowsWithTitle('AQTESOLV')[0]
+#     if not win.isActive:
+#         win.activate()
+#     if not win.isMaximized:
+#         win.maximize()
 
 
-def AqtesolverMain(file_name, running_step=1) -> object:
-    def determine_runningstep(fname) -> int:
-        if os.path.exists(fname):
-            if "step" in fname:
-                return 1
-            elif "janggi_01" in fname:
-                return 2
-            elif "janggi_02" in fname:
-                return 3
-            else:
-                return 4
-        else:
+def AqtesolverMain(file_name) -> list:
+    def determine_runningstep(_file_name) -> int:
+        if "step" in _file_name:
             return 1
+        elif "02_long.aqt" in _file_name:
+            return 2
+        elif "02_long_01.aqt" in _file_name:
+            return 3
+        else:
+            return 4
 
     well = open_aqt(file_name)
     running_step = determine_runningstep(file_name)
@@ -231,8 +249,8 @@ def AqtesolverMain(file_name, running_step=1) -> object:
         case (4):
             dat_file = f"A{well}_ge_recover_01.dat"
         case _:
-            dat_file = f"A{well}_ge_step_01.dat"
             print('Match case exception ...')
+            raise FileNotFoundError("cannot determin dat_file ...")
 
     # import data
     pyautogui.click(x=42, y=33)  # file
@@ -284,17 +302,18 @@ def AqtesolverMain(file_name, running_step=1) -> object:
     result = capture_in_main_screen()
 
     # AqtSolv Program Close
+    time.sleep(1)
     pyautogui.hotkey('ctrl', 's')  # match
-    time.sleep(DELAY)
+    time.sleep(1)
     pyautogui.hotkey('alt', 'f4')  # match
-    time.sleep(DELAY)
+    time.sleep(1)
     # AqtSolv Program Close
 
     return result
 
 
 def main():
-    result = AqtesolverMain("d:\\05_Send\\w1_01_step.aqt")
+    result = AqtesolverMain(r"d:\05_Send\w1_02_long.aqt")
     print(result)
 
 

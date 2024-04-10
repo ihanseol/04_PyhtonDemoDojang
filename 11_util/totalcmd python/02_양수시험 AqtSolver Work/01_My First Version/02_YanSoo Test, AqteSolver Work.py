@@ -28,10 +28,9 @@ DIRECTORY = "d:\\05_Send\\"
 DOCUMENTS = "c:\\Users\\minhwasoo\\Documents\\"
 destination_folder = "d:\\06_Send2\\"
 
-ISAQTOPEN = False
-DEBUG_YES = False
+DEBUG_YES = True
 DELAY = 0.5
-IS_BLOCK = True
+IS_BLOCK = False
 
 
 def extract_number(s):
@@ -94,9 +93,9 @@ def initial_clear():
     aqtfiles = [f for f in files if f.endswith('.aqt')]
     datfiles = [f for f in files if f.endswith('.dat')]
 
-    def delete_files(files):
-        if files:
-            for file in files:
+    def delete_files(_files):
+        if _files:
+            for file in _files:
                 print(file)
                 if os.path.exists(folder_path + file):
                     os.remove(folder_path + file)
@@ -123,90 +122,96 @@ def click_excel_button(ws, button_name):
 
 def inject_value_to_sheet(file_path, file_name, well):
     try:
-        def duplicate_file(well):
-            dest_file = DIRECTORY + f"w{well}_02_long_01.aqt"
-            shutil.copyfile(DIRECTORY + f"w{well}_02_long.aqt", dest_file)
+        def duplicate_file(_well):
+            dest_file = DIRECTORY + f"w{_well}_02_long_01.aqt"
+            shutil.copyfile(DIRECTORY + f"w{_well}_02_long.aqt", dest_file)
 
-        def InjecttionStep(ws_step):
+        def InjecttionStep(_ws_step):
             print('**************************************************')
             print('*  StepTest Starting ....                        *')
             print('**************************************************')
 
-            ws_step.Activate()
+            _ws_step.Activate()
             os.chdir(DIRECTORY)
 
-            click_excel_button(ws_step, "CommandButton1")
-            if DEBUG_YES: print('Step.Select,  StepPrn_Button1')
+            click_excel_button(_ws_step, "CommandButton1")
+            if DEBUG_YES:
+                print('Step.Select,  StepPrn_Button1')
             time.sleep(1)
-            val_T, val_S = GetTS.AqtesolverMain(f"w{well}_01_step.aqt", 1)
-
+            val_T, val_S = GetTS.AqtesolverMain(f"w{well}_01_step.aqt")
+            time.sleep(1)
             print(val_T, val_S)
 
-        def InjecttionLongTest_01(ws_janggi, ws_skin):
+        def InjecttionLongTest_01(_ws_janggi, _ws_skin):
             print('**************************************************')
             print('*  LongTermTest Phase 1 Starting ....            *')
             print('**************************************************')
 
             # 장기 1단계 양수시험, T,S 구하기
-            ws_janggi.Activate()
+            _ws_janggi.Activate()
 
             # toggle radius click
-            click_excel_button(ws_janggi, "CommandButton4")
-            if DEBUG_YES: print('Janggi.Select,  ToggleRadius_Button4')
+            click_excel_button(_ws_janggi, "CommandButton4")
+            if DEBUG_YES:
+                print('Janggi.Select,  ToggleRadius_Button4')
             time.sleep(1)
 
-            click_excel_button(ws_janggi, "CommandButton1")
-            if DEBUG_YES: print('Janggi.Select,  JangGi*01_Button1')
+            click_excel_button(_ws_janggi, "CommandButton1")
+            if DEBUG_YES:
+                print('Janggi.Select,  JangGi*01_Button1')
             time.sleep(1)
 
-            val_T, val_S = GetTS.AqtesolverMain(f"w{well}_02_long.aqt", 2)
+            val_T, val_S = GetTS.AqtesolverMain(f"w{well}_02_long.aqt")
             print(val_T, val_S)
 
-            ws_skin.Activate()
-            ws_skin.Range("D5").Value = val_T
-            ws_skin.Range("E10").Value = val_S
+            _ws_skin.Activate()
+            _ws_skin.Range("D5").Value = val_T
+            _ws_skin.Range("E10").Value = val_S
             time.sleep(1)
 
-        def InjecttionLongTest_02(ws_janggi, ws_skin):
+        def InjecttionLongTest_02(_ws_janggi, _ws_skin):
             print('**************************************************')
             print('*  LongTermTest Phase 2 Starting ....            *')
             print('**************************************************')
 
             # 장기 2단계 양수시험, T,S 구하기
-            ws_janggi.Activate()
-            click_excel_button(ws_janggi, "CommandButton2")
-            if DEBUG_YES: print('Janggi.Select,  JangGi*02_Button2')
+            _ws_janggi.Activate()
+            click_excel_button(_ws_janggi, "CommandButton2")
+            if DEBUG_YES:
+                print('Janggi.Select,  JangGi*02_Button2')
             time.sleep(1)
-            val_T, val_S = GetTS.AqtesolverMain(f"w{well}_02_long_01.aqt", 3)
+            val_T, val_S = GetTS.AqtesolverMain(f"w{well}_02_long_01.aqt")
             print(val_T, val_S)
 
-            ws_skin.Activate()
-            ws_skin.Range("I16").Value = val_S
-            time.sleep(0.5)
+            _ws_skin.Activate()
+            _ws_skin.Range("I16").Value = val_S
+            time.sleep(1)
 
-        def InjectionRecover(ws_recover, ws_skin):
+        def InjectionRecover(_ws_recover, _ws_skin):
             print('**************************************************')
             print('*  RecoverTest Starting ....                     *')
             print('**************************************************')
 
             # 회복 양수시험, T,S 구하기
-            ws_recover.Activate()
-            click_excel_button(ws_recover, "CommandButton1")
-            if DEBUG_YES: print('Recover.Select,  Recover Prn_Button1')
+            _ws_recover.Activate()
+            click_excel_button(_ws_recover, "CommandButton1")
+            if DEBUG_YES:
+                print('Recover.Select,  Recover Prn_Button1')
             time.sleep(1)
-            val_T, val_S = GetTS.AqtesolverMain(f"w{well}_03_recover.aqt", 4)
+            val_T, val_S = GetTS.AqtesolverMain(f"w{well}_03_recover.aqt")
             print(val_T, val_S)
 
-            ws_skin.Activate()
-            ws_skin.Range("H13").Value = val_T
-            ws_skin.Range("I13").Value = val_S
-            time.sleep(0.5)
+            _ws_skin.Activate()
+            _ws_skin.Range("H13").Value = val_T
+            _ws_skin.Range("I13").Value = val_S
 
-        def IsStepFileExist(well):
+
+        def IsStepFileExist(_well):
             # w1_01_step.aqt
+            os.chdir(DIRECTORY)
             files = os.listdir()
             aqtfiles = [f for f in files if f.endswith('.aqt')]
-            aqtfiles = fnmatch.filter(aqtfiles, f"w{well}_01_step.aqt")
+            aqtfiles = fnmatch.filter(aqtfiles, f"w{_well}_01_step.aqt")
 
             if aqtfiles:
                 return True
@@ -237,6 +242,8 @@ def inject_value_to_sheet(file_path, file_name, well):
         InjecttionLongTest_02(ws_janggi, ws_skin)
         InjectionRecover(ws_recover, ws_skin)
 
+        time.sleep(3)
+
         # click_excel_button(ws_recover, "CommandButton2")
 
         excel.ScreenUpdating = True
@@ -253,8 +260,6 @@ def inject_value_to_sheet(file_path, file_name, well):
         finally:
             wb.Close(SaveChanges=True)
             excel.Quit()
-            excel = None
-
 
     except Exception as e:
         print(f"An error occurred, {file_name} : ", e)

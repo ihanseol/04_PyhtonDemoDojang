@@ -33,6 +33,7 @@ from screeninfo import get_monitors
 class AQTbase:
     def __init__(self):
         self.program_path = r'C:\WHPA\AQTEver3.4(170414)\AQTW32.EXE'
+        self.IMG_SAVE_PATH = "c:\\Users\\minhwasoo\\Documents\\Downloads\\"
         self.directory = "d:\\05_Send\\"
         self.documents = "c:\\Users\\minhwasoo\\Documents\\"
         self.delay = 0.5
@@ -72,37 +73,51 @@ class CaptureScreen(AQTbase):
 
     def read_text_from_image(self, image_path, use_english=False):
         image_path = self.resize_image(image_path)
+        print(f" read_text_from_image : resized image path --> {image_path}")
 
         img = cv2.imread(image_path)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         processed_image_path = f"{image_path}_processed.jpg"
         cv2.imwrite(processed_image_path, gray)
+        print(f" read_text_from_image : resized processed_image path --> {image_path}")
 
         config = self.get_tesseract_config(use_english)
         text = pytesseract.image_to_string(Image.open(processed_image_path), config=config)
 
         return text
 
-    @staticmethod
-    def replace_comma_to_dot(text) -> str:
-        if ',' in text:
-            text = text.replace(',', '.')
-        if ' ' in text and not ('m' in text):
-            text = text.replace(' ', '.')
+    def replace_comma_to_dot(self, _text) -> str:
+        _text = _text.replace('\n', '')
+        print(f'replace comma to dot before -> {_text}')
 
-        if text.count(".") >= 2:
-            cleaned_number = text.replace(".", "")
-            formatted_number = "0." + cleaned_number
+        if ',' in _text:
+            _text = _text.replace(',', '.')
+        if ' ' in _text and not ('m' in _text):
+            _text = _text.replace(' ', '.')
+
+        if _text.count(".") >= 2:
+            cleaned_number = _text.replace(".", "")
+            formatted_number = "0." + cleaned_number[1:]
         else:
-            formatted_number = text
+            formatted_number = _text
+
+        if formatted_number.count(".") != 1:
+            formatted_number = self.move_decimal(formatted_number)
 
         # print('after :', text)
+        print(f'replace comma to dot after ->  {formatted_number}')
         return formatted_number
 
     @staticmethod
-    def extract_real_numbers(text) -> float:
+    def move_decimal(num_str):
+        if len(num_str) == 1:
+            return "0." + num_str
+        return num_str[:1] + '.' + num_str[1:]
+
+    @staticmethod
+    def extract_real_numbers(_text) -> float:
         pattern = r'[-+]?\d*\.\d+|\d+'  # This pattern matches floating-point numbers or integers
-        real_numbers = re.findall(pattern, text)
+        real_numbers = re.findall(pattern, _text)
 
         real_numbers = [float(number) for number in real_numbers]
         numeric_value = float(real_numbers[0])
@@ -149,9 +164,10 @@ class CaptureScreen(AQTbase):
 
         result = []
         for i, (area, filename) in enumerate(areas_filenames, 1):
-            self.capture_area_to_file(area, filename)
-            text = self.read_text_from_image(filename, use_english=True)
+            self.capture_area_to_file(area, self.IMG_SAVE_PATH + filename)
+            text = self.read_text_from_image(self.IMG_SAVE_PATH + filename, use_english=True)
             result.append(text)
+            time.sleep(3)
             print(text)
 
         val_T = self.after_process(result[0])
@@ -315,4 +331,4 @@ class AQTProcessor(AQTbase):
 # To run the program
 if __name__ == '__main__':
     aqt_processor = AQTProcessor()
-    print(aqt_processor.AqtesolverMain("d:\\05_Send\\w1_02_long_01.aqt"))
+    print(aqt_processor.AqtesolverMain(r"d:\05_Send\w3_02_long_01.aqt"))
