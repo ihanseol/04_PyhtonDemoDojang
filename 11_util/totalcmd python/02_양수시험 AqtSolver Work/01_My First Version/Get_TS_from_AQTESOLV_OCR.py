@@ -32,6 +32,7 @@ ISAQTOPEN = False
 
 DIRECTORY = "d:\\05_Send\\"
 DOCUMENTS = "c:\\Users\\minhwasoo\\Documents\\"
+IMG_SAVE_PATH = "c:\\Users\\minhwasoo\\Documents\\Downloads\\"
 DELAY = 0.6
 IS_BLOCK = True
 
@@ -66,7 +67,7 @@ def after_process(text):
         real_numbers = [float(number) for number in real_numbers]
         numeric_value = float(real_numbers[0])
 
-        return numeric_value
+        return abs(numeric_value)
 
     def move_decimal(num_str):
         if len(num_str) == 1:
@@ -100,15 +101,15 @@ def change_window(name_title) -> None:
 
 
 # capture in Main Screen
-def capture_in_main_screen():
+def capture_in_main_screen(well, step):
     screen_2560x1440 = [
         ([1062, 263, 90, 21], 'screenshot_01_T.jpg'),
-        ([1062, 284, 90, 19], 'screenshot_02_S.jpg')
+        ([1062, 284, 90, 21], 'screenshot_02_S.jpg')
     ]
 
     screen_1920x1200 = [
-        ([917, 263, 49, 22], 'screenshot_01_T.jpg'),
-        ([917, 283, 76, 16], 'screenshot_02_S.jpg')
+        ([917, 263, 60, 22], 'screenshot_01_T.jpg'),
+        ([917, 283, 88, 22], 'screenshot_02_S.jpg')
     ]
 
     if get_screen_width() == 2560:
@@ -120,8 +121,11 @@ def capture_in_main_screen():
 
     result = []
     for i, (area, filename) in enumerate(areas_filenames, 1):
-        capture_area_to_file(area, filename)
-        text = read_text_from_image(filename, use_english=True)
+        # capture_area_to_file(area, filename)
+        # text = read_text_from_image(filename, use_english=True)
+        #
+        capture_area_to_file(area, IMG_SAVE_PATH + f"w{well}_{step}_" + filename)
+        text = read_text_from_image(IMG_SAVE_PATH + f"w{well}_{step}_" + filename, use_english=True)
         result.append(text)
         print(text)
 
@@ -158,16 +162,25 @@ def resize_image(image_path) -> str:
 
 
 def read_text_from_image(image_path, use_english=False):
-    image_path = resize_image(image_path)
+    """
+        in here teserect image scaling result is not good
+        image ocr recognition is bad result
+        so use it original image
+
+    """
+
+    # image_path = resize_image(image_path)
 
     img = cv2.imread(image_path)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    processed_image_path = f"{image_path}_processed.jpg"
-    cv2.imwrite(processed_image_path, gray)
+    # processed_image_path = f"{image_path}_processed.jpg"
+    # cv2.imwrite(processed_image_path, gray)
 
+    cv2.imwrite(image_path, gray)
     config = get_tesseract_config(use_english)
-    text = pytesseract.image_to_string(Image.open(processed_image_path), config=config)
+    # text = pytesseract.image_to_string(Image.open(processed_image_path), config=config)
 
+    text = pytesseract.image_to_string(Image.open(image_path), config=config)
     return text
 
 
@@ -186,6 +199,8 @@ def extract_number(s) -> int:
 
 def has_path(file_name) -> bool:
     head, tail = os.path.split(file_name)
+    print(f"The filename head :'{head}'  tail : {tail}  includes a path. Performing action...")
+
     if head:
         return True
     else:
@@ -241,12 +256,16 @@ def AqtesolverMain(file_name) -> list:
 
     match running_step:
         case (1):
+            step = 1
             dat_file = f"A{well}_ge_step_01.dat"
         case (2):
+            step = 2
             dat_file = f"A{well}_ge_janggi_01.dat"
         case (3):
+            step = 3
             dat_file = f"A{well}_ge_janggi_02.dat"
         case (4):
+            step = 4
             dat_file = f"A{well}_ge_recover_01.dat"
         case _:
             print('Match case exception ...')
@@ -299,7 +318,7 @@ def AqtesolverMain(file_name) -> list:
     time.sleep(DELAY)
     # Automatic Match
 
-    result = capture_in_main_screen()
+    result = capture_in_main_screen(well, step)
 
     # AqtSolv Program Close
     time.sleep(1)

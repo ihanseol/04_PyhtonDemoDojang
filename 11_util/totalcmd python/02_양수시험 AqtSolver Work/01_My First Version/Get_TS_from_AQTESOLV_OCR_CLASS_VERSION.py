@@ -72,17 +72,28 @@ class CaptureScreen(AQTbase):
         return resized_image_path
 
     def read_text_from_image(self, image_path, use_english=False):
-        image_path = self.resize_image(image_path)
-        print(f" read_text_from_image : resized image path --> {image_path}")
+        """
+            in here teserect image scaling result is not good
+            image ocr recognition is bad result
+            so use it original image
+
+        """
+
+        # image_path = self.resize_image(image_path)
+        # print(f" read_text_from_image : resized image path --> {image_path}")
 
         img = cv2.imread(image_path)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        processed_image_path = f"{image_path}_processed.jpg"
-        cv2.imwrite(processed_image_path, gray)
+        # processed_image_path = f"{image_path}_processed.jpg"
+        # cv2.imwrite(processed_image_path, gray)
+
+        cv2.imwrite(image_path, gray)
         print(f" read_text_from_image : resized processed_image path --> {image_path}")
 
         config = self.get_tesseract_config(use_english)
-        text = pytesseract.image_to_string(Image.open(processed_image_path), config=config)
+        # text = pytesseract.image_to_string(Image.open(processed_image_path), config=config)
+
+        text = pytesseract.image_to_string(Image.open(image_path), config=config)
 
         return text
 
@@ -126,7 +137,8 @@ class CaptureScreen(AQTbase):
 
     def after_process(self, text) -> float:
         text = self.replace_comma_to_dot(text)
-        return self.extract_real_numbers(text)
+        num = abs(self.extract_real_numbers(text))
+        return num
 
     @staticmethod
     def get_screen_width() -> int:
@@ -144,15 +156,15 @@ class CaptureScreen(AQTbase):
         else:
             print(f"No {name_title} found.")
 
-    def capture_in_main_screen(self) -> object:
+    def capture_in_main_screen(self, well, step) -> object:
         screen_2560x1440 = [
             ([1062, 263, 90, 21], 'screenshot_01_T.jpg'),
-            ([1062, 284, 90, 19], 'screenshot_02_S.jpg')
+            ([1062, 284, 90, 21], 'screenshot_02_S.jpg')
         ]
 
         screen_1920x1200 = [
-            ([917, 263, 49, 22], 'screenshot_01_T.jpg'),
-            ([917, 283, 76, 16], 'screenshot_02_S.jpg')
+            ([917, 263, 60, 22], 'screenshot_01_T.jpg'),
+            ([917, 283, 88, 22], 'screenshot_02_S.jpg')
         ]
 
         if self.get_screen_width() == 2560:
@@ -164,10 +176,10 @@ class CaptureScreen(AQTbase):
 
         result = []
         for i, (area, filename) in enumerate(areas_filenames, 1):
-            self.capture_area_to_file(area, self.IMG_SAVE_PATH + filename)
-            text = self.read_text_from_image(self.IMG_SAVE_PATH + filename, use_english=True)
+            self.capture_area_to_file(area, self.IMG_SAVE_PATH + f"w{well}_{step}_" + filename)
+            text = self.read_text_from_image(self.IMG_SAVE_PATH + f"w{well}_{step}_" + filename, use_english=True)
             result.append(text)
-            time.sleep(3)
+            # time.sleep(3)
             print(text)
 
         val_T = self.after_process(result[0])
@@ -254,12 +266,11 @@ class AQTProcessor(AQTbase):
     @staticmethod
     def has_path(file_name) -> bool:  # if file_name include path like c:\\user\\this ...
         head, tail = os.path.split(file_name)
+        print(f"The filename head :'{head}'  tail : {tail}  includes a path. Performing action...")
 
         if head:
-            # print(f"The filename '{tail}' includes a path. Performing action...")
             return True
         else:
-            # print(f"The filename '{tail}' does not include a path.")
             return False
 
     @staticmethod
@@ -310,19 +321,23 @@ class AQTProcessor(AQTbase):
 
         match running_step:
             case (1):
+                step = 1
                 dat_file = f"A{well}_ge_step_01.dat"
             case (2):
+                step = 2
                 dat_file = f"A{well}_ge_janggi_01.dat"
             case (3):
+                step = 3
                 dat_file = f"A{well}_ge_janggi_02.dat"
             case (4):
+                step = 4
                 dat_file = f"A{well}_ge_recover_01.dat"
             case _:
                 print('Match case exception ...')
                 raise FileNotFoundError("cannot determin dat_file ...")
 
         self.auto_script.run_script(dat_file)
-        result = self.auto_capture.capture_in_main_screen()
+        result = self.auto_capture.capture_in_main_screen(well, step)
         self.auto_script.close_program()
 
         return result
