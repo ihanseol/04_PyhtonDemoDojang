@@ -1,4 +1,4 @@
-#********************************************************************************************
+# ********************************************************************************************
 # 2024.3.25
 # 이파일을 양수시험 2단계 로서
 # 필요한것은, 양수시험 XLSM 파일과, AQTESOLVER FIle 3가지가 필요하다. 단계 , 장기, 회복
@@ -11,7 +11,7 @@
 # 그 엑셀파일을, 다시 저장하게 된다.
 # 단 한가지, 엑셀파일 저장은 수작업으로 해야한다.
 #
-#********************************************************************************************
+# ********************************************************************************************
 
 import win32com.client as win32
 import time
@@ -21,7 +21,7 @@ import shutil
 import fnmatch
 import ctypes
 from natsort import natsorted
-import GetTSAqtSolverStepTest as GetTS
+import Get_TS_from_AQTESOLV_OCR as GetTS
 
 PROGRAM_PATH = r'C:\WHPA\AQTEver3.4(170414)\AQTW32.EXE'
 DIRECTORY = "d:\\05_Send\\"
@@ -120,6 +120,7 @@ def click_excel_button(ws, button_name):
     if button:
         button.Object.Value = True
 
+
 def inject_value_to_sheet(file_path, file_name, well):
     try:
         def duplicate_file(well):
@@ -166,7 +167,6 @@ def inject_value_to_sheet(file_path, file_name, well):
             ws_skin.Range("E10").Value = val_S
             time.sleep(1)
 
-
         def InjecttionLongTest_02(ws_janggi, ws_skin):
             print('**************************************************')
             print('*  LongTermTest Phase 2 Starting ....            *')
@@ -203,7 +203,7 @@ def inject_value_to_sheet(file_path, file_name, well):
             time.sleep(0.5)
 
         def IsStepFileExist(well):
-            #w1_01_step.aqt
+            # w1_01_step.aqt
             files = os.listdir()
             aqtfiles = [f for f in files if f.endswith('.aqt')]
             aqtfiles = fnmatch.filter(aqtfiles, f"w{well}_01_step.aqt")
@@ -213,13 +213,12 @@ def inject_value_to_sheet(file_path, file_name, well):
             else:
                 return False
 
-
-
         excel = win32.gencache.EnsureDispatch('Excel.Application')
         excel.ScreenUpdating = False
         wb = excel.Workbooks.Open(file_path + file_name)
         excel.Visible = True
 
+        # 여기서 well 은 숫자, 공별숫자이다.
         duplicate_file(well)
 
         # StepTest

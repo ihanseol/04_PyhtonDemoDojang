@@ -84,17 +84,23 @@ class CaptureScreen(AQTbase):
         return text
 
     @staticmethod
-    def replace_comma_to_dot(text):
+    def replace_comma_to_dot(text) -> str:
         if ',' in text:
             text = text.replace(',', '.')
-        if ' ' in text:
+        if ' ' in text and not ('m' in text):
             text = text.replace(' ', '.')
 
+        if text.count(".") >= 2:
+            cleaned_number = text.replace(".", "")
+            formatted_number = "0." + cleaned_number
+        else:
+            formatted_number = text
+
         # print('after :', text)
-        return text
+        return formatted_number
 
     @staticmethod
-    def extract_real_numbers(text):
+    def extract_real_numbers(text) -> float:
         pattern = r'[-+]?\d*\.\d+|\d+'  # This pattern matches floating-point numbers or integers
         real_numbers = re.findall(pattern, text)
 
@@ -103,7 +109,7 @@ class CaptureScreen(AQTbase):
 
         return numeric_value
 
-    def after_process(self, text):
+    def after_process(self, text) -> float:
         text = self.replace_comma_to_dot(text)
         return self.extract_real_numbers(text)
 
@@ -125,8 +131,8 @@ class CaptureScreen(AQTbase):
 
     def capture_in_main_screen(self) -> object:
         screen_2560x1440 = [
-            ([1026, 263, 144, 24], 'screenshot_01_T.jpg'),
-            ([1026, 282, 144, 24], 'screenshot_02_S.jpg')
+            ([1062, 263, 90, 21], 'screenshot_01_T.jpg'),
+            ([1062, 284, 90, 19], 'screenshot_02_S.jpg')
         ]
 
         screen_1920x1200 = [
@@ -230,7 +236,7 @@ class AQTProcessor(AQTbase):
         return screen.width
 
     @staticmethod
-    def has_path(file_name) -> bool:   # if file_name include path like c:\\user\\this ...
+    def has_path(file_name) -> bool:  # if file_name include path like c:\\user\\this ...
         head, tail = os.path.split(file_name)
 
         if head:
@@ -273,9 +279,9 @@ class AQTProcessor(AQTbase):
         if os.path.exists(file_name):
             if "step" in file_name:
                 return 1
-            elif "janggi_01" in file_name:
+            elif "02_long.aqt" in file_name:
                 return 2
-            elif "janggi_02" in file_name:
+            elif "02_long_01.aqt" in file_name:
                 return 3
             else:
                 return 4
@@ -296,7 +302,6 @@ class AQTProcessor(AQTbase):
             case (4):
                 dat_file = f"A{well}_ge_recover_01.dat"
             case _:
-                dat_file = f"A{well}_ge_step_01.dat"
                 print('Match case exception ...')
                 raise FileNotFoundError("cannot determin dat_file ...")
 
@@ -310,4 +315,4 @@ class AQTProcessor(AQTbase):
 # To run the program
 if __name__ == '__main__':
     aqt_processor = AQTProcessor()
-    print(aqt_processor.AqtesolverMain("d:\\05_Send\\w1_01_step.aqt"))
+    print(aqt_processor.AqtesolverMain("d:\\05_Send\\w1_02_long_01.aqt"))
