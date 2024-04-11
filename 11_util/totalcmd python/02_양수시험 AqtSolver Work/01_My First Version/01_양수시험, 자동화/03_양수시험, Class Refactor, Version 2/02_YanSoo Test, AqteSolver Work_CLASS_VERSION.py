@@ -212,7 +212,6 @@ class FileProcessing(AQTBASE):
 class InjetValueToSheet(FileProcessing):
     def __init__(self):
         super().__init__()
-        self.getTS = GetTS.AQTProcessor()
 
     @staticmethod
     def click_excel_button(ws, button_name):
@@ -256,7 +255,9 @@ class InjetValueToSheet(FileProcessing):
         if self.DEBUG_YES:
             print('Step.Select,  StepPrn_Button1')
         time.sleep(1)
-        val_T, val_S = self.getTS.AqtesolverMain(file_name=self.SEND + f"w{well}_01_step.aqt")
+
+        getTS = GetTS.AQTProcessor('auto')
+        val_T, val_S = getTS.AqtesolverMain(file_name=self.SEND + f"w{well}_01_step.aqt")
 
         print(val_T, val_S)
 
@@ -279,7 +280,8 @@ class InjetValueToSheet(FileProcessing):
             print('Janggi.Select,  JangGi*01_Button1')
         time.sleep(1)
 
-        val_T, val_S = self.getTS.AqtesolverMain(file_name=self.SEND + f"w{well}_02_long.aqt")
+        getTS = GetTS.AQTProcessor('auto')
+        val_T, val_S = getTS.AqtesolverMain(file_name=self.SEND + f"w{well}_02_long.aqt")
         print(val_T, val_S)
 
         ws_skin.Activate()
@@ -299,14 +301,15 @@ class InjetValueToSheet(FileProcessing):
             print('Janggi.Select,  JangGi*02_Button2')
         time.sleep(1)
 
-        val_T, val_S = self.getTS.AqtesolverMain(file_name=self.SEND + f"w{well}_02_long_01.aqt")
+        getTS = GetTS.AQTProcessor('auto')
+        val_T, val_S = getTS.AqtesolverMain(file_name=self.SEND + f"w{well}_02_long_01.aqt")
         print(val_T, val_S)
 
         ws_skin.Activate()
         ws_skin.Range("I16").Value = val_S
         time.sleep(0.5)
 
-    def InjectionRecover(self, well, ws_recover, ws_skin):
+    def InjectionRecover(self, well, ws_recover, ws_skin, mode='auto'):
         print('**************************************************')
         print(f'* W{well} - RecoverTest Starting')
         print('**************************************************')
@@ -317,7 +320,14 @@ class InjetValueToSheet(FileProcessing):
         if self.DEBUG_YES:
             print('Recover.Select,  Recover Prn_Button1')
         time.sleep(1)
-        val_T, val_S = self.getTS.AqtesolverMain(file_name=self.SEND + f"w{well}_03_recover.aqt")
+
+        if mode == 'mannual':
+            getTS = GetTS.AQTProcessor('mannual')
+            val_T, val_S = getTS.AqtesolverMain(file_name=self.SEND + f"w{well}_03_recover.aqt")
+        else:
+            getTS = GetTS.AQTProcessor('auto')
+            val_T, val_S = getTS.AqtesolverMain(file_name=self.SEND + f"w{well}_03_recover.aqt")
+
         print(val_T, val_S)
 
         ws_skin.Activate()
@@ -350,10 +360,17 @@ class InjetValueToSheet(FileProcessing):
         pyautogui.hotkey(ctrl_key, key)
         time.sleep(self.DELAY)
 
-    def main_process(self, well):
+    def main_process(self, well, Mode=1) -> None:
         """
             If the input here is received only by the well number - gongbun (well: 1),
             the rest is determined by it.
+
+        mode_functions = {
+            1: "automatic_process",
+            2: "automatic_with_manual_process",
+            3: "recover_manual_test_only"
+        }
+
         """
 
         excel = win32.gencache.EnsureDispatch('Excel.Application')
@@ -377,14 +394,19 @@ class InjetValueToSheet(FileProcessing):
         ws_janggi = wb.Worksheets(9)
         ws_recover = wb.Worksheets(10)
 
-        if self.IsStepFileExist(well):
+        if (not Mode == 3) and self.IsStepFileExist(well):
             self.InjecttionStep(well, ws_step)
 
-        self.InjecttionLongTest_01(well, ws_janggi, ws_skin)
-        self.InjecttionLongTest_02(well, ws_janggi, ws_skin)
-        self.InjectionRecover(well, ws_recover, ws_skin)
+        if (not Mode == 3) and Mode:
+            self.InjecttionLongTest_01(well, ws_janggi, ws_skin)
+            self.InjecttionLongTest_02(well, ws_janggi, ws_skin)
 
-        # click_excel_button(ws_recover, "CommandButton2")
+        if Mode == 2 or Mode == 3:
+            self.InjectionRecover(well, ws_recover, ws_skin, mode='mannual')
+            # click_excel_button(ws_recover, "CommandButton2")
+        else:
+            self.InjectionRecover(well, ws_recover, ws_skin, mode='auto')
+
         excel.ScreenUpdating = True
 
         try:
@@ -449,7 +471,17 @@ class PumpTestAutomation(FileProcessing):
         file_processing.delete_files(self.DOCUMENTS, aqtfiles)
         file_processing.delete_files(self.DOCUMENTS, datfiles)
 
-    def main_processing(self):
+    def main_processing(self, Mode=1):
+        """
+        mode_functions = {
+            1: "automatic_process",
+            2: "automatic_with_manual_process",
+            3: "recover_manual_test_only"
+        }
+
+        :param mode: if mode is recovertest_manual --> Only Run Recover Test
+        :return:
+        """
 
         xlsmfiles = self.get_xlsm_filter(self.SEND, sfilter="*_ge_OriginalSaveFile.xlsm")
 
@@ -460,8 +492,7 @@ class PumpTestAutomation(FileProcessing):
         for file in xlsmfiles:
             self.initial_clear()
             well = self.extract_number(file)
-
-            self.injection.main_process(well)
+            self.injection.main_process(well, Mode)
 
             self.after_work()
             time.sleep(2)
@@ -470,7 +501,16 @@ class PumpTestAutomation(FileProcessing):
             user32.BlockInput(False)
 
 
-# Example of how you might call your class methods
+"""
+    mode_functions = {
+        1: "automatic_process",
+        2: "automatic_with_manual_process",
+        3: "recover_manual_test_only"
+    }
+    
+    Example of how you might call your class methods
+"""
+
 if __name__ == "__main__":
     pump_test = PumpTestAutomation()
-    pump_test.main_processing()
+    pump_test.main_processing(Mode=3)

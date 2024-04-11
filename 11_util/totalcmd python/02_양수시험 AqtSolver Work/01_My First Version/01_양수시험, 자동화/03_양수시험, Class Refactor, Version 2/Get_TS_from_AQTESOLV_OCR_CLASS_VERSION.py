@@ -31,10 +31,10 @@ from screeninfo import get_monitors
 import tkinter as tk
 from tkinter import messagebox
 import subprocess
-from threading import Timer
 import win32gui
 import win32con
 import threading
+from threading import Timer
 import time
 from playsound import playsound
 
@@ -110,7 +110,7 @@ class CaptureScreen(AQTbase):
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
         cv2.imwrite(image_path, gray)
-        print(f" read_text_from_image : resized processed_image path --> {image_path}")
+        print(f"read_text_from_image --> {image_path}")
 
         config = self.get_tesseract_config(use_method)
         text = pytesseract.image_to_string(Image.open(image_path), config=config)
@@ -276,11 +276,28 @@ class AutoScript(AQTbase):
 
 
 class AQTProcessor(AQTbase):
-    def __init__(self):
+    def __init__(self, mode_value):
         # Instantiate the AutoScript class
         super().__init__()
+        if mode_value == '':
+            self._mode = 'auto'
+        else:
+            self._mode = mode_value
+
+        """
+            mode : auto
+            mode : mannual        
+        """
         self.auto_script = AutoScript()
         self.auto_capture = CaptureScreen()
+
+    @property
+    def mode(self):
+        return self._mode
+
+    @mode.setter
+    def mode(self, value) -> None:
+        self._mode = value
 
     @staticmethod
     def get_screen_width() -> int:
@@ -290,7 +307,7 @@ class AQTProcessor(AQTbase):
     @staticmethod
     def has_path(file_name) -> bool:  # if file_name include path like c:\\user\\this ...
         head, tail = os.path.split(file_name)
-        print(f"The filename head :'{head}'  tail : {tail}  includes a path. Performing action...")
+        print(f"head :'{head}'  tail : {tail} ")
 
         if head:
             return True
@@ -305,7 +322,7 @@ class AQTProcessor(AQTbase):
         if self.has_path(file_name):
             if os.path.exists(file_name):
                 os.startfile(file_name)
-                print(f"open aqtsolver : {file_name} ....")
+                print(f"open aqtsolver : {file_name}")
             else:
                 print("The file does not exist.")
                 raise
@@ -367,13 +384,17 @@ class AQTProcessor(AQTbase):
         self.auto_script.run_script(dat_file)
 
         if running_step == 4:
-            if self.get_screen_width() == 2560:
-                pyautogui.click(x=1557, y=93)  # 2560x1440
-            else:
-                pyautogui.click(x=368, y=61)  # 1920x1200, 1920x1080 : curve fitting by hand
+            if self.mode == 'mannual':
+                print('\n\nAQTProcessor running mode --> Mannual')
+                if self.get_screen_width() == 2560:
+                    pyautogui.click(x=1557, y=93)  # 2560x1440
+                else:
+                    pyautogui.click(x=368, y=61)  # 1920x1200, 1920x1080 : curve fitting by hand
 
-            run_timer(8)
-            run_background_timer(8)
+                rt_timer = RunTimeTimer(10)
+                rt_timer.run_dual()
+            else:
+                print('\n\nAQTProcessor running mode --> Auto')
 
         result = self.auto_capture.capture_in_main_screen(well, step)
         self.auto_script.close_program()
@@ -381,47 +402,65 @@ class AQTProcessor(AQTbase):
         return result
 
 
-def run_background_timer(sec):
-    def run_command_with_timeout(command, timeout_sec):
-        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        timer = Timer(timeout_sec, process.kill)
+class RunTimeTimer:
+    def __init__(self, seconds=10):
+        self.sec = seconds
+        self.program_name = (r"d:\05_Send\pythonProject\01_My First Version\01_양수시험, 자동화\03_양수시험, Class Refactor, "
+                             r"Version 2\tkinter_timer.py")
+        self.mp3_name = ("d:\\05_Send\pythonProject\\01_My First Version\\01_양수시험, 자동화\\03_양수시험, Class Refactor, "
+                         "Version 2\\race-start-beeps-125125.mp3")
 
-        try:
-            timer.start()
-            stdout, stderr = process.communicate()
-        finally:
-            timer.cancel()
+    @property
+    def seconds(self):
+        return self.sec
 
-        return stdout, stderr
+    @seconds.setter
+    def seconds(self, value):
+        self.sec = value
 
-    # Example usage:
-    command = ['python.exe', 'tkinter_timer.py']
-    timeout_seconds = sec
+    def run_background_timer(self):
+        def run_command_with_timeout(icommand, timeout_sec):
+            process = subprocess.Popen(icommand, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            timer = Timer(timeout_sec, process.kill)
 
-    run_command_with_timeout(command, timeout_seconds)
+            try:
+                timer.start()
+                stdout, stderr = process.communicate()
+            finally:
+                timer.cancel()
 
+            return stdout, stderr
 
-def set_window_always_on_top(window_title):
-    hwnd = win32gui.FindWindow(None, window_title)
-    if hwnd:
-        win32gui.SetWindowPos(hwnd, win32con.HWND_TOPMOST, 0, 0, 0, 0, win32con.SWP_NOMOVE | win32con.SWP_NOSIZE)
-    else:
-        print(f"Window with title '{window_title}' not found.")
+        # Example usage:
+        command = ['python.exe', self.program_name]
+        timeout_seconds = self.seconds
 
+        run_command_with_timeout(command, timeout_seconds)
 
-def timer_callback():
-    print("Timer completed!")
-    for i in range(3):
-        playsound('beep-07a.mp3')
+    @staticmethod
+    def set_window_always_on_top(window_title):
+        hwnd = win32gui.FindWindow(None, window_title)
+        if hwnd:
+            win32gui.SetWindowPos(hwnd, win32con.HWND_TOPMOST, 0, 0, 0, 0, win32con.SWP_NOMOVE | win32con.SWP_NOSIZE)
+        else:
+            print(f"Window with title '{window_title}' not found.")
 
+    def timer_callback(self):
+        print("Timer completed!")
+        for i in range(1):
+            playsound(self.mp3_name)
 
-def run_timer(seconds):
-    seconds = abs(seconds - 4)
-    timer = threading.Timer(seconds, timer_callback)
-    timer.start()
+    def run_timer(self):
+        sec = abs(self.seconds - 4)
+        timer = threading.Timer(sec, self.timer_callback)
+        timer.start()
+
+    def run_dual(self):
+        self.run_timer()
+        self.run_background_timer()
 
 
 # To run the program
 if __name__ == '__main__':
-    aqt_processor = AQTProcessor()
-    print(aqt_processor.AqtesolverMain(r"d:\05_Send\w4_03_recover.aqt"))
+    aqt_processor = AQTProcessor('mannual')
+    print(aqt_processor.AqtesolverMain(r"d:\05_Send\w1_03_recover.aqt"))
