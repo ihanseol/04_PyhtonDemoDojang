@@ -387,7 +387,7 @@ class AQTProcessor(AQTbase):
             if self.mode == 'mannual':
                 print('\n\nAQTProcessor running mode --> Mannual')
                 if self.get_screen_width() == 2560:
-                    pyautogui.click(x=1557, y=93)  # 2560x1440
+                    pyautogui.click(x=363, y=58)  # 2560x1440
                 else:
                     pyautogui.click(x=368, y=61)  # 1920x1200, 1920x1080 : curve fitting by hand
 
@@ -407,8 +407,7 @@ class RunTimeTimer:
         self.sec = seconds
         self.program_name = (r"d:\05_Send\pythonProject\01_My First Version\01_양수시험, 자동화\03_양수시험, Class Refactor, "
                              r"Version 2\tkinter_timer.py")
-        self.mp3_name = ("d:\\05_Send\pythonProject\\01_My First Version\\01_양수시험, 자동화\\03_양수시험, Class Refactor, "
-                         "Version 2\\race-start-beeps-125125.mp3")
+        self.mp3_name = r"c:\Program Files\totalcmd\mp3\race-start-beeps-125125.mp3"
 
     @property
     def seconds(self):
@@ -463,4 +462,4 @@ class RunTimeTimer:
 # To run the program
 if __name__ == '__main__':
     aqt_processor = AQTProcessor('mannual')
-    print(aqt_processor.AqtesolverMain(r"d:\05_Send\w1_03_recover.aqt"))
+    print(aqt_processor.AqtesolverMain(r"d:\05_Send\w3_03_recover.aqt"))

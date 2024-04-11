@@ -38,10 +38,11 @@ class AQTBASE:
         self.DELAY = 0.5
         self.IS_BLOCK = False
         """
-        self.IS_BLOCK = False :
-         because while run the program cause block or wait for user input
-         then cann't do anything
-         so it must be False, userinput allowed ...
+            self.IS_BLOCK = False :
+            
+             because while run the program cause block or wait for user input
+             then cann't do anything
+             so it must be False, userinput allowed ...
         """
 
 
@@ -369,7 +370,9 @@ class InjetValueToSheet(FileProcessing):
             1: "automatic_process",
             2: "automatic_with_manual_process",
             3: "recover_manual_test_only"
+            4: "run_recover_auto_test_only"
         }
+
 
         """
 
@@ -383,7 +386,8 @@ class InjetValueToSheet(FileProcessing):
 
         # 여기서 well 은 숫자, 공별숫자이다.
 
-        self.duplicate_aqtfile_long(well)
+        if (Mode != 3) and (Mode != 4):
+            self.duplicate_aqtfile_long(well)
 
         # StepTest
         # Input * 3,  SkinFactor * 4, SafeYield * 5, StepTest * 6, LongTest * 7
@@ -394,14 +398,14 @@ class InjetValueToSheet(FileProcessing):
         ws_janggi = wb.Worksheets(9)
         ws_recover = wb.Worksheets(10)
 
-        if (not Mode == 3) and self.IsStepFileExist(well):
+        if ((Mode != 3) and (Mode != 4)) and self.IsStepFileExist(well):
             self.InjecttionStep(well, ws_step)
 
-        if (not Mode == 3) and Mode:
+        if ((Mode != 3) and (Mode != 4)) and Mode:
             self.InjecttionLongTest_01(well, ws_janggi, ws_skin)
             self.InjecttionLongTest_02(well, ws_janggi, ws_skin)
 
-        if Mode == 2 or Mode == 3:
+        if (Mode == 2 or Mode == 3) and Mode != 4:
             self.InjectionRecover(well, ws_recover, ws_skin, mode='mannual')
             # click_excel_button(ws_recover, "CommandButton2")
         else:
@@ -477,6 +481,7 @@ class PumpTestAutomation(FileProcessing):
             1: "automatic_process",
             2: "automatic_with_manual_process",
             3: "recover_manual_test_only"
+            4: "run_recover_auto_test_only"
         }
 
         :param mode: if mode is recovertest_manual --> Only Run Recover Test
@@ -506,6 +511,7 @@ class PumpTestAutomation(FileProcessing):
         1: "automatic_process",
         2: "automatic_with_manual_process",
         3: "recover_manual_test_only"
+        4: "run_recover_auto_test_only"
     }
     
     Example of how you might call your class methods
@@ -513,4 +519,4 @@ class PumpTestAutomation(FileProcessing):
 
 if __name__ == "__main__":
     pump_test = PumpTestAutomation()
-    pump_test.main_processing(Mode=3)
+    pump_test.main_processing(Mode=4)
