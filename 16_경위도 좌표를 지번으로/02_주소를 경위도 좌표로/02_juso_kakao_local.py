@@ -9,7 +9,7 @@ import requests
 
 # api 정보 셋팅
 url = "https://dapi.kakao.com/v2/local/search/address.json"
-REST_API_KEY = "09800b3ca1aa6aa1859eddb477609063"
+REST_API_KEY = "***"
 headers = {"Authorization": "KakaoAK {}".format(REST_API_KEY)}
 
 print('=============== 도로명 주소 & 지번 주소 & 우편번호 =======================')

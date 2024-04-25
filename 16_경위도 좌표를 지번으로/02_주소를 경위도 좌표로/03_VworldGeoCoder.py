@@ -19,7 +19,7 @@ params = {
     "address": "유성대로740번길 26",
     "format": "json",
     "type": "road",
-    "key": "9DD7DF7E-016C-3B7B-84BE-5FD028784A00"
+    "key": "***"
 }
 
 response = requests.get(apiurl, params=params)
