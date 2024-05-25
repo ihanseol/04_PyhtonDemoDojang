@@ -44,13 +44,14 @@ class YangSooInjector:
 
     def make_cell_values(self, row_index):
         row_data = self.get_excel_row(row_index)
-        hp = row_data[1]
-        casing = row_data[2]
-        well_rad = row_data[3]
-        simdo = row_data[4]
-        q = row_data[5]
-        natural = row_data[6]
-        stable = row_data[7]
+        address = row_data[1]
+        hp = row_data[2]
+        casing = row_data[3]
+        well_rad = row_data[4]
+        simdo = row_data[5]
+        q = row_data[6]
+        natural = row_data[7]
+        stable = row_data[8]
 
         # 안정수위가 자연수위보다 낮을경우 .... 자연수위와 안정수위를 바꿔 준다. 에러방지를 위해서
         if stable < natural:
@@ -61,8 +62,8 @@ class YangSooInjector:
         str_gong = f"공  번 : W - {gong}"
 
         time.sleep(1)
-        return {"J48": str_gong, "I52": casing, "I48": hp, "M44": well_rad, "M45": simdo, "M48": natural,
-                "M49": stable, "M51": q}
+        return {"J48": str_gong, "I46": address, "I52": casing, "I48": hp, "M44": well_rad, "M45": simdo,
+                "M48": natural, "M49": stable, "M51": q}
 
     def inject_value_to_cells(self, book):
         sheet = book.Worksheets("Input")
@@ -71,7 +72,7 @@ class YangSooInjector:
         if self.debug_yes: print('inject value to cell, processing make_cell_values...')
 
         cell_values = self.make_cell_values(row_index)
-        sheet.Range("M49").Value = 300 #안정수위를 일단 300으로 , 에러를 차단하기 위해서 ...
+        sheet.Range("M49").Value = 300  # 안정수위를 일단 300으로 , 에러를 차단하기 위해서 ...
 
         for cell, value in cell_values.items():
             sheet.Range(cell).Value = value
