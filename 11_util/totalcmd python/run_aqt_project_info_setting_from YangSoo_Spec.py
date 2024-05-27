@@ -1,20 +1,3 @@
-"""
-
-20204/5/26일
-
-이 클래스는, 양수스펙을 불러와서
-그것을 이용해서
-아큐텍 솔버 데이타를 , 하나하나 세팅한다.
-
-조사자, 주소, 공번
-
-이렇게, d:\05_Send 폴더에 있는 파일을 불러와서
-하나하나 기록하고 , 저장해준다.
-
-
-"""
-
-
 import fnmatch
 import time
 import os
@@ -103,6 +86,26 @@ class AqtSolveProjectInfoInjector:
         time.sleep(1)
         return str_gong, address
 
+    @staticmethod
+    def process_address(input_str):
+        # Split the input string by spaces
+        parts = input_str.split()
+
+        # print(parts)  # For debugging
+
+        # Initialize the index
+        i = 0
+
+        # Iterate over the parts to find the target index
+        for part in parts:
+            if part.endswith("면") or part.endswith("구"):
+                break
+            i += 1
+
+        # Select the parts you want to keep
+        result = ' '.join(parts[i:])
+        return result
+
     def process_files(self):
         os.chdir(self.DIRECTORY)
         aqtfiles = natsorted([f for f in os.listdir() if f.endswith('.aqt')])
@@ -110,6 +113,7 @@ class AqtSolveProjectInfoInjector:
         if aqtfiles:
             for i in range(1, 33):  # maximum well number is 32
                 gong, address = self.get_gong_n_address(i)
+                address = self.process_address(address)
                 print(gong, address)
                 wfiles = fnmatch.filter(aqtfiles, f"w{i}_*.aqt")
 
