@@ -91,7 +91,7 @@ class AqtSolveProjectInfoInjector:
         # Split the input string by spaces
         parts = input_str.split()
 
-        # print(parts)  # For debugging
+        print(parts)  # For debugging
 
         # Initialize the index
         i = 0
@@ -104,6 +104,11 @@ class AqtSolveProjectInfoInjector:
 
         # Select the parts you want to keep
         result = ' '.join(parts[i:])
+
+        if len(result) > 21:
+            if "번지" in result:
+                result = input_str.replace("번지", "")
+
         return result
 
     def process_files(self):
