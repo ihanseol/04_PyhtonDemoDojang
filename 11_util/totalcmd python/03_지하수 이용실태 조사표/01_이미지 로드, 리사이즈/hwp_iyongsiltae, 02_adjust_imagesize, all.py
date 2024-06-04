@@ -6,7 +6,7 @@ def hwp_init(filename):  # 한/글 여는 코드가 길어서 미리 만들어�
     hwp = win32.gencache.EnsureDispatch("HWPFrame.HwpObject")  # 한/글 객체 생성
     hwp.RegisterModule("FilePathCheckDLL", "FilePathCheckerModule")  # 보안모듈 실행
     hwp.Open(filename)  # GUI에서 선택한 파일 열기
-    hwp.XHwpWindows.Item(0).Visible = True  # 한/글 창 숨김해제(초기에는 백그라운드상태)
+    hwp.XHwpWindows.Item(0).Visible = False  # 한/글 창 숨김해제(초기에는 백그라운드상태)
     # hwp.HAction.Run("FrameFullScreen")  # 전체화면
     return hwp  # hwp객체 리턴
 
@@ -56,7 +56,6 @@ def main():
 
     hwp = hwp_init(filename=filename)  # 위에서 정의한 한/글 열기 함수
 
-
     page_action = hwp.CreateAction("PageSetup")  # 페이지셋업 액션 실행준비
     page_set = page_action.CreateSet()  # 페이지 설정을 위한 파라미터 배열(비어있음) 생성
     page_action.GetDefault(page_set)  # 파라미터에 현재문서의 값을 채워넣음
@@ -67,12 +66,16 @@ def main():
     gutter_len = hwpunit_to_mili(page_set.Item("PageDef").Item("GutterLen"))  # 채워넣은 값 중 gutter_len
     gutter_type = hwpunit_to_mili(page_set.Item("PageDef").Item("GutterType"))  # 0:한쪽, 1:맞쪽, 2: 위쪽
 
+    print('-' * 80)
+    i = 0
     ctrl = hwp.HeadCtrl  # 문서 중 첫번째 컨트롤 선택
     while ctrl:  # 마지막 컨트롤까지 순회할 것.
         if ctrl.CtrlID == "gso":  # 컨트롤아이디가 그리기객체(gso)이면
             ctrl_to_move(hwp, ctrl)  # 위에서 정의한 이동함수
             # copy_caption(hwp)
             image_size(hwp, paper_width, left_margin, right_margin, gutter_len, gutter_type)
+            print(ctrl.CtrlID, i)
+            i += 1
             # paste_caption(hwp)
         else:  # 컨트롤아이디가 그리기객체가 아니면
             pass  # 그냥 넘어가기

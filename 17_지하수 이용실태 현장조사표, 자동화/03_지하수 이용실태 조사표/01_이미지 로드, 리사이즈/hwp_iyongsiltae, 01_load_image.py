@@ -12,7 +12,7 @@ def get_desktop():
 
 
 def load_image_from_send():
-    app = App(None, True)
+    app = App(None, False)
 
     fp = fpc.FileProcessing()
     jpg_files = fp.get_jpg_files()
@@ -24,10 +24,13 @@ def load_image_from_send():
     hwp.Run('SelectAll')
     hwp.Run("Delete")
 
+    print('-'*60)
     if jpg_files:
         for fname in jpg_files:
             hwp.InsertPicture(os.path.join(r"d:\05_Send", fname), True, 0)
             hwp.MovePos(3)
+            print(fname)
+    print('-' * 60)
 
     hwp.Save()
     hwp.Run("FileQuit")
