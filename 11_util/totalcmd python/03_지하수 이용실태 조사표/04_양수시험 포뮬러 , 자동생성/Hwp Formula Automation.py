@@ -39,9 +39,15 @@ def main():
                 if line.startswith('W'):
                     print(line)
                     Write_Formula(line)
+
     except Exception as e:
         print(f"An error occurred, {FORMULA_SOURCE} : ", e)
         MyMessageBox(f" File Not Found .... {FORMULA_SOURCE} ")
+
+    app.api.Run("SelectAll");
+    app.api.Run("ParagraphShapeAlignCenter");
+    app.api.Run("Cancel");
+
 
 
 
