@@ -15,15 +15,25 @@ def get_desktop():
 
 def initial_work():
     desktop = get_desktop()
-    excel = pd.read_excel(f"{desktop}\\{XL_INPUT}")
+
+    try:
+        excel = pd.read_excel(f"{desktop}\\{XL_INPUT}")
+    except FileNotFoundError:
+        return "Error: XLSX file must locate your desktop folder."
+
     app = App(None, False)
     return app, excel
 
 
 def initial_opencopy(app, excel):
     desktop = get_desktop()
-    shutil.copyfile(f"{desktop}\\{HWP_INPUT}", f"{desktop}\\{HWP_OUTPUT}")
-    app.open(f"{desktop}\\{HWP_OUTPUT}")
+
+    try:
+        shutil.copyfile(f"{desktop}\\{HWP_INPUT}", f"{desktop}\\{HWP_OUTPUT}")
+        app.open(f"{desktop}\\{HWP_OUTPUT}")
+    except FileNotFoundError:
+        return "Error: 'iyong(field).hwp' file must locate your desktop folder."
+
     hwp = app.api
 
     field_list = [i for i in hwp.GetFieldList().split("\x02")]
