@@ -49,6 +49,18 @@ def paste_caption(hwp):
     hwp.HAction.Run("CloseEx")
 
 
+def save_s(hwp):
+    pset = hwp.HParameterSet.HSaveAsImage
+    hwp.HAction.GetDefault("PictureSaveAsAll", pset.HSet)
+    hwp.HAction.Execute("PictureSaveAsAll", pset.HSet)
+
+    hwp.HAction.GetDefault("FileSaveAs_S", hwp.HParameterSet.HFileOpenSave.HSet)  # 다른이름으로 저장 액션 생성
+    hwp.HParameterSet.HFileOpenSave.filename = "C:\\Users\\minhwasoo\\Desktop\\iyong_empty_complete.hwp"
+    # 원래파일명#페이지.hwp로 저장
+    hwp.HParameterSet.HFileOpenSave.Format = "HWP"  # 포맷은 Native HWP
+    hwp.HAction.Execute("FileSaveAs_S", hwp.HParameterSet.HFileOpenSave.HSet)  # 다른이름저장 실행
+
+
 def main():
     # root = Tk()  # GUI(그래픽 유저 인터페이스) 인스턴스 생성
     filename = askopenfilename()  # 파일열기창 실행

@@ -4,6 +4,25 @@ hwp = Hwp()
 hwp.clipboard_to_pyfunc()
 
 """
+def save_s(hwp):
+    pset = hwp.HParameterSet.HSaveAsImage
+    hwp.HAction.GetDefault("PictureSaveAsAll", pset.HSet)
+    hwp.HAction.Execute("PictureSaveAsAll", pset.HSet)
+    hwp.HAction.GetDefault("FileSaveAs_S", hwp.HParameterSet.HFileOpenSave.HSet)
+
+    hwp.HAction.GetDefault("FileSaveAs_S", hwp.HParameterSet.HFileOpenSave.HSet)  # 다른이름으로 저장 액션 생성
+    hwp.HParameterSet.HFileOpenSave.filename =   # 원래파일명#페이지.hwp로 저장
+    hwp.HParameterSet.HFileOpenSave.Format = "HWP"  # 포맷은 Native HWP
+    hwp.HAction.Execute("FileSaveAs_S", hwp.HParameterSet.HFileOpenSave.HSet)  # 다른이름저장 실행
+    hwp.HAction.Run("Delete")  # 현재문서 페이지 조판부호 삭제
+
+
+"""
+
+"""
+
+
+
     function OnScriptMacro_지하수이용실태이미지사이즈()
     {
         HAction.GetDefault("ShapeObjDialog", HParameterSet.HShapeObject.HSet);

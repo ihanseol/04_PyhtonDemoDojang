@@ -35,6 +35,18 @@ def load_image_from_send():
     hwp.Save()
     hwp.Run("FileQuit")
 
+def save_s(hwp):
+    pset = hwp.HParameterSet.HSaveAsImage
+    hwp.HAction.GetDefault("PictureSaveAsAll", pset.HSet)
+    hwp.HAction.Execute("PictureSaveAsAll", pset.HSet)
+
+    hwp.HAction.GetDefault("FileSaveAs_S", hwp.HParameterSet.HFileOpenSave.HSet)  # 다른이름으로 저장 액션 생성
+    hwp.HParameterSet.HFileOpenSave.filename = "C:\\Users\\minhwasoo\\Desktop\\iyong_empty_complete.hwp"
+    # 원래파일명#페이지.hwp로 저장
+    hwp.HParameterSet.HFileOpenSave.Format = "HWP"  # 포맷은 Native HWP
+    hwp.HAction.Execute("FileSaveAs_S", hwp.HParameterSet.HFileOpenSave.HSet)  # 다른이름저장 실행
+
+
 
 def main():
     load_image_from_send()
