@@ -4,11 +4,31 @@ hwp = Hwp()
 hwp.clipboard_to_pyfunc()
 
 """
+    
+    function OnScriptMacro_script14()
+    {
+        HAction.GetDefault("PictureSaveAsAll", HParameterSet.HSaveAsImage.HSet);
+        with (HParameterSet.HSaveAsImage)
+        {
+        }
+        HAction.Execute("PictureSaveAsAll", HParameterSet.HSaveAsImage.HSet);
+        
+        
+        HAction.GetDefault("FileSaveAs_S", HParameterSet.HFileOpenSave.HSet);
+        with (HParameterSet.HFileOpenSave)
+        {
+            FileName = "C:\\Users\\minhwasoo\\Desktop\\iyong_empty_complete.hwp";
+            Format = "HWP";
+        }
+        HAction.Execute("FileSaveAs_S", HParameterSet.HFileOpenSave.HSet);
+    }
+
+
+
 def save_s(hwp):
     pset = hwp.HParameterSet.HSaveAsImage
     hwp.HAction.GetDefault("PictureSaveAsAll", pset.HSet)
     hwp.HAction.Execute("PictureSaveAsAll", pset.HSet)
-    hwp.HAction.GetDefault("FileSaveAs_S", hwp.HParameterSet.HFileOpenSave.HSet)
 
     hwp.HAction.GetDefault("FileSaveAs_S", hwp.HParameterSet.HFileOpenSave.HSet)  # 다른이름으로 저장 액션 생성
     hwp.HParameterSet.HFileOpenSave.filename =   # 원래파일명#페이지.hwp로 저장

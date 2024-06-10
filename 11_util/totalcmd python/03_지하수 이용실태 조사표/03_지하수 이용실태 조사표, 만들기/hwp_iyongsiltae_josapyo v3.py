@@ -4,6 +4,7 @@ import pandas as pd
 from hwpapi.core import App
 
 XL_INPUT = "iyong_template.xlsx"
+XL_BASE = "d:\\05_Send"
 HWP_INPUT = "iyong(field).hwp"
 HWP_OUTPUT = "iyong(result).hwp"
 
@@ -17,9 +18,9 @@ def initial_work():
     desktop = get_desktop()
 
     try:
-        excel = pd.read_excel(f"{desktop}\\{XL_INPUT}")
+        excel = pd.read_excel(f"{XL_BASE}\\{XL_INPUT}")
     except FileNotFoundError:
-        return "Error: XLSX file must locate your desktop folder."
+        return "Error: XLSX file must located your d:/05_Send/ folder."
 
     app = App(None, False)
     return app, excel
