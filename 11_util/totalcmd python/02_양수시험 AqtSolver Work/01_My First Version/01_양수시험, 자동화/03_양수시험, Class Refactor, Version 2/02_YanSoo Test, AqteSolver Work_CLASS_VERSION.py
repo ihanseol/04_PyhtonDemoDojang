@@ -519,4 +519,4 @@ class PumpTestAutomation(FileProcessing):
 
 if __name__ == "__main__":
     pump_test = PumpTestAutomation()
-    pump_test.main_processing(Mode=4)
+    pump_test.main_processing(Mode=2)
