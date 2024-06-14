@@ -137,7 +137,6 @@ class YangSooInjector:
         selected_value = random.choice(values)
         if self.debug_yes: print(f'selected value ... : {selected_value}')
 
-
         self.click_excel_button(ws, "CommandButton5")  # Reset 0.1
         time.sleep(1)
 

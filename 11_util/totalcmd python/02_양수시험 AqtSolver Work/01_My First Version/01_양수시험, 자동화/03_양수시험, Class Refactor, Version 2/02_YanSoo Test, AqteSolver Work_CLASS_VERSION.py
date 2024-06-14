@@ -210,7 +210,7 @@ class FileProcessing(AQTBASE):
             self.move_file(self.DOCUMENTS + file, self.SEND2 + file)
 
 
-class InjetValueToSheet(FileProcessing):
+class InjectValueToSheet(FileProcessing):
     def __init__(self):
         super().__init__()
 
@@ -434,7 +434,7 @@ class InjetValueToSheet(FileProcessing):
 class PumpTestAutomation(FileProcessing):
     def __init__(self):
         super().__init__()
-        self.injection = InjetValueToSheet()
+        self.injection = InjectValueToSheet()
 
     @staticmethod
     def extract_number(s):
