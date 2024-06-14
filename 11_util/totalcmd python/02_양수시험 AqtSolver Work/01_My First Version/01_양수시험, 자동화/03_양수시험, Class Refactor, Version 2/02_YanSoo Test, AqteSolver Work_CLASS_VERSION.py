@@ -23,8 +23,12 @@ import ctypes
 from natsort import natsorted
 import pyautogui
 import pygetwindow as gw
-import Get_TS_from_AQTESOLV_OCR_CLASS_VERSION as GetTS
+import sys
 import win32com.client as win32
+
+sys.path.append(
+    "c:/Program Files/totalcmd/ini/02_python/02_양수시험 AqtSolver Work/01_My First Version/01_양수시험, 자동화/03_양수시험, Class Refactor, Version 2/")
+import Get_TS_from_AQTESOLV_OCR_CLASS_VERSION as GetTS
 
 
 class AQTBASE:
