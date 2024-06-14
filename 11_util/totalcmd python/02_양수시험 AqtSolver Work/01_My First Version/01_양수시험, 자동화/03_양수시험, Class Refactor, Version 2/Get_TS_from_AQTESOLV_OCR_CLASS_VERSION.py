@@ -405,8 +405,7 @@ class AQTProcessor(AQTbase):
 class RunTimeTimer:
     def __init__(self, seconds=10):
         self.sec = seconds
-        self.program_name = (r"d:\05_Send\pythonProject\01_My First Version\01_양수시험, 자동화\03_양수시험, Class Refactor, "
-                             r"Version 2\tkinter_timer.py")
+        self.program_name = (r"c:\Program Files\totalcmd\ini\02_python\tkinter_timer.py")
         self.mp3_name = r"c:\Program Files\totalcmd\mp3\race-start-beeps-125125.mp3"
 
     @property

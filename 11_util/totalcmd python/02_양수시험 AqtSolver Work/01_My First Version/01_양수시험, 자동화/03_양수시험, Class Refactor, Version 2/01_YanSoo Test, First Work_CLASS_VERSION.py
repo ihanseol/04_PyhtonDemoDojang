@@ -98,10 +98,15 @@ class YangSooInjector:
             time.sleep(1)
             click_button()
 
-    def inject_values(self, wb):
+    def inject_values(self, wb, excel):
+        if self.debug_yes: print('inject value to cell, _inject_input is started ...')
         self._inject_input(wb)
+
+        if self.debug_yes: print('inject step test ...')
         self._inject_step_test(wb)
-        self._inject_long_term_test(wb)
+
+        if self.debug_yes: print('inject long term test ...')
+        self._inject_long_term_test(wb, excel)
 
     def _inject_input(self, wb):
         ws = wb.Worksheets("Input")
@@ -125,19 +130,27 @@ class YangSooInjector:
         time.sleep(2)
         self.click_excel_button(ws, "CommandButton2")
 
-    def _inject_long_term_test(self, wb):
+    def _inject_long_term_test(self, wb, excel):
         ws = wb.Worksheets("LongTest")
         ws.Activate()
-        values = [720, 780, 840]
+        values = [540, 600, 660, 720, 780, 840]
         selected_value = random.choice(values)
-        ws.OLEObjects("ComboBox1").Object.Value = selected_value
+        if self.debug_yes: print(f'selected value ... : {selected_value}')
+
+
+        self.click_excel_button(ws, "CommandButton5")  # Reset 0.1
         time.sleep(1)
 
-        self.click_excel_button(ws, "CommandButton5")
+        ws.OLEObjects("ComboBox1").Object.Value = selected_value
         time.sleep(1)
-        self.click_excel_button(ws, "CommandButton4")
+        excel.Application.Run("mod_W1LongtermTEST.TimeSetting")
+        time.sleep(1)
+
+        self.click_excel_button(ws, "CommandButton5")  # Reset 0.1
+        time.sleep(1)
+        self.click_excel_button(ws, "CommandButton4")  # Find Answer
         time.sleep(2)
-        self.click_excel_button(ws, "CommandButton7")
+        self.click_excel_button(ws, "CommandButton7")  # Check
 
     def process_files(self):
         os.chdir(self.directory)
@@ -151,7 +164,7 @@ class YangSooInjector:
         for file in files:
             if self.debug_yes: print('Processing file: ', file)
             wb = excel.Workbooks.Open(self.directory + file)
-            self.inject_values(wb)
+            self.inject_values(wb, excel)
             wb.Close(SaveChanges=True)
 
         excel.ScreenUpdating = True
