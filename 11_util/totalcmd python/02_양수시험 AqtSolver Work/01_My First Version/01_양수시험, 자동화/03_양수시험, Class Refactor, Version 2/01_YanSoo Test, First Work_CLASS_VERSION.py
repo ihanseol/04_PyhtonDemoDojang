@@ -134,6 +134,10 @@ class YangSooInjector:
         ws = wb.Worksheets("LongTest")
         ws.Activate()
         values = [540, 600, 660, 720, 780, 840]
+
+        # Clear GoalSeekTarget
+        ws.Range("GoalSeekTarget").Value = 0
+
         selected_value = random.choice(values)
         if self.debug_yes: print(f'selected value ... : {selected_value}')
 

@@ -425,6 +425,12 @@ class InjectValueToSheet(FileProcessing):
             """
             wb.SaveAs(self.DOCUMENTS + "out_" + self.gen_excel_filename(well), FileFormat=52, CreateBackup=False)
 
+            """
+            self.change_window(name_title="EXCEL")
+            time.sleep(1)
+            pyautogui.press('enter')
+            """
+
             # wb.Close(SaveChanges=True)
         except Exception as e:
 
