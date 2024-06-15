@@ -46,6 +46,27 @@ class YangSooInjector:
     def extract_number(s):
         return int(re.findall(r'\d+', s)[0])
 
+    @staticmethod
+    def click_excel_button(ws, button_name):
+        def click_button():
+            for obj in ws.OLEObjects():
+                if obj.Name == button_name:
+                    obj.Object.Value = True
+                    break
+
+        while True:
+            try:
+                click_button()
+                break  # Exit the loop if no exception is raised
+            except Exception as e:
+                print(f"{ws} - {button_name} : Error in Button Click Function", e)
+                time.sleep(1)  # Optional: Wait a bit before retrying
+            finally:
+                time.sleep(1)
+                pyautogui.press('enter')
+                time.sleep(1)
+
+
     def get_excel_row(self, row_index):
         return self.df.iloc[row_index, :].tolist()
 
@@ -90,7 +111,6 @@ class YangSooInjector:
             return {"J48": str_gong, "I46": address, "I52": casing, "I48": hp, "M44": well_rad, "M45": simdo,
                     "M48": natural, "M49": stable, "M51": q, "I44": project_name, "I45": jigu_name}
 
-
     def inject_value_to_cells(self, book):
         sheet = book.Worksheets("Input")
         filename = os.path.basename(book.Name)
@@ -101,30 +121,12 @@ class YangSooInjector:
         sheet.Range("M49").Value = 300  # 안정수위를 일단 300으로 , 에러를 차단하기 위해서 ...
 
         for cell, value in cell_values.items():
+            print(f'inject_value_to_cells : {cell} - {value}')
             sheet.Range(cell).Value = value
             time.sleep(1)
 
         if self.debug_yes: print('inject value to cell, finished...')
 
-    @staticmethod
-    def click_excel_button(ws, button_name):
-        def click_button():
-            for obj in ws.OLEObjects():
-                if obj.Name == button_name:
-                    obj.Object.Value = True
-                    break
-
-        while True:
-            try:
-                click_button()
-                break  # Exit the loop if no exception is raised
-            except Exception as e:
-                print(f"{ws} - {button_name} : Error in Button Click Function", e)
-                time.sleep(1)  # Optional: Wait a bit before retrying
-            finally:
-                time.sleep(1)
-                pyautogui.press('enter')
-                time.sleep(1)
 
     def inject_values(self, wb, excel):
         if self.debug_yes: print('inject value to cell, _inject_input is started ...')
@@ -142,21 +144,31 @@ class YangSooInjector:
         time.sleep(1)
         self.inject_value_to_cells(wb)
         time.sleep(1)
+
         self.click_excel_button(ws, "CommandButton2")
+        print('_inject_input -- SetCB1 ')
         time.sleep(1)
         self.click_excel_button(ws, "CommandButton3")
+        print('_inject_input -- SetCB2 ')
         time.sleep(1)
         self.click_excel_button(ws, "CommandButton6")
+        print('_inject_input -- Chart Fitting')
+
+
         time.sleep(1)
         self.click_excel_button(ws, "CommandButton1")
+        print('_inject_input -- PumpingTest ')
 
     def _inject_step_test(self, wb):
         ws = wb.Worksheets("stepTest")
         ws.Activate()
         time.sleep(1)
         self.click_excel_button(ws, "CommandButton1")
+        print('_inject_step_test -- FindAnswer Button ')
+
         time.sleep(2)
         self.click_excel_button(ws, "CommandButton2")
+        print('_inject_step_test -- Check Button ')
 
     def _inject_long_term_test(self, wb, excel):
         ws = wb.Worksheets("LongTest")
@@ -170,18 +182,23 @@ class YangSooInjector:
         if self.debug_yes: print(f'stable time selection ... : {selected_value}')
 
         self.click_excel_button(ws, "CommandButton5")  # Reset 0.1
+        print('_inject_long_term_test -- Reset 0.1')
         time.sleep(1)
 
         ws.OLEObjects("ComboBox1").Object.Value = selected_value
         time.sleep(1)
         excel.Application.Run("mod_W1LongtermTEST.TimeSetting")
+        print('_inject_long_term_test -- excel.Application.Run("mod_W1LongtermTEST.TimeSetting")')
         time.sleep(1)
 
         self.click_excel_button(ws, "CommandButton5")  # Reset 0.1
+        print('_inject_long_term_test -- Reset 0.1')
         time.sleep(1)
         self.click_excel_button(ws, "CommandButton4")  # Find Answer
+        print('_inject_long_term_test -- FindAnswer')
         time.sleep(2)
         self.click_excel_button(ws, "CommandButton7")  # Check
+        print('_inject_long_term_test -- Check')
 
     def process_files(self):
         os.chdir(self.directory)
