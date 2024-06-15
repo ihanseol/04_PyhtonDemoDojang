@@ -43,6 +43,15 @@ class YangSooInjector:
         self.debug_yes = True
 
     @staticmethod
+    def countdown(n):
+        print(' Please Move the Command Window to Side ! ')
+        while n > 0:
+            print(n)
+            time.sleep(1)
+            n -= 1
+        print("Time's up!")
+
+    @staticmethod
     def extract_number(s):
         return int(re.findall(r'\d+', s)[0])
 
@@ -201,6 +210,8 @@ class YangSooInjector:
         print('_inject_long_term_test -- Check')
 
     def process_files(self):
+        self.countdown(5)
+
         os.chdir(self.directory)
         files = natsorted([f for f in os.listdir() if f.endswith('.xlsm')])
         excel = win32.gencache.EnsureDispatch('Excel.Application')

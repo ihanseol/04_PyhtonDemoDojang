@@ -508,7 +508,7 @@ class PumpTestAutomation(FileProcessing):
         """
 
         print('Please Move Command Window to Side ....')
-        self.countdown(3)
+        self.countdown(5)
 
         xlsmfiles = self.get_xlsm_filter(self.SEND, sfilter="*_ge_OriginalSaveFile.xlsm")
 
