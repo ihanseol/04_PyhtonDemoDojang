@@ -79,6 +79,7 @@ class CaptureScreen(AQTbase):
     @staticmethod
     def capture_area_to_file(area, filename):
         pyautogui.screenshot(region=area).save(filename, quality=95)
+        pyautogui.screenshot('my_screenshot.png')
 
     @staticmethod
     def resize_image(image_path) -> str:
@@ -166,7 +167,16 @@ class CaptureScreen(AQTbase):
 
     @staticmethod
     def get_screen_width() -> int:
-        screen = get_monitors()[0]
+        print('get_monitors:', len(get_monitors()))
+
+        screen1 = get_monitors()[0]
+        screen2 = get_monitors()[1]
+        if screen1.width > screen2.width:
+            screen = screen1
+        else:
+            screen = screen2
+
+        print(f'screen width : {screen.width}')
         return screen.width
 
     @staticmethod
@@ -181,6 +191,8 @@ class CaptureScreen(AQTbase):
             print(f"No {name_title} found.")
 
     def capture_in_main_screen(self, well, step) -> object:
+
+        # area or region - [left, top, width, and height]
         screen_2560x1440 = [
             ([1062, 263, 46, 21], 'screenshot_01_T.jpg'),
             ([1062, 284, 90, 21], 'screenshot_02_S.jpg')
@@ -191,10 +203,29 @@ class CaptureScreen(AQTbase):
             ([917, 283, 88, 22], 'screenshot_02_S.jpg')
         ]
 
-        if self.get_screen_width() == 2560:
-            areas_filenames = screen_2560x1440
-        else:
-            areas_filenames = screen_1920x1200
+        screen_3072x1728 = [
+            ([1238, 263, 46, 22], 'screenshot_01_T.jpg'),
+            ([1238, 283, 88, 22], 'screenshot_02_S.jpg')
+        ]
+
+        # if self.get_screen_width() == 2560:
+        #     areas_filenames = screen_2560x1440
+        # else:
+        #     areas_filenames = screen_1920x1200
+
+
+        match self.get_screen_width():
+            case 2560:
+                areas_filenames = screen_2560x1440
+            case 1920:
+                areas_filenames = screen_1920x1200
+            case 3072:
+                areas_filenames = screen_3072x1728
+                print(' selected ...')
+            case _:
+                areas_filenames = screen_1920x1200
+                print(' else ...')
+
 
         self.change_window(name_title="AQTESOLV")
 
@@ -301,8 +332,18 @@ class AQTProcessor(AQTbase):
 
     @staticmethod
     def get_screen_width() -> int:
-        screen = get_monitors()[0]
+        print('get_monitors:', len(get_monitors()))
+
+        screen1 = get_monitors()[0]
+        screen2 = get_monitors()[1]
+        if screen1.width > screen2.width:
+            screen = screen1
+        else:
+            screen = screen2
+
+        print(f'screen width : {screen.width}')
         return screen.width
+
 
     @staticmethod
     def has_path(file_name) -> bool:  # if file_name include path like c:\\user\\this ...
@@ -334,10 +375,21 @@ class AQTProcessor(AQTbase):
             well = self.extract_number(file_name)
 
         time.sleep(1)
-        if self.get_screen_width() == 2560:
-            pyautogui.click(x=1557, y=93)  # maximize sub window 2560x1440
-        else:
-            pyautogui.click(x=1126, y=94)  # maximize sub window 1920x1200
+
+        # if self.get_screen_width() == 2560:
+        #     pyautogui.click(x=1557, y=93)  # maximize sub window 2560x1440
+        # else:
+        #     pyautogui.click(x=1126, y=94)  # maximize sub window 1920x1200
+
+        match self.get_screen_width():
+            case 2560:
+                pyautogui.click(x=1557, y=93)  # maximize sub window 2560x1440
+            case 1920:
+                pyautogui.click(x=1126, y=94)  # maximize sub window 1920x1200
+            case 3072:
+                pyautogui.click(x=1860, y=96) # maximize sub window 3072x1200
+            case _:
+                pyautogui.click(x=1126, y=94)
 
         time.sleep(0.5)
         return well
@@ -386,10 +438,20 @@ class AQTProcessor(AQTbase):
         if running_step == 4:
             if self.mode == 'mannual':
                 print('\n\nAQTProcessor running mode --> Mannual')
-                if self.get_screen_width() == 2560:
-                    pyautogui.click(x=363, y=58)  # 2560x1440
-                else:
-                    pyautogui.click(x=368, y=61)  # 1920x1200, 1920x1080 : curve fitting by hand
+                # if self.get_screen_width() == 2560:
+                #     pyautogui.click(x=363, y=58)  # 2560x1440
+                # else:
+                #     pyautogui.click(x=368, y=61)  # 1920x1200, 1920x1080 : curve fitting by hand
+
+                match self.get_screen_width():
+                    case 2560:
+                        pyautogui.click(x=363, y=58)  # 2560x1440
+                    case 1920:
+                        pyautogui.click(x=368, y=61)  # 1920x1200, 1920x1080 : curve fitting by hand
+                    case 3072:
+                        pyautogui.click(x=368, y=61)  # 1920x1200, 1920x1080 : curve fitting by hand
+                    case _:
+                        pyautogui.click(x=368, y=61)  # 1920x1200, 1920x1080 : curve fitting by hand
 
                 rt_timer = RunTimeTimer(10)
                 rt_timer.run_dual()
