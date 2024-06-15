@@ -217,6 +217,7 @@ class YangSooInjector:
         files = natsorted([f for f in os.listdir() if f.endswith('.xlsm')])
         excel = win32.gencache.EnsureDispatch('Excel.Application')
         excel.ScreenUpdating = False
+
         excel.Visible = True
         excel.WindowState = -4137  # xlMaximizedWindow
         self.change_window('EXCEL')

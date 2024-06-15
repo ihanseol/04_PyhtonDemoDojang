@@ -45,6 +45,46 @@ def tkMessageBox(message):
     messagebox.showinfo("Notice", message)
 
 
+def get_screen_width() -> int:
+    hmonitor = len(get_monitors())
+    print('get_monitors:', hmonitor)
+
+    screen1 = get_monitors()[0]
+    if hmonitor != 1:
+        screen2 = get_monitors()[1]
+
+    if hmonitor == 1:
+        screen = screen1
+    else:
+        if screen1.width > screen2.width:
+            screen = screen1
+        else:
+            screen = screen2
+
+    print(f'screen width : {screen.width}')
+    return screen.width
+
+
+def get_screen_height() -> int:
+    hmonitor = len(get_monitors())
+    print('get_monitors:', hmonitor)
+
+    screen1 = get_monitors()[0]
+    if hmonitor != 1:
+        screen2 = get_monitors()[1]
+
+    if hmonitor == 1:
+        screen = screen1
+    else:
+        if screen1.width > screen2.width:
+            screen = screen1
+        else:
+            screen = screen2
+
+    print(f'screen width : {screen.width}')
+    return screen.height
+
+
 class AQTbase:
     def __init__(self):
         self.program_path = r'C:\WHPA\AQTEver3.4(170414)\AQTW32.EXE'
@@ -166,20 +206,6 @@ class CaptureScreen(AQTbase):
         return num
 
     @staticmethod
-    def get_screen_width() -> int:
-        print('get_monitors:', len(get_monitors()))
-
-        screen1 = get_monitors()[0]
-        screen2 = get_monitors()[1]
-        if screen1.width > screen2.width:
-            screen = screen1
-        else:
-            screen = screen2
-
-        print(f'screen width : {screen.width}')
-        return screen.width
-
-    @staticmethod
     def change_window(name_title) -> None:
         gwindows = gw.getWindowsWithTitle(name_title)
         if gwindows:
@@ -203,29 +229,40 @@ class CaptureScreen(AQTbase):
             ([917, 283, 88, 22], 'screenshot_02_S.jpg')
         ]
 
+        screen_1920x1080 = [
+            ([844, 265, 46, 22], 'screenshot_01_T.jpg'),
+            ([844, 283, 88, 22], 'screenshot_02_S.jpg')
+        ]
+
+        screen_1920x1080_4 = [
+            ([848, 265, 46, 22], '1920x1080_4_01_T.jpg'),
+            ([848, 283, 88, 22], '1920x1080_4_02_S.jpg')
+        ]
+
         screen_3072x1728 = [
             ([1238, 263, 46, 22], 'screenshot_01_T.jpg'),
             ([1238, 283, 88, 22], 'screenshot_02_S.jpg')
         ]
 
-        # if self.get_screen_width() == 2560:
-        #     areas_filenames = screen_2560x1440
-        # else:
-        #     areas_filenames = screen_1920x1200
 
-
-        match self.get_screen_width():
+        match get_screen_width():
             case 2560:
                 areas_filenames = screen_2560x1440
             case 1920:
-                areas_filenames = screen_1920x1200
+                if get_screen_height() == 1200:
+                    areas_filenames = screen_1920x1200
+                else:
+                    if step == 4:
+                        areas_filenames = screen_1920x1080_4
+                    else:
+                        areas_filenames = screen_1920x1080
+
             case 3072:
                 areas_filenames = screen_3072x1728
                 print(' selected ...')
             case _:
                 areas_filenames = screen_1920x1200
                 print(' else ...')
-
 
         self.change_window(name_title="AQTESOLV")
 
@@ -234,7 +271,6 @@ class CaptureScreen(AQTbase):
             self.capture_area_to_file(area, self.IMG_SAVE_PATH + f"w{well}_{step}_" + filename)
             text = self.read_text_from_image(self.IMG_SAVE_PATH + f"w{well}_{step}_" + filename, use_method="NUM")
             result.append(text)
-            # time.sleep(3)
             print(text)
 
         val_T = self.after_process(result[0])
@@ -331,21 +367,6 @@ class AQTProcessor(AQTbase):
         self._mode = value
 
     @staticmethod
-    def get_screen_width() -> int:
-        print('get_monitors:', len(get_monitors()))
-
-        screen1 = get_monitors()[0]
-        screen2 = get_monitors()[1]
-        if screen1.width > screen2.width:
-            screen = screen1
-        else:
-            screen = screen2
-
-        print(f'screen width : {screen.width}')
-        return screen.width
-
-
-    @staticmethod
     def has_path(file_name) -> bool:  # if file_name include path like c:\\user\\this ...
         head, tail = os.path.split(file_name)
         print(f"head :'{head}'  tail : {tail} ")
@@ -376,20 +397,19 @@ class AQTProcessor(AQTbase):
 
         time.sleep(1)
 
-        # if self.get_screen_width() == 2560:
-        #     pyautogui.click(x=1557, y=93)  # maximize sub window 2560x1440
-        # else:
-        #     pyautogui.click(x=1126, y=94)  # maximize sub window 1920x1200
-
-        match self.get_screen_width():
+        match get_screen_width():
             case 2560:
                 pyautogui.click(x=1557, y=93)  # maximize sub window 2560x1440
             case 1920:
-                pyautogui.click(x=1126, y=94)  # maximize sub window 1920x1200
+                if get_screen_width() == 1200:
+                    pyautogui.click(x=1126, y=94)  # maximize sub window 1920x1200
+                else:
+                    pyautogui.click(x=1152, y=94)  # maximize sub window 1920x1080
+
             case 3072:
-                pyautogui.click(x=1860, y=96) # maximize sub window 3072x1200
+                pyautogui.click(x=1860, y=96)  # maximize sub window 3072x1200
             case _:
-                pyautogui.click(x=1126, y=94)
+                pyautogui.click(x=1152, y=94)
 
         time.sleep(0.5)
         return well
@@ -438,12 +458,8 @@ class AQTProcessor(AQTbase):
         if running_step == 4:
             if self.mode == 'mannual':
                 print('\n\nAQTProcessor running mode --> Mannual')
-                # if self.get_screen_width() == 2560:
-                #     pyautogui.click(x=363, y=58)  # 2560x1440
-                # else:
-                #     pyautogui.click(x=368, y=61)  # 1920x1200, 1920x1080 : curve fitting by hand
 
-                match self.get_screen_width():
+                match get_screen_width():
                     case 2560:
                         pyautogui.click(x=363, y=58)  # 2560x1440
                     case 1920:
@@ -523,4 +539,4 @@ class RunTimeTimer:
 # To run the program
 if __name__ == '__main__':
     aqt_processor = AQTProcessor('mannual')
-    print(aqt_processor.AqtesolverMain(r"d:\05_Send\w3_03_recover.aqt"))
+    print(aqt_processor.AqtesolverMain(r"d:\05_Send\w1_03_recover.aqt"))
