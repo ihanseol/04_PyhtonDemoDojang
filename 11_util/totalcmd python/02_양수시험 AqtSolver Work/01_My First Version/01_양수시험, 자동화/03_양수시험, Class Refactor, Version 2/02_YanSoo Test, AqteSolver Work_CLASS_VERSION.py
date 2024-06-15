@@ -447,6 +447,15 @@ class PumpTestAutomation(FileProcessing):
         self.injection = InjectValueToSheet()
 
     @staticmethod
+    def countdown(n):
+        while n > 0:
+            print(n)
+            time.sleep(1)
+            n -= 1
+        print("Time's up!")
+
+
+    @staticmethod
     def extract_number(s):
         numbers = re.findall(r'\d+', s)
         if numbers:  # Check if numbers were found
@@ -497,6 +506,9 @@ class PumpTestAutomation(FileProcessing):
         :param mode: if mode is recovertest_manual --> Only Run Recover Test
         :return:
         """
+
+        print('Please Move Command Window to Side ....')
+        self.countdown(3)
 
         xlsmfiles = self.get_xlsm_filter(self.SEND, sfilter="*_ge_OriginalSaveFile.xlsm")
 
