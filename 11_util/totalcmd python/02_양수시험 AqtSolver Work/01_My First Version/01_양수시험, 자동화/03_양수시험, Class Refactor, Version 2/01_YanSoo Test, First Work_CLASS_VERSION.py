@@ -71,7 +71,7 @@ class YangSooInjector:
                 print(f"{ws} - {button_name} : Error in Button Click Function", e)
                 time.sleep(1)  # Optional: Wait a bit before retrying
             finally:
-                self.change_window('Excel')
+                self.change_window('EXCEL')
                 time.sleep(1)
                 pyautogui.press('enter')
                 time.sleep(1)
@@ -219,7 +219,7 @@ class YangSooInjector:
         excel.ScreenUpdating = False
         excel.Visible = True
         excel.WindowState = -4137  # xlMaximizedWindow
-        self.change_window('Excel')
+        self.change_window('EXCEL')
 
         for file in files:
             if self.debug_yes: print('Processing file: ', file)
