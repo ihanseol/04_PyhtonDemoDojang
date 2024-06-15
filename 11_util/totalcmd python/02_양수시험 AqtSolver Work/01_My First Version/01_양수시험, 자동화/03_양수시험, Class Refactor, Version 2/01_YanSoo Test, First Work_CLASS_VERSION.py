@@ -55,8 +55,8 @@ class YangSooInjector:
     def extract_number(s):
         return int(re.findall(r'\d+', s)[0])
 
-    @staticmethod
-    def click_excel_button(ws, button_name):
+
+    def click_excel_button(self, ws, button_name):
         def click_button():
             for obj in ws.OLEObjects():
                 if obj.Name == button_name:
@@ -71,6 +71,7 @@ class YangSooInjector:
                 print(f"{ws} - {button_name} : Error in Button Click Function", e)
                 time.sleep(1)  # Optional: Wait a bit before retrying
             finally:
+                self.change_window('Excel')
                 time.sleep(1)
                 pyautogui.press('enter')
                 time.sleep(1)

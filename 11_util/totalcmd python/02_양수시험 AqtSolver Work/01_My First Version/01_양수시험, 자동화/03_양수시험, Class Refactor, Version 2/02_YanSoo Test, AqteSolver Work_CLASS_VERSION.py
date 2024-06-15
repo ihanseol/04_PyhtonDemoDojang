@@ -236,8 +236,7 @@ class InjectValueToSheet(FileProcessing):
         else:
             print(f"Button '{button_name}' not found in worksheet {ws}.")
 
-    @staticmethod
-    def change_window(name_title) -> None:
+    def change_window(self, name_title) -> None:
         gwindows = gw.getWindowsWithTitle(name_title)
 
         if gwindows:
@@ -423,6 +422,8 @@ class InjectValueToSheet(FileProcessing):
             helpful if saving multiple times to save file, it means you won't get a pop up for overwrite 
             and will default to save it.
             """
+
+            self.change_window(name_title="EXCEL")
             wb.SaveAs(self.DOCUMENTS + "out_" + self.gen_excel_filename(well), FileFormat=52, CreateBackup=False)
 
             """
@@ -448,12 +449,13 @@ class PumpTestAutomation(FileProcessing):
 
     @staticmethod
     def countdown(n):
+        print('Please Move Command Window to Side !')
+
         while n > 0:
             print(n)
             time.sleep(1)
             n -= 1
         print("Time's up!")
-
 
     @staticmethod
     def extract_number(s):
@@ -507,7 +509,6 @@ class PumpTestAutomation(FileProcessing):
         :return:
         """
 
-        print('Please Move Command Window to Side ....')
         self.countdown(5)
 
         xlsmfiles = self.get_xlsm_filter(self.SEND, sfilter="*_ge_OriginalSaveFile.xlsm")
