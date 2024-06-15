@@ -13,6 +13,13 @@
 # 에러처리를 위해서, 버튼클릭함수를 에러처리를 추가해서 변경해주고
 # 입력시트에서 자연수위, 안정수위로 에러가나는것을 방지해주기 위해 처리해줌
 #
+#
+# 2024.6.15일
+# YanSoo.xlsl 파일에 조사명, 지역명 추가해서 처리해주는 부분 추가
+# 그리고, click_excel_button 에서, 에러가 나서 빠지는것을 막기위해
+# While True: 로 처리 ....
+#
+#
 # *************************************************************************
 """
 
@@ -44,6 +51,9 @@ class YangSooInjector:
 
     def make_cell_values(self, row_index):
         row_data = self.get_excel_row(row_index)
+        len_row_data = len(row_data)
+        print('len(row_data):', len_row_data)
+
         address = row_data[1]
         hp = row_data[2]
         casing = row_data[3]
@@ -52,6 +62,16 @@ class YangSooInjector:
         q = row_data[6]
         natural = row_data[7]
         stable = row_data[8]
+
+        project_name = ''
+        jigu_name = ''
+
+        if len_row_data > 9:
+            project_name = row_data[9]
+            jigu_name = row_data[10]
+
+        # 2024년 6월 15일 추가
+        # 조사명, 지구명을 추가해줌,  YanSoo.xlsx 파일에 ...
 
         # 안정수위가 자연수위보다 낮을경우 .... 자연수위와 안정수위를 바꿔 준다. 에러방지를 위해서
         if stable < natural:
@@ -62,8 +82,14 @@ class YangSooInjector:
         str_gong = f"공  번 : W - {gong}"
 
         time.sleep(1)
-        return {"J48": str_gong, "I46": address, "I52": casing, "I48": hp, "M44": well_rad, "M45": simdo,
-                "M48": natural, "M49": stable, "M51": q}
+
+        if len_row_data <= 9:
+            return {"J48": str_gong, "I46": address, "I52": casing, "I48": hp, "M44": well_rad, "M45": simdo,
+                    "M48": natural, "M49": stable, "M51": q}
+        else:
+            return {"J48": str_gong, "I46": address, "I52": casing, "I48": hp, "M44": well_rad, "M45": simdo,
+                    "M48": natural, "M49": stable, "M51": q, "I44": project_name, "I45": jigu_name}
+
 
     def inject_value_to_cells(self, book):
         sheet = book.Worksheets("Input")
@@ -88,15 +114,17 @@ class YangSooInjector:
                     obj.Object.Value = True
                     break
 
-        try:
-            click_button()
-        except Exception as e:
-            print(f"{ws} - {button_name} : Error in Button Click Function", e)
-        finally:
-            time.sleep(1)
-            pyautogui.press('enter')
-            time.sleep(1)
-            click_button()
+        while True:
+            try:
+                click_button()
+                break  # Exit the loop if no exception is raised
+            except Exception as e:
+                print(f"{ws} - {button_name} : Error in Button Click Function", e)
+                time.sleep(1)  # Optional: Wait a bit before retrying
+            finally:
+                time.sleep(1)
+                pyautogui.press('enter')
+                time.sleep(1)
 
     def inject_values(self, wb, excel):
         if self.debug_yes: print('inject value to cell, _inject_input is started ...')
@@ -139,7 +167,7 @@ class YangSooInjector:
         ws.Range("GoalSeekTarget").Value = 0
 
         selected_value = random.choice(values)
-        if self.debug_yes: print(f'selected value ... : {selected_value}')
+        if self.debug_yes: print(f'stable time selection ... : {selected_value}')
 
         self.click_excel_button(ws, "CommandButton5")  # Reset 0.1
         time.sleep(1)
