@@ -220,37 +220,59 @@ class CaptureScreen(AQTbase):
 
         # area or region - [left, top, width, and height]
         screen_2560x1440 = [
-            ([1062, 263, 46, 21], 'screenshot_01_T.jpg'),
-            ([1062, 284, 90, 21], 'screenshot_02_S.jpg')
+            ([1063, 265, 88, 22], 'screenshot_01_T.jpg'),
+            ([1060, 282, 88, 22], 'screenshot_02_S.jpg')
+        ]
+
+        screen_2560x1440_4 = [
+            ([1063, 265, 88, 22], 'screenshot_01_T.jpg'),
+            ([1064, 282, 88, 22], 'screenshot_02_S.jpg')
         ]
 
         screen_1920x1200 = [
-            ([919, 263, 46, 22], 'screenshot_01_T.jpg'),
-            ([917, 283, 88, 22], 'screenshot_02_S.jpg')
+            ([919, 265, 88, 22], 'screenshot_01_T.jpg'),
+            ([916, 282, 88, 22], 'screenshot_02_S.jpg')
+        ]
+
+        screen_1920x1200_4 = [
+            ([919, 265, 88, 22], 'screenshot_01_T.jpg'),
+            ([920, 282, 88, 22], 'screenshot_02_S.jpg')
         ]
 
         screen_1920x1080 = [
-            ([844, 265, 46, 22], 'screenshot_01_T.jpg'),
-            ([844, 283, 88, 22], 'screenshot_02_S.jpg')
+            ([844, 265, 88, 22], 'screenshot_01_T.jpg'),
+            ([841, 282, 88, 22], 'screenshot_02_S.jpg')
         ]
 
         screen_1920x1080_4 = [
-            ([848, 265, 46, 22], '1920x1080_4_01_T.jpg'),
-            ([848, 283, 88, 22], '1920x1080_4_02_S.jpg')
+            ([848, 265, 88, 22], '1920x1080_4_01_T.jpg'),
+            ([845, 282, 88, 22], '1920x1080_4_02_S.jpg')
         ]
 
         screen_3072x1728 = [
-            ([1238, 263, 46, 22], 'screenshot_01_T.jpg'),
-            ([1238, 283, 88, 22], 'screenshot_02_S.jpg')
+            ([1238, 263, 88, 22], 'screenshot_01_T.jpg'),
+            ([1235, 282, 88, 22], 'screenshot_02_S.jpg')
+        ]
+
+        screen_3072x1728_4 = [
+            ([1238, 263, 88, 22], 'screenshot_01_T.jpg'),
+            ([1239, 282, 88, 22], 'screenshot_02_S.jpg')
         ]
 
 
         match get_screen_width():
             case 2560:
-                areas_filenames = screen_2560x1440
+                if step == 4:
+                    areas_filenames = screen_2560x1440_4
+                else:
+                    areas_filenames = screen_2560x1440
+
             case 1920:
                 if get_screen_height() == 1200:
-                    areas_filenames = screen_1920x1200
+                    if step == 4:
+                        areas_filenames = screen_1920x1200_4
+                    else:
+                        areas_filenames = screen_1920x1200
                 else:
                     if step == 4:
                         areas_filenames = screen_1920x1080_4
@@ -258,7 +280,10 @@ class CaptureScreen(AQTbase):
                         areas_filenames = screen_1920x1080
 
             case 3072:
-                areas_filenames = screen_3072x1728
+                if step == 4:
+                    areas_filenames = screen_3072x1728_4
+                else:
+                    areas_filenames = screen_3072x1728
                 print(' selected ...')
             case _:
                 areas_filenames = screen_1920x1200
