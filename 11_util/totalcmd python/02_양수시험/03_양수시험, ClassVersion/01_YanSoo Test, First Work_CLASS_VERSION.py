@@ -55,6 +55,7 @@ class YangSooInjector:
     def extract_number(s):
         return int(re.findall(r'\d+', s)[0])
 
+
     def click_excel_button(self, ws, button_name):
         def click_button():
             for obj in ws.OLEObjects():
@@ -75,6 +76,7 @@ class YangSooInjector:
                 pyautogui.press('enter')
                 time.sleep(1)
 
+
     def get_excel_row(self, row_index):
         return self.df.iloc[row_index, :].tolist()
 
@@ -94,12 +96,10 @@ class YangSooInjector:
 
         project_name = ''
         jigu_name = ''
-        company_name = ''
 
         if len_row_data > 9:
             project_name = row_data[9]
             jigu_name = row_data[10]
-            company_name = row_data[11]
 
         # 2024년 6월 15일 추가
         # 조사명, 지구명을 추가해줌,  YanSoo.xlsx 파일에 ...
@@ -119,7 +119,7 @@ class YangSooInjector:
                     "M48": natural, "M49": stable, "M51": q}
         else:
             return {"J48": str_gong, "I46": address, "I52": casing, "I48": hp, "M44": well_rad, "M45": simdo,
-                    "M48": natural, "M49": stable, "M51": q, "I44": project_name, "I45": jigu_name, "I47": company_name}
+                    "M48": natural, "M49": stable, "M51": q, "I44": project_name, "I45": jigu_name}
 
     def inject_value_to_cells(self, book):
         sheet = book.Worksheets("Input")
@@ -136,6 +136,7 @@ class YangSooInjector:
             time.sleep(1)
 
         if self.debug_yes: print('inject value to cell, finished...')
+
 
     def inject_values(self, wb, excel):
         if self.debug_yes: print('inject value to cell, _inject_input is started ...')
@@ -162,6 +163,7 @@ class YangSooInjector:
         time.sleep(1)
         self.click_excel_button(ws, "CommandButton6")
         print('_inject_input -- Chart Fitting')
+
 
         time.sleep(1)
         self.click_excel_button(ws, "CommandButton1")
