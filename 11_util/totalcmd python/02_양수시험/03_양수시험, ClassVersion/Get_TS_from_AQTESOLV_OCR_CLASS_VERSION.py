@@ -565,3 +565,4 @@ class RunTimeTimer:
 if __name__ == '__main__':
     aqt_processor = AQTProcessor('mannual')
     print(aqt_processor.AqtesolverMain(r"d:\05_Send\w1_03_recover.aqt"))
+    name = input("Program is Terminated and check console message ... ")

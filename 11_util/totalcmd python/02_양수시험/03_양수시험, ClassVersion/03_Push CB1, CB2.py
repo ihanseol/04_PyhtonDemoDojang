@@ -314,6 +314,7 @@ class YangSooInjector:
 def main():
     injector = YangSooInjector(directory="PushCB", PUSH_CB_ONLY=True)
     injector.process_CB1CB2()
+    name = input("Program is Terminated and check console message ... ")
 
 
 if __name__ == "__main__":

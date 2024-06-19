@@ -20,8 +20,13 @@
 # While True: 로 처리 ....
 #
 #
+# 2024.6.19일
+# 안정수위 도달시간을 , 데이타시트 (YanSoo_Spec.xlsx) 에 추가해주고
+# 이것이 들어올때, 없을때의 처리 추가 해줌
+#
 # *************************************************************************
 """
+from typing import Any
 
 import win32com.client as win32
 import time
@@ -41,6 +46,11 @@ class YangSooInjector:
         self.df = pd.read_excel(r"d:\05_Send\YanSoo_Spec.xlsx")
         # self.df = pd.read_excel(spec_file)
         self.debug_yes = True
+        self.STABLE_TIME = 0
+        '''
+            여기서, 안정수위 도달시간 stable_time = 0 이면
+            이것은, 자동으로 처리한다는 의미이다.        
+        '''
 
     @staticmethod
     def countdown(n):
@@ -76,10 +86,19 @@ class YangSooInjector:
                 time.sleep(1)
 
     def get_excel_row(self, row_index):
-        return self.df.iloc[row_index, :].tolist()
+        try:
+            r_value = self.df.iloc[row_index, :].tolist()
+        except IndexError:
+            return None
+
+        return r_value
 
     def make_cell_values(self, row_index):
-        row_data = self.get_excel_row(row_index)
+
+        row_data: bool | Any = self.get_excel_row(row_index)
+
+        if row_data is None: return None
+
         len_row_data = len(row_data)
         print('len(row_data):', len_row_data)
 
@@ -95,6 +114,7 @@ class YangSooInjector:
         project_name = ''
         jigu_name = ''
         company_name = ''
+        self.STABLE_TIME = row_data[12]
 
         if len_row_data > 9:
             project_name = row_data[9]
@@ -128,6 +148,9 @@ class YangSooInjector:
         if self.debug_yes: print('inject value to cell, processing make_cell_values...')
 
         cell_values = self.make_cell_values(row_index)
+        if cell_values is None:
+            return None
+
         sheet.Range("M49").Value = 300  # 안정수위를 일단 300으로 , 에러를 차단하기 위해서 ...
 
         for cell, value in cell_values.items():
@@ -139,7 +162,10 @@ class YangSooInjector:
 
     def inject_values(self, wb, excel):
         if self.debug_yes: print('inject value to cell, _inject_input is started ...')
-        self._inject_input(wb)
+        result = self._inject_input(wb)
+
+        if result is None:
+            return None
 
         if self.debug_yes: print('inject step test ...')
         self._inject_step_test(wb)
@@ -151,32 +177,39 @@ class YangSooInjector:
         ws = wb.Worksheets("Input")
         ws.Activate()
         time.sleep(1)
-        self.inject_value_to_cells(wb)
-        time.sleep(1)
+        result = self.inject_value_to_cells(wb)
 
-        self.click_excel_button(ws, "CommandButton2")
+        if result is None:
+            return None
+        else:
+            time.sleep(1)
+
         print('_inject_input -- SetCB1 ')
+        self.click_excel_button(ws, "CommandButton2")
         time.sleep(1)
-        self.click_excel_button(ws, "CommandButton3")
-        print('_inject_input -- SetCB2 ')
-        time.sleep(1)
-        self.click_excel_button(ws, "CommandButton6")
-        print('_inject_input -- Chart Fitting')
 
+        print('_inject_input -- SetCB2 ')
+        self.click_excel_button(ws, "CommandButton3")
+        time.sleep(1)
+
+        print('_inject_input -- Chart Fitting')
+        self.click_excel_button(ws, "CommandButton6")
+
+        print('_inject_input -- PumpingTest ')
         time.sleep(1)
         self.click_excel_button(ws, "CommandButton1")
-        print('_inject_input -- PumpingTest ')
 
     def _inject_step_test(self, wb):
         ws = wb.Worksheets("stepTest")
         ws.Activate()
         time.sleep(1)
-        self.click_excel_button(ws, "CommandButton1")
-        print('_inject_step_test -- FindAnswer Button ')
 
+        print('_inject_step_test -- FindAnswer Button ')
+        self.click_excel_button(ws, "CommandButton1")
         time.sleep(2)
-        self.click_excel_button(ws, "CommandButton2")
+
         print('_inject_step_test -- Check Button ')
+        self.click_excel_button(ws, "CommandButton2")
 
     def _inject_long_term_test(self, wb, excel):
         ws = wb.Worksheets("LongTest")
@@ -186,33 +219,62 @@ class YangSooInjector:
         # Clear GoalSeekTarget
         ws.Range("GoalSeekTarget").Value = 0
 
-        selected_value = random.choice(values)
+        if self.STABLE_TIME == 0:
+            selected_value = random.choice(values)
+        else:
+            selected_value = self.STABLE_TIME
+
         if self.debug_yes: print(f'stable time selection ... : {selected_value}')
 
-        self.click_excel_button(ws, "CommandButton5")  # Reset 0.1
         print('_inject_long_term_test -- Reset 0.1')
+        self.click_excel_button(ws, "CommandButton5")  # Reset 0.1
         time.sleep(1)
 
         ws.OLEObjects("ComboBox1").Object.Value = selected_value
         time.sleep(1)
-        excel.Application.Run("mod_W1LongtermTEST.TimeSetting")
+
         print('_inject_long_term_test -- excel.Application.Run("mod_W1LongtermTEST.TimeSetting")')
+        excel.Application.Run("mod_W1LongtermTEST.TimeSetting")
         time.sleep(1)
 
-        self.click_excel_button(ws, "CommandButton5")  # Reset 0.1
         print('_inject_long_term_test -- Reset 0.1')
+        self.click_excel_button(ws, "CommandButton5")  # Reset 0.1
         time.sleep(1)
-        self.click_excel_button(ws, "CommandButton4")  # Find Answer
+
         print('_inject_long_term_test -- FindAnswer')
+        self.click_excel_button(ws, "CommandButton4")  # Find Answer
         time.sleep(2)
-        self.click_excel_button(ws, "CommandButton7")  # Check
+
         print('_inject_long_term_test -- Check')
+        self.click_excel_button(ws, "CommandButton7")  # Check
+
+    def data_validation(self):
+        os.chdir(self.directory)
+        files = natsorted([f for f in os.listdir() if f.endswith('.xlsm')])
+
+        if files:
+            last_file = files[-1]
+            print("The last Excel file is:", last_file)
+        else:
+            last_file = ''
+            print("No .xlsm files found.")
+
+        row_index = self.extract_number(last_file) - 1
+        check = self.get_excel_row(row_index)
+
+        if check is None:
+            return None
+        else:
+            return files
 
     def process_files(self):
         self.countdown(5)
 
-        os.chdir(self.directory)
-        files = natsorted([f for f in os.listdir() if f.endswith('.xlsm')])
+        files = self.data_validation()
+        if files is None:
+            print("Index Does not have YangSoo file ...")
+            return None
+
         excel = win32.gencache.EnsureDispatch('Excel.Application')
         excel.ScreenUpdating = False
 
@@ -223,8 +285,16 @@ class YangSooInjector:
         for file in files:
             if self.debug_yes: print('Processing file: ', file)
             wb = excel.Workbooks.Open(self.directory + file)
-            self.inject_values(wb, excel)
-            wb.Close(SaveChanges=True)
+            result = self.inject_values(wb, excel)
+
+            if result is None:
+                print("Index Does not match, DataSheet and YangSoo file ...")
+                wb.Close(SaveChanges=False)
+                excel.ScreenUpdating = True
+                excel.Quit()
+                return None
+            else:
+                wb.Close(SaveChanges=True)
 
         excel.ScreenUpdating = True
         excel.Quit()
@@ -260,6 +330,7 @@ def main():
     injector = YangSooInjector("d:\\05_Send\\")
     injector.initial_delete_output_file(r"c:/Users/minhwasoo/Documents/")
     injector.process_files()
+    name = input("Program is Terminated and check console message ... ")
 
 
 if __name__ == "__main__":
