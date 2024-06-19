@@ -95,9 +95,7 @@ class YangSooInjector:
 
     def make_cell_values(self, row_index):
 
-        row_data: bool | Any = self.get_excel_row(row_index)
-
-        if row_data is None: return None
+        row_data = self.get_excel_row(row_index)
 
         len_row_data = len(row_data)
         print('len(row_data):', len_row_data)
@@ -148,9 +146,6 @@ class YangSooInjector:
         if self.debug_yes: print('inject value to cell, processing make_cell_values...')
 
         cell_values = self.make_cell_values(row_index)
-        if cell_values is None:
-            return None
-
         sheet.Range("M49").Value = 300  # 안정수위를 일단 300으로 , 에러를 차단하기 위해서 ...
 
         for cell, value in cell_values.items():
@@ -160,12 +155,10 @@ class YangSooInjector:
 
         if self.debug_yes: print('inject value to cell, finished...')
 
+
     def inject_values(self, wb, excel):
         if self.debug_yes: print('inject value to cell, _inject_input is started ...')
-        result = self._inject_input(wb)
-
-        if result is None:
-            return None
+        self._inject_input(wb)
 
         if self.debug_yes: print('inject step test ...')
         self._inject_step_test(wb)
@@ -173,16 +166,15 @@ class YangSooInjector:
         if self.debug_yes: print('inject long term test ...')
         self._inject_long_term_test(wb, excel)
 
+
+
     def _inject_input(self, wb):
         ws = wb.Worksheets("Input")
         ws.Activate()
         time.sleep(1)
-        result = self.inject_value_to_cells(wb)
+        self.inject_value_to_cells(wb)
 
-        if result is None:
-            return None
-        else:
-            time.sleep(1)
+        time.sleep(1)
 
         print('_inject_input -- SetCB1 ')
         self.click_excel_button(ws, "CommandButton2")
@@ -285,16 +277,8 @@ class YangSooInjector:
         for file in files:
             if self.debug_yes: print('Processing file: ', file)
             wb = excel.Workbooks.Open(self.directory + file)
-            result = self.inject_values(wb, excel)
-
-            if result is None:
-                print("Index Does not match, DataSheet and YangSoo file ...")
-                wb.Close(SaveChanges=False)
-                excel.ScreenUpdating = True
-                excel.Quit()
-                return None
-            else:
-                wb.Close(SaveChanges=True)
+            self.inject_values(wb, excel)
+            wb.Close(SaveChanges=True)
 
         excel.ScreenUpdating = True
         excel.Quit()
