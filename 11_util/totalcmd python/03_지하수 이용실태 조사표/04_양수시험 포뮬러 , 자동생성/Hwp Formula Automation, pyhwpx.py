@@ -69,7 +69,7 @@ def main():
 
     hwp.Run("SelectAll")
     hwp.Run("ParagraphShapeAlignCenter")
-    OnScriptMacro_LineSpacing(hwp, 200)
+    OnScriptMacro_LineSpacing(hwp, 210)
     hwp.Run("Cancel")
 
     hwp.save_as(f"d:/05_Send/formula.hwp")
