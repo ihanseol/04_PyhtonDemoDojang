@@ -85,7 +85,7 @@ def main():
     print(f"1, source : {source_file}")
     print(f"1, target : {target_dir}")
 
-    _ = input("Press Enter to Proced ...")
+    # _ = input("Press Enter to Proced ...")
 
     print(os.getcwd())
 
@@ -100,7 +100,7 @@ def main():
         print(f"An error occurred, {source_file} : ", e)
         MyMessageBox(f" File Not Found .... {source_file} ")
 
-    _ = input("Press Enter to Proced ...")
+    # _ = input("Press Enter to Proced ...")
     os.remove(source_file)
 
 
