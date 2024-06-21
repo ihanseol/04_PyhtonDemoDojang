@@ -67,15 +67,13 @@ def toggle_source_target(path=r"z:/06_Send2/", is_display=False):
     return target_folder
 
 
-def folder_name_sync(path_source, path_target='empty'):
+def folder_name_sync(path_source, path_target=''):
     source_dir = path_source
     target_dir = path_target
 
-    print(f"folder_name_sync, source:{source_dir}")
-    print(f"folder_name_sync, target:{target_dir}")
+    print(f"folder_name_sync, source:{source_dir}, target:{target_dir}")
 
-    if target_dir == 'empty':
-        print_debug('into toggle_source_target')
+    if target_dir == '':
         target_dir = toggle_source_target(path=source_dir)
 
     # result = one_level_up_if_directory(path)
@@ -91,7 +89,7 @@ def folder_name_sync(path_source, path_target='empty'):
         print("folder length is not match !")
         return False
 
-    print_debug('')
+    print("*" * 80)
     print("Folder Name Sync")
     print(os.getcwd())
 
@@ -99,42 +97,7 @@ def folder_name_sync(path_source, path_target='empty'):
         print(f"src_dir = {src_dir}, tgt_dir = {tgt_dir}")
         rename_folder(current_name=src_dir, new_name=tgt_dir)
 
-    print_debug('')
+    print("*" * 80)
 
 
-def print_debug(msg='', chr='*', len=180):
-    print(chr * len)
-    print(msg)
-    print(chr * len)
-
-
-if __name__ == "__main__":
-
-    # Print the number of arguments (including the script name)
-    print(f"Number of arguments: {len(sys.argv)}")
-
-    # Print the script name
-    print(f"Script name: {sys.argv[0]}")
-
-    # Print all arguments one by one
-    for i, arg in enumerate(sys.argv[1:], start=1):
-        arg_temp = arg.replace('"', '\\')
-        print(f"Argument {i}: {arg_temp}")
-
-    print_debug('this is parsing argument ', '-')
-    source_dir = sys.argv[1].replace('"', '\\')
-    target_dir = sys.argv[2].replace('"', '\\')
-
-    print(f"1, source : {source_dir}")
-    print(f"1, target : {target_dir}")
-
-    _ = input("Enter")
-
-    print_debug('sync folder name  ', '-')
-    if source_dir and os.path.isdir(source_dir):
-        folder_name_sync(source_dir, target_dir)
-
-    if target_dir:
-        _ = input(f"Folder Name Sync Complete source : {source_dir}  --> target {target_dir}")
-    else:
-        _ = input(f"Folder Name Sync Complete source : {source_dir}  --> target {toggle_source_target(source_dir)}")
+folder_name_sync("d:\\09_hardRain\\09_ihanseol - 2024\\","e:\\09_hardRain\\09_ihanseol - 2024\\")
