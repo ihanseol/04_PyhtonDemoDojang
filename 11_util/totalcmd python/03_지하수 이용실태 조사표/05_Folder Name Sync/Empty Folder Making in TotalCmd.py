@@ -61,7 +61,6 @@ def get_lastdirectory(path):
 
 
 def main():
-    os.chdir(SEND_PATH)
     # Print the number of arguments (including the script name)
     print(f"Number of arguments: {len(sys.argv)}")
 
@@ -84,7 +83,7 @@ def main():
     target_dir = sys.argv[2]
 
     copy_file(source_file, SEND_PATH + "dir_list.txt")
-    source_file = "dir_list.txt"
+    source_file = SEND_PATH + "dir_list.txt"
     os.chdir(target_dir)
 
     print(f"1, source : {source_file}")
@@ -106,7 +105,7 @@ def main():
         MyMessageBox(f" File Not Found .... {source_file} ")
 
     _ = input("Press Enter to Proced ...")
-    os.remove(SEND_PATH + source_file)
+    os.remove(source_file)
 
 
 if __name__ == "__main__":
