@@ -2,6 +2,12 @@ import os
 import sys
 
 
+def print_debug(msg='', chr='*', len=180):
+    print(chr * len)
+    print(msg)
+    print(chr * len)
+
+
 def one_level_up_if_directory(path):
     if os.path.isdir(path):
         parent_directory = os.path.dirname(path)
@@ -56,30 +62,42 @@ def toggle_source_target(path=r"z:/06_Send2/", is_display=False):
         print_debug('-')
         print(drive, path)
 
-    if drive == "d:" or drive == "D:":
-        target_folder = change_drive_letter(path, "Z:")
-        print(path, target_folder)
-    else:
-        target_folder = change_drive_letter(path, "D:")
-        print(path, target_folder)
+    # if drive == "d:" or drive == "D:":
+    #     target_folder = change_drive_letter(path, "Z:")
+    #     print(path, target_folder)
+    # else:
+    #     target_folder = change_drive_letter(path, "D:")
+    #     print(path, target_folder)
+
+    target_drive = "Z:" if drive.lower() == "d:" else "D:"
+    target_folder = change_drive_letter(path, target_drive)
+    print(path, target_folder)
 
     print_debug('-')
     return target_folder
 
 
 def folder_name_sync(path_source, path_target='empty'):
+    """
+    Synchronizes folder names between the source and target directories.
+
+    Args:
+        path_source (str): The source directory path.
+        path_target (str): The target directory path (default is 'empty').
+
+    Returns:
+        bool: True if the folder names are synchronized successfully, False otherwise.
+    """
+
     source_dir = path_source
     target_dir = path_target
 
-    print(f"folder_name_sync, source:{source_dir}")
-    print(f"folder_name_sync, target:{target_dir}")
+    print(f"folder_name_sync, source: {source_dir}")
+    print(f"folder_name_sync, target: {target_dir}")
 
     if target_dir == 'empty':
         print_debug('into toggle_source_target')
         target_dir = toggle_source_target(path=source_dir)
-
-    # result = one_level_up_if_directory(path)
-    # print(f"The path '{path}' is: {result}")
 
     os.chdir(target_dir)
     s_directories = list_directories_in_current_path(source_dir)
@@ -88,7 +106,7 @@ def folder_name_sync(path_source, path_target='empty'):
     print(len(s_directories), len(t_directories))
 
     if len(s_directories) != len(t_directories):
-        print("folder length is not match !")
+        print("Folder lengths do not match!")
         return False
 
     print_debug('')
@@ -100,12 +118,7 @@ def folder_name_sync(path_source, path_target='empty'):
         rename_folder(current_name=src_dir, new_name=tgt_dir)
 
     print_debug('')
-
-
-def print_debug(msg='', chr='*', len=180):
-    print(chr * len)
-    print(msg)
-    print(chr * len)
+    return True
 
 
 if __name__ == "__main__":
