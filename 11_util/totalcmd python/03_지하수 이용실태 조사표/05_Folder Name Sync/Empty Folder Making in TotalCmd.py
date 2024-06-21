@@ -73,10 +73,6 @@ def main():
         # print(f"Argument {i}: {arg_temp}")
         print(f"Argument {i}: {arg}")
 
-    # print_debug('this is parsing argument ', '-')
-    # source_dir = sys.argv[1].replace('"', '\\')
-    # target_dir = sys.argv[2].replace('"', '\\')
-
     local_appdata = os.getenv('LOCALAPPDATA')
 
     source_file = local_appdata + "\\Temp\\" + os.path.basename(sys.argv[1])
