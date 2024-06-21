@@ -5,7 +5,6 @@ import pyperclip
 import tkinter as tk
 from tkinter import messagebox
 
-
 FORMULA_SOURCE = "d:\\05_Send\\YangSoo.csv"
 
 
@@ -30,7 +29,6 @@ def MyMessageBox(message):
     messagebox.showinfo("Notice", message)
 
 
-
 def main():
     try:
         with open(FORMULA_SOURCE, 'r', encoding='cp949') as file:
@@ -49,10 +47,5 @@ def main():
     app.api.Run("Cancel");
 
 
-
-
 if __name__ == '__main__':
     main()
-
-
-
