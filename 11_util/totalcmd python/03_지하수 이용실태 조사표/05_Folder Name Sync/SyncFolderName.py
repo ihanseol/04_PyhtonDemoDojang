@@ -43,9 +43,9 @@ def list_directories_in_current_path(path=r"z:/06_Send2/", is_display=False):
     directories = [d for d in os.listdir(current_path) if os.path.isdir(os.path.join(current_path, d))]
 
     if is_display:
-        print('-' * 80)
+        print_debug('-')
         for _ in directories: print(_)
-        print('-' * 80)
+        print_debug('-')
 
     return directories
 
@@ -53,7 +53,7 @@ def list_directories_in_current_path(path=r"z:/06_Send2/", is_display=False):
 def toggle_source_target(path=r"z:/06_Send2/", is_display=False):
     drive = get_drive_letter(path)
     if is_display:
-        print('-' * 60)
+        print_debug('-')
         print(drive, path)
 
     if drive == "d:" or drive == "D:":
@@ -63,7 +63,7 @@ def toggle_source_target(path=r"z:/06_Send2/", is_display=False):
         target_folder = change_drive_letter(path, "D:")
         print(path, target_folder)
 
-    print('-' * 60)
+    print_debug('-')
     return target_folder
 
 
