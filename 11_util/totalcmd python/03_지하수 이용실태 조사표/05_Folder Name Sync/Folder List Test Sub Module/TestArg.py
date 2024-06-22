@@ -11,6 +11,10 @@ for i, arg in enumerate(sys.argv[1:], start=1):
     print(f"Argument {i}: {arg}")
 
 
+print(f'1 : {sys.argv[1]}')
+print(f'2 : {sys.argv[2]}')
+
+
 _ = input("Enter")
 
 

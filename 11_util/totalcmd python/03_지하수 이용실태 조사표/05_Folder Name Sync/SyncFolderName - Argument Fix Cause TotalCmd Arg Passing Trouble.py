@@ -122,15 +122,21 @@ def folder_name_sync(path_source, path_target='empty'):
 
 
 if __name__ == "__main__":
+
+    # Print the number of arguments (including the script name)
     print(f"Number of arguments: {len(sys.argv)}")
+
+    # Print the script name
     print(f"Script name: {sys.argv[0]}")
 
+    # Print all arguments one by one
     for i, arg in enumerate(sys.argv[1:], start=1):
-        print(f"Argument {i}: {arg}")
+        arg_temp = arg.replace('"', '\\')
+        print(f"Argument {i}: {arg_temp}")
 
-    print_debug('this is parsing argument ')
-    source_dir = sys.argv[1]
-    target_dir = sys.argv[2]
+    print_debug('this is parsing argument ', '-')
+    source_dir = sys.argv[1].replace('"', '\\')
+    target_dir = sys.argv[2].replace('"', '\\')
 
     print(f"1, source : {source_dir}")
     print(f"1, target : {target_dir}")
@@ -139,9 +145,7 @@ if __name__ == "__main__":
 
     print_debug('sync folder name  ', '-')
     if source_dir and os.path.isdir(source_dir):
-        if not folder_name_sync(source_dir, target_dir):
-            _ = input(f"Source and Target Folder does not match ...")
-            exit()
+        folder_name_sync(source_dir, target_dir)
 
     if target_dir:
         _ = input(f"Folder Name Sync Complete source : {source_dir}  --> target {target_dir}")
