@@ -72,18 +72,40 @@ class YangSooInjector:
                     obj.Object.Value = True
                     break
 
-        while True:
-            try:
-                click_button()
-                break  # Exit the loop if no exception is raised
-            except Exception as e:
-                print(f"{ws} - {button_name} : Error in Button Click Function", e)
-                time.sleep(1)  # Optional: Wait a bit before retrying
-            finally:
-                self.change_window('EXCEL')
-                time.sleep(1)
-                pyautogui.press('enter')
-                time.sleep(1)
+        def search_button():
+            for obj in ws.OLEObjects():
+                if obj.Name == button_name:
+                    return True
+
+            return False
+
+        if not search_button():
+            return False
+        else:
+            while True:
+                try:
+                    click_button()
+                    break  # Exit the loop if no exception is raised
+                except Exception as e:
+                    print(f"{ws} - {button_name} : Error in Button Click Function", e)
+                    time.sleep(1)  # Optional: Wait a bit before retrying
+                finally:
+                    self.change_window('EXCEL')
+                    time.sleep(1)
+                    pyautogui.press('enter')
+                    time.sleep(1)
+
+            return True
+
+    def click_excel_buttons(self, ws, button_names):
+        check = False
+        for button_name in button_names:
+            check = self.click_excel_button(ws, button_name)
+            if not check:
+                print(button_name, " Not Found ...")
+            else:
+                print("Button Click Function", button_name)
+        return check
 
     def get_excel_row(self, row_index):
         try:
@@ -155,7 +177,6 @@ class YangSooInjector:
 
         if self.debug_yes: print('inject value to cell, finished...')
 
-
     def inject_values(self, wb, excel):
         if self.debug_yes: print('inject value to cell, _inject_input is started ...')
         self._inject_input(wb)
@@ -166,8 +187,6 @@ class YangSooInjector:
         if self.debug_yes: print('inject long term test ...')
         self._inject_long_term_test(wb, excel)
 
-
-
     def _inject_input(self, wb):
         ws = wb.Worksheets("Input")
         ws.Activate()
@@ -176,20 +195,28 @@ class YangSooInjector:
 
         time.sleep(1)
 
-        print('_inject_input -- SetCB1 ')
-        self.click_excel_button(ws, "CommandButton2")
+        if self.click_excel_buttons(ws, ["CommandButton2", "CommandButton_CB1"]):
+            print('_inject_input -- SetCB1 ')
+        else:
+            print('_inject_input -- SetCB1 Button Not Found')
         time.sleep(1)
 
-        print('_inject_input -- SetCB2 ')
-        self.click_excel_button(ws, "CommandButton3")
+        if self.click_excel_buttons(ws, ["CommandButton3", "CommandButton_CB2"]):
+            print('_inject_input -- SetCB2 ')
+        else:
+            print('_inject_input -- SetCB2 Button Not Found')
         time.sleep(1)
 
-        print('_inject_input -- Chart Fitting')
-        self.click_excel_button(ws, "CommandButton6")
-
-        print('_inject_input -- PumpingTest ')
+        if self.click_excel_buttons(ws, ["CommandButton6", "CommandButton_Chart"]):
+            print('_inject_input -- Chart Fitting')
+        else:
+            print('_inject_input -- Chart Fitting Button Not Found ...')
         time.sleep(1)
-        self.click_excel_button(ws, "CommandButton1")
+
+        if not self.click_excel_button(ws, "CommandButton1"):
+            print('_inject_input -- CommandButton1 Not found')
+        else:
+            print('_inject_input -- PumpingTest ')
 
     def _inject_step_test(self, wb):
         ws = wb.Worksheets("stepTest")
@@ -226,8 +253,9 @@ class YangSooInjector:
         time.sleep(1)
 
         print('_inject_long_term_test -- excel.Application.Run("mod_W1LongtermTEST.TimeSetting")')
-        excel.Application.Run("mod_W1LongtermTEST.TimeSetting")
-        time.sleep(1)
+
+        # in Excel File , ModuleName CHanged, so it treat multi module name
+        self.ExcelApplicationMoudule(excel, ["mod_W1LongtermTEST", "mod_W1_LongtermTEST"])
 
         print('_inject_long_term_test -- Reset 0.1')
         self.click_excel_button(ws, "CommandButton5")  # Reset 0.1
@@ -239,6 +267,18 @@ class YangSooInjector:
 
         print('_inject_long_term_test -- Check')
         self.click_excel_button(ws, "CommandButton7")  # Check
+
+    @staticmethod
+    def ExcelApplicationMoudule(excel, module_names):
+        for module_name in module_names:
+            try:
+                excel.Application.Run(module_name + ".TimeSetting")
+                time.sleep(1)
+                print(f"Application.Run, {module_name} is running successfully")
+
+            except Exception as e:
+                print(f"Application.Run, {module_name} is not found .... ", e)
+                time.sleep(1)  # Optional: Wait a bit before retrying
 
     def data_validation(self):
         os.chdir(self.directory)

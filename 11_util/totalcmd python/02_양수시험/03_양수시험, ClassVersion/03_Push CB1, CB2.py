@@ -40,7 +40,7 @@ import pygetwindow as gw
 
 
 class YangSooInjector:
-    def __init__(self, directory="d:\\05_Send\\", PUSH_CB_ONLY = False):
+    def __init__(self, directory="d:\\05_Send\\", PUSH_CB_ONLY=False):
         if self.is_valid_path(directory):
             self.directory = directory
         else:
@@ -77,18 +77,40 @@ class YangSooInjector:
                     obj.Object.Value = True
                     break
 
-        while True:
-            try:
-                click_button()
-                break  # Exit the loop if no exception is raised
-            except Exception as e:
-                print(f"{ws} - {button_name} : Error in Button Click Function", e)
-                time.sleep(1)  # Optional: Wait a bit before retrying
-            finally:
-                self.change_window('EXCEL')
-                time.sleep(1)
-                pyautogui.press('enter')
-                time.sleep(1)
+        def search_button():
+            for obj in ws.OLEObjects():
+                if obj.Name == button_name:
+                    return True
+
+            return False
+
+        if not search_button():
+            return False
+        else:
+            while True:
+                try:
+                    click_button()
+                    break  # Exit the loop if no exception is raised
+                except Exception as e:
+                    print(f"{ws} - {button_name} : Error in Button Click Function", e)
+                    time.sleep(1)  # Optional: Wait a bit before retrying
+                finally:
+                    self.change_window('EXCEL')
+                    time.sleep(1)
+                    pyautogui.press('enter')
+                    time.sleep(1)
+
+            return True
+
+    def click_excel_buttons(self, ws, button_names):
+        check = False
+        for button_name in button_names:
+            check = self.click_excel_button(ws, button_name)
+            if not check:
+                print(button_name, " Not Found ...")
+            else:
+                print("Button Click Function", button_name)
+        return check
 
     def get_excel_row(self, row_index):
         return self.df.iloc[row_index, :].tolist()
@@ -187,18 +209,28 @@ class YangSooInjector:
         ws.Activate()
         time.sleep(1)
 
-        self.click_excel_button(ws, "CommandButton2")
-        print('_inject_input -- SetCB1 ')
+        if self.click_excel_buttons(ws, ["CommandButton2", "CommandButton_CB1"]):
+            print('_inject_input -- SetCB1 ')
+        else:
+            print('_inject_input -- SetCB1 Button Not Found')
         time.sleep(1)
-        self.click_excel_button(ws, "CommandButton3")
-        print('_inject_input -- SetCB2 ')
-        time.sleep(1)
-        self.click_excel_button(ws, "CommandButton6")
-        print('_inject_input -- Chart Fitting')
 
+        if self.click_excel_buttons(ws, ["CommandButton3", "CommandButton_CB2"]):
+            print('_inject_input -- SetCB2 ')
+        else:
+            print('_inject_input -- SetCB2 Button Not Found')
         time.sleep(1)
-        self.click_excel_button(ws, "CommandButton1")
-        print('_inject_input -- PumpingTest ')
+
+        if self.click_excel_buttons(ws, ["CommandButton6", "CommandButton_Chart"]):
+            print('_inject_input -- Chart Fitting')
+        else:
+            print('_inject_input -- Chart Fitting Button Not Found ...')
+        time.sleep(1)
+
+        if not self.click_excel_button(ws, "CommandButton1"):
+            print('_inject_input -- CommandButton1 Not found')
+        else:
+            print('_inject_input -- PumpingTest ')
 
     def _inject_step_test(self, wb):
         ws = wb.Worksheets("stepTest")
