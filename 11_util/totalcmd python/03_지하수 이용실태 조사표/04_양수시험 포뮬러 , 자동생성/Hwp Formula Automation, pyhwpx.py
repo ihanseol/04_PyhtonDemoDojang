@@ -57,7 +57,7 @@ def OnScriptMacro_LineSpacing(hwp, spacing):
 def main():
     try:
         with open(FORMULA_SOURCE, 'r', encoding='cp949') as file:
-            hwp = Hwp(visible=True)
+            hwp = Hwp(new=True, visible=True)
             for line in file:
                 if line.startswith('W'):
                     print(line)
