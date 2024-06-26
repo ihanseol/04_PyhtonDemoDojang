@@ -221,10 +221,12 @@ class YangSooInjector:
 
         if self.isit_oldversion(ws, button_mapping["old"][0]):
             self.isOLD = True
+            print("YangSoo Type - Old Version")
             button_set = button_mapping["old"]
             labels = ['SetCB1', 'SetCB2', 'Chart', 'PumpingTest']
         else:
             self.isOLD = False
+            print("YangSoo Type - New Version")
             button_set = button_mapping["new"]
             labels = ['SetCB1', 'SetCB2', 'SetChart']
 

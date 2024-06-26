@@ -214,10 +214,12 @@ class YangSooInjector:
 
         if self.isit_oldversion(ws, button_mapping["old"][0]):
             self.isOLD = True
+            print("YangSoo Type - Old Version")
             button_set = button_mapping["old"]
             labels = ['SetCB1', 'SetCB2', 'Chart', 'PumpingTest']
         else:
             self.isOLD = False
+            print("YangSoo Type - New Version")
             button_set = button_mapping["new"]
             labels = ['SetCB1', 'SetCB2', 'SetChart']
 
@@ -238,10 +240,12 @@ class YangSooInjector:
 
         if self.isit_oldversion(ws, button_mapping["old"][0]):
             self.isOLD = True
+            print("YangSoo Type - Old Version")
             button_set = button_mapping["old"]
             labels = ['SetCB1', 'SetCB2', 'Chart', 'PumpingTest']
         else:
             self.isOLD = False
+            print("YangSoo Type - New Version")
             button_set = button_mapping["new"]
             labels = ['SetCB1', 'SetCB2', 'SetChart']
 
@@ -361,8 +365,7 @@ class YangSooInjector:
     def process_CB1CB2(self):
         self.countdown(5)
 
-        os.chdir(self.directory)
-        files = natsorted([f for f in os.listdir() if f.endswith('.xlsm')])
+        files = self.data_validation(2)
         excel = win32.gencache.EnsureDispatch('Excel.Application')
         excel.ScreenUpdating = False
 
