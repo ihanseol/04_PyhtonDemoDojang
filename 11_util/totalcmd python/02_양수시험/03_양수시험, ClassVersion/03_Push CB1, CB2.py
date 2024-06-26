@@ -46,6 +46,7 @@ class YangSooInjector:
         else:
             self.directory = "d:\\05_Send\\"
 
+        self.isOLD = True
         self.PUSH_CB_ONLY = PUSH_CB_ONLY
 
         if not self.PUSH_CB_ONLY:
@@ -71,36 +72,38 @@ class YangSooInjector:
         return int(re.findall(r'\d+', s)[0])
 
     def click_excel_button(self, ws, button_name):
+
+        """
+            def click_button():
+                for i in range(1, ws.OLEObjects().Count + 1):
+                    obj = ws.OLEObjects().Item(i)
+                    if obj.Name == button_name:
+                        obj.Object.Value = True
+                        return True
+                return False
+        """
+
         def click_button():
             for obj in ws.OLEObjects():
                 if obj.Name == button_name:
                     obj.Object.Value = True
-                    break
-
-        def search_button():
-            for obj in ws.OLEObjects():
-                if obj.Name == button_name:
                     return True
-
             return False
 
-        if not search_button():
-            return False
-        else:
-            while True:
-                try:
-                    click_button()
-                    break  # Exit the loop if no exception is raised
-                except Exception as e:
-                    print(f"{ws} - {button_name} : Error in Button Click Function", e)
-                    time.sleep(1)  # Optional: Wait a bit before retrying
-                finally:
-                    self.change_window('EXCEL')
-                    time.sleep(1)
-                    pyautogui.press('enter')
-                    time.sleep(1)
+        while True:
+            try:
+                if not click_button(): return False
+                break  # Exit the loop if no exception is raised
+            except Exception as e:
+                print(f"{ws} - {button_name} : Error in Button Click Function", e)
+                time.sleep(1)  # Optional: Wait a bit before retrying
+            finally:
+                self.change_window('EXCEL')
+                time.sleep(1)
+                pyautogui.press('enter')
+                time.sleep(1)
 
-            return True
+        return True
 
     def click_excel_buttons(self, ws, button_names):
         check = False
@@ -120,43 +123,56 @@ class YangSooInjector:
         len_row_data = len(row_data)
         print('len(row_data):', len_row_data)
 
-        address = row_data[1]
-        hp = row_data[2]
-        casing = row_data[3]
-        well_rad = row_data[4]
-        simdo = row_data[5]
-        q = row_data[6]
-        natural = row_data[7]
-        stable = row_data[8]
-
-        project_name = ''
-        jigu_name = ''
-        company_name = ''
+        address, hp, casing, well_rad, simdo, q, natural, stable = row_data[1:9]
+        project_name = jigu_name = company_name = ''
+        self.STABLE_TIME = row_data[12]
 
         if len_row_data > 9:
-            project_name = row_data[9]
-            jigu_name = row_data[10]
-            company_name = row_data[11]
+            project_name, jigu_name, company_name = row_data[9:12]
 
-        # 2024년 6월 15일 추가
-        # 조사명, 지구명을 추가해줌,  YanSoo.xlsx 파일에 ...
-
-        # 안정수위가 자연수위보다 낮을경우 .... 자연수위와 안정수위를 바꿔 준다. 에러방지를 위해서
+        # Swap natural and stable if stable is less than natural to prevent errors
         if stable < natural:
-            natural = row_data[7]
-            stable = row_data[6]
+            natural, stable = stable, natural
 
         gong = self.extract_number(row_data[0])
         str_gong = f"공  번 : W - {gong}"
 
         time.sleep(1)
 
-        if len_row_data <= 9:
-            return {"J48": str_gong, "I46": address, "I52": casing, "I48": hp, "M44": well_rad, "M45": simdo,
-                    "M48": natural, "M49": stable, "M51": q}
-        else:
-            return {"J48": str_gong, "I46": address, "I52": casing, "I48": hp, "M44": well_rad, "M45": simdo,
-                    "M48": natural, "M49": stable, "M51": q, "I44": project_name, "I45": jigu_name, "I47": company_name}
+        cell_values = {
+            "J48": str_gong,
+            "I46": address,
+            "I52": casing,
+            "I48": hp,
+            "M44": well_rad,
+            "M45": simdo,
+            "M48": natural,
+            "M49": stable,
+            "M51": q
+        }
+
+        if len_row_data > 9:
+            cell_values.update({
+                "I44": project_name,
+                "I45": jigu_name,
+                "I47": company_name
+            })
+
+        return cell_values
+
+    @staticmethod
+    def isit_oldversion(ws, button_name):
+        """
+        :param ws:
+        :param button_name:
+        :return:
+            button_name found is ws then this is True
+
+        """
+        for obj in ws.OLEObjects():
+            if obj.Name == button_name:
+                return True
+        return False
 
     def inject_value_to_cells(self, book):
         sheet = book.Worksheets("Input")
@@ -191,46 +207,48 @@ class YangSooInjector:
         self.inject_value_to_cells(wb)
         time.sleep(1)
 
-        self.click_excel_button(ws, "CommandButton2")
-        print('_inject_input -- SetCB1 ')
-        time.sleep(1)
-        self.click_excel_button(ws, "CommandButton3")
-        print('_inject_input -- SetCB2 ')
-        time.sleep(1)
-        self.click_excel_button(ws, "CommandButton6")
-        print('_inject_input -- Chart Fitting')
+        button_mapping = {
+            "old": ["CommandButton2", "CommandButton3", "CommandButton6", "CommandButton1"],
+            "new": ["CommandButton_CB1", "CommandButton_CB2", "CommandButton_Chart"]
+        }
 
-        time.sleep(1)
-        self.click_excel_button(ws, "CommandButton1")
-        print('_inject_input -- PumpingTest ')
+        if self.isit_oldversion(ws, button_mapping["old"][0]):
+            self.isOLD = True
+            button_set = button_mapping["old"]
+            labels = ['SetCB1', 'SetCB2', 'Chart', 'PumpingTest']
+        else:
+            self.isOLD = False
+            button_set = button_mapping["new"]
+            labels = ['SetCB1', 'SetCB2', 'SetChart']
+
+        for button, label in zip(button_set, labels):
+            self.click_excel_button(ws, button)
+            print(f'_inject_input -- {label}')
+            time.sleep(1)
 
     def push_CB1CB2(self, wb):
         ws = wb.Worksheets("Input")
         ws.Activate()
         time.sleep(1)
 
-        if self.click_excel_buttons(ws, ["CommandButton2", "CommandButton_CB1"]):
-            print('_inject_input -- SetCB1 ')
-        else:
-            print('_inject_input -- SetCB1 Button Not Found')
-        time.sleep(1)
+        button_mapping = {
+            "old": ["CommandButton2", "CommandButton3", "CommandButton6", "CommandButton1"],
+            "new": ["CommandButton_CB1", "CommandButton_CB2", "CommandButton_Chart"]
+        }
 
-        if self.click_excel_buttons(ws, ["CommandButton3", "CommandButton_CB2"]):
-            print('_inject_input -- SetCB2 ')
+        if self.isit_oldversion(ws, button_mapping["old"][0]):
+            self.isOLD = True
+            button_set = button_mapping["old"]
+            labels = ['SetCB1', 'SetCB2', 'Chart', 'PumpingTest']
         else:
-            print('_inject_input -- SetCB2 Button Not Found')
-        time.sleep(1)
+            self.isOLD = False
+            button_set = button_mapping["new"]
+            labels = ['SetCB1', 'SetCB2', 'SetChart']
 
-        if self.click_excel_buttons(ws, ["CommandButton6", "CommandButton_Chart"]):
-            print('_inject_input -- Chart Fitting')
-        else:
-            print('_inject_input -- Chart Fitting Button Not Found ...')
-        time.sleep(1)
-
-        if not self.click_excel_button(ws, "CommandButton1"):
-            print('_inject_input -- CommandButton1 Not found')
-        else:
-            print('_inject_input -- PumpingTest ')
+        for button, label in zip(button_set, labels):
+            self.click_excel_button(ws, button)
+            print(f'_inject_input -- {label}')
+            time.sleep(1)
 
     def _inject_step_test(self, wb):
         ws = wb.Worksheets("stepTest")
@@ -251,33 +269,78 @@ class YangSooInjector:
         # Clear GoalSeekTarget
         ws.Range("GoalSeekTarget").Value = 0
 
-        selected_value = random.choice(values)
-        if self.debug_yes: print(f'stable time selection ... : {selected_value}')
+        selected_value = random.choice(values) if self.STABLE_TIME == 0 else self.STABLE_TIME
 
-        self.click_excel_button(ws, "CommandButton5")  # Reset 0.1
-        print('_inject_long_term_test -- Reset 0.1')
-        time.sleep(1)
+        if self.debug_yes:
+            print(f'stable time selection ... : {selected_value}')
 
-        ws.OLEObjects("ComboBox1").Object.Value = selected_value
-        time.sleep(1)
-        excel.Application.Run("mod_W1LongtermTEST.TimeSetting")
-        print('_inject_long_term_test -- excel.Application.Run("mod_W1LongtermTEST.TimeSetting")')
-        time.sleep(1)
+        actions = [
+            {"button": "CommandButton5", "label": "Reset 0.1", "delay": 1},
+            {"combo_box": "ComboBox1", "value": selected_value, "delay": 1},
+            {"module": ["mod_W1LongtermTEST", "mod_W1_LongtermTEST"], "delay": 1},
+            {"button": "CommandButton5", "label": "Reset 0.1", "delay": 1},
+            {"button": "CommandButton4", "label": "FindAnswer", "delay": 2},
+            {"button": "CommandButton7", "label": "Check", "delay": 0}
+        ]
 
-        self.click_excel_button(ws, "CommandButton5")  # Reset 0.1
-        print('_inject_long_term_test -- Reset 0.1')
+        for action in actions:
+            if "button" in action:
+                print(f'_inject_long_term_test -- {action["label"]}')
+                self.click_excel_button(ws, action["button"])
+            elif "combo_box" in action:
+                ws.OLEObjects(action["combo_box"]).Object.Value = action["value"]
+                print(f'_inject_long_term_test -- Set ComboBox value to {action["value"]}')
+            elif "module" in action:
+                print('_inject_long_term_test -- excel.Application.Run("mod_W1LongtermTEST.TimeSetting")')
+                self.ExcelApplicationModule(excel, action["module"])
+            time.sleep(action["delay"])
+
+    def ExcelApplicationModule(self, excel, module_names):
+        if self.isOLD:
+            module_name = module_names[0]
+        else:
+            module_name = module_names[1]
+
+        excel.Application.Run(f"{module_name}.TimeSetting")
         time.sleep(1)
-        self.click_excel_button(ws, "CommandButton4")  # Find Answer
-        print('_inject_long_term_test -- FindAnswer')
-        time.sleep(2)
-        self.click_excel_button(ws, "CommandButton7")  # Check
-        print('_inject_long_term_test -- Check')
+        print(f"Application.Run, {module_name} is running successfully")
+
+    def data_validation(self, mode=2):
+        """
+        데이터 검증 함수.
+
+        :param mode:
+            2일 경우 yangsoo 파일 목록 반환.
+            그 외의 경우 yangsoo 마지막 파일 반환.
+        :return: 파일 목록 또는 마지막 파일.
+        """
+
+        def collect_ge_original_save_files():
+            """현재 디렉토리에서 'ge_OriginalSaveFile'이 포함된 '.xlsm' 파일 목록을 수집."""
+            files = natsorted([f for f in os.listdir() if f.endswith('.xlsm')])
+            filtered_files = [f for f in files if "ge_OriginalSaveFile" in f]
+            return filtered_files
+
+        os.chdir(self.directory)
+        yangsoo_files = collect_ge_original_save_files()
+
+        if mode == 2:
+            return yangsoo_files if yangsoo_files else None
+
+        if not yangsoo_files:
+            print("No .xlsm files found.")
+            return None
+
+        last_file = yangsoo_files[-1]
+        row_index = self.extract_number(last_file) - 1
+        check = self.get_excel_row(row_index)
+
+        return yangsoo_files if check is not None else None
 
     def process_files(self):
         self.countdown(5)
 
-        os.chdir(self.directory)
-        files = natsorted([f for f in os.listdir() if f.endswith('.xlsm')])
+        files = self.data_validation(2)
         excel = win32.gencache.EnsureDispatch('Excel.Application')
         excel.ScreenUpdating = False
 
