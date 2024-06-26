@@ -16,7 +16,7 @@ def load_image_from_send(hwp):
     print('-' * 80)
     if jpg_files:
         for fname in jpg_files:
-            hwp.InsertPicture(os.path.join(r"d:\05_Send", fname), True, 0)
+            hwp.InsertPicture(os.path.join(r"d:\05_Send", fname), treat_as_char=True,embedded=True, sizeoption=0)
             hwp.MovePos(3)
             print(fname)
     print('-' * 80)
