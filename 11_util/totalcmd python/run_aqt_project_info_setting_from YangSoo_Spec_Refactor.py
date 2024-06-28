@@ -201,6 +201,6 @@ def main():
 
 
 if __name__ == "__main__":
-    # process_yangsoo_spec()
-    main()
+    process_yangsoo_spec()
+    # main()
 
