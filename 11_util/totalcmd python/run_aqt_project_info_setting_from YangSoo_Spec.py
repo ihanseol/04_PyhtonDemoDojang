@@ -112,8 +112,9 @@ class AqtSolveProjectInfoInjector:
 
         filtered_list = [item for item in address_list if not (item.endswith('아파트') or item == ',')]
         print(filtered_list)
+        address_string = ' '.join(filtered_list)
 
-        return filtered_list
+        return address_string
 
     def process_files(self):
         os.chdir(self.DIRECTORY)

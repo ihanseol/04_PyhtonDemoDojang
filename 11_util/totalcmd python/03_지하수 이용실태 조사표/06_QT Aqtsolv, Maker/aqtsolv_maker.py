@@ -48,8 +48,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+<<<<<<< HEAD
     app.setStyle('windows')
     # app.setStyle('windowsvista')
+=======
+    # app.setStyle('windows')
+    app.setStyle('windowsvista')
+>>>>>>> 110e9c44cafb17bd80c4c2fd618fb0cc7f24b13b
 
     window = MainWindow()
     window.show()

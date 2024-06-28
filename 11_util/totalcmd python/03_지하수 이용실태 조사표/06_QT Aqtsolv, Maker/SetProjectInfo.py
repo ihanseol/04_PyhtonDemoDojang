@@ -78,6 +78,7 @@ def main_job(well, address, company):
     time.sleep(DELAY)
 
 
+<<<<<<< HEAD
 def process_address(input_str):
     # Split the input string by spaces
     parts = input_str.split()
@@ -113,6 +114,9 @@ def Set_Projectinfo(company, address):
     if len(address) > 21:
         print("its over the size ...")
 
+=======
+def Set_Projectinfo(company, address):
+>>>>>>> 110e9c44cafb17bd80c4c2fd618fb0cc7f24b13b
     user32 = ctypes.windll.user32
     if IS_BLOCK:
         user32.BlockInput(True)
@@ -181,6 +185,14 @@ def main():
         user32.BlockInput(False)
 
 
+<<<<<<< HEAD
 if __name__ == "__main__":
     # main()
     Set_Projectinfo("한일지하수", "당진시 순성면 순성로 453-30 , 순성중명아파트")
+=======
+
+
+if __name__ == "__main__":
+    main()
+    #set_projectinfo("한일지하수", "대전시 유성구")
+>>>>>>> 110e9c44cafb17bd80c4c2fd618fb0cc7f24b13b
