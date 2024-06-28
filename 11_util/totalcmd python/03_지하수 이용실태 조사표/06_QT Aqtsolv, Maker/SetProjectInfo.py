@@ -78,7 +78,41 @@ def main_job(well, address, company):
     time.sleep(DELAY)
 
 
+def process_address(input_str):
+    # Split the input string by spaces
+    parts = input_str.split()
+
+    print(parts)  # For debugging
+
+    # Initialize the index
+    i = 0
+
+    # Iterate over the parts to find the target index
+    for part in parts:
+        if part.endswith("면") or part.endswith("구"):
+            break
+        i += 1
+
+    # Select the parts you want to keep
+    result = ' '.join(parts[i:])
+
+    if len(result) > 21:
+        result = result.replace('번지', '')
+
+    address_list = result.split()
+
+    filtered_list = [item for item in address_list if not (item.endswith('아파트') or item == ',')]
+    print(filtered_list)
+
+    return filtered_list
+
+
 def Set_Projectinfo(company, address):
+    address = process_address(address)
+    print(len(address))
+    if len(address) > 21:
+        print("its over the size ...")
+
     user32 = ctypes.windll.user32
     if IS_BLOCK:
         user32.BlockInput(True)
@@ -147,8 +181,6 @@ def main():
         user32.BlockInput(False)
 
 
-
-
 if __name__ == "__main__":
-    main()
-    #set_projectinfo("한일지하수", "대전시 유성구")
+    # main()
+    Set_Projectinfo("한일지하수", "당진시 순성면 순성로 453-30 , 순성중명아파트")

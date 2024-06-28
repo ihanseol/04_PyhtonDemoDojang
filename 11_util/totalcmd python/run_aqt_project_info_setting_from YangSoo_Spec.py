@@ -106,10 +106,14 @@ class AqtSolveProjectInfoInjector:
         result = ' '.join(parts[i:])
 
         if len(result) > 21:
-            if "번지" in result:
-                result = input_str.replace("번지", "")
+            result = result.replace('번지', '')
 
-        return result
+        address_list = result.split()
+
+        filtered_list = [item for item in address_list if not (item.endswith('아파트') or item == ',')]
+        print(filtered_list)
+
+        return filtered_list
 
     def process_files(self):
         os.chdir(self.DIRECTORY)
