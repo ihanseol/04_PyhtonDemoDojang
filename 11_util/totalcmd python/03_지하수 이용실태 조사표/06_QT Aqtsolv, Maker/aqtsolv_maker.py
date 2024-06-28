@@ -1,7 +1,7 @@
 import sys
 from PySide6.QtWidgets import QApplication, QMainWindow
 from ui import Ui_MainWindow
-import FileProcessing as fps
+import FileProcessing_V2 as fps
 import SetProjectInfo as sp
 
 

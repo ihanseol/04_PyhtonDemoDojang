@@ -80,13 +80,14 @@ def main_job(well, address, company):
 
 def process_address(input_str):
     # Split the input string by spaces
-    parts = input_str.split()
+    if len(input_str) <= 21:
+        return input_str
 
+    parts = input_str.split()
     print(parts)  # For debugging
 
     # Initialize the index
     i = 0
-
     # Iterate over the parts to find the target index
     for part in parts:
         if part.endswith("면") or part.endswith("구"):
@@ -109,6 +110,8 @@ def process_address(input_str):
 
 
 def Set_Projectinfo(company, address):
+    print(f"company : {company} / address : {address}")
+
     address = process_address(address)
     print(len(address))
     if len(address) > 21:
