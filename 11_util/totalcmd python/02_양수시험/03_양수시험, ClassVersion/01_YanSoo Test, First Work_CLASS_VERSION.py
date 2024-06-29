@@ -45,14 +45,18 @@ import pyautogui
 import pygetwindow as gw
 import pytz
 from datetime import datetime, timedelta
-import xlwings as xw
 
 
 class YangSooInjector:
     def __init__(self, directory):
         self.directory = directory
         # self.spec_file = spec_file
-        self.df = pd.read_excel(r"d:\05_Send\YanSoo_Spec.xlsx")
+
+        try:
+            self.df = pd.read_excel(r"d:\05_Send\YanSoo_Spec.xlsx")
+        except Exception as e:
+            print(f"YanSoo.xlsx Not Found - {e}")
+
         # self.df = pd.read_excel(spec_file)
         self.isOLD = True
         self.debug_yes = True
@@ -151,8 +155,9 @@ class YangSooInjector:
 
             # Localize to Seoul timezone if it is naive
             if timestamp.tzinfo is None:
-                seoul_tz = pytz.timezone('Asia/Seoul')
-                timestamp = timestamp.tz_localize(seoul_tz)
+                # seoul_tz = pytz.timezone('Asia/Seoul')
+                # timestamp = timestamp.tz_localize(seoul_tz)
+                timestamp = timestamp.tz_localize('UTC')
 
             # Add 10 seconds to the timestamp
             timestamp += timedelta(seconds=10)
@@ -171,7 +176,12 @@ class YangSooInjector:
         project_name = jigu_name = company_name = ''
 
         self.STABLE_TIME = row_data[12]
-        self.LONG_TERM_TEST_TIME = self.parse_and_adjust_timestamp(row_data[13])
+
+        print('time stamp of longtest_time :', row_data[13], type(row_data[13]))
+        # self.LONG_TERM_TEST_TIME = self.parse_and_adjust_timestamp(row_data[13])
+
+        self.LONG_TERM_TEST_TIME = row_data[13].tz_localize('UTC')
+        print('time stamp of longtest_time :', self.LONG_TERM_TEST_TIME, type(self.LONG_TERM_TEST_TIME))
 
         if len_row_data > 9:
             project_name, jigu_name, company_name = row_data[9:12]
@@ -298,7 +308,6 @@ class YangSooInjector:
             if self.LONG_TERM_TEST_TIME is None:
                 raise ValueError("LONG_TERM_TEST_TIME is None. Ensure it is properly initialized.")
 
-            # Assign the timestamp to the Excel cell
             ws.Range("C10").Value = self.LONG_TERM_TEST_TIME
         except Exception as e:
             print(f"Error assigning timestamp to Excel cell: {e}")
