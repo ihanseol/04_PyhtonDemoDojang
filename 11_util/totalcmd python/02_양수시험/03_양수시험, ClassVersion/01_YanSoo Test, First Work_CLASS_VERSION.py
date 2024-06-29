@@ -43,6 +43,8 @@ import random
 from natsort import natsorted
 import pyautogui
 import pygetwindow as gw
+import pytz
+from datetime import datetime, timedelta
 import xlwings as xw
 
 
@@ -55,6 +57,7 @@ class YangSooInjector:
         self.isOLD = True
         self.debug_yes = True
         self.STABLE_TIME = 0
+        self.LONG_TERM_TEST_TIME = pd.Timestamp('2024-06-29 15:45:09')
         '''
             여기서, 안정수위 도달시간 stable_time = 0 이면
             이것은, 자동으로 처리한다는 의미이다.        
@@ -139,6 +142,26 @@ class YangSooInjector:
 
         return r_value
 
+    @staticmethod
+    def parse_and_adjust_timestamp(timestamp_str):
+        """ Parse, localize to Seoul timezone, and add seconds to a timestamp string. """
+        try:
+            # Convert the string to a pandas Timestamp
+            timestamp = pd.Timestamp(timestamp_str)
+
+            # Localize to Seoul timezone if it is naive
+            if timestamp.tzinfo is None:
+                seoul_tz = pytz.timezone('Asia/Seoul')
+                timestamp = timestamp.tz_localize(seoul_tz)
+
+            # Add 10 seconds to the timestamp
+            timestamp += timedelta(seconds=10)
+
+            return timestamp
+        except Exception as e:
+            print(f"Error parsing, localizing, and adjusting timestamp: {e}")
+            return None  # Handle this appropriately in your code
+
     def make_cell_values(self, row_index):
         row_data = self.get_excel_row(row_index)
         len_row_data = len(row_data)
@@ -146,7 +169,9 @@ class YangSooInjector:
 
         address, hp, casing, well_rad, simdo, q, natural, stable = row_data[1:9]
         project_name = jigu_name = company_name = ''
+
         self.STABLE_TIME = row_data[12]
+        self.LONG_TERM_TEST_TIME = self.parse_and_adjust_timestamp(row_data[13])
 
         if len_row_data > 9:
             project_name, jigu_name, company_name = row_data[9:12]
@@ -268,6 +293,15 @@ class YangSooInjector:
             {"button": "CommandButton4", "label": "FindAnswer", "delay": 2},
             {"button": "CommandButton7", "label": "Check", "delay": 0}
         ]
+
+        try:
+            if self.LONG_TERM_TEST_TIME is None:
+                raise ValueError("LONG_TERM_TEST_TIME is None. Ensure it is properly initialized.")
+
+            # Assign the timestamp to the Excel cell
+            ws.Range("C10").Value = self.LONG_TERM_TEST_TIME
+        except Exception as e:
+            print(f"Error assigning timestamp to Excel cell: {e}")
 
         for action in actions:
             if "button" in action:
