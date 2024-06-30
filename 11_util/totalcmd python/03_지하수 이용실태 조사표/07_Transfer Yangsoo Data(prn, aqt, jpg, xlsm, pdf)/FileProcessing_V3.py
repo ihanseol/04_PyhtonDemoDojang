@@ -413,7 +413,7 @@ class PrepareYangsoofile(FileBase):
 """
 
 
-class TransferYangSooData(FileBase):
+class TransferYangSooFile(FileBase):
     def __init__(self):
         super().__init__()
         self.BASEDIR = ""
@@ -434,6 +434,9 @@ class TransferYangSooData(FileBase):
         """
         current_year = datetime.now().year
         dirlist = self.unfold_path(folder_name)
+
+        if "개소" in dirlist[3]:
+            return "MORE"
 
         if dirlist[1] == "09_hardRain" and dirlist[2].endswith(str(current_year)):
             return self.join_path_forward(dirlist, 4)
@@ -467,9 +470,15 @@ class TransferYangSooData(FileBase):
         """
         sel_folder = self.select_folder('')
         self.BASEDIR = self.isit_yangsoo_folder(sel_folder)
-        if self.BASEDIR == 'FALSE':
-            self.print_debug("it\'s not yangsoo folder")
-            return False
+
+        match self.BASEDIR:
+            case 'FALSE':
+                self.print_debug("it\'s not yangsoo folder")
+                return False
+
+            case 'MORE':
+                self.print_debug("it\'s not yangsoo folder, need one more deep ")
+                return False
 
         self.print_debug(self.BASEDIR)
         self.print_debug(self.dir_yangsoo_test())
@@ -485,5 +494,5 @@ if __name__ == "__main__":
     # fp.aqt_send(well_no=1)
     # fp.duplicate_yangsoo(3)
 
-    tyd = TransferYangSooData()
+    tyd = TransferYangSooFile()
     tyd.setBASEDIR()
