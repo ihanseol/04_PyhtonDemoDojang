@@ -73,7 +73,7 @@
       <string>d:\05_Send</string>
      </property>
      <property name="checked">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
     </widget>
     <widget class="QCheckBox" name="checkBox_3">
@@ -95,7 +95,7 @@
       <string>d:\05_Send2</string>
      </property>
      <property name="checked">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
     </widget>
    </widget>

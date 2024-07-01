@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'move_after2ocERbc.ui'
+## Form generated from reading UI file 'move_after2CBQVdj.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.3
 ##
@@ -43,12 +43,12 @@ class Ui_MainWindow(object):
         self.checkBox_2.setObjectName(u"checkBox_2")
         self.checkBox_2.setGeometry(QRect(190, 20, 111, 41))
         self.checkBox_2.setFont(font)
-        self.checkBox_2.setChecked(True)
+        self.checkBox_2.setChecked(False)
         self.checkBox_3 = QCheckBox(self.groupBox)
         self.checkBox_3.setObjectName(u"checkBox_3")
         self.checkBox_3.setGeometry(QRect(360, 20, 121, 41))
         self.checkBox_3.setFont(font)
-        self.checkBox_3.setChecked(True)
+        self.checkBox_3.setChecked(False)
         self.lineEdit = QLineEdit(self.centralwidget)
         self.lineEdit.setObjectName(u"lineEdit")
         self.lineEdit.setGeometry(QRect(20, 80, 1021, 51))
