@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'move_after3KboKAJ.ui'
+## Form generated from reading UI file 'move_after3uuIEhr.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.3
 ##
@@ -29,7 +29,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.groupBox = QGroupBox(self.centralwidget)
         self.groupBox.setObjectName(u"groupBox")
-        self.groupBox.setGeometry(QRect(20, 280, 501, 81))
+        self.groupBox.setGeometry(QRect(20, 280, 501, 91))
         font = QFont()
         font.setFamilies([u"Consolas"])
         font.setPointSize(12)
@@ -57,18 +57,19 @@ class Ui_MainWindow(object):
         self.groupBox_2 = QGroupBox(self.centralwidget)
         self.groupBox_2.setObjectName(u"groupBox_2")
         self.groupBox_2.setGeometry(QRect(20, 380, 501, 171))
+        self.groupBox_2.setFont(font)
         self.label_2 = QLabel(self.groupBox_2)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(30, 30, 351, 31))
-        self.label_2.setFont(font1)
+        self.label_2.setFont(font)
         self.label_3 = QLabel(self.groupBox_2)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setGeometry(QRect(30, 70, 351, 31))
-        self.label_3.setFont(font1)
+        self.label_3.setFont(font)
         self.label_4 = QLabel(self.groupBox_2)
         self.label_4.setObjectName(u"label_4")
         self.label_4.setGeometry(QRect(30, 110, 351, 31))
-        self.label_4.setFont(font1)
+        self.label_4.setFont(font)
         self.pushButton_2 = QPushButton(self.centralwidget)
         self.pushButton_2.setObjectName(u"pushButton_2")
         self.pushButton_2.setGeometry(QRect(620, 560, 211, 71))
@@ -91,7 +92,7 @@ class Ui_MainWindow(object):
         self.label_5 = QLabel(self.centralwidget)
         self.label_5.setObjectName(u"label_5")
         self.label_5.setGeometry(QRect(20, 150, 131, 31))
-        self.label_5.setFont(font1)
+        self.label_5.setFont(font)
         self.lineEdit_2 = QLineEdit(self.centralwidget)
         self.lineEdit_2.setObjectName(u"lineEdit_2")
         self.lineEdit_2.setGeometry(QRect(20, 180, 1021, 51))
