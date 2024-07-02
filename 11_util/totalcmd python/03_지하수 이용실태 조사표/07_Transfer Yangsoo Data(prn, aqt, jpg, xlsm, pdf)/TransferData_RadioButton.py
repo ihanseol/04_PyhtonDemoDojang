@@ -10,6 +10,7 @@ from FileProcessing_V3 import TransferYangSooFile
 # fp2c - file processing class v2
 
 fp = fp2c.FileBase('')
+TYF = TransferYangSooFile()
 
 
 class SavedpathClass:
@@ -17,7 +18,7 @@ class SavedpathClass:
         self.flocation = ''
         self.ls_directory = 'c:\\Program Files\\totalcmd\\AqtSolv\\'
 
-    def SavePath(self, path_data):
+    def savepath_to_file(self, path_data):
         file_path = os.path.join(self.ls_directory, 'SaveFolder.sav')
         os.makedirs(self.ls_directory, exist_ok=True)  # Create the directory if it doesn't exist
 
@@ -30,7 +31,7 @@ class SavedpathClass:
         print(f'File saved to {file_path}')
         self.flocation = path_data
 
-    def LoadPath(self):
+    def loadpath_to_file(self):
         file_path = os.path.join(self.ls_directory, 'SaveFolder.sav')
         with open(file_path, 'rb') as file:
             loaded_data = pickle.load(file)
@@ -46,9 +47,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.BASE_PATH = ''
 
         self.sp = SavedpathClass()
-        self.sp.LoadPath()
+        self.sp.loadpath_to_file()
 
-        self.tyd = TransferYangSooFile()
         self.pushButton.clicked.connect(self.on_pushButton_clicked)
         self.pushButton_2.clicked.connect(self.on_pushButton_2_clicked)
         self.pushButton_3.clicked.connect(self.on_pushButton_3_clicked)
@@ -70,11 +70,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_pushButton_clicked(self):
         self.lineEdit_2.setText("Selection button clicked ...")
         current_year = datetime.now().year
-        folder_name = fp.select_folder(f'd:\\09_hardRain\\09_ihanseol - {current_year}\\')
+        if self.sp.flocation != '':
+            location_temp = self.sp.flocation
+        else:
+            location_temp = f'd:\\09_hardRain\\09_ihanseol - {current_year}\\'
 
-        self.BASE_PATH = folder_name
-        self.lineEdit.setText(folder_name)
-        self.sp.SavePath(folder_name)
+        select_folder = fp.select_folder(location_temp)
+        check = TYF.isit_yangsoo_inside(select_folder)
+        if not check: return False
+
+        self.BASE_PATH = select_folder
+        self.lineEdit.setText(select_folder)
+        self.sp.savepath_to_file(select_folder)
 
     def on_pushButton_2_clicked(self):
         self.lineEdit_2.setText("Exit button clicked ...")
@@ -83,19 +90,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_pushButton_3_clicked(self):
         self.lineEdit_2.setText("Run button clicked ...")
 
-        path = self.tyd.setBASEDIR(self.BASE_PATH)
+        path = TYF.setBASEDIR(self.BASE_PATH)
+
+        if path == "FALSE":
+            TYF.BASEDIR = self.sp.flocation
+            return False
 
         self.BASE_PATH = path
         self.lineEdit.setText(self.BASE_PATH)
 
         if self.radioButton_1.isChecked:
-            self.tyd.move_documents_to_ihanseol()
+            TYF.move_documents_to_ihanseol()
 
         if self.radioButton_2.isChecked:
-            self.tyd.move_send_to_ihanseol()
+            TYF.move_send_to_ihanseol()
 
         if self.radioButton_3.isChecked:
-            self.tyd.move_send2_to_ihanseol()
+            TYF.move_send2_to_ihanseol()
 
 
 if __name__ == "__main__":

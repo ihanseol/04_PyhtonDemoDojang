@@ -1,4 +1,6 @@
 import os
+import pickle
+import ctypes
 import shutil
 import fnmatch
 from natsort import natsorted
@@ -7,6 +9,33 @@ from tkinter import filedialog
 from tkinter import messagebox
 from datetime import datetime
 
+
+
+class SavedpathClass:
+    def __init__(self):
+        self.flocation = ''
+        self.ls_directory = 'c:\\Program Files\\totalcmd\\AqtSolv\\'
+
+    def SavePath(self, path_data):
+        file_path = os.path.join(self.ls_directory, 'SaveFolder.sav')
+        os.makedirs(self.ls_directory, exist_ok=True)  # Create the directory if it doesn't exist
+
+        # Define the file path
+        file_path = os.path.join(self.ls_directory, 'SaveFolder.sav')
+        # Save the data to the file
+        with open(file_path, 'wb') as file:
+            pickle.dump(path_data, file)
+
+        print(f'File saved to {file_path}')
+        self.flocation = path_data
+
+    def LoadPath(self):
+        file_path = os.path.join(self.ls_directory, 'SaveFolder.sav')
+        with open(file_path, 'rb') as file:
+            loaded_data = pickle.load(file)
+
+        print(f'File loaded from {file_path}')
+        self.flocation = loaded_data
 
 class AQTBASE:
     def __init__(self):
@@ -207,6 +236,101 @@ class FileBase(AQTBASE, PathChecker):
             :return: A tuple containing the directory path and the base name.
         """
         return os.path.dirname(file_path), os.path.basename(file_path)
+
+
+    @staticmethod
+    def is_hidden(filepath):
+        """
+            is filepath are hidden, True is hidden, False otherwise
+        """
+        try:
+            attrs = ctypes.windll.kernel32.GetFileAttributesW(str(filepath))
+            assert attrs != -1
+            return bool(attrs & 2)  # FILE_ATTRIBUTE_HIDDEN
+        except (AssertionError, AttributeError):
+            return False
+
+    @staticmethod
+    def list_directory_contents(path):
+        """
+         list all file and folder include hidden files:
+        """
+        try:
+            dir_contents = os.listdir(path)
+            return dir_contents
+        except FileNotFoundError:
+            return f"The directory '{path}' does not exist."
+        except PermissionError:
+            return f"Permission denied to access the directory '{path}'."
+        except Exception as e:
+            return f"An error occurred: {e}"
+
+    def list_directories_only(self, path):
+        """
+            list directory only but exclude hidden directory:
+        """
+        dir_non_hidden = self.list_non_hidden_directories(path)
+        dir_hidden = self.list_hidden_directories(path)
+
+        if isinstance(dir_non_hidden, str) or isinstance(dir_hidden, str):
+            return "An error occurred while fetching directories."
+
+        return [dir for dir in dir_non_hidden if dir not in dir_hidden]
+        # return list(set(dir_non_hidden) - set(dir_hidden))
+        # using set, difference
+
+    @staticmethod
+    def list_non_hidden_directories(path):
+        """
+            list directory include hidden directory:
+        """
+        try:
+            # Get the list of all entries in the given path
+            entries = os.listdir(path)
+            # Filter the list to include only non-hidden directories
+            directories = [
+                entry for entry in entries
+                if os.path.isdir(os.path.join(path, entry)) and not entry.startswith('.')
+            ]
+            return directories
+        except FileNotFoundError:
+            return f"The directory '{path}' does not exist."
+        except PermissionError:
+            return f"Permission denied to access the directory '{path}'."
+        except Exception as e:
+            return f"An error occurred: {e}"
+
+
+    def last_one(self, path):
+        """
+            c:\PythonProject\01_this folder\02_that folder\04_last_folder
+            in this case
+            return 04_last_folder
+            return last one
+        """
+        seperation = path.split('\\')
+        return seperation[len(seperation) - 1]
+
+    def list_hidden_directories(self, path):
+        """
+            return hidden directories only
+        """
+        try:
+            # Get the list of all entries in the given path
+            entries = os.listdir(path)
+            # Filter the list to include only hidden directories
+            hidden_directories = [
+                os.path.join(path, entry) for entry in entries
+                if os.path.isdir(os.path.join(path, entry)) and self.is_hidden(os.path.join(path, entry))
+            ]
+            return [ self.last_one(f) for f in hidden_directories ]
+        except FileNotFoundError:
+            return f"The directory '{path}' does not exist."
+        except PermissionError:
+            return f"Permission denied to access the directory '{path}'."
+        except Exception as e:
+            return f"An error occurred: {e}"
+
 
     def get_dirname(self, file_path):
         """
@@ -510,6 +634,21 @@ class TransferYangSooFile(FileBase):
         else:
             return "FALSE"
 
+    def isit_yangsoo_inside(self, folder_name):
+        """
+            ['D:', '09_hardRain', '09_ihanseol - 2024', '07_공업용 - 세종, 주안레미콘 2개공, 연장허가 - 현윤이엔씨, 보완보고서 , 청주기상청']
+        """
+        dir_lsit = self.list_directories_only(folder_name)
+
+        for _ in dir_lsit:
+            if _ == '04_양수시험':
+                return True
+
+        return False
+
+
+        # return "d:\\09_hardRain\\09_ihanseol - 2024\\00_YangSoo File Move TestBed\\"
+
     def dir_yangsoo_test(self):
         if self.DIR_YANGSOO_TEST == '':
             self.DIR_YANGSOO_TEST = self.BASEDIR + self.YANGSOO_BASE
@@ -535,6 +674,8 @@ class TransferYangSooFile(FileBase):
           ['D:', '09_hardRain', '09_ihanseol - 2024', '07_공업용 - 세종, 주안레미콘 2개공, 연장허가 - 현윤이엔씨, 보완보고서 , 청주기상청']
         :return:
         """
+        # spc = SavedpathClass()
+        # spc.LoadPath()
 
         print('***********')
         print(directory)
@@ -546,18 +687,16 @@ class TransferYangSooFile(FileBase):
             self.BASEDIR = directory
         else:
             sel_folder = self.select_folder(f'd:\\09_hardRain\\09_ihanseol - {current_year}\\')
-            self.BASEDIR = self.isit_yangsoo_folder(sel_folder)
+            sel_folder = self.isit_yangsoo_folder(sel_folder)
+            self.BASEDIR = sel_folder
 
-        match self.BASEDIR:
-            case 'FALSE':
-                self.print_debug("it\'s not yangsoo folder")
-                self.isDIRSET = False
-                return "FALSE"
-
-            case 'MORE':
-                self.print_debug("it\'s not yangsoo folder, need one more deep ")
-                self.isDIRSET = False
-                return "FALSE"
+        if self.isit_yangsoo_inside(self.BASEDIR):
+            self.print_debug("it has yangsoo inside ... ")
+            self.isDIRSET = True
+        else:
+            self.print_debug("its not contain yangsoo folder ...")
+            self.isDIRSET = False
+            return "FALSE"
 
         self.print_debug("*")
         self.print_debug(self.BASEDIR)
@@ -685,7 +824,13 @@ class TransferYangSooFile(FileBase):
     def Test(self):
         fb = FileBase()
         fb.set_directory(self.DOCUMENTS)
-        print(fb.get_list_files(['.dat', '.xlsm']))
+        ret = fb.list_non_hidden_directories(self.DOCUMENTS)
+        print(ret)
+        ret = fb.list_hidden_directories(self.DOCUMENTS)
+        print(ret)
+        print(fb.list_directories_only(self.DOCUMENTS))
+
+        # print(fb.get_list_files(['.dat', '.xlsm']))
 
 
 if __name__ == "__main__":
@@ -694,9 +839,10 @@ if __name__ == "__main__":
     # fp.duplicate_yangsoo(3)
 
     tyd = TransferYangSooFile()
-    tyd.setBASEDIR()
+    ret = tyd.setBASEDIR()
+    print(ret)
 
-    tyd.move_send_to_ihanseol()
+    # tyd.move_send_to_ihanseol()
     # tyd.move_send2_to_ihanseol()
 
     #
