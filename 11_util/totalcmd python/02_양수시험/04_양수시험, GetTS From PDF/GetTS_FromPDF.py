@@ -96,6 +96,7 @@ class AQTBASE:
         self.DOCUMENTS = os.path.expanduser("~\\Documents")
         self.SEND = 'D:\\05_Send\\'
         self.SEND2 = 'D:\\06_Send2\\'
+        self.TEMP = 'c:\\Temp\\'
 
         self.YANGSOO_EXCEL = "A1_ge_OriginalSaveFile.xlsm"
         self.YANGSOO_REST = "_ge_OriginalSaveFile.xlsm"
@@ -191,7 +192,7 @@ class AutoScript(AQTBASE):
 class AqtPDF(AutoScript):
     def __init__(self):
         AutoScript.__init__(self)
-        self.pdf_path = os.path.join(self.SEND, 'aqt_data.pdf')
+        self.pdf_path = os.path.join(self.TEMP, 'aqt_data.pdf')
 
     def getTSX(self):
 
@@ -362,7 +363,7 @@ class AQTProcessor(AQTBASE):
             else:
                 print('\n\nAQTProcessor running mode --> Auto')
 
-        self.print_pdf(os.path.join(self.SEND, 'aqt_data.pdf'))
+        self.print_pdf(os.path.join(self.TEMP, 'aqt_data.pdf'))
         result = self.aqtpdf.getTSX()
         self.auto_script.close_program()
 
