@@ -572,30 +572,27 @@ class TransferYangSooFile(FileBase):
 
         return self.BASEDIR
 
-    def move_documents_to_ihanseol(self):
-        fb = FileBase()
-        fb.set_directory(self.DOCUMENTS)
+    def transfer_files(self, files, source_folder, target_folder):
+        for f in files:
+            source = self.join_path(source_folder, f)
+            target = self.join_path(target_folder, f)
+            self.move_file(source, target)
 
+    def move_documents_to_ihanseol(self):
+        self.set_directory(self.DOCUMENTS)
         print(self.DOCUMENTS)
 
         if self.isDIRSET:
-            dat_files = fb.get_dat_files()
-            xlsm_files = fb.get_xlsm_files()
+            dat_files = self.get_dat_files()
+            xlsm_files = self.get_xlsm_files()
 
             self.print_debug("-")
             print(self.DIR_PRN)
             print(self.DIR_YANGSOO_TEST)
             self.print_debug("-")
 
-            for f in dat_files:
-                source = self.join_path(self.DOCUMENTS, f)
-                target = self.join_path(self.DIR_PRN, f)
-                fb.move_file(source, target)
-
-            for f in xlsm_files:
-                source = self.join_path(self.DOCUMENTS, f)
-                target = self.join_path(self.DIR_YANGSOO_TEST, f)
-                fb.move_file(source, target)
+            self.transfer_files(dat_files, self.DOCUMENTS, self.DIR_PRN)
+            self.transfer_files(xlsm_files, self.DOCUMENTS, self.DIR_YANGSOO_TEST)
 
     def move_send_to_ihanseol(self):
         """
@@ -603,71 +600,41 @@ class TransferYangSooFile(FileBase):
             pdf files start with a
             jpg files start with *page1
         """
-        fb = FileBase()
-        fb.set_directory(self.SEND)
+        self.set_directory(self.SEND)
 
-        aqt_files = fb.get_aqt_files()
-        pdf_files = fb.get_pdf_files()
-        jpg_files = fb.get_jpg_files()
-
-        w_aqtfiles = [f for f in aqt_files if f.startswith('w')]
+        aqt_files = self.get_aqt_files()
+        pdf_files = self.get_pdf_files()
+        jpg_files = self.get_jpg_files()
 
         a_pdffiles = [f for f in pdf_files if f.startswith('a')]
         w_pdffiles = [f for f in pdf_files if f.startswith('w')]
         p_pdffiles = [f for f in pdf_files if f.startswith('p')]
 
-        jpg_apagefiles = fb.get_jpg_filter(sfilter='a*page*')
-        jpg_ppagefiles = fb.get_jpg_filter(sfilter='p*page*')
-        jpg_wpagefiles = fb.get_jpg_filter(sfilter='w*page*')
+        jpg_apagefiles = self.get_jpg_filter(sfilter='a*page*')
+        jpg_ppagefiles = self.get_jpg_filter(sfilter='p*page*')
+        jpg_wpagefiles = self.get_jpg_filter(sfilter='w*page*')
 
         self.print_debug('-')
-        print(w_aqtfiles)
-        print(a_pdffiles)
-        print(jpg_apagefiles)
-        print(jpg_ppagefiles)
+        print('aqtfiles:', aqt_files)
+        print('a_pdffiles:', a_pdffiles)
+        print('jpg_apagefiles:', jpg_apagefiles)
+        print('jpg_ppagefiles:', jpg_ppagefiles)
         self.print_debug('-')
 
         if len(a_pdffiles) > 0 and len(jpg_apagefiles) > 0:
             self.erase_all_yangsoo_test_files(self.DIR_AQT)
-
             print('its a goto \\02_AQTEver3.4(170414)')
-            for f in a_pdffiles:
-                source = self.join_path(self.SEND, f)
-                target = self.join_path(self.DIR_AQT, f)
-                fb.move_file(source, target)
-
-            for f in p_pdffiles:
-                source = self.join_path(self.SEND, f)
-                target = self.join_path(self.DIR_AQT, f)
-                fb.move_file(source, target)
-
-            for f in jpg_apagefiles:
-                source = self.join_path(self.SEND, f)
-                target = self.join_path(self.DIR_AQT, f)
-                fb.move_file(source, target)
-
-            for f in jpg_ppagefiles:
-                source = self.join_path(self.SEND, f)
-                target = self.join_path(self.DIR_AQT, f)
-                fb.move_file(source, target)
-
-            for f in w_aqtfiles:
-                source = self.join_path(self.SEND, f)
-                target = self.join_path(self.DIR_AQT, f)
-                fb.move_file(source, target)
+            self.transfer_files(a_pdffiles, self.SEND, self.DIR_AQT)
+            self.transfer_files(p_pdffiles, self.SEND, self.DIR_AQT)
+            self.transfer_files(jpg_apagefiles, self.SEND, self.DIR_AQT)
+            self.transfer_files(jpg_ppagefiles, self.SEND, self.DIR_AQT)
+            self.transfer_files(aqt_files, self.SEND, self.DIR_AQT)
 
         if len(jpg_wpagefiles) > 0 and len(w_pdffiles) > 0:
             self.erase_all_yangsoo_test_files(self.DIR_YANGSOOILBO)
             print('this is goto yangsoo ilbo ')
-            for f in jpg_wpagefiles:
-                source = self.join_path(self.SEND, f)
-                target = self.join_path(self.DIR_YANGSOOILBO, f)
-                fb.move_file(source, target)
-
-            for f in w_pdffiles:
-                source = self.join_path(self.SEND, f)
-                target = self.join_path(self.DIR_YANGSOOILBO, f)
-                fb.move_file(source, target)
+            self.transfer_files(jpg_wpagefiles, self.SEND, self.DIR_YANGSOOILBO)
+            self.transfer_files(w_pdffiles, self.SEND, self.DIR_YANGSOOILBO)
 
     def move_send2_to_ihanseol(self):
         """
@@ -675,16 +642,15 @@ class TransferYangSooFile(FileBase):
             pdf files start with a
             jpg files start with *page1
         """
-        fb = FileBase()
-        fb.set_directory(self.SEND2)
+        self.set_directory(self.SEND2)
 
-        prn_files = fb.get_prn_files()
-        xlsm_files = fb.get_xlsm_files()
-        aqt_files = fb.get_aqt_files()
+        prn_files = self.get_prn_files()
+        xlsm_files = self.get_xlsm_files()
+        aqt_files = self.get_aqt_files()
 
-        print(prn_files)
-        print(xlsm_files)
-        print(aqt_files)
+        print('prn_files:', prn_files)
+        print('xlsm_files:', xlsm_files)
+        print('aqt_files:', aqt_files)
 
         if prn_files:
             self.erase_all_yangsoo_test_files(self.DIR_PRN)
@@ -695,24 +661,14 @@ class TransferYangSooFile(FileBase):
             print(self.DIR_YANGSOO_TEST)
             self.print_debug("-")
 
-            for f in prn_files:
-                source = self.join_path(self.SEND2, f)
-                target = self.join_path(self.DIR_PRN, f)
-                fb.move_file(source, target)
-
-            for f in xlsm_files:
-                source = self.join_path(self.SEND2, f)
-                target = self.join_path(self.DIR_YANGSOO_TEST, f)
-                fb.move_file(source, target)
-
-            for f in aqt_files:
-                source = self.join_path(self.SEND2, f)
-                target = self.join_path(self.DIR_AQT, f)
-                fb.move_file(source, target)
+            self.transfer_files(prn_files, self.SEND2, self.DIR_PRN)
+            self.transfer_files(xlsm_files, self.SEND2, self.DIR_YANGSOO_TEST)
+            self.transfer_files(aqt_files, self.SEND2, self.DIR_AQT)
         else:
             print('self.DIRSET is Empty')
 
-    def erase_all_yangsoo_test_files(self, directory):
+    @staticmethod
+    def erase_all_yangsoo_test_files(directory):
         # if self.ask_yes_no_question(directory):
         for filename in os.listdir(directory):
             file_path = os.path.join(directory, filename)
@@ -740,8 +696,8 @@ if __name__ == "__main__":
     tyd = TransferYangSooFile()
     tyd.setBASEDIR()
 
-    # tyd.move_send_to_ihanseol()
-    tyd.move_send2_to_ihanseol()
+    tyd.move_send_to_ihanseol()
+    # tyd.move_send2_to_ihanseol()
 
     #
     # tyd.move_documents_to_ihanseol()
