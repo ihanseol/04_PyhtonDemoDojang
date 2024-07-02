@@ -24,7 +24,7 @@ def extract_values_from_pdf_recover(pdf_path):
     return T_value, S_value, X_value
 
 
-pdf_path = 'a1-2.pdf'
+pdf_path = 'a1step.pdf'
 T, S, X = extract_values_from_pdf_recover(pdf_path)
 
 print(f"T = {T}")
