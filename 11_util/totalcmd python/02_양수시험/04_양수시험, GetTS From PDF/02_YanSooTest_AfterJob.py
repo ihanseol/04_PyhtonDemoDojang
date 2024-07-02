@@ -17,6 +17,10 @@
 #  오늘, 에러를 수정하고, 에러가 날수있는 부분의 차단을 위해, 엑셀파일의 SetCB1, SetCB2 부분수정, 차트 수정등
 # 여러가지를 마무리 지었따.
 #
+#  2024.7.2
+#  TS 값을 PDF 에서 불러오는것으로 전환함
+# 그래서, 이제 TS값이 달라질 염려는 하지 않아도 된다.
+#
 # ********************************************************************************************
 
 
@@ -31,11 +35,9 @@ import pyautogui
 import pygetwindow as gw
 import sys
 import win32com.client as win32
-import FileProcessing_V3
-
-sys.path.append(
-    "c:/Program Files/totalcmd/ini/02_python/02_양수시험 AqtSolver Work/01_My First Version/01_양수시험, 자동화/03_양수시험, Class Refactor, Version 2/")
 import GetTS_FromPDF as GetTS
+
+sys.path.append("c:\\Program Files\\totalcmd\ini\\02_python\02_양수시험\\04_양수시험, GetTS From PDF\\")
 
 
 class AQTBASE:
