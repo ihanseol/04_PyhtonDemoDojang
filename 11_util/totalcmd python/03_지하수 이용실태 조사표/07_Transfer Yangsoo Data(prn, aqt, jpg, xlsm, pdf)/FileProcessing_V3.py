@@ -680,9 +680,11 @@ class TransferYangSooFile(FileBase):
 
         prn_files = fb.get_prn_files()
         xlsm_files = fb.get_xlsm_files()
+        aqt_files = fb.get_aqt_files()
 
         print(prn_files)
         print(xlsm_files)
+        print(aqt_files)
 
         if prn_files:
             self.erase_all_yangsoo_test_files(self.DIR_PRN)
@@ -701,6 +703,11 @@ class TransferYangSooFile(FileBase):
             for f in xlsm_files:
                 source = self.join_path(self.SEND2, f)
                 target = self.join_path(self.DIR_YANGSOO_TEST, f)
+                fb.move_file(source, target)
+
+            for f in aqt_files:
+                source = self.join_path(self.SEND2, f)
+                target = self.join_path(self.DIR_AQT, f)
                 fb.move_file(source, target)
         else:
             print('self.DIRSET is Empty')
