@@ -343,6 +343,9 @@ class InjectValueToSheet(FileProcessing):
             print('Recover.Select,  Recover Prn_Button1')
         time.sleep(1)
 
+        if not self.is_exist(self.SEND + f"w{well}_03_recover.aqt"):
+            return False
+
         if mode == 'mannual':
             getTS = GetTS.AQTProcessor('mannual')
             val_T, val_S, val_X = getTS.AqtesolverMain(file_name=self.SEND + f"w{well}_03_recover.aqt")
