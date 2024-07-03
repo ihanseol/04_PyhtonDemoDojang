@@ -1,0 +1,219 @@
+# -*- coding: utf-8 -*-
+
+################################################################################
+## Form generated from reading UI file 'aqt_inputgwoVuU.ui'
+##
+## Created by: Qt User Interface Compiler version 6.4.3
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
+
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+                            QMetaObject, QObject, QPoint, QRect,
+                            QSize, QTime, QUrl, Qt)
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
+                           QFont, QFontDatabase, QGradient, QIcon,
+                           QImage, QKeySequence, QLinearGradient, QPainter,
+                           QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QCheckBox, QGroupBox,
+                               QLabel, QMainWindow, QPushButton, QRadioButton,
+                               QSizePolicy, QSpinBox, QSplitter, QTabWidget,
+                               QTextEdit, QWidget)
+
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        if not MainWindow.objectName():
+            MainWindow.setObjectName(u"MainWindow")
+        MainWindow.resize(615, 792)
+        self.centralwidget = QWidget(MainWindow)
+        self.centralwidget.setObjectName(u"centralwidget")
+        self.tabWidget = QTabWidget(self.centralwidget)
+        self.tabWidget.setObjectName(u"tabWidget")
+        self.tabWidget.setGeometry(QRect(20, 490, 581, 291))
+        sizePolicy = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.tabWidget.sizePolicy().hasHeightForWidth())
+        self.tabWidget.setSizePolicy(sizePolicy)
+        self.tabWidget.setTabPosition(QTabWidget.North)
+        self.tabWidget.setTabShape(QTabWidget.Triangular)
+        self.tabWidget.setElideMode(Qt.ElideLeft)
+        self.tab_1 = QWidget()
+        self.tab_1.setObjectName(u"tab_1")
+        self.textEdit_3 = QTextEdit(self.tab_1)
+        self.textEdit_3.setObjectName(u"textEdit_3")
+        self.textEdit_3.setGeometry(QRect(10, 100, 541, 31))
+        font = QFont()
+        font.setFamilies([u"\ub9d1\uc740 \uace0\ub515"])
+        font.setPointSize(11)
+        self.textEdit_3.setFont(font)
+        self.checkBox = QCheckBox(self.tab_1)
+        self.checkBox.setObjectName(u"checkBox")
+        self.checkBox.setGeometry(QRect(20, 20, 141, 20))
+        font1 = QFont()
+        font1.setFamilies([u"D2Coding"])
+        font1.setPointSize(11)
+        self.checkBox.setFont(font1)
+        self.label_4 = QLabel(self.tab_1)
+        self.label_4.setObjectName(u"label_4")
+        self.label_4.setGeometry(QRect(20, 70, 141, 21))
+        font2 = QFont()
+        font2.setFamilies([u"Consolas"])
+        font2.setPointSize(11)
+        self.label_4.setFont(font2)
+        self.spinBox = QSpinBox(self.tab_1)
+        self.spinBox.setObjectName(u"spinBox")
+        self.spinBox.setGeometry(QRect(430, 30, 121, 41))
+        self.spinBox.setFont(font1)
+        self.spinBox.setAlignment(Qt.AlignCenter)
+        self.spinBox.setButtonSymbols(QAbstractSpinBox.UpDownArrows)
+        self.spinBox.setProperty("showGroupSeparator", False)
+        self.spinBox.setValue(1)
+        self.label_2 = QLabel(self.tab_1)
+        self.label_2.setObjectName(u"label_2")
+        self.label_2.setGeometry(QRect(330, 40, 141, 21))
+        self.label_2.setFont(font1)
+        self.pushButton = QPushButton(self.tab_1)
+        self.pushButton.setObjectName(u"pushButton")
+        self.pushButton.setGeometry(QRect(340, 200, 211, 61))
+        font3 = QFont()
+        font3.setFamilies([u"Consolas"])
+        font3.setPointSize(12)
+        self.pushButton.setFont(font3)
+        self.tabWidget.addTab(self.tab_1, "")
+        self.tab_2 = QWidget()
+        self.tab_2.setObjectName(u"tab_2")
+        self.pushButton_2 = QPushButton(self.tab_2)
+        self.pushButton_2.setObjectName(u"pushButton_2")
+        self.pushButton_2.setGeometry(QRect(350, 190, 211, 61))
+        self.pushButton_2.setFont(font3)
+        self.label_5 = QLabel(self.tab_2)
+        self.label_5.setObjectName(u"label_5")
+        self.label_5.setGeometry(QRect(10, 10, 491, 21))
+        self.label_5.setFont(font2)
+        self.textEdit_4 = QTextEdit(self.tab_2)
+        self.textEdit_4.setObjectName(u"textEdit_4")
+        self.textEdit_4.setGeometry(QRect(10, 40, 551, 141))
+        self.textEdit_4.setFont(font1)
+        self.tabWidget.addTab(self.tab_2, "")
+        self.textEdit = QTextEdit(self.centralwidget)
+        self.textEdit.setObjectName(u"textEdit")
+        self.textEdit.setGeometry(QRect(10, 40, 581, 31))
+        self.textEdit.setFont(font)
+        self.label = QLabel(self.centralwidget)
+        self.label.setObjectName(u"label")
+        self.label.setGeometry(QRect(20, 10, 141, 21))
+        self.label.setFont(font1)
+        self.label_3 = QLabel(self.centralwidget)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setGeometry(QRect(10, 80, 191, 21))
+        self.label_3.setFont(font2)
+        self.textEdit_2 = QTextEdit(self.centralwidget)
+        self.textEdit_2.setObjectName(u"textEdit_2")
+        self.textEdit_2.setGeometry(QRect(10, 110, 581, 31))
+        self.textEdit_2.setFont(font)
+        self.groupBox = QGroupBox(self.centralwidget)
+        self.groupBox.setObjectName(u"groupBox")
+        self.groupBox.setGeometry(QRect(10, 160, 581, 321))
+        self.groupBox.setFont(font1)
+        self.splitter = QSplitter(self.groupBox)
+        self.splitter.setObjectName(u"splitter")
+        self.splitter.setGeometry(QRect(10, 30, 541, 281))
+        self.splitter.setOrientation(Qt.Vertical)
+        self.radio1 = QRadioButton(self.splitter)
+        self.radio1.setObjectName(u"radio1")
+        self.radio1.setFont(font)
+        self.splitter.addWidget(self.radio1)
+        self.radio3 = QRadioButton(self.splitter)
+        self.radio3.setObjectName(u"radio3")
+        self.radio3.setFont(font)
+        self.splitter.addWidget(self.radio3)
+        self.radio2 = QRadioButton(self.splitter)
+        self.radio2.setObjectName(u"radio2")
+        self.radio2.setFont(font)
+        self.splitter.addWidget(self.radio2)
+        self.radio4 = QRadioButton(self.splitter)
+        self.radio4.setObjectName(u"radio4")
+        self.radio4.setFont(font)
+        self.radio4.setChecked(True)
+        self.splitter.addWidget(self.radio4)
+        self.radio5 = QRadioButton(self.splitter)
+        self.radio5.setObjectName(u"radio5")
+        self.radio5.setFont(font)
+        self.splitter.addWidget(self.radio5)
+        self.radio6 = QRadioButton(self.splitter)
+        self.radio6.setObjectName(u"radio6")
+        self.radio6.setFont(font)
+        self.splitter.addWidget(self.radio6)
+        self.radio7 = QRadioButton(self.splitter)
+        self.radio7.setObjectName(u"radio7")
+        self.radio7.setFont(font)
+        self.splitter.addWidget(self.radio7)
+        self.radio8 = QRadioButton(self.splitter)
+        self.radio8.setObjectName(u"radio8")
+        self.radio8.setFont(font)
+        self.splitter.addWidget(self.radio8)
+        self.radio9 = QRadioButton(self.splitter)
+        self.radio9.setObjectName(u"radio9")
+        self.radio9.setFont(font)
+        self.splitter.addWidget(self.radio9)
+        self.radio10 = QRadioButton(self.splitter)
+        self.radio10.setObjectName(u"radio10")
+        self.radio10.setFont(font)
+        self.radio10.setChecked(False)
+        self.splitter.addWidget(self.radio10)
+        self.radio11 = QRadioButton(self.splitter)
+        self.radio11.setObjectName(u"radio11")
+        self.radio11.setFont(font)
+        self.splitter.addWidget(self.radio11)
+        MainWindow.setCentralWidget(self.centralwidget)
+
+        self.retranslateUi(MainWindow)
+
+        self.tabWidget.setCurrentIndex(0)
+
+        QMetaObject.connectSlotsByName(MainWindow)
+
+    # setupUi
+
+    def retranslateUi(self, MainWindow):
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        self.checkBox.setText(QCoreApplication.translate("MainWindow", u"\ub2e8\uacc4\ud3ec\ud568", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Message", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"\uad00\uc815\uc758 \uac2f\uc218", None))
+        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Run", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_1),
+                                  QCoreApplication.translate("MainWindow", u"Initial Generation", None))
+        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Run", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Project Info Setting", None))
+        self.textEdit_4.setPlaceholderText(QCoreApplication.translate("MainWindow",
+                                                                      u"\uc774\uac83\uc740, \ud504\ub85c\uc81d\ud2b8\uc778\ud3ec \uc138\ud305\uc73c\ub85c, \uc8fc\uc5b4\uc9c4 \uc870\uc0ac\uc790(\uc5d4\uc9c0\ub2c8\uc5b4\ub9c1 \ud68c\uc0ac)\ub97c \uae30\uc900\uc73c\ub85c ... \uc8fc\uc5b4\uc9c4 \uc8fc\uc18c\uac12\uc73c\ub85c \ud544\ub4dc\ub97c \ucc44\uc6cc\ub098\uac00\ub294 \uac83\uc774\ub2e4. \ub9cc\uc77c, \ud30c\uc77c\uc774 \uc5c6\uc73c\uba74, \ud30c\uc77c\uc744 \ubcf5\uc0ac\ud574\uc640\uc11c \ucc44\uc6b0\uace0 \ud30c\uc77c\uc774 \uc788\uc73c\uba74, \uae30\uc874\uc758 \ud30c\uc77c\uc758 \ub0b4\uc6a9\ub9cc \uc5c5\ub370\uc774\ud2b8 \uc2dc\ud0a8\ub2e4. \uadf8\ub9ac\uace0, \uc138\uc885\uc5d0\uba38\uc2a8 \uc2a4\ud0c0\uc77c\ucc98\ub7fc, YanSoo.xlsx \ud30c\uc77c\uc774 \uc788\ub2e4\uba74 \uae30\uc874\uc758 \uc8fc\uc18c\ud544\ub4dc\ub294 \ubb34\uc2dc\ud558\uace0, \uadf8 \uc5d1\uc140\ud30c\uc77c \ub370\uc774\ud130\ub97c \uc774\uc6a9\ud558\uace0 \uc774\uac83\ub3c4 \uc5ed\uc2dc, Aqt\ud30c\uc77c\uc774 Send\uc5d0 \uc788\uc73c\uba74, \uadf8\ub0e5 \uadf8\ud30c\uc77c\ub9cc \uc5c5\ub370\uc774\ud2b8 \ud574"
+                                                                      "\uc8fc\uace0 \uc5c6\uc73c\uba74, \uad00\uc815\uc758 \uac2f\uc218\ub9cc\ud07c \ud30c\uc77c\uc744 \ubcf5\uc0ac\ud55c\ub4a4, \ub0b4\uc6a9\uc744 \uc5c5\ub370\uc774\ud2b8 \ud574\uc8fc\uac8c \ub41c\ub2e4.",
+                                                                      None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2),
+                                  QCoreApplication.translate("MainWindow", u"ProjectInfo Setting", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"\uc8fc\uc18c, Address", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Engireering Company", None))
+        self.groupBox.setTitle(
+            QCoreApplication.translate("MainWindow", u"\uc9c0\ud558\uc218 \uc601\ud5a5\uc870\uc0ac\uc790", None))
+        self.radio1.setText(QCoreApplication.translate("MainWindow", u"\uc0b0\uc218\uac1c\ubc1c(\uc8fc)", None))
+        self.radio3.setText(
+            QCoreApplication.translate("MainWindow", u"(\uc8fc)\uc6b0\uacbd\uc5d4\uc9c0\ub2c8\uc5b4\ub9c1", None))
+        self.radio2.setText(QCoreApplication.translate("MainWindow",
+                                                       u"\ub300\uc6c5\uc5d4\uc9c0\ub2c8\uc5b4\ub9c1 \uc8fc\uc2dd\ud68c\uc0ac",
+                                                       None))
+        self.radio4.setText(
+            QCoreApplication.translate("MainWindow", u"\uc8fc\uc2dd\ud68c\uc0ac \ud55c\uc77c\uc9c0\ud558\uc218", None))
+        self.radio5.setText(
+            QCoreApplication.translate("MainWindow", u"(\uc8fc)\ub3d9\ud574\uc5d4\uc9c0\ub2c8\uc5b4\ub9c1", None))
+        self.radio6.setText(QCoreApplication.translate("MainWindow", u"(\uc8fc)\ud604\uc724\uc774\uc5d4\uc528", None))
+        self.radio7.setText(QCoreApplication.translate("MainWindow", u"(\uc8fc)\ud0dc\uc591\uc774\uc5d4\uc9c0", None))
+        self.radio8.setText(QCoreApplication.translate("MainWindow",
+                                                       u"(\uc8fc)\ubd80\uc5ec\uc9c0\ud558\uc218\uac1c\ubc1c \uc8fc\uc2dd\ud68c\uc0ac",
+                                                       None))
+        self.radio9.setText(QCoreApplication.translate("MainWindow", u"(\uc8fc)\uc804\uc77c", None))
+        self.radio10.setText(QCoreApplication.translate("MainWindow", u"\uc0bc\uc6d0\uac1c\ubc1c(\uc8fc)", None))
+        self.radio11.setText(
+            QCoreApplication.translate("MainWindow", u"\ub9c8\uc778\uc9c0\uc624 \uc8fc\uc2dd\ud68c\uc0ac", None))
+    # retranslateUi
