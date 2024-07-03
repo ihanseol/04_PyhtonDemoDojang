@@ -83,16 +83,19 @@ class PathChecker:
 
 
 class FileBase(AQTBASE, PathChecker):
-    def __init__(self, directory=r'D:\05_Send\\'):
+    def __init__(self, directory='D:\\05_Send\\'):
         AQTBASE.__init__(self)
 
         if directory is None:
             print('in File Base , directory is None')
+            self.directory = self.SEND
+
+        self.files = None
 
         if self.check_path(directory) is False:
             self._set_directory(directory)
         else:
-            self._set_directory(r"d:\05_Send\\")
+            self._set_directory("d:\\05_Send\\")
 
     def _set_directory(self, directory):
         """
@@ -101,6 +104,12 @@ class FileBase(AQTBASE, PathChecker):
         self._directory = directory
         os.chdir(self._directory)
         self.files = os.listdir(directory)
+
+    # def refresh_files(self):
+    #     if self.check_path(self.directory):
+    #         self.files = os.listdir(self.directory)
+    #     else:
+    #         self._set_directory(r"d:\05_Send\\")
 
     @property
     def directory(self):
@@ -123,6 +132,7 @@ class FileBase(AQTBASE, PathChecker):
 
     def _get_files_by_extension(self, extension):
         """ Returns a list of files with the specified extension. """
+        self.files = os.listdir(self.directory)
         return [f for f in self.files if f.endswith(extension)]
 
     def get_xlsm_files(self):
@@ -130,7 +140,12 @@ class FileBase(AQTBASE, PathChecker):
         return self._get_files_by_extension('.xlsm')
 
     def get_aqt_files(self):
-        """ Returns a list of .aqt files. """
+        """
+            Returns a list of .aqt files.
+            중간에, 디렉토리가 리프레시 되지 않는경우가 있어서
+            일단은, aqtfiles만 해결하기 위해서, refresh_files를 추가 해줌
+        """
+        # self.refresh_files()
         return self._get_files_by_extension('.aqt')
 
     def get_dat_files(self):
@@ -336,18 +351,29 @@ class FileBase(AQTBASE, PathChecker):
         try:
             for file_name in files:
                 file_path = os.path.join(folder_path, file_name)
-                if os.path.exists(file_path):
+
+                if self.check_path(file_path) == PathChecker.RET_FILE:
                     try:
                         os.remove(file_path)
-                        print(f"{file_name} has been removed successfully from {folder_path}.")
+                        print(f"{file_name} has been removed successfully from {folder_path}")
                     except Exception as e:
                         print(f"Error deleting {file_name}: {e}")
                         return False
                 else:
-                    print(f"The file {file_name} does not exist in the folder {folder_path}.")
+                    print(f"The file {file_name} does not exist in the folder {folder_path} or its a directory")
             return True
         except Exception as e:
             print(f"An error occurred while deleting files: {e}")
+            return False
+
+    def delete_files_in_directory(self, folder_path):
+        if self.check_path(folder_path) == PathChecker.RET_DIR:
+            files = os.listdir(folder_path)
+            print(f"delete_files_in_directory - {files}")
+            self.delete_files(folder_path, files)
+            return True
+        else:
+            print(f"delete_files_in_directory: {folder_path} its not a directory")
             return False
 
     @staticmethod
@@ -470,7 +496,7 @@ class PrepareYangsoofile(FileBase):
         else:
             super().__init__(r"d:\05_Send\\")
 
-    def initial_set_yangsoo(self):
+    def initial_set_yangsoo_excel(self):
         """Copy the initial Yangsoo Excel file to the SEND directory."""
         self.copy_file(self.TC_DIR + self.YANGSOO_EXCEL, self.SEND + self.YANGSOO_EXCEL)
 
@@ -493,28 +519,27 @@ class PrepareYangsoofile(FileBase):
                     new_name = name.replace(" - Copy", "_01") + ext
                     os.rename(os.path.join(self.SEND, filename), os.path.join(self.SEND, new_name))
 
-    def aqt_send(self, well_no=1, aqtstep_include=False):
+    def aqtfile_to_send(self, well_no=1, aqtstep_include=False):
         """
         Copy AQT files to the SEND directory for a specific well number.
         :param well_no: Well number to include in the file names.
-        :param mod: Mode to determine which files to copy.
+        :param aqtstep_include: Mode to determine which files to copy.
         """
         if aqtstep_include:
             self.copy_file(self.TC_DIR + self.STEP_FILE, self.SEND + f"w{well_no}" + self.STEP_FILE)
         self.copy_file(self.TC_DIR + self.LONG_FILE, self.SEND + f"w{well_no}" + self.LONG_FILE)
         self.copy_file(self.TC_DIR + self.RECOVER_FILE, self.SEND + f"w{well_no}" + self.RECOVER_FILE)
 
-    def duplicate_yangsoo(self, cnt):
+    def duplicate_yangsoo_excel(self, cnt):
         """
         Duplicate the initial Yangsoo Excel file for multiple wells.
         :param cnt: Number of wells to create duplicates for.
         """
-        self.initial_set_yangsoo()
+        self.delete_files_in_directory(self.SEND)
+        self.initial_set_yangsoo_excel()
         for i in range(2, cnt + 1):
             destination_path = os.path.join(self.SEND, f"A{i}" + self.YANGSOO_REST)
             shutil.copy(self.SEND + self.YANGSOO_EXCEL, destination_path)
-
-
 
 
 """
@@ -780,7 +805,7 @@ class TransferYangSooFile(FileBase):
 
 if __name__ == "__main__":
     # fp = PrepareYangsoofile()
-    # fp.aqt_send(well_no=1)
+    # fp.aqtfile_to_send(well_no=1)
     # fp.duplicate_yangsoo(3)
 
     tyd = TransferYangSooFile()

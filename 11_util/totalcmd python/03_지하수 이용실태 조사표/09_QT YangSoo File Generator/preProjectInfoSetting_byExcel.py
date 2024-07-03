@@ -7,7 +7,7 @@ import pandas as pd
 import re
 from natsort import natsorted
 import pyautogui
-from FileProcessing_V4 import FileBase
+from FileProcessing_V4_001 import FileBase
 
 
 class AqtSolveProjectInfoInjector:
@@ -219,7 +219,8 @@ class AqtSolveProjectInfoInjector:
                     self.open_aqt(file)
                     self.main_job(gong, address)
                     print(f'file:{file} : {gong}, {address}')
-            self.close_aqt()
+
+                self.close_aqt()
 
         if self.debug:
             print('All files processed.')

@@ -1,11 +1,13 @@
 import sys
+import time
+
 from PySide6.QtWidgets import QApplication, QMainWindow
 from ui import Ui_MainWindow
 
-import FileProcessing_V4 as fps
-import SetProjectInfo as sp
-import preProjectInfo_Setting as ps
-import preProjectInfoSetting_byExcel as pse
+from FileProcessing_V4_001 import PrepareYangsoofile
+from SetProjectInfo import Set_Projectinfo
+from preProjectInfo_Setting import main_call
+from preProjectInfoSetting_byExcel import process_yangsoo_spec
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -17,7 +19,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pushButton_3.clicked.connect(self.on_pushButton3_clicked)
         self.pushButton_4.clicked.connect(self.on_pushButton4_clicked)
 
-        self.file_processing = fps.PrepareYangsoofile()
+        self.file_processing = PrepareYangsoofile()
 
         # Connect all radio buttons to the same handler
         for i in range(1, 12):
@@ -47,30 +49,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.textEdit_3.setText("Address is empty, Fill in the gap")
         else:
             self.textEdit_3.setText(f"{spin_value} file to Send, Company: {self.Company} / {self.Address}")
-            self.file_processing.duplicate_yangsoo(spin_value)
+            self.file_processing.duplicate_yangsoo_excel(spin_value)
             for i in range(1, spin_value + 1):
-                self.file_processing.aqt_send(i, mode)
-            sp.Set_Projectinfo(self.Company, self.Address)
+                self.file_processing.aqtfile_to_send(i, mode)
+            Set_Projectinfo(self.Company, self.Address)
 
-    def copyaqt_and_set(self):
-        # Get spin value and checkbox state
-        spin_value = self.spinBox.value()
-        checkbox_state = self.checkBox.isChecked()
-        mode = True if checkbox_state else False
-
-        # Get and validate address
-        self.Address = self.textEdit.toPlainText()
-        if not self.Address:
-            self.textEdit_3.setText("Address is empty, Fill in the gap")
-        else:
-            self.textEdit_3.setText(f"{spin_value} file to Send, Company: {self.Company} / {self.Address}")
-            for i in range(1, spin_value + 1):
-                self.file_processing.aqt_send(i, mode)
-
-            print(f'self.Company : {self.Company}, self.Address: {self.Address}')
-            sp.Set_Projectinfo(self.Company, self.Address)
-
-    def onButton3_Act(self):
+    def on_pushButton3_clicked(self):
         self.Address = self.textEdit.toPlainText()
         self.textEdit_3.setText("Run ProjectInfo Using Aqt File")
 
@@ -91,22 +75,36 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print(f'self.Company : {self.Company}, self.Address: {self.Address}')
 
             if len(aqt_files) > 0:
-                pse.process_yangsoo_spec()
+                process_yangsoo_spec()
             else:
                 for i in range(1, spin_value + 1):
-                    self.file_processing.aqt_send(i, mode)
-                pse.process_yangsoo_spec()
-
+                    self.file_processing.aqtfile_to_send(i, mode)
+                process_yangsoo_spec()
         else:
             if len(aqt_files) > 0:
-                print(f'self.Company : {self.Company}, self.Address: {self.Address}')
-                ps.main_call(self.Address, self.Company)
+                print(f'main_call : self.Company : {self.Company}, self.Address: {self.Address}')
+                main_call(self.Address, self.Company)
             else:
-                print(f'self.Company : {self.Company}, self.Address: {self.Address}')
+                print(f'copyaqt_and_set :  self.Company : {self.Company}, self.Address: {self.Address}')
                 self.copyaqt_and_set()
 
-    def on_pushButton3_clicked(self):
-        self.onButton3_Act()
+    def copyaqt_and_set(self):
+        # Get spin value and checkbox state
+        spin_value = self.spinBox.value()
+        checkbox_state = self.checkBox.isChecked()
+        mode = True if checkbox_state else False
+
+        # Get and validate address
+        self.Address = self.textEdit.toPlainText()
+        if not self.Address:
+            self.textEdit_3.setText("Address is empty, Fill in the gap")
+        else:
+            self.textEdit_3.setText(f"{spin_value} file to Send, Company: {self.Company} / {self.Address}")
+            for i in range(1, spin_value + 1):
+                self.file_processing.aqtfile_to_send(i, mode)
+
+            print(f'inside, copyaqt_and_set : self.Company : {self.Company}, self.Address: {self.Address}')
+            Set_Projectinfo(self.Company, self.Address)
 
     def on_pushButton2_clicked(self):
         self.close()

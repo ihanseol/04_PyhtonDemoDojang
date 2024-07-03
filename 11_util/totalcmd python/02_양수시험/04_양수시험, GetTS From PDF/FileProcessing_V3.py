@@ -760,7 +760,7 @@ class TransferYangSooFile(FileBase):
 
 if __name__ == "__main__":
     # fp = PrepareYangsoofile()
-    # fp.aqt_send(well_no=1)
+    # fp.aqtfile_to_send(well_no=1)
     # fp.duplicate_yangsoo(3)
 
     tyd = TransferYangSooFile()

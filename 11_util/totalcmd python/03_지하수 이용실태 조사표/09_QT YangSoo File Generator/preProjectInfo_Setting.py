@@ -3,11 +3,10 @@ import time
 import os
 import pyperclip
 from pick import pick
-import pandas as pd
 import re
 from natsort import natsorted
 import pyautogui
-from FileProcessing_V4 import FileBase
+from FileProcessing_V4_001 import FileBase
 import ctypes
 
 
@@ -38,12 +37,12 @@ class AqtSolveProjectInfoInjector:
 
     def close_aqt(self):
         if self.is_aqt_open:
-            self.is_aqt_open = False
+            pyautogui.hotkey('ctrl', 's')
+            time.sleep(self.delay)
+            pyautogui.hotkey('alt', 'f4')
+            time.sleep(self.delay)
 
-        pyautogui.hotkey('ctrl', 's')
-        time.sleep(self.delay)
-        pyautogui.hotkey('alt', 'f4')
-        time.sleep(self.delay)
+        self.is_aqt_open = False
 
     def main_job(self, well, address):
         def enter_project_info():
@@ -51,29 +50,29 @@ class AqtSolveProjectInfoInjector:
             time.sleep(0.2)
             pyautogui.press('r')
 
-        time.sleep(0.2)
-
-        pyperclip.copy(self.company)
-        enter_project_info()
-        pyautogui.hotkey('ctrl', 'v')
-
-        for _ in range(3):
-            pyautogui.press('tab')
+        if self.is_aqt_open:
             time.sleep(0.2)
+            pyperclip.copy(self.company)
+            enter_project_info()
+            pyautogui.hotkey('ctrl', 'v')
 
-        pyperclip.copy(address)
-        pyautogui.hotkey('ctrl', 'v')
+            for _ in range(3):
+                pyautogui.press('tab')
+                time.sleep(0.2)
 
-        pyautogui.press('tab')
-        pyperclip.copy(well)
-        pyautogui.hotkey('ctrl', 'v')
+            pyperclip.copy(address)
+            pyautogui.hotkey('ctrl', 'v')
 
-        pyautogui.press('tab')
-        pyautogui.hotkey('ctrl', 'v')
+            pyautogui.press('tab')
+            pyperclip.copy(well)
+            pyautogui.hotkey('ctrl', 'v')
 
-        pyautogui.press('enter')
-        pyautogui.hotkey('ctrl', 's')
-        time.sleep(self.delay)
+            pyautogui.press('tab')
+            pyautogui.hotkey('ctrl', 'v')
+
+            pyautogui.press('enter')
+            pyautogui.hotkey('ctrl', 's')
+            time.sleep(self.delay)
 
     @staticmethod
     def process_address(input_str):
@@ -146,20 +145,29 @@ def main_call(address, company):
     aqtfiles = fb.get_aqt_files()
     print(f'preProjectInfo, aqtfiles: {aqtfiles}')
 
-    if aqtfiles:
-        for i in range(1, 33):  # maximum well number is 18
-            wfiles = fnmatch.filter(aqtfiles, f"w{i}_*.aqt")
-            if wfiles:
-                for j, file in enumerate(wfiles):
-                    print(j, file)
-                    print(injector.directory + file)
-                    injector.open_aqt(file)
-                    injector.main_job(f"W-{i}", address)
+    if not injector.is_aqt_open:
+        if aqtfiles:
+            w_list = injector.get_wellno_list_insend()
+            print(f'preProjectInfo, w_list: {w_list}')
 
-        injector.close_aqt()
+            for i in w_list:  # maximum well number is 18
+                wfiles = fnmatch.filter(aqtfiles, f"w{i}_*.aqt")
+                if wfiles:
+                    for j, file in enumerate(wfiles):
+                        print(injector.directory + file)
+                        injector.open_aqt(file)
+                        injector.main_job(f"W-{i}", address)
+
+                    injector.close_aqt()
+                    # 이 오픈과 클로즈의 문제로 인해서, 여러번 실행해야 할경우에, 문제가 발생함
+                    # 오픈했던, 그 안에 넣어서 해결함
+        else:
+            print('preProjectInfo, aqt files does not found ...')
     else:
-        print('preProjectInfo, aqt files does not found ...')
+        injector.is_aqt_open = False
 
+    del injector
+    del fb
     time.sleep(0.5)
 
 
@@ -193,7 +201,8 @@ def main():
     aqtfiles = [f for f in files if f.endswith('.aqt')]
 
     if aqtfiles:
-        for i in range(1, 33):  # maximum well number is 18
+        w_list = injector.get_wellno_list_insend()
+        for i in w_list:  # maximum well number is 18
             wfiles = fnmatch.filter(aqtfiles, f"w{i}_*.aqt")
             if wfiles:
                 for j, file in enumerate(wfiles):
@@ -212,4 +221,5 @@ def main():
 
 if __name__ == "__main__":
     # main()
-    main_call("address", "company")
+    # main_call("address", "company")
+    main_call("장대동 278-13", "풍년가구")
