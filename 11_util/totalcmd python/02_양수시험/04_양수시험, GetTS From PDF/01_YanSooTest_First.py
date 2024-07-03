@@ -409,8 +409,8 @@ def main():
     injector = YangSooInjector("d:\\05_Send\\")
     injector.initial_delete_output_file(r"c:/Users/minhwasoo/Documents/")
     injector.process_files()
-    name = input("Program is Terminated and check console message ... ")
+    # name = input("Program is Terminated and check console message ... ")
 
-
+s
 if __name__ == "__main__":
     main()
