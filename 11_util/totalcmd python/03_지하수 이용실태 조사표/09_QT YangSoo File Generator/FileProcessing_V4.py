@@ -17,6 +17,7 @@ class AQTBASE:
 
         self.YANGSOO_EXCEL = "A1_ge_OriginalSaveFile.xlsm"
         self.YANGSOO_REST = "_ge_OriginalSaveFile.xlsm"
+        self.YANSOO_SPEC = "d:\\05_Send\\YanSoo_Spec.xlsx"
         self.TC_DIR = 'C:\\Program Files\\totalcmd\AqtSolv\\'
 
         self.STEP_FILE = "_01_step.aqt"
@@ -200,6 +201,11 @@ class FileBase(AQTBASE, PathChecker):
         return bool(head)
 
     @staticmethod
+    def seperate_filename(filename):
+        name, ext = os.path.splitext(filename)
+        return name, ext
+
+    @staticmethod
     def separate_path(file_path):
         """
             Separate the directory path and the base name from a file path.
@@ -316,146 +322,139 @@ class FileBase(AQTBASE, PathChecker):
 
             return False
 
+    def delete_files(self, folder_path, files):
+        """
+        Delete files from a specified folder.
+        :param folder_path: The folder path where the files are located.
+        :param files: List of file names to delete.
+        :return: True if all files were deleted successfully, False otherwise.
+        """
 
-def delete_files(self, folder_path, files):
-    """
-    Delete files from a specified folder.
-    :param folder_path: The folder path where the files are located.
-    :param files: List of file names to delete.
-    :return: True if all files were deleted successfully, False otherwise.
-    """
+        if self.check_path(folder_path) == PathChecker.RET_FILE:
+            folder_path = self.get_dirname(folder_path)
 
-    if self.check_path(folder_path) == PathChecker.RET_FILE:
-        folder_path = self.get_dirname(folder_path)
-
-    try:
-        for file_name in files:
-            file_path = os.path.join(folder_path, file_name)
-            if os.path.exists(file_path):
-                try:
-                    os.remove(file_path)
-                    print(f"{file_name} has been removed successfully from {folder_path}.")
-                except Exception as e:
-                    print(f"Error deleting {file_name}: {e}")
-                    return False
-            else:
-                print(f"The file {file_name} does not exist in the folder {folder_path}.")
-        return True
-    except Exception as e:
-        print(f"An error occurred while deleting files: {e}")
-        return False
-
-
-@staticmethod
-def ask_yes_no_question(directory=''):
-    root = tk.Tk()
-    root.withdraw()  # Hide the main window
-    try:
-        response = messagebox.askyesno("Confirm", f"Do you want to proceed? {directory}")
-        if response:
-            print("User chose Yes")
+        try:
+            for file_name in files:
+                file_path = os.path.join(folder_path, file_name)
+                if os.path.exists(file_path):
+                    try:
+                        os.remove(file_path)
+                        print(f"{file_name} has been removed successfully from {folder_path}.")
+                    except Exception as e:
+                        print(f"Error deleting {file_name}: {e}")
+                        return False
+                else:
+                    print(f"The file {file_name} does not exist in the folder {folder_path}.")
             return True
-        else:
-            print("User chose No")
+        except Exception as e:
+            print(f"An error occurred while deleting files: {e}")
             return False
-    finally:
-        root.destroy()
 
+    @staticmethod
+    def ask_yes_no_question(directory=''):
+        root = tk.Tk()
+        root.withdraw()  # Hide the main window
+        try:
+            response = messagebox.askyesno("Confirm", f"Do you want to proceed? {directory}")
+            if response:
+                print("User chose Yes")
+                return True
+            else:
+                print("User chose No")
+                return False
+        finally:
+            root.destroy()
 
-def select_folder(self, initial_dir=''):
-    root = tk.Tk()
-    root.withdraw()  # 메인 윈도우를 숨깁니다.
+    def select_folder(self, initial_dir=''):
+        root = tk.Tk()
+        root.withdraw()  # 메인 윈도우를 숨깁니다.
 
-    if not initial_dir:
-        initial_dir = self.directory
+        if not initial_dir:
+            initial_dir = self.directory
 
-    folder_path = filedialog.askdirectory(initialdir=initial_dir)  # 초기 디렉토리를 설정하여 폴더 선택 대화 상자를 엽니다.
+        folder_path = filedialog.askdirectory(initialdir=initial_dir)  # 초기 디렉토리를 설정하여 폴더 선택 대화 상자를 엽니다.
 
-    if folder_path:
-        print("선택한 폴더:", folder_path)
-    else:
-        print("폴더를 선택하지 않았습니다.")
+        if folder_path:
+            print("선택한 폴더:", folder_path)
+        else:
+            print("폴더를 선택하지 않았습니다.")
 
-    return folder_path
+        return folder_path
 
+    def join_path(self, folder_path, file_name):
+        source = folder_path
 
-def join_path(self, folder_path, file_name):
-    source = folder_path
+        if self.check_path(folder_path) == PathChecker.RET_DIR:
+            source = os.path.join(folder_path, file_name)
+            source = source.replace("/", "\\")
 
-    if self.check_path(folder_path) == PathChecker.RET_DIR:
-        source = os.path.join(folder_path, file_name)
-        source = source.replace("/", "\\")
+        print('join_path: ', source)
+        return source
 
-    print('join_path: ', source)
-    return source
+    def unfold_path(self, folder_path):
+        """
+            폴더패스를 분리해서, 리스트로 반환
+            ['D:', '09_hardRain', '09_ihanseol - 2024', '07_공업용 - 세종, 주안레미콘 2개공, 연장허가 - 현윤이엔씨, 보완보고서 , 청주기상청']
+        """
+        if not self.check_path(folder_path):
+            folder_path = self.directory
 
+        parts = folder_path.replace('/', '\\').split('\\')
+        for part in parts:
+            print(part)
+        return parts
 
-def unfold_path(self, folder_path):
-    """
-        폴더패스를 분리해서, 리스트로 반환
-        ['D:', '09_hardRain', '09_ihanseol - 2024', '07_공업용 - 세종, 주안레미콘 2개공, 연장허가 - 현윤이엔씨, 보완보고서 , 청주기상청']
-    """
-    if not self.check_path(folder_path):
-        folder_path = self.directory
+    @staticmethod
+    def join_path_reverse(folder_list, n=0):
+        """
+        :param folder_list:
+           this is a list of folders of disect
+            ['D:', '09_hardRain', '09_ihanseol - 2024', '07_공업용 - 세종, 주안레미콘 2개공, 연장허가 - 현윤이엔씨, 보완보고서 , 청주기상청']
 
-    parts = folder_path.replace('/', '\\').split('\\')
-    for part in parts:
-        print(part)
-    return parts
+        :param n:
+            끝에서 부터 몇자리까지 할것인가
+            0 : 전체패스
+            1 : 끝에서 부터 한자리 전까지 합침
 
+            n 이 양수 이면 -를 부치고
+            n 이 음수이면 그냥 쓰고
+        :return:
+        """
 
-@staticmethod
-def join_path_reverse(folder_list, n=0):
-    """
-    :param folder_list:
-       this is a list of folders of disect
-        ['D:', '09_hardRain', '09_ihanseol - 2024', '07_공업용 - 세종, 주안레미콘 2개공, 연장허가 - 현윤이엔씨, 보완보고서 , 청주기상청']
+        if type(folder_list) != list:
+            return None
 
-    :param n:
-        끝에서 부터 몇자리까지 할것인가
-        0 : 전체패스
-        1 : 끝에서 부터 한자리 전까지 합침
+        if n == 0:
+            return "\\".join(folder_list[:])
+        elif n > 0:
+            return "\\".join(folder_list[:-n])
+        else:
+            return "\\".join(folder_list[:n])
 
-        n 이 양수 이면 -를 부치고
-        n 이 음수이면 그냥 쓰고
-    :return:
-    """
+    @staticmethod
+    def join_path_forward(folder_list, n=0):
+        """
+        :param folder_list:
+           this is a list of folders of disect
+            ['D:', '09_hardRain', '09_ihanseol - 2024', '07_공업용 - 세종, 주안레미콘 2개공, 연장허가 - 현윤이엔씨, 보완보고서 , 청주기상청']
 
-    if type(folder_list) != list:
-        return None
+        :param n:
+            앞에서 부터 몇자리까지 할것인가
+            0 : 전체패스
+            1 : 끝에서 부터 한자리 전까지 합침
 
-    if n == 0:
-        return "\\".join(folder_list[:])
-    elif n > 0:
-        return "\\".join(folder_list[:-n])
-    else:
-        return "\\".join(folder_list[:n])
+            n 이 양수 이면 -를 부치고
+            n 이 음수이면 그냥 쓰고
+        :return:
+        """
 
+        depth = len(folder_list)
+        if depth == 0:
+            return None
 
-@staticmethod
-def join_path_forward(folder_list, n=0):
-    """
-    :param folder_list:
-       this is a list of folders of disect
-        ['D:', '09_hardRain', '09_ihanseol - 2024', '07_공업용 - 세종, 주안레미콘 2개공, 연장허가 - 현윤이엔씨, 보완보고서 , 청주기상청']
-
-    :param n:
-        앞에서 부터 몇자리까지 할것인가
-        0 : 전체패스
-        1 : 끝에서 부터 한자리 전까지 합침
-
-        n 이 양수 이면 -를 부치고
-        n 이 음수이면 그냥 쓰고
-    :return:
-    """
-
-    depth = len(folder_list)
-    if depth == 0:
-        return None
-
-    n = abs(n)
-    if depth <= n:
-        return "\\".join(folder_list[:n])
+        n = abs(n)
+        if depth <= n:
+            return "\\".join(folder_list[:n])
 
 
 class PrepareYangsoofile(FileBase):
@@ -475,13 +474,32 @@ class PrepareYangsoofile(FileBase):
         """Copy the initial Yangsoo Excel file to the SEND directory."""
         self.copy_file(self.TC_DIR + self.YANGSOO_EXCEL, self.SEND + self.YANGSOO_EXCEL)
 
-    def aqt_send(self, well_no=1, mod='include'):
+    def change_filename(self):
+        """
+          이것은, AQT 파일에 복사본이 포함되어있을경우
+          이 복사본을 제거하고, 다른이름 _01 로 대체하는 함수이다.
+        """
+        aqtfiles = self.get_aqt_files()
+
+        for filename in aqtfiles:
+            name, ext = self.seperate_filename(filename)
+
+            if ext == ".aqt" and "_01" not in name:
+                if "- 복사본" in name:
+                    new_name = name.replace(" - 복사본", "_01") + ext
+                    os.rename(os.path.join(self.SEND, filename), os.path.join(self.SEND, new_name))
+
+                if "- Copy" in name:
+                    new_name = name.replace(" - Copy", "_01") + ext
+                    os.rename(os.path.join(self.SEND, filename), os.path.join(self.SEND, new_name))
+
+    def aqt_send(self, well_no=1, aqtstep_include=False):
         """
         Copy AQT files to the SEND directory for a specific well number.
         :param well_no: Well number to include in the file names.
         :param mod: Mode to determine which files to copy.
         """
-        if mod == 'include':
+        if aqtstep_include:
             self.copy_file(self.TC_DIR + self.STEP_FILE, self.SEND + f"w{well_no}" + self.STEP_FILE)
         self.copy_file(self.TC_DIR + self.LONG_FILE, self.SEND + f"w{well_no}" + self.LONG_FILE)
         self.copy_file(self.TC_DIR + self.RECOVER_FILE, self.SEND + f"w{well_no}" + self.RECOVER_FILE)
@@ -495,6 +513,8 @@ class PrepareYangsoofile(FileBase):
         for i in range(2, cnt + 1):
             destination_path = os.path.join(self.SEND, f"A{i}" + self.YANGSOO_REST)
             shutil.copy(self.SEND + self.YANGSOO_EXCEL, destination_path)
+
+
 
 
 """
