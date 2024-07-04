@@ -211,7 +211,7 @@ class FileProcessing(AQTBASE):
     def duplicate_aqtfile_long(self, well):
         shutil.copyfile(self.SEND + f"w{well}_02_long.aqt", self.SEND + f"w{well}_02_long_01.aqt")
 
-    def after_work(self):
+    def after_work(self, well_no):
         self.set_directory(self.DOCUMENTS)
         xlsmfiles = self.get_xlsm_files()
         datfiles = self.get_dat_files()
@@ -228,7 +228,9 @@ class FileProcessing(AQTBASE):
 
         self.set_directory(self.SEND)
         aqtfiles = self.get_aqt_files()
-        for file in aqtfiles:
+        aqt_files = natsorted(fnmatch.filter(aqtfiles, f"w{well_no}_*.aqt"))
+
+        for file in aqt_files:
             self.move_file(self.SEND + file, self.SEND2 + file)
 
 
@@ -543,7 +545,7 @@ class PumpTestAutomation(FileProcessing):
             well = self.extract_number(file)
             self.injection.main_process(well, Mode)
 
-            self.after_work()
+            self.after_work(well)
             time.sleep(2)
 
         if self.IS_BLOCK:
