@@ -771,7 +771,7 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
             for _ in ffiles:
                 os.remove(_)
 
-    def process_prjectinfo_byexcel(self, company, address):
+    def process_projectinfo_byexcel(self, company, address):
 
         if self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
             df = pd.read_excel(r"d:\05_Send\YanSoo_Spec.xlsx")
@@ -779,8 +779,6 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
 
         self.set_company(company)
         self.set_address(address)
-
-        os.chdir(self.DIRECTORY)
         self.change_aqt_filename()
 
         send_list = self.get_wellno_list_insend()
@@ -790,8 +788,9 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
         self.delete_difference(difference_set)
 
         aqtfiles = natsorted([f for f in os.listdir() if f.endswith('.aqt')])
-
-        self.block_user_input()
+        aqtfiles = self.get_aqt_files()
+        print(f'aqtfiles: {aqtfiles}')
+        # self.block_user_input()
 
         for i in xlsx_list:
             gong, excel_address = self.get_gong_n_address(i)
@@ -803,16 +802,12 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
             processed_address = self.process_address(excel_address)
             print(f'gong: {gong}, address: {processed_address}')
             wfiles = fnmatch.filter(aqtfiles, f"w{i}_*.aqt")
+            print(f"wfiles: {wfiles}")
 
             if wfiles:
-                for file in wfiles:
-                    if self.DEBUG:
-                        print('Processing file: ', file)
-                    # self.open_aqt(file)
-                    # self.main_job(gong, processed_address)
-                    # print(f'file:{file} : {gong}, {processed_address}')
-                    # self.close_aqt()
-                    self.aqt_mainaction(gong, processed_address, wfiles)
+                if self.DEBUG:
+                    print('Processing file: ', wfiles)
+                self.aqt_mainaction(self.extract_number(gong), processed_address, wfiles)
 
         if self.DEBUG:
             print('All files processed.')

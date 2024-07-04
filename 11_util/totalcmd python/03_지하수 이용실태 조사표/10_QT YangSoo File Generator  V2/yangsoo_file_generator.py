@@ -104,11 +104,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print(f'self.Company : {self.Company}, self.Address: {self.Address}')
 
             if len(aqt_files) > 0:
-                self.spiexcel.process_prjectinfo_byexcel(self.Company, self.Address)
+                self.spiexcel.process_projectinfo_byexcel(self.Company, self.Address)
             else:
                 for i in range(1, spin_value + 1):
                     self.file_processing.aqtfile_to_send(i, mode)
-                self.spiexcel.process_prjectinfo_byexcel(self.Company, self.Address)
+                self.spiexcel.process_projectinfo_byexcel(self.Company, self.Address)
         else:
             if len(aqt_files) > 0:
                 print(f'main_call : self.Company : {self.Company}, self.Address: {self.Address}')
