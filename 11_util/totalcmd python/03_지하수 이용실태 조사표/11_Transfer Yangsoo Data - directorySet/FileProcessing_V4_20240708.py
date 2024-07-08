@@ -916,7 +916,7 @@ class TransferYangSooFile(FileBase):
         self.print_debug('-')
 
         if filtered_files['prn']:
-            self._move_files_to_dir(folder_path, filtered_files, ['xlsx', 'xlsm'], self.DIR_PRN, "Prn Files")
+            self._move_files_to_dir(folder_path, filtered_files, ['prn'], self.DIR_PRN, "Prn Files")
 
         if filtered_files['xlsx'] and filtered_files['xlsm']:
             self._move_files_to_dir(folder_path, filtered_files, ['xlsx', 'xlsm'], self.DIR_YANGSOO_TEST,
