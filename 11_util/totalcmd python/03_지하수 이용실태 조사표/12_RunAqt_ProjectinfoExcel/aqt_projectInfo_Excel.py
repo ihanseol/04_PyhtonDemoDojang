@@ -5,8 +5,8 @@ from CLASS_AqtWork import AqtExcelProjectInfoInjector
 
 
 def process_yangsoo_spec():
-    injector = AqtProjectInfoInjector("d:\\05_Send\\", "산수개발(주)")
-    injector.Set_Projectinfo("산수개발(주)", "AAA" )
+    injector = AqtExcelProjectInfoInjector("d:\\05_Send\\", "산수개발(주)")
+    injector.process_projectinfo_likesejong("산수개발(주)")
 
 
 def main():
