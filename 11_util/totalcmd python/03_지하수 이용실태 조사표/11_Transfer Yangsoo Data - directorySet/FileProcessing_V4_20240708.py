@@ -918,16 +918,16 @@ class TransferYangSooFile(FileBase):
         if filtered_files['prn']:
             self._move_files_to_dir(folder_path, filtered_files, ['prn'], self.DIR_PRN, "Prn Files")
 
-        if filtered_files['xlsx'] and filtered_files['xlsm']:
+        if filtered_files['xlsx'] or filtered_files['xlsm']:
             self._move_files_to_dir(folder_path, filtered_files, ['xlsx', 'xlsm'], self.DIR_YANGSOO_TEST,
                                     "YangSoo Test")
 
         # Move files to the respective directories
-        if filtered_files['a_pdf'] and filtered_files['jpg_a']:
+        if filtered_files['a_pdf'] or filtered_files['jpg_a']:
             self._move_files_to_dir(folder_path, filtered_files, ['a_pdf', 'p_pdf', 'jpg_a', 'jpg_p', 'w_aqt'],
                                     self.DIR_AQT, "02_AQTEver3.4(170414)")
 
-        if filtered_files['jpg_w'] and filtered_files['w_pdf']:
+        if filtered_files['jpg_w'] or filtered_files['w_pdf']:
             self._move_files_to_dir(folder_path, filtered_files, ['jpg_w', 'w_pdf'], self.DIR_YANGSOOILBO,
                                     "yangsoo ilbo")
 
