@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'move_after2CBQVdj.ui'
+## Form generated from reading UI file 'move_after3uuIEhr.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.3
 ##
@@ -15,8 +15,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
                            QFont, QFontDatabase, QGradient, QIcon,
                            QImage, QKeySequence, QLinearGradient, QPainter,
                            QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QGroupBox, QLabel,
-                               QLineEdit, QMainWindow, QMenuBar, QPushButton,
+from PySide6.QtWidgets import (QApplication, QGroupBox, QLabel, QLineEdit,
+                               QMainWindow, QMenuBar, QPushButton, QRadioButton,
                                QSizePolicy, QWidget)
 
 
@@ -29,26 +29,24 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.groupBox = QGroupBox(self.centralwidget)
         self.groupBox.setObjectName(u"groupBox")
-        self.groupBox.setGeometry(QRect(20, 280, 501, 81))
+        self.groupBox.setGeometry(QRect(20, 280, 501, 91))
         font = QFont()
         font.setFamilies([u"Consolas"])
         font.setPointSize(12)
         self.groupBox.setFont(font)
-        self.checkBox_1 = QCheckBox(self.groupBox)
-        self.checkBox_1.setObjectName(u"checkBox_1")
-        self.checkBox_1.setGeometry(QRect(20, 20, 151, 41))
-        self.checkBox_1.setFont(font)
-        self.checkBox_1.setChecked(True)
-        self.checkBox_2 = QCheckBox(self.groupBox)
-        self.checkBox_2.setObjectName(u"checkBox_2")
-        self.checkBox_2.setGeometry(QRect(190, 20, 111, 41))
-        self.checkBox_2.setFont(font)
-        self.checkBox_2.setChecked(False)
-        self.checkBox_3 = QCheckBox(self.groupBox)
-        self.checkBox_3.setObjectName(u"checkBox_3")
-        self.checkBox_3.setGeometry(QRect(360, 20, 121, 41))
-        self.checkBox_3.setFont(font)
-        self.checkBox_3.setChecked(False)
+        self.radioButton_1 = QRadioButton(self.groupBox)
+        self.radioButton_1.setObjectName(u"radioButton_1")
+        self.radioButton_1.setGeometry(QRect(30, 40, 101, 20))
+        self.radioButton_1.setFont(font)
+        self.radioButton_1.setChecked(True)
+        self.radioButton_2 = QRadioButton(self.groupBox)
+        self.radioButton_2.setObjectName(u"radioButton_2")
+        self.radioButton_2.setGeometry(QRect(170, 40, 111, 20))
+        self.radioButton_2.setFont(font)
+        self.radioButton_3 = QRadioButton(self.groupBox)
+        self.radioButton_3.setObjectName(u"radioButton_3")
+        self.radioButton_3.setGeometry(QRect(310, 40, 151, 20))
+        self.radioButton_3.setFont(font)
         self.lineEdit = QLineEdit(self.centralwidget)
         self.lineEdit.setObjectName(u"lineEdit")
         self.lineEdit.setGeometry(QRect(20, 80, 1021, 51))
@@ -59,18 +57,19 @@ class Ui_MainWindow(object):
         self.groupBox_2 = QGroupBox(self.centralwidget)
         self.groupBox_2.setObjectName(u"groupBox_2")
         self.groupBox_2.setGeometry(QRect(20, 380, 501, 171))
+        self.groupBox_2.setFont(font)
         self.label_2 = QLabel(self.groupBox_2)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(30, 30, 351, 31))
-        self.label_2.setFont(font1)
+        self.label_2.setFont(font)
         self.label_3 = QLabel(self.groupBox_2)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setGeometry(QRect(30, 70, 351, 31))
-        self.label_3.setFont(font1)
+        self.label_3.setFont(font)
         self.label_4 = QLabel(self.groupBox_2)
         self.label_4.setObjectName(u"label_4")
         self.label_4.setGeometry(QRect(30, 110, 351, 31))
-        self.label_4.setFont(font1)
+        self.label_4.setFont(font)
         self.pushButton_2 = QPushButton(self.centralwidget)
         self.pushButton_2.setObjectName(u"pushButton_2")
         self.pushButton_2.setGeometry(QRect(620, 560, 211, 71))
@@ -93,7 +92,7 @@ class Ui_MainWindow(object):
         self.label_5 = QLabel(self.centralwidget)
         self.label_5.setObjectName(u"label_5")
         self.label_5.setGeometry(QRect(20, 150, 131, 31))
-        self.label_5.setFont(font1)
+        self.label_5.setFont(font)
         self.lineEdit_2 = QLineEdit(self.centralwidget)
         self.lineEdit_2.setObjectName(u"lineEdit_2")
         self.lineEdit_2.setGeometry(QRect(20, 180, 1021, 51))
@@ -113,9 +112,9 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Move After", None))
         self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Choose Location", None))
-        self.checkBox_1.setText(QCoreApplication.translate("MainWindow", u"Documents", None))
-        self.checkBox_2.setText(QCoreApplication.translate("MainWindow", u"d:\\05_Send", None))
-        self.checkBox_3.setText(QCoreApplication.translate("MainWindow", u"d:\\05_Send2", None))
+        self.radioButton_1.setText(QCoreApplication.translate("MainWindow", u"Documents", None))
+        self.radioButton_2.setText(QCoreApplication.translate("MainWindow", u"d:\\05_Send", None))
+        self.radioButton_3.setText(QCoreApplication.translate("MainWindow", u"d:\\06_Send2", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"Explain", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Documents  :  *.prn, *.xlsm", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"d:\\05_Send :  *.aqt, *.jpg, *.pdf", None))
