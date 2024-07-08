@@ -1,18 +1,40 @@
+import os
+import pickle
+import ctypes
 import shutil
+import fnmatch
+from natsort import natsorted
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 from datetime import datetime
 
-import fnmatch
-import time
-import os
-import pyperclip
-import re
-from natsort import natsorted
-import pyautogui
-import ctypes
-import pandas as pd
+
+class SavedpathClass:
+    def __init__(self):
+        self.flocation = ''
+        self.ls_directory = 'c:\\Program Files\\totalcmd\\AqtSolv\\'
+
+    def SavePath(self, path_data):
+        file_path = os.path.join(self.ls_directory, 'SaveFolder.sav')
+        os.makedirs(self.ls_directory, exist_ok=True)  # Create the directory if it doesn't exist
+
+        # Define the file path
+        file_path = os.path.join(self.ls_directory, 'SaveFolder.sav')
+        # Save the data to the file
+        with open(file_path, 'wb') as file:
+            pickle.dump(path_data, file)
+
+        print(f'File saved to {file_path}')
+        self.flocation = path_data
+
+    def LoadPath(self):
+        file_path = os.path.join(self.ls_directory, 'SaveFolder.sav')
+        with open(file_path, 'rb') as file:
+            loaded_data = pickle.load(file)
+
+        print(f'File loaded from {file_path}')
+        self.flocation = loaded_data
 
 
 class AQTBASE:
@@ -24,7 +46,6 @@ class AQTBASE:
 
         self.YANGSOO_EXCEL = "A1_ge_OriginalSaveFile.xlsm"
         self.YANGSOO_REST = "_ge_OriginalSaveFile.xlsm"
-        self.YANSOO_SPEC = "d:\\05_Send\\YanSoo_Spec.xlsx"
         self.TC_DIR = 'C:\\Program Files\\totalcmd\AqtSolv\\'
 
         self.STEP_FILE = "_01_step.aqt"
@@ -33,7 +54,7 @@ class AQTBASE:
 
         self.ISAQTOPEN = False
         self.DEBUG_YES = True
-        self.DELAY = 0.2
+        self.DELAY = 0.5
         self.IS_BLOCK = False
         """
         self.IS_BLOCK = False :
@@ -42,19 +63,9 @@ class AQTBASE:
          so it must be False, user input allowed ...
         """
 
-    @staticmethod
-    def block_user_input():
-        user32 = ctypes.windll.user32
-        user32.BlockInput(True)
-
-    @staticmethod
-    def unblock_user_input():
-        user32 = ctypes.windll.user32
-        user32.BlockInput(False)
-
     def print_debug(self, message):
         if self.DEBUG_YES:
-            if "*-@#$%&" in message:
+            if message in "*-@#$%&":
                 print(message * 180)
             else:
                 print(message)
@@ -66,7 +77,7 @@ class PathChecker:
     RET_NOTHING = 0
 
     @staticmethod
-    def check_path(path=""):
+    def check_path(path=''):
         if path is None:
             return PathChecker.RET_NOTHING
 
@@ -80,7 +91,7 @@ class PathChecker:
         else:
             return PathChecker.RET_NOTHING
 
-    def resolve_path(self, path=""):
+    def resolve_path(self, path=''):
         if path is None:
             return PathChecker.RET_NOTHING
 
@@ -100,20 +111,16 @@ class PathChecker:
 
 
 class FileBase(AQTBASE, PathChecker):
-    def __init__(self, directory='D:\\05_Send\\'):
+    def __init__(self, directory=r'D:\05_Send\\'):
         AQTBASE.__init__(self)
 
         if directory is None:
             print('in File Base , directory is None')
-            self.SEND = self.SEND
-
-        self.files = None
-        self._directory = directory
 
         if self.check_path(directory) is False:
             self._set_directory(directory)
         else:
-            self._set_directory("d:\\05_Send\\")
+            self._set_directory(r"d:\05_Send\\")
 
     def _set_directory(self, directory):
         """
@@ -122,12 +129,6 @@ class FileBase(AQTBASE, PathChecker):
         self._directory = directory
         os.chdir(self._directory)
         self.files = os.listdir(directory)
-
-    # def refresh_files(self):
-    #     if self.check_path(self.SEND):
-    #         self.files = os.listdir(self.SEND)
-    #     else:
-    #         self._set_directory(r"d:\05_Send\\")
 
     @property
     def directory(self):
@@ -150,24 +151,14 @@ class FileBase(AQTBASE, PathChecker):
 
     def _get_files_by_extension(self, extension):
         """ Returns a list of files with the specified extension. """
-        self.files = os.listdir(self._directory)
         return [f for f in self.files if f.endswith(extension)]
 
     def get_xlsm_files(self):
         """ Returns a list of .xlsm files. """
         return self._get_files_by_extension('.xlsm')
 
-    def get_xlsx_files(self):
-        """ Returns a list of .xlsm files. """
-        return self._get_files_by_extension('.xlsx')
-
     def get_aqt_files(self):
-        """
-            Returns a list of .aqt files.
-            중간에, 디렉토리가 리프레시 되지 않는경우가 있어서
-            일단은, aqtfiles만 해결하기 위해서, refresh_files를 추가 해줌
-        """
-        # self.refresh_files()
+        """ Returns a list of .aqt files. """
         return self._get_files_by_extension('.aqt')
 
     def get_dat_files(self):
@@ -236,11 +227,6 @@ class FileBase(AQTBASE, PathChecker):
         head, tail = os.path.split(file_name)
         print(f"head: '{head}'  tail: '{tail}'  includes a path. Performing action...")
         return bool(head)
-
-    @staticmethod
-    def seperate_filename(filename):
-        name, ext = os.path.splitext(filename)
-        return name, ext
 
     @staticmethod
     def separate_path(file_path):
@@ -347,7 +333,7 @@ class FileBase(AQTBASE, PathChecker):
         """
             Return the directory name of the given file path.
         """
-        if self.check_path() == PathChecker.RET_NOTHING:
+        if self.check_path == PathChecker.RET_NOTHING:
             print('get_dirname arg is not path ... ', file_path)
             return None
 
@@ -357,7 +343,7 @@ class FileBase(AQTBASE, PathChecker):
         """
             Return the base name of the given file path.
         """
-        if self.check_path() == PathChecker.RET_NOTHING:
+        if self.check_path == PathChecker.RET_NOTHING:
             print('get_dirname arg is not path ... ', file_path)
             return None
 
@@ -368,7 +354,7 @@ class FileBase(AQTBASE, PathChecker):
             Check if the file exists.
             os.path.exist return value : True or False
         """
-        if self.check_path() == PathChecker.RET_NOTHING:
+        if self.check_path == PathChecker.RET_NOTHING:
             print('get_dirname arg is not path ... ', file_path)
             return False
 
@@ -379,45 +365,11 @@ class FileBase(AQTBASE, PathChecker):
             Check if the file exists.
             os.path.exist return value : True or False
         """
-        if self.check_path() == PathChecker.RET_NOTHING:
+        if self.check_path == PathChecker.RET_NOTHING:
             print('get_dirname arg is not path ... ', file_path)
             return False
 
         return os.path.exists(file_path)
-
-    @staticmethod
-    def set_pathstring_to_slash(file_path):
-        """
-          path has \\ and / mix ...
-          so it refine the path by one '/'
-          파일패스에 \\ 와 / 이 동시에 섞이게 되어 이것을 정리해줄 필요가 있다.
-        :return:
-        """
-        source = file_path
-        source = source.replace("\\", "/")
-        return source
-
-    def join_path_from_list(self, file_path_list):
-        """
-         패스의 리스트를 받아서
-         그 패스의 리스트를 합쳐준다.
-         그리고 합쳐진 패스리스트를 반환한다.
-
-        :param file_path_list:
-            file_path_list = ['d:\send\, 'path1', 'path2']
-        :return:
-            "d:\send\path1\path2'
-        """
-
-        base_path = file_path_list[0]
-        extra_path = file_path_list[1:]
-        for f in extra_path:
-            f = self.set_pathstring_to_slash(f)
-            base_path = base_path + f
-
-        base_path = self.set_pathstring_to_slash(base_path)
-        print('join_path_from_list : ', base_path)
-        return base_path
 
     @staticmethod
     def copy_file(source, destination):
@@ -459,32 +411,6 @@ class FileBase(AQTBASE, PathChecker):
             print(f"Error moving file: {e}")
             return False
 
-    def delete_file(self, file_path):
-        """
-        Delete files from a specified folder.
-        :param file_path:
-            The folder path where the files are located = directory + filename.
-        :return: True if all files were deleted successfully, False otherwise.
-        """
-
-        if self.check_path(file_path) == PathChecker.RET_FILE:
-            try:
-                if os.path.exists(file_path):
-                    try:
-                        os.remove(file_path)
-                        print(
-                            f"{self.get_basename(file_path)} removed successfully from {self.get_dirname(file_path)}.")
-                    except Exception as e:
-                        print(f"Error deleting {file_path}: {e}")
-                        return False
-                else:
-                    print(f"The file {file_path} does not exist ...")
-                return True
-            except Exception as e:
-                print(f"An error occurred while deleting files: {e}")
-
-            return False
-
     def delete_files(self, folder_path, files):
         """
         Delete files from a specified folder.
@@ -498,51 +424,20 @@ class FileBase(AQTBASE, PathChecker):
 
         try:
             for file_name in files:
-                file_path = str(os.path.join(folder_path, file_name))
-
-                if self.check_path(file_path) == PathChecker.RET_FILE:
+                file_path = os.path.join(folder_path, file_name)
+                if os.path.exists(file_path):
                     try:
                         os.remove(file_path)
-                        print(f"{file_name} removed successfully from {folder_path}")
+                        print(f"{file_name} has been removed successfully from {folder_path}.")
                     except Exception as e:
                         print(f"Error deleting {file_name}: {e}")
                         return False
                 else:
-                    print(f"The file {file_name} does not exist in the folder {folder_path} or its a directory")
+                    print(f"The file {file_name} does not exist in the folder {folder_path}.")
             return True
         except Exception as e:
             print(f"An error occurred while deleting files: {e}")
             return False
-
-    def delete_files_in_directory(self, folder_path):
-        """
-            delte all files in a directory
-        :param folder_path:
-        :return:
-        """
-        if self.check_path(folder_path) == PathChecker.RET_DIR:
-            files = os.listdir(folder_path)
-            print(f"delete_files_in_directory - {files}")
-            self.delete_files(folder_path, files)
-            return True
-        else:
-            print(f"delete_files_in_directory: {folder_path} its not a directory")
-            return False
-
-    @staticmethod
-    def erase_all_yangsoo_test_files(directory):
-        # if self.ask_yes_no_question(directory):
-        for filename in os.listdir(directory):
-            file_path = os.path.join(directory, filename)
-            try:
-                # Check if it's a file (and not a directory)
-                if os.path.isfile(file_path) or os.path.islink(file_path):
-                    os.unlink(file_path)  # Remove the file
-                # If it's a directory, use shutil.rmtree to remove it
-                elif os.path.isdir(file_path):
-                    shutil.rmtree(file_path)
-            except Exception as e:
-                print(f'Failed to delete {file_path}. Reason: {e}')
 
     @staticmethod
     def ask_yes_no_question(directory=''):
@@ -560,16 +455,11 @@ class FileBase(AQTBASE, PathChecker):
             root.destroy()
 
     def select_folder(self, initial_dir=''):
-        """
-            using tkinter to select the folder where you want to
-        :param initial_dir:
-        :return:
-        """
         root = tk.Tk()
         root.withdraw()  # 메인 윈도우를 숨깁니다.
 
         if not initial_dir:
-            initial_dir = self.SEND
+            initial_dir = self.directory
 
         folder_path = filedialog.askdirectory(initialdir=initial_dir)  # 초기 디렉토리를 설정하여 폴더 선택 대화 상자를 엽니다.
 
@@ -580,13 +470,8 @@ class FileBase(AQTBASE, PathChecker):
 
         return folder_path
 
-    def join_path_tofilename(self, folder_path, file_name):
-        """
-            input folder path and file name return to file_name with path
-        :param folder_path:
-        :param file_name:
-        :return:
-        """
+
+    def join_path(self, folder_path, file_name):
         source = folder_path
 
         if self.check_path(folder_path) == PathChecker.RET_DIR:
@@ -602,7 +487,7 @@ class FileBase(AQTBASE, PathChecker):
             ['D:', '09_hardRain', '09_ihanseol - 2024', '07_공업용 - 세종, 주안레미콘 2개공, 연장허가 - 현윤이엔씨, 보완보고서 , 청주기상청']
         """
         if not self.check_path(folder_path):
-            folder_path = self.SEND
+            folder_path = self.directory
 
         parts = folder_path.replace('/', '\\').split('\\')
         for part in parts:
@@ -626,7 +511,7 @@ class FileBase(AQTBASE, PathChecker):
         :return:
         """
 
-        if not isinstance(folder_list, list):
+        if type(folder_list) != list:
             return None
 
         if n == 0:
@@ -675,28 +560,27 @@ class PrepareYangsoofile(FileBase):
         else:
             super().__init__(r"d:\05_Send\\")
 
-    def initial_set_yangsoo_excel(self):
+    def initial_set_yangsoo(self):
         """Copy the initial Yangsoo Excel file to the SEND directory."""
         self.copy_file(self.TC_DIR + self.YANGSOO_EXCEL, self.SEND + self.YANGSOO_EXCEL)
 
-    def aqtfile_to_send(self, well_no=1, aqtstep_include=False):
+    def aqt_send(self, well_no=1, mod='include'):
         """
         Copy AQT files to the SEND directory for a specific well number.
         :param well_no: Well number to include in the file names.
-        :param aqtstep_include: Mode to determine which files to copy.
+        :param mod: Mode to determine which files to copy.
         """
-        if aqtstep_include:
+        if mod == 'include':
             self.copy_file(self.TC_DIR + self.STEP_FILE, self.SEND + f"w{well_no}" + self.STEP_FILE)
         self.copy_file(self.TC_DIR + self.LONG_FILE, self.SEND + f"w{well_no}" + self.LONG_FILE)
         self.copy_file(self.TC_DIR + self.RECOVER_FILE, self.SEND + f"w{well_no}" + self.RECOVER_FILE)
 
-    def duplicate_yangsoo_excel(self, cnt):
+    def duplicate_yangsoo(self, cnt):
         """
         Duplicate the initial Yangsoo Excel file for multiple wells.
         :param cnt: Number of wells to create duplicates for.
         """
-        self.delete_files_in_directory(self.SEND)
-        self.initial_set_yangsoo_excel()
+        self.initial_set_yangsoo()
         for i in range(2, cnt + 1):
             destination_path = os.path.join(self.SEND, f"A{i}" + self.YANGSOO_REST)
             shutil.copy(self.SEND + self.YANGSOO_EXCEL, destination_path)
@@ -764,82 +648,48 @@ class TransferYangSooFile(FileBase):
 
     def dir_yangsoo_test(self):
         if self.DIR_YANGSOO_TEST == '':
-            self.DIR_YANGSOO_TEST = self.join_path_from_list([self.BASEDIR, self.YANGSOO_BASE])
-            if self.check_path(self.DIR_YANGSOO_TEST) != PathChecker.RET_DIR:
-                os.mkdir(self.DIR_YANGSOO_TEST)
+            # self.DIR_YANGSOO_TEST = self.BASEDIR + self.YANGSOO_BASE
+            self.DIR_YANGSOO_TEST = self.BASEDIR + self.YANGSOO_BASE
+
+        source = self.DIR_YANGSOO_TEST
+        self.DIR_YANGSOO_TEST = source.replace("/", "\\")
         return self.DIR_YANGSOO_TEST
 
     def dir_prn(self):
         if self.DIR_PRN == '':
-            self.DIR_PRN = self.join_path_from_list([self.BASEDIR, self.YANGSOO_BASE, self.PRN_BASE])
-            if self.check_path(self.DIR_PRN) != PathChecker.RET_DIR:
-                os.mkdir(self.DIR_PRN)
+            self.DIR_PRN = self.BASEDIR + self.YANGSOO_BASE + self.PRN_BASE
 
+        source = self.DIR_PRN
+        self.DIR_PRN = source.replace("/", "\\")
         return self.DIR_PRN
 
     def dir_aqt(self):
         if self.DIR_AQT == '':
-            self.DIR_AQT = self.join_path_from_list([self.BASEDIR, self.YANGSOO_BASE, self.AQT_BASE])
-            if self.check_path(self.DIR_AQT) != PathChecker.RET_DIR:
-                os.mkdir(self.DIR_AQT)
+            self.DIR_AQT = self.BASEDIR + self.YANGSOO_BASE + self.AQT_BASE
 
+        source = self.DIR_AQT
+        self.DIR_AQT = source.replace("/", "\\")
         return self.DIR_AQT
 
     def dir_yangsoo_ilbo(self):
         if self.DIR_YANGSOOILBO == '':
-            self.DIR_YANGSOOILBO = self.join_path_from_list([self.BASEDIR, self.YANGSOO_BASE, self.YANGSOOILBO_BASE])
-            if self.check_path(self.DIR_YANGSOOILBO) != PathChecker.RET_DIR:
-                os.mkdir(self.DIR_YANGSOOILBO)
+            self.DIR_YANGSOOILBO = self.BASEDIR + self.YANGSOO_BASE + self.YANGSOOILBO_BASE
 
+        source = self.DIR_YANGSOOILBO
+        self.DIR_YANGSOOILBO = source.replace("/", "\\")
         return self.DIR_YANGSOOILBO
-
-    def setdir_inside_yangsootest(self):
-        """
-            양수시험안의 디렉토리를 검사해서 01, 02, 03 으로 시작하는 폴더를 발견하면
-            그 폴더의 경로를,  dir_aqt, dir_yangsoo_ilbo, dir_prn  이렇게 세팅해주고
-            없으면, 폴더를 만들어준다.
-        :return:
-        """
-        if self.check_path(self.dir_yangsoo_test()) != PathChecker.RET_DIR:
-            os.makedirs(self.DIR_YANGSOO_TEST)
-            os.chdir(self.DIR_YANGSOO_TEST)
-
-            self.print_debug(self.dir_prn())
-            self.print_debug(self.dir_aqt())
-            self.print_debug(self.dir_yangsoo_ilbo())
-
-        else:
-            inside_yangsootest = self.list_directories_only(self.DIR_YANGSOO_TEST)
-            if inside_yangsootest:
-                print(inside_yangsootest)
-                os.chdir(self.DIR_YANGSOO_TEST)
-
-                arg_01 = ''.join([item for item in inside_yangsootest if item.startswith('01')])
-                arg_02 = ''.join([item for item in inside_yangsootest if item.startswith('02')])
-                arg_03 = ''.join([item for item in inside_yangsootest if item.startswith('03')])
-
-                print(arg_01)
-                print(arg_02)
-                print(arg_03)
-
-                self.DIR_PRN = self.join_path_from_list([self.DIR_YANGSOO_TEST, '\\', arg_01])
-                self.DIR_AQT = self.join_path_from_list([self.DIR_YANGSOO_TEST, '\\', arg_02])
-                self.DIR_YANGSOOILBO = self.join_path_from_list([self.DIR_YANGSOO_TEST, '\\', arg_03])
-            else:
-                os.chdir(self.DIR_YANGSOO_TEST)
-                self.print_debug(self.dir_prn())
-                self.print_debug(self.dir_aqt())
-                self.print_debug(self.dir_yangsoo_ilbo())
 
     def setBASEDIR(self, directory=''):
         """
           ['D:', '09_hardRain', '09_ihanseol - 2024', '07_공업용 - 세종, 주안레미콘 2개공, 연장허가 - 현윤이엔씨, 보완보고서 , 청주기상청']
         :return:
         """
+        # spc = SavedpathClass()
+        # spc.LoadPath()
 
-        print('***********' * 5)
+        print('***********')
         print(directory)
-        print('***********' * 5)
+        print('***********')
 
         current_year = datetime.now().year
 
@@ -847,131 +697,111 @@ class TransferYangSooFile(FileBase):
             self.BASEDIR = directory
         else:
             sel_folder = self.select_folder(f'd:\\09_hardRain\\09_ihanseol - {current_year}\\')
-            self.BASEDIR = self.isit_yangsoo_folder(sel_folder)
+            sel_folder = self.isit_yangsoo_folder(sel_folder)
+            self.BASEDIR = sel_folder
 
-        match self.BASEDIR:
-            case 'FALSE':
-                self.print_debug("it\'s not yangsoo folder")
-                self.isDIRSET = False
-                return "FALSE"
+        if self.isit_yangsoo_inside(self.BASEDIR):
+            self.print_debug("it has yangsoo inside ... ")
+            self.isDIRSET = True
+        else:
+            self.print_debug("its not contain yangsoo folder ...")
+            self.isDIRSET = False
+            return "FALSE"
 
-            case 'MORE':
-                self.print_debug("it\'s not yangsoo folder, need one more deep ")
-                self.isDIRSET = False
-                return "FALSE"
-
-        self.setdir_inside_yangsootest()
+        self.print_debug("*")
+        self.print_debug(self.BASEDIR)
+        self.print_debug(self.dir_yangsoo_test())
+        self.print_debug(self.dir_prn())
+        self.print_debug(self.dir_aqt())
+        self.print_debug(self.dir_yangsoo_ilbo())
+        self.print_debug("*")
 
         if not self.isDIRSET:
             self.isDIRSET = True
 
         return self.BASEDIR
 
-    def move_documents_to_ihanseol(self):
-        fb = FileBase()
-        fb.set_directory(self.DOCUMENTS)
+    def transfer_files(self, files, source_folder, target_folder):
+        for f in files:
+            source = self.join_path(source_folder, f)
+            target = self.join_path(target_folder, f)
+            self.move_file(source, target)
 
+    def move_documents_to_ihanseol(self):
+        self.set_directory(self.DOCUMENTS)
         print(self.DOCUMENTS)
 
         if self.isDIRSET:
-            file_mappings = {
-                "dat": (fb.get_dat_files(), self.DIR_PRN),
-                "xlsm": (fb.get_xlsm_files(), self.DIR_YANGSOO_TEST),
-            }
+            dat_files = self.get_dat_files()
+            xlsm_files = self.get_xlsm_files()
 
             self.print_debug("-")
             print(self.DIR_PRN)
             print(self.DIR_YANGSOO_TEST)
             self.print_debug("-")
 
-            for file_type, (files, target_directory) in file_mappings.items():
-                for f in files:
-                    source = self.join_path_tofilename(self.DOCUMENTS, f)
-                    target = self.join_path_tofilename(target_directory, f)
-                    fb.move_file(source, target)
+            self.transfer_files(dat_files, self.DOCUMENTS, self.DIR_PRN)
+            self.transfer_files(xlsm_files, self.DOCUMENTS, self.DIR_YANGSOO_TEST)
 
     def move_send_to_ihanseol(self):
         """
-        Move files based on specific start patterns.
-        - aqt files start with 'w'
-        - pdf files start with 'a', 'w', or 'p'
-        - jpg files start with '*page1'
+            aqt file start with w
+            pdf files start with a
+            jpg files start with *page1
         """
-        fb = FileBase()
-        fb.set_directory(self.SEND)
+        self.set_directory(self.SEND)
 
-        # Get the initial lists of files
-        file_mappings = {
-            'aqt': fb.get_aqt_files(),
-            'pdf': fb.get_pdf_files(),
-            'xlsx': fb.get_xlsx_files(),
-            'xlsm': fb.get_xlsm_files(),
-            'jpg_a': fb.get_jpg_filter(sfilter='a*page*'),
-            'jpg_p': fb.get_jpg_filter(sfilter='p*page*'),
-            'jpg_w': fb.get_jpg_filter(sfilter='w*page*')
-        }
+        aqt_files = self.get_aqt_files()
+        pdf_files = self.get_pdf_files()
+        jpg_files = self.get_jpg_files()
 
-        # Filter files based on specific start patterns
-        filtered_files = {
-            'w_aqt': [f for f in file_mappings['aqt'] if f.startswith('w')],
-            'a_pdf': [f for f in file_mappings['pdf'] if f.startswith('a')],
-            'w_pdf': [f for f in file_mappings['pdf'] if f.startswith('w')],
-            'p_pdf': [f for f in file_mappings['pdf'] if f.startswith('p')],
-            'jpg_a': file_mappings['jpg_a'],
-            'jpg_p': file_mappings['jpg_p'],
-            'jpg_w': file_mappings['jpg_w'],
-            'xlsx': file_mappings['xlsx'],
-            'xlsm': file_mappings['xlsm']
-        }
+        a_pdffiles = [f for f in pdf_files if f.startswith('a')]
+        w_pdffiles = [f for f in pdf_files if f.startswith('w')]
+        p_pdffiles = [f for f in pdf_files if f.startswith('p')]
+
+        jpg_apagefiles = self.get_jpg_filter(sfilter='a*page*')
+        jpg_ppagefiles = self.get_jpg_filter(sfilter='p*page*')
+        jpg_wpagefiles = self.get_jpg_filter(sfilter='w*page*')
 
         self.print_debug('-')
-        for key, files in filtered_files.items():
-            print(f"{key}: {files}")
+        print('aqtfiles:', aqt_files)
+        print('a_pdffiles:', a_pdffiles)
+        print('jpg_apagefiles:', jpg_apagefiles)
+        print('jpg_ppagefiles:', jpg_ppagefiles)
         self.print_debug('-')
 
-        if filtered_files['xlsx'] and filtered_files['xlsm']:
-            self._move_files_to_dir(filtered_files, ['xlsx', 'xlsm'], self.DIR_YANGSOO_TEST,"YangSoo Test")
+        if len(a_pdffiles) > 0 and len(jpg_apagefiles) > 0:
+            self.erase_all_yangsoo_test_files(self.DIR_AQT)
+            print('its a goto \\02_AQTEver3.4(170414)')
+            self.transfer_files(a_pdffiles, self.SEND, self.DIR_AQT)
+            self.transfer_files(p_pdffiles, self.SEND, self.DIR_AQT)
+            self.transfer_files(jpg_apagefiles, self.SEND, self.DIR_AQT)
+            self.transfer_files(jpg_ppagefiles, self.SEND, self.DIR_AQT)
+            self.transfer_files(aqt_files, self.SEND, self.DIR_AQT)
 
-        # Move files to the respective directories
-        if filtered_files['a_pdf'] and filtered_files['jpg_a']:
-            self._move_files_to_dir(filtered_files, ['a_pdf', 'p_pdf', 'jpg_a', 'jpg_p', 'w_aqt'], self.DIR_AQT,
-                                    "02_AQTEver3.4(170414)")
-
-        if filtered_files['jpg_w'] and filtered_files['w_pdf']:
-            self._move_files_to_dir(filtered_files, ['jpg_w', 'w_pdf'], self.DIR_YANGSOOILBO, "yangsoo ilbo")
-
-    def _move_files_to_dir(self, filtered_files, keys, target_directory, debug_message):
-        fb = FileBase()
-        # self.erase_all_yangsoo_test_files(target_directory)
-        print(f'this is goto {debug_message}')
-        for key in keys:
-            for f in filtered_files[key]:
-                source = self.join_path_tofilename(self.SEND, f)
-                target = self.join_path_tofilename(target_directory, f)
-                fb.move_file(source, target)
+        if len(jpg_wpagefiles) > 0 and len(w_pdffiles) > 0:
+            self.erase_all_yangsoo_test_files(self.DIR_YANGSOOILBO)
+            print('this is goto yangsoo ilbo ')
+            self.transfer_files(jpg_wpagefiles, self.SEND, self.DIR_YANGSOOILBO)
+            self.transfer_files(w_pdffiles, self.SEND, self.DIR_YANGSOOILBO)
 
     def move_send2_to_ihanseol(self):
         """
-        Handles the movement of files based on their extensions and starting characters:
-        - .aqt files start with 'w'
-        - .pdf files start with 'a'
-        - .jpg files start with '*page1'
+            aqt file start with w
+            pdf files start with a
+            jpg files start with *page1
         """
-        fb = FileBase()
-        fb.set_directory(self.SEND2)
+        self.set_directory(self.SEND2)
 
-        # Retrieve different types of files
-        file_types = {
-            "prn_files": fb.get_prn_files(),
-            "xlsm_files": fb.get_xlsm_files(),
-            "aqt_files": fb.get_aqt_files(),
-            "xlsx_files": fb.get_xlsx_files()
-        }
+        prn_files = self.get_prn_files()
+        xlsm_files = self.get_xlsm_files()
+        aqt_files = self.get_aqt_files()
 
-        print(file_types["prn_files"])
-        print(file_types["xlsm_files"])
+        print('prn_files:', prn_files)
+        print('xlsm_files:', xlsm_files)
+        print('aqt_files:', aqt_files)
 
-        if file_types["prn_files"]:
+        if prn_files:
             self.erase_all_yangsoo_test_files(self.DIR_PRN)
 
         if self.isDIRSET:
@@ -980,27 +810,40 @@ class TransferYangSooFile(FileBase):
             print(self.DIR_YANGSOO_TEST)
             self.print_debug("-")
 
-            # Define target directories for different file types
-            target_directories = {
-                "prn_files": self.DIR_PRN,
-                "xlsm_files": self.DIR_YANGSOO_TEST,
-                "xlsx_files": self.DIR_YANGSOO_TEST,
-                "aqt_files": self.DIR_AQT
-            }
-
-            for file_type, files in file_types.items():
-                target_dir = target_directories[file_type]
-                for f in files:
-                    source = self.join_path_tofilename(self.SEND2, f)
-                    target = self.join_path_tofilename(target_dir, f)
-                    fb.move_file(source, target)
+            self.transfer_files(prn_files, self.SEND2, self.DIR_PRN)
+            self.transfer_files(xlsm_files, self.SEND2, self.DIR_YANGSOO_TEST)
+            self.transfer_files(aqt_files, self.SEND2, self.DIR_AQT)
         else:
             print('self.DIRSET is Empty')
+
+    @staticmethod
+    def erase_all_yangsoo_test_files(directory):
+        # if self.ask_yes_no_question(directory):
+
+        directory = directory.replace("\\", "/")
+
+        for filename in os.listdir(directory):
+            file_path = os.path.join(directory, filename)
+            try:
+                # Check if it's a file (and not a directory)
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)  # Remove the file
+                # If it's a directory, use shutil.rmtree to remove it
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
+            except Exception as e:
+                print(f'Failed to delete {file_path}. Reason: {e}')
 
     def Test(self):
         fb = FileBase()
         fb.set_directory(self.DOCUMENTS)
-        print(fb.get_list_files(['.dat', '.xlsm']))
+        ret = fb.list_non_hidden_directories(self.DOCUMENTS)
+        print(ret)
+        ret = fb.list_hidden_directories(self.DOCUMENTS)
+        print(ret)
+        print(fb.list_directories_only(self.DOCUMENTS))
+
+        # print(fb.get_list_files(['.dat', '.xlsm']))
 
 
 if __name__ == "__main__":
@@ -1009,7 +852,8 @@ if __name__ == "__main__":
     # fp.duplicate_yangsoo(3)
 
     tyd = TransferYangSooFile()
-    tyd.setBASEDIR()
+    ret = tyd.setBASEDIR()
+    print(ret)
 
     # tyd.move_send_to_ihanseol()
     # tyd.move_send2_to_ihanseol()
