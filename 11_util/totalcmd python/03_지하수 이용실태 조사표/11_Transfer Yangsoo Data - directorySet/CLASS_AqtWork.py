@@ -324,3 +324,53 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
             print('All files processed.')
 
         self.unblock_user_input()
+
+    def process_projectinfo_likesejong(self, company):
+
+        if self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
+            df = pd.read_excel(r"d:\05_Send\YanSoo_Spec.xlsx")
+            self.set_dataframe(df)
+
+        self.set_company(company)
+        # self.set_address(address)
+        self.change_aqt_filename()
+
+        send_list = self.get_wellno_list_insend()
+        xlsx_list = self.get_gong_list()
+
+        difference_set = list(set(send_list) - set(xlsx_list))
+        self.delete_difference(difference_set)
+
+        aqtfiles = natsorted([f for f in os.listdir() if f.endswith('.aqt')])
+        aqtfiles = self.get_aqt_files()
+        if not aqtfiles:
+            print('Error No AQT')
+            return None
+
+        print(f'aqtfiles: {aqtfiles}')
+        # self.block_user_input()
+
+        for i in xlsx_list:
+            gong, excel_address = self.get_gong_n_address(i)
+
+            if gong is None:
+                self.close_aqt()
+                return None
+
+            processed_address = self.process_address(excel_address)
+            self.set_address(processed_address)
+
+            print(f'gong: {gong}, address: {processed_address}')
+            wfiles = fnmatch.filter(aqtfiles, f"w{i}_*.aqt")
+            print(f"wfiles: {wfiles}")
+
+            if wfiles:
+                if self.DEBUG:
+                    print('Processing file: ', wfiles)
+                self.aqt_mainaction(self.extract_number(gong), processed_address, wfiles)
+
+        if self.DEBUG:
+            print('All files processed.')
+
+        self.unblock_user_input()
+
