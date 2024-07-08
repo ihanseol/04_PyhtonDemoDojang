@@ -1,13 +1,24 @@
+
 import os
 import pickle
 import sys
 from datetime import datetime
 from PySide6.QtWidgets import QApplication, QMainWindow
 from ui_transfer_radio import Ui_MainWindow
-import FileProcessing_V3 as fp2c
-from FileProcessing_V3 import TransferYangSooFile
 
+import FileProcessing_V4_20240708 as fp2c
+from FileProcessing_V4_20240708 import TransferYangSooFile
+# from TransferYangsoo import TransferYangSooFile
 # fp2c - file processing class v2
+
+"""
+2024/7/8 
+    TransferYangSooFile Refactor
+    와 디렉토리 패스와 관련된 부분,
+    그리고
+    BASEDIR 세팅에서, 추가한 부분등 ...
+"""
+
 
 fp = fp2c.FileBase('')
 TYF = TransferYangSooFile()
@@ -22,8 +33,6 @@ class SavedpathClass:
         file_path = os.path.join(self.ls_directory, 'SaveFolder.sav')
         os.makedirs(self.ls_directory, exist_ok=True)  # Create the directory if it doesn't exist
 
-        # Define the file path
-        file_path = os.path.join(self.ls_directory, 'SaveFolder.sav')
         # Save the data to the file
         with open(file_path, 'wb') as file:
             pickle.dump(path_data, file)
@@ -77,7 +86,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         select_folder = fp.select_folder(location_temp)
         check = TYF.isit_yangsoo_inside(select_folder)
-        if not check: return False
+        if not check:
+            return False
 
         self.BASE_PATH = select_folder
         self.lineEdit.setText(select_folder)
