@@ -272,7 +272,7 @@ class FileBase(AQTBASE, PathChecker):
             Check if the file exists.
             os.path.exist return value : True or False
         """
-        if self.check_path == PathChecker.RET_NOTHING:
+        if self.check_path(file_path) == PathChecker.RET_NOTHING:
             print('get_dirname arg is not path ... ', file_path)
             return False
 
@@ -283,7 +283,7 @@ class FileBase(AQTBASE, PathChecker):
             Check if the file exists.
             os.path.exist return value : True or False
         """
-        if self.check_path == PathChecker.RET_NOTHING:
+        if self.check_path(file_path) == PathChecker.RET_NOTHING:
             print('get_dirname arg is not path ... ', file_path)
             return False
 
