@@ -3,9 +3,9 @@ import sys
 from PySide6.QtWidgets import QApplication, QMainWindow
 from ui_for_yangsoo_file_generator import Ui_MainWindow
 
-from FileProcessing_V4_20240704 import PrepareYangsoofile
-from FileProcessing_V4_20240704 import AqtProjectInfoInjector
-from FileProcessing_V4_20240704 import AqtExcelProjectInfoInjector
+from FileProcessing_V4_20240709 import PrepareYangsoofile
+from FileProcessing_V4_20240709 import AqtProjectInfoInjector
+from FileProcessing_V4_20240709 import AqtExcelProjectInfoInjector
 
 
 class MyClass:
@@ -101,6 +101,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
 
         if self.file_processing.is_exist(self.file_processing.YANSOO_SPEC):
+            # 양수스펙파일이 있으면
             print(f'self.Company : {self.Company}, self.Address: {self.Address}')
 
             if len(aqt_files) > 0:
@@ -110,6 +111,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     self.file_processing.aqtfile_to_send(i, mode)
                 self.spiexcel.process_projectinfo_byexcel(self.Company, self.Address)
         else:
+            # 양수스펙파일이 없으면
             if len(aqt_files) > 0:
                 print(f'main_call : self.Company : {self.Company}, self.Address: {self.Address}')
                 # self.spi.main_call_project_info(self.Address, self.Company)
