@@ -288,7 +288,7 @@ class FileBase(AQTBASE, PathChecker):
         if isinstance(dir_non_hidden, str) or isinstance(dir_hidden, str):
             return "An error occurred while fetching directories."
 
-        return [dir for dir in dir_non_hidden if dir not in dir_hidden]
+        return [_d for _d in dir_non_hidden if dir not in dir_hidden]
         # return list(set(dir_non_hidden) - set(dir_hidden))
         # using set, difference
 
@@ -313,7 +313,8 @@ class FileBase(AQTBASE, PathChecker):
         except Exception as e:
             return f"An error occurred: {e}"
 
-    def last_one(self, path):
+    @staticmethod
+    def last_one(path):
         """
             c:\PythonProject\01_this folder\02_that folder\04_last_folder
             in this case
@@ -833,6 +834,9 @@ class TransferYangSooFile(FileBase):
 
     def setBASEDIR(self, directory=''):
         """
+          여기서 BASEDIR 은, 타겟폴더 그러니까
+          양수시험 파일들을 복사해주기 위한 폴더 가 된다.
+          d:\09_hardRain\09_ihanseol - 2024\00_YangSoo File Move TestBed\
           ['D:', '09_hardRain', '09_ihanseol - 2024', '07_공업용 - 세종, 주안레미콘 2개공, 연장허가 - 현윤이엔씨, 보완보고서 , 청주기상청']
         :return:
         """
@@ -867,38 +871,18 @@ class TransferYangSooFile(FileBase):
 
         return self.BASEDIR
 
-    def move_documents_to_ihanseol(self):
-        fb = FileBase()
-        fb.set_directory(self.DOCUMENTS)
-
-        print(self.DOCUMENTS)
-
-        if self.isDIRSET:
-            file_mappings = {
-                "dat": (fb.get_dat_files(), self.DIR_PRN),
-                "xlsm": (fb.get_xlsm_files(), self.DIR_YANGSOO_TEST),
-            }
-
-            self.print_debug("-")
-            print(self.DIR_PRN)
-            print(self.DIR_YANGSOO_TEST)
-            self.print_debug("-")
-
-            for file_type, (files, target_directory) in file_mappings.items():
-                for f in files:
-                    source = self.join_path_tofilename(self.DOCUMENTS, f)
-                    target = self.join_path_tofilename(target_directory, f)
-                    fb.move_file(source, target)
-
-    def move_send_to_ihanseol(self):
+    def move_origin_to_ihanseol(self, folder_path):
         """
+        여기서, folder_path는, 이동의 기준이 되는
+        SEND, SEND2, DOCUMENTS 가 된다.
+
         Move files based on specific start patterns.
         - aqt files start with 'w'
         - pdf files start with 'a', 'w', or 'p'
         - jpg files start with '*page1'
         """
         fb = FileBase()
-        fb.set_directory(self.SEND)
+        fb.set_directory(folder_path)
 
         # Get the initial lists of files
         file_mappings = {
@@ -906,6 +890,7 @@ class TransferYangSooFile(FileBase):
             'pdf': fb.get_pdf_files(),
             'xlsx': fb.get_xlsx_files(),
             'xlsm': fb.get_xlsm_files(),
+            'prn': fb.get_prn_files(),
             'jpg_a': fb.get_jpg_filter(sfilter='a*page*'),
             'jpg_p': fb.get_jpg_filter(sfilter='p*page*'),
             'jpg_w': fb.get_jpg_filter(sfilter='w*page*')
@@ -921,7 +906,8 @@ class TransferYangSooFile(FileBase):
             'jpg_p': file_mappings['jpg_p'],
             'jpg_w': file_mappings['jpg_w'],
             'xlsx': file_mappings['xlsx'],
-            'xlsm': file_mappings['xlsm']
+            'xlsm': file_mappings['xlsm'],
+            'prn': file_mappings['prn']
         }
 
         self.print_debug('-')
@@ -929,73 +915,31 @@ class TransferYangSooFile(FileBase):
             print(f"{key}: {files}")
         self.print_debug('-')
 
+        if filtered_files['prn']:
+            self._move_files_to_dir(folder_path, filtered_files, ['xlsx', 'xlsm'], self.DIR_PRN, "Prn Files")
+
         if filtered_files['xlsx'] and filtered_files['xlsm']:
-            self._move_files_to_dir(filtered_files, ['xlsx', 'xlsm'], self.DIR_YANGSOO_TEST,"YangSoo Test")
+            self._move_files_to_dir(folder_path, filtered_files, ['xlsx', 'xlsm'], self.DIR_YANGSOO_TEST,
+                                    "YangSoo Test")
 
         # Move files to the respective directories
         if filtered_files['a_pdf'] and filtered_files['jpg_a']:
-            self._move_files_to_dir(filtered_files, ['a_pdf', 'p_pdf', 'jpg_a', 'jpg_p', 'w_aqt'], self.DIR_AQT,
-                                    "02_AQTEver3.4(170414)")
+            self._move_files_to_dir(folder_path, filtered_files, ['a_pdf', 'p_pdf', 'jpg_a', 'jpg_p', 'w_aqt'],
+                                    self.DIR_AQT, "02_AQTEver3.4(170414)")
 
         if filtered_files['jpg_w'] and filtered_files['w_pdf']:
-            self._move_files_to_dir(filtered_files, ['jpg_w', 'w_pdf'], self.DIR_YANGSOOILBO, "yangsoo ilbo")
+            self._move_files_to_dir(folder_path, filtered_files, ['jpg_w', 'w_pdf'], self.DIR_YANGSOOILBO,
+                                    "yangsoo ilbo")
 
-    def _move_files_to_dir(self, filtered_files, keys, target_directory, debug_message):
+    def _move_files_to_dir(self, source_path, filtered_files, keys, target_directory, debug_message):
         fb = FileBase()
         # self.erase_all_yangsoo_test_files(target_directory)
         print(f'this is goto {debug_message}')
         for key in keys:
             for f in filtered_files[key]:
-                source = self.join_path_tofilename(self.SEND, f)
+                source = self.join_path_tofilename(source_path, f)
                 target = self.join_path_tofilename(target_directory, f)
                 fb.move_file(source, target)
-
-    def move_send2_to_ihanseol(self):
-        """
-        Handles the movement of files based on their extensions and starting characters:
-        - .aqt files start with 'w'
-        - .pdf files start with 'a'
-        - .jpg files start with '*page1'
-        """
-        fb = FileBase()
-        fb.set_directory(self.SEND2)
-
-        # Retrieve different types of files
-        file_types = {
-            "prn_files": fb.get_prn_files(),
-            "xlsm_files": fb.get_xlsm_files(),
-            "aqt_files": fb.get_aqt_files(),
-            "xlsx_files": fb.get_xlsx_files()
-        }
-
-        print(file_types["prn_files"])
-        print(file_types["xlsm_files"])
-
-        if file_types["prn_files"]:
-            self.erase_all_yangsoo_test_files(self.DIR_PRN)
-
-        if self.isDIRSET:
-            self.print_debug("-")
-            print(self.DIR_PRN)
-            print(self.DIR_YANGSOO_TEST)
-            self.print_debug("-")
-
-            # Define target directories for different file types
-            target_directories = {
-                "prn_files": self.DIR_PRN,
-                "xlsm_files": self.DIR_YANGSOO_TEST,
-                "xlsx_files": self.DIR_YANGSOO_TEST,
-                "aqt_files": self.DIR_AQT
-            }
-
-            for file_type, files in file_types.items():
-                target_dir = target_directories[file_type]
-                for f in files:
-                    source = self.join_path_tofilename(self.SEND2, f)
-                    target = self.join_path_tofilename(target_dir, f)
-                    fb.move_file(source, target)
-        else:
-            print('self.DIRSET is Empty')
 
     def Test(self):
         fb = FileBase()
@@ -1010,8 +954,9 @@ if __name__ == "__main__":
 
     tyd = TransferYangSooFile()
     tyd.setBASEDIR()
+    tyd.move_origin_to_ihanseol(tyd.SEND2)
 
-    # tyd.move_send_to_ihanseol()
+    # tyd.move_origin_to_ihanseol()
     # tyd.move_send2_to_ihanseol()
 
     #

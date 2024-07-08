@@ -110,13 +110,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.lineEdit.setText(self.BASE_PATH)
 
         if self.radioButton_1.isChecked():
-            TYF.move_documents_to_ihanseol()
+            TYF.move_origin_to_ihanseol(TYF.DOCUMENTS)
 
         if self.radioButton_2.isChecked():
-            TYF.move_send_to_ihanseol()
+            TYF.move_origin_to_ihanseol(TYF.SEND)
 
         if self.radioButton_3.isChecked():
-            TYF.move_send2_to_ihanseol()
+            TYF.move_origin_to_ihanseol(TYF.SEND2)
 
 
 if __name__ == "__main__":

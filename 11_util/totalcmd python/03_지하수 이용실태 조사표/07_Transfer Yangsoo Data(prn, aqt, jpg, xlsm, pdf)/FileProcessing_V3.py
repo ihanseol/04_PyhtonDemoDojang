@@ -855,7 +855,7 @@ if __name__ == "__main__":
     ret = tyd.setBASEDIR()
     print(ret)
 
-    # tyd.move_send_to_ihanseol()
+    # tyd.move_origin_to_ihanseol()
     # tyd.move_send2_to_ihanseol()
 
     #

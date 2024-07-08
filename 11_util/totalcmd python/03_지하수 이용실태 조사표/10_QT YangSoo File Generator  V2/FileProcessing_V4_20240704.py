@@ -1123,7 +1123,7 @@ if __name__ == "__main__":
     tyd = TransferYangSooFile()
     tyd.setBASEDIR()
 
-    # tyd.move_send_to_ihanseol()
+    # tyd.move_origin_to_ihanseol()
     tyd.move_send2_to_ihanseol()
 
     #
