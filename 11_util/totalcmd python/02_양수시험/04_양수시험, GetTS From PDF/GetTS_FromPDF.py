@@ -99,7 +99,7 @@ class AQTBASE:
 
         self.YANGSOO_EXCEL = "A1_ge_OriginalSaveFile.xlsm"
         self.YANGSOO_REST = "_ge_OriginalSaveFile.xlsm"
-        self.TC_DIR = 'C:\\Program Files\\totalcmd\AqtSolv\\'
+        self.TC_DIR = 'C:\\Program Files\\totalcmd\\AqtSolv\\'
 
         self.STEP_FILE = "_01_step.aqt"
         self.LONG_FILE = "_02_long.aqt"
