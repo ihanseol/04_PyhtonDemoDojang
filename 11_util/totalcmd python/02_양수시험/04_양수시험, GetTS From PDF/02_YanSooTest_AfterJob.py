@@ -302,7 +302,7 @@ class InjectValueToSheet(FileProcessing):
         self.click_excel_button(ws_janggi, button_name="CommandButton1")
         if self.DEBUG_YES:
             print('Janggi.Select,  JangGi*01_Button1')
-        time.sleep(1)
+        time.sleep(2)
 
         getTS = GetTS.AQTProcessor('auto')
         val_T, val_S, val_X = getTS.AqtesolverMain(file_name=self.SEND + f"w{well}_02_long.aqt")

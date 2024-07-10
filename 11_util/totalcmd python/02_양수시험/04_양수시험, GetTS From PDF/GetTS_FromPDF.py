@@ -153,7 +153,10 @@ class AutoScript(AQTBASE):
         # browse for filename
         self.press_and_wait_hotkey('r')
         self.press_and_wait('backspace')
-        self.type_and_wait(os.path.join(self.DOCUMENTS, self.DAT_FILE))
+        load_file = os.path.join(self.DOCUMENTS, self.DAT_FILE)
+        print(f'browse_for_file: {load_file}')
+
+        self.type_and_wait(load_file)
         self.press_and_wait('enter')
         self.press_and_wait_hotkey('f')
         self.press_and_wait('enter')
@@ -341,6 +344,7 @@ class AQTProcessor(AQTBASE):
                 print('Match case exception ...')
                 raise FileNotFoundError("cannot determin DAT_FILE ...")
 
+        print(f'DAT_FILE: {DAT_FILE}')
         self.auto_script.run_script(DAT_FILE)
 
         if running_step == 4:
