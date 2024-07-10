@@ -1,9 +1,14 @@
 CoordMode, Pixel, Window  ; Sets coordinate mode to use relative coordinates to the active window
+;~ CoordMode, Pixel, Screen  ; Sets coordinate mode to use relative coordinates to the active window
 
 Loop
 {
     ; Searches for the image "close.png" within the specified screen coordinates
-    ImageSearch, FoundX, FoundY, 0, 0, 1920, 1200, c:\Program Files\totalcmd\AqtSolv\excel.png
+    ;~ ImageSearch, FoundX, FoundY, 0, 0, 1920, 1200, c:\Program Files\totalcmd\AqtSolv\excel.png
+
+    ImageSearch, FoundX, FoundY, 0, 0, 2560, 1440, c:\Program Files\totalcmd\AqtSolv\Excel01.jpg
+    ;~ ImageSearch, FoundX, FoundY, 0, 0, 2560, 1440, c:\Users\minhwasoo\Pictures\aa.jpg
+
 
     ; Checks if the ImageSearch command was successful (ErrorLevel = 0 means success)
     If ErrorLevel = 0
