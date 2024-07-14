@@ -148,7 +148,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     # app.setStyle('windows')
-    # app.setStyle('windowsvista')
+    app.setStyle('windowsvista')
     # app.setStyle('fusion')
 
     window = MainWindow()
