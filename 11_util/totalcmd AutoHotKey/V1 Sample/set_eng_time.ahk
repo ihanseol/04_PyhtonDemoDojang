@@ -1,4 +1,8 @@
-#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+#NoEnv
+; Recommended for performance and compatibility with future AutoHotkey releases.
+#Requires AutoHotkey v1.1.
+
+
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 ;SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
@@ -16,4 +20,6 @@ Month := MonthNames[Match2]
 SendInput %CurrentDateTime%, %Month%
 
 return
+
+
 

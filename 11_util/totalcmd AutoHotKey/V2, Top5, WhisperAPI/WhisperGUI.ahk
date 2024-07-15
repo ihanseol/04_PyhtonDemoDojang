@@ -10,7 +10,7 @@
 Main := Gui(,"Whisper")
 
 ;File Selection
-Main.Add("Button", "xm","Select File" ).OnEvent("Click", FileSelect_Click) 
+Main.Add("Button", "xm","Select File" ).OnEvent("Click", FileSelect_Click)
 Main.Add("Text", "w300 x+10 vGuiFiles")
 
 ;Text options
@@ -22,8 +22,8 @@ Main.Add("Text", "xm y+5","Model Type")
 Model := Main.Add("DropDownList", "w60 x100 y+-15 Choose4 vModel" , ["Large", "Medium", "Small", "Base", "Tiny"])
 
 ;Buttons
-Main.Add("Button", "default w75", "OK").OnEvent("Click",Ok_Click) 
-Main.Add("Button", "w75 x+m" , "Cancel").OnEvent("Click",Cancel_Click) 
+Main.Add("Button", "default w75", "OK").OnEvent("Click",Ok_Click)
+Main.Add("Button", "w75 x+m" , "Cancel").OnEvent("Click",Cancel_Click)
 
 
 FileSelect_Click(GuiCtrl, *)
@@ -35,12 +35,15 @@ FileSelect_Click(GuiCtrl, *)
 
 Cancel_Click(*)
 {
-Main.Destroy()
+    Main.Destroy()
 }
 
 Ok_Click(*)
 {
+;~ https://github.com/openai/whisper
 ;msgbox Main["GuiFiles"].value "`n" Main["OutputFormat"].text "`n" Main["Model"].text
+;~ whisper audio.flac audio.mp3 audio.wav --model medium
+
 if Main["GuiFiles"].value
     {
     Splitpath Main["GuiFiles"].value, &GuiFilesname, &GuiFilesdir
@@ -49,7 +52,7 @@ if Main["GuiFiles"].value
     Run GuiFilesdir
     Main.Destroy()
     } else{
-        Msgbox "Select a file to continue."    
+        Msgbox "Select a file to continue."
     }
 }
 

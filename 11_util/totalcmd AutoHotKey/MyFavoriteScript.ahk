@@ -188,8 +188,11 @@ MonthNames := ["January", "February", "March", "April", "May", "June", "July", "
 Month := MonthNames[Match2]
 
 SendInput %CurrentDateTime%, %Month%
+;~ SendInput %A_ScreenWidth%, %A_ScreenHeight%
+
 
 return
+
 
 
 
