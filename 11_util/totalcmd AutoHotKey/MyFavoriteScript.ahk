@@ -16,12 +16,16 @@
 ;******************************************************************************
 ;::rscript::
 
-^!R::             ; CTRL + ALT + R
-Reload , "c:\Program Files\totalcmd\ini\03_AutoHotKey\MyFavoriteScript.ahk"
-Return
+SetWorkingDir %A_ScriptDir%
+#Include %A_ScriptDir%/hwasoo_inclue/00_exit_reload.ahk
 
 
-^e::exitapp
+;~ ^!R::             ; CTRL + ALT + R
+;~ Reload , "c:\Program Files\totalcmd\ini\03_AutoHotKey\MyFavoriteScript.ahk"
+;~ Return
+
+
+;~ ^e::exitapp
 
 ;******************************************************************************
 ;			Text replacements for most used keywords
