@@ -1,6 +1,10 @@
+#Requires AutoHotkey v1
+#SingleInstance
 #Persistent
 ;~ SetTimer, WatchExcelPopup, 100
 ;~ Return
+
+
 
 loop
 {
@@ -22,6 +26,12 @@ WatchExcelPopup:
         }
     }
 
+}
+
+
+^e::
+{
+    ExitApp
 }
 
 

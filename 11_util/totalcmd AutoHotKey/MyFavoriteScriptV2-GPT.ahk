@@ -34,9 +34,9 @@
 }
 
 
-LWin & WheelUp::Volume_Up
-LWin & WheelDown::Volume_Down
-LWin & MButton::Volume_Mute
+Alt & WheelUp::Volume_Up
+Alt & WheelDown::Volume_Down
+Alt & MButton::Volume_Mute
 
 
 
@@ -54,7 +54,7 @@ LWin & MButton::Volume_Mute
 
 ::]nm::hanseol33@naver.com
 ::]gm::imhanseol@gmail.com
-::]name::¹ÎÈ­¼ö
+::]name::MIN,HWASOO
 
 
 
@@ -343,15 +343,14 @@ AND ROWNUM <= 10
 {
     ;~ FormatTime, DateTime,, "dddd, M/d/yyyy  h:mm tt"
 
-	;~ DateTime := FormatTime("yyyy MMMM d, HH:mm:ss", A_Now)
-    ;~ MsgBox "Hello FirstName`nToday is " DateTime
 
-    MsgBox("Hello FirstName`nToday is " A_Now)
+    ;~ MsgBox("Hello FirstName`nToday is " A_Now)
 
     formattedDateTime := FormatTime(A_Now, "yyyy-MM-dd HH:mm:ss")
-    MsgBox("Hello FirstName`nToday is " formattedDateTime)
-
+    ;~ MsgBox("Hello FirstName`nToday is " formattedDateTime)
     Clipboard := formattedDateTime
+
+    SendText(formattedDateTime)
 }
 
 
