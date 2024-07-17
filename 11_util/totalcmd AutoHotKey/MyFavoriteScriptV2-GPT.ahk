@@ -64,27 +64,6 @@
 ;~ }
 
 
-imm32 := DllCall("LoadLibrary", "Str", "imm32.dll", "Ptr")
-
-IMECheckHangul()  ; 0: 영어, 1: 한글
-{
-  hWnd := WinGetID("A")
-  ; WinGet 명령은 제거되었고, 창의 핸들을 얻기위해서는 WinGet("A")를 사용한다.
-
-  hIME := DllCall("imm32\ImmGetDefaultIMEWnd", "UInt", hWnd, "UInt")
-  temp := A_DetectHiddenWindows
-
-  DetectHiddenWinows(True)
-  res := SendMessage(0x0283, 0x0005, 0x0000, , "ahk_id " hIME)
-  DetectHiddenWindows(temp)
-  return res
-}
-
-
-
-+F1::MsgBox(IMECheckHangul())
-
-
 
 
 ::]myadd::
@@ -366,18 +345,6 @@ AND ROWNUM <= 10
 ;~ ::]dtl::SendInput(Format("{:yyyy, MMMM dd, dddd h:mm tt}", A_Now))
 
 
-^!PrintScreen::
-{
-    xx := FormatTime("yyyy, MMMM, dd, dddd", A_Now)
-    zz := FormatTime("h:mm tt", A_Now)
-    SendInput(xx " " zz)
-}
-
-;******************************************************************************
-;			Message Box Greeting - Current Date and Time
-;*****************************************************************************
-
-
 
 ::]curdt::
 {
@@ -393,6 +360,27 @@ AND ROWNUM <= 10
 
     Clipboard := formattedDateTime
 }
+
+
+^!Insert::
+{
+   SendText(FormatTime(, "yyyy, MMMM dd, dddd h:mm tt"))
+}
+
+
+^!PrintScreen::
+{
+    xx := FormatTime("yyyy, MMMM, dd, dddd", A_Now)
+    zz := FormatTime("h:mm tt", A_Now)
+    ;~ SendInput(xx " " zz)
+    SendInput(xx)
+}
+
+;******************************************************************************
+;			Message Box Greeting - Current Date and Time
+;*****************************************************************************
+
+
 
 
 ;******************************************************************************
