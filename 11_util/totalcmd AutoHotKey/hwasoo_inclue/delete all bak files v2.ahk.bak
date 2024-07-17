@@ -1,0 +1,79 @@
+
+#NoEnv
+#Requires AutoHotkey v2.0
+#SingleInstance force
+
+
+; Get the directory path from the command-line argument
+dirPath = %1%
+
+; Check if the directory path was provided
+if (dirPath = "")
+{
+    ; If not, use the current working directory
+    dirPath = %A_ScriptDir%
+}
+
+; Loop through all files in the directory
+Loop, %dirPath%\*, 1
+{
+    ; Check if the file is a backup file (assuming it has a ".bak" extension)
+    if (A_LoopFileExt = ".bak")
+    {
+        ; Delete the file
+
+        MsgBox(" Loop 1: "  %A_LoopFileFullPath%)
+        FileDelete, %A_LoopFileFullPath%
+    }
+}
+
+; Loop through all subdirectories
+Loop, %dirPath%\*, 0
+{
+    ; Check if the directory is not the current directory
+    if (A_LoopFileDir != dirPath)
+    {
+        MsgBox(" Loop 2: "  %A_LoopFileDir%)
+        ; Recursively delete all files and subdirectories in the subdirectory
+        RecurseDelete, %A_LoopFileDir%
+    }
+}
+
+; Function to recursively delete all files and subdirectories
+RecurseDelete(dirPath)
+{
+    ; Loop through all files in the directory
+    Loop, %dirPath%\*, 1
+    {
+        ; Check if the file is a directory
+        if (A_LoopFileAttrib & 0x10) ; 0x10 = Directory attribute
+        {
+            ; Recursively delete all files and subdirectories in the subdirectory
+
+             MsgBox(" RecurseDelete 1 " %A_LoopFileDir%)
+            RecurseDelete, %A_LoopFileFullPath%\*
+        }
+        else
+        {
+            ; Delete the file
+             MsgBox(" RecurseDelete 2 " %A_LoopFileFullPath%)
+            FileDelete, %A_LoopFileFullPath%
+        }
+    }
+    ; Loop through all subdirectories
+    Loop, %dirPath%\*, 0
+    {
+        ; Check if the directory is not the current directory
+        if (A_LoopFileDir != dirPath)
+        {
+            ; Recursively delete all files and subdirectories in the subdirectory
+             MsgBox(" Loop 3: " %A_LoopFileDir%)
+            RecurseDelete, %A_LoopFileDir%
+        }
+    }
+}
+
+
+
+
+

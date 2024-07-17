@@ -124,9 +124,13 @@ return
 ;----------------------------------------------------------------------------
 ;Volume control, Alt+Scroll wheel (and Mbutton)
 
-Alt & WheelUp::Volume_Up
-Alt & WheelDown::Volume_Down
-Alt & MButton::Volume_Mute
+;~ Alt & WheelUp::Volume_Up
+;~ Alt & WheelDown::Volume_Down
+;~ Alt & MButton::Volume_Mute
+
+LWin & WheelUp::Volume_Up
+LWin & WheelDown::Volume_Down
+LWin & MButton::Volume_Mute
 
 
 

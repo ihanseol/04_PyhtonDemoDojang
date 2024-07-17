@@ -33,6 +33,14 @@
     ExitApp
 }
 
+
+LWin & WheelUp::Volume_Up
+LWin & WheelDown::Volume_Down
+LWin & MButton::Volume_Mute
+
+
+
+
 ;******************************************************************************
 ;			Text replacements for most used keywords
 ;******************************************************************************
@@ -47,21 +55,6 @@
 ::]nm::hanseol33@naver.com
 ::]gm::imhanseol@gmail.com
 ::]name::¹ÎÈ­¼ö
-
-
-
-;~ IMECheckHangul()
-;~ {
-  ;~ WinGet hWnd, ID, A
-  ;~ hIME := DllCall("imm32\ImmGetDefaultIMEWnd", "UInt", hWnd, "UInt")
-  ;~ Temp := A_DetectHiddenWindows
-  ;~ DetectHiddenWindows ON
-  ;~ SendMessage 0x283, 0x005, 0, ,ahk_id %IMEWnd%
-  ;~ Res := ErrorLevel
-  ;~ if (Temp <> A_DetectHiddenWindows)
-    ;~ DetectHiddenWindows %Temp%
-  ;~ return Res <> 0
-;~ }
 
 
 
