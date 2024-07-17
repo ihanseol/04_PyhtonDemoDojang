@@ -16,6 +16,8 @@ SetWinDelay,-1
 
 if((A_PtrSize=8&&A_IsCompiled="")||!A_IsUnicode){ ;32 bit=4  ;64 bit=8
     SplitPath,A_AhkPath,,dir
+	MsgBox % A_AhkPath "," dir
+
     if(!FileExist(correct:=dir "\AutoHotkeyU32.exe")){
 	    MsgBox error
 	    ExitApp

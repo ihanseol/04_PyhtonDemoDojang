@@ -25,10 +25,13 @@
 {
     ; Run the script again to simulate reload
     SendInput("misssn")
-    Run("c:\Program Files\totalcmd\ini\03_AutoHotKey\MyFavoriteScript.ahk")
+    Run("c:\Program Files\totalcmd\ini\03_AutoHotKey\MyFavoriteScriptV2-GPT.ahk")
 }
 
-^e::ExitApp
+^e::
+{
+    ExitApp
+}
 
 ;******************************************************************************
 ;			Text replacements for most used keywords
@@ -37,13 +40,49 @@
 ::]pr::Print('hello world')
 ::]ty::Thank you,
 ::]tyxx::Thank you,`nFirstName LastName
-::]yw::You're Welcome
-::]myph::123-456-7890
-::]mycell::098-765-4321
-::]ol::first.last@outlook.com
-::]hm::first.last@hotmail.com
-::]gm::first.last@gmail.com
-::]ym::first.last@yahoo.com
+::]yw::You're Welcomes
+::]myph::010-3411-9213
+::]mycell::010-3411-9213
+
+::]nm::hanseol33@naver.com
+::]gm::imhanseol@gmail.com
+::]name::민화수
+
+
+
+;~ IMECheckHangul()
+;~ {
+  ;~ WinGet hWnd, ID, A
+  ;~ hIME := DllCall("imm32\ImmGetDefaultIMEWnd", "UInt", hWnd, "UInt")
+  ;~ Temp := A_DetectHiddenWindows
+  ;~ DetectHiddenWindows ON
+  ;~ SendMessage 0x283, 0x005, 0, ,ahk_id %IMEWnd%
+  ;~ Res := ErrorLevel
+  ;~ if (Temp <> A_DetectHiddenWindows)
+    ;~ DetectHiddenWindows %Temp%
+  ;~ return Res <> 0
+;~ }
+
+
+imm32 := DllCall("LoadLibrary", "Str", "imm32.dll", "Ptr")
+
+IMECheckHangul()  ; 0: 영어, 1: 한글
+{
+  hWnd := WinGetID("A")
+  ; WinGet 명령은 제거되었고, 창의 핸들을 얻기위해서는 WinGet("A")를 사용한다.
+
+  hIME := DllCall("imm32\ImmGetDefaultIMEWnd", "UInt", hWnd, "UInt")
+  temp := A_DetectHiddenWindows
+
+  DetectHiddenWinows(True)
+  res := SendMessage(0x0283, 0x0005, 0x0000, , "ahk_id " hIME)
+  DetectHiddenWindows(temp)
+  return res
+}
+
+
+
++F1::MsgBox(IMECheckHangul())
 
 
 
@@ -61,9 +100,44 @@ Daejeon - 34178
 ;******************************************************************************
 ;			Computer information
 ;******************************************************************************
-::]myid::Send(A_UserName)
-::]myip::Send(A_IPAddress1)
-::]mycomp::Send(A_ComputerName)
+::]myid::{
+    SendInput(A_UserName)
+}
+
+::]myip::{
+    SendInput(IpCheck())
+}
+
+::]mycomp::{
+    SendInput(A_ComputerName)
+}
+
+
+IpCheck() {
+    try {
+        Download("http://ipinfo.io/ip", A_ScriptDir "\showip.txt")
+        publicIp := FileRead(A_ScriptDir "\showip.txt")
+        privateIp := GetLocalIP()
+        ;~ MsgBox("Your Public IpAddress is: [ " publicIp " ]`n`nYour private ipAddress is: [ " privateIp " ]", "Ipaddresses", "64")
+
+        return publicIp
+    } catch as err {
+        ;~ MsgBox("Your public Ipaddress could not be detected.", "IpAddresses", "16")
+    }
+    FileDelete(A_ScriptDir "\showip.txt")  ; Uncomment this line if you want to delete the file
+}
+
+GetLocalIP() {
+    objWMIService := ComObject("WbemScripting.SWbemLocator").ConnectServer()
+    colItems := objWMIService.ExecQuery("SELECT * FROM Win32_NetworkAdapterConfiguration WHERE IPEnabled = True")
+    for objItem in colItems {
+        if (objItem.IPAddress[0] != "0.0.0.0")
+            return objItem.IPAddress[0]
+    }
+    return "IP Not Found"
+}
+
+
 
 
 
@@ -127,6 +201,8 @@ Daejeon - 34178
 :C:Acheiving::Achieving
 :C:Acn::Can
 
+
+
 ;******************************************************************************
 ;			SQL Shortcuts
 ;******************************************************************************
@@ -143,6 +219,7 @@ AND ROWNUM <= 10
 ;******************************************************************************
 ;			Date/Time Stamps
 ;******************************************************************************
+
 
 
 ::F1::
@@ -172,29 +249,121 @@ AND ROWNUM <= 10
 
 
 
-::]d::SendInput(FormatTime(, A_Now))
-::]dl::SendInput(Format("{:yyyy, MMMM d, dddd}", A_Now))
-::]dc::SendInput(Format("{:yyyy_MM_dd}", A_Now))
-::]d1::SendInput(Format("{:yyyy-M-d}", A_Now))
-::]d2::SendInput(Format("{:yyyy-MMM-d}", A_Now))
-::]d3::SendInput(Format("{:yyyyMMdd}", A_Now))
-::]d4::SendInput(Format("{:yyyy-MMM-d}", A_Now))
-::]d5::SendInput(Format("{:yyyy.M.d}", A_Now))
-::]d6::SendInput(Format("{:yyyy/MM/dd/}", A_Now))
-::]d7::SendInput(Format("{:yyyy-MM-dd}", A_Now))
-::]d8::SendInput(Format("{:yyyyMMMd}", A_Now))
-::]d9::SendInput(Format("{:yyyyMMMdd}", A_Now))
-::]ymd::SendInput(Format("{:yyyy-MM-dd}", A_Now))
-::]t::SendInput(Format("{:h:mm tt}", A_Now))
-::]t1::SendInput(Format("{:H:mm}", A_Now))
-::]dt::SendInput(Format("{:yyyy/M/d h:mm tt}", A_Now))
-::]dt1::SendInput(Format("{:yyyy-M-d h:mm tt}", A_Now))
-::]dt2::SendInput(Format("{:yyyy-MMM-d H:mm}", A_Now))
-::]dt3::SendInput(Format("{:yyyy-MMM-dd Thh:mm:ss}", A_Now))
-::]dt4::SendInput(Format("{:yyyy-MMM-dd hh:mm:ss}", A_Now))
+;~ ::]d::SendInput(FormatTime(, A_Now))
 
+
+
+;~ ::]d::
+;~ {
+    ;~ CurrentDate := FormatTime(, "yyyy/M/d")
+    ;~ SendText(CurrentDate)
+;~ }
+
+::]d::
+{
+    SendText(FormatTime(, "yyyy/M/d"))
+}
+
+::]dl::
+{
+    SendText(FormatTime(, "yyyy, MMMM d, dddd"))
+}
+
+::]dc::
+{
+    SendText(FormatTime(, "yyyy_MM_dd"))
+}
+
+::]d1::
+{
+    SendText(FormatTime(, "yyyy-M-d"))
+}
+
+::]d2::
+{
+    SendText(FormatTime(, "yyyy-MMM-d"))
+}
+
+::]d3::
+{
+    SendText(FormatTime(, "yyyyMMdd"))
+}
+
+::]d4::
+{
+    SendText(FormatTime(, "yyyy-MMM-d"))
+}
+
+::]d5::
+{
+    SendText(FormatTime(, "yyyy.M.d"))
+}
+
+::]d6::
+{
+    SendText(FormatTime(, "yyyy/MM/dd/"))
+}
+
+::]d7::
+{
+    SendText(FormatTime(, "yyyy-MM-dd"))
+}
+
+::]d8::
+{
+    SendText(FormatTime(, "yyyyMMMd"))
+}
+
+::]d9::
+{
+    SendText(FormatTime(, "yyyyMMMdd"))
+}
+
+::]ymd::
+{
+    SendText(FormatTime(, "yyyy-MM-dd"))
+}
+
+::]t::
+{
+    SendText(FormatTime(, "h:mm tt"))
+}
+
+::]t1::
+{
+    SendText(FormatTime(, "H:mm"))
+}
+
+::]dt::
+{
+    SendText(FormatTime(, "yyyy/M/d h:mm tt"))
+}
+
+::]dt1::
+{
+    SendText(FormatTime(, "yyyy-M-d h:mm tt"))
+}
+
+::]dt2::
+{
+    SendText(FormatTime(, "yyyy-MMM-d H:mm"))
+}
+
+::]dt3::
+{
+    SendText(FormatTime(, "yyyy-MMM-dd Thh:mm:ss"))
+}
+
+::]dt4::
+{
+    SendText(FormatTime(, "yyyy-MMM-dd hh:mm:ss"))
+}
+
+::]dtl::
+{
+    SendText(FormatTime(, "yyyy, MMMM dd, dddd h:mm tt"))
+}
 ;~ ::]dtl::SendInput(Format("{:yyyy, MMMM dd, dddd h:mm tt}", A_Now))
-
 
 
 ^!PrintScreen::
@@ -214,12 +383,16 @@ AND ROWNUM <= 10
 {
     ;~ FormatTime, DateTime,, "dddd, M/d/yyyy  h:mm tt"
 
-	DateTime := FormatTime("yyyy MMMM d, HH:mm:ss", A_Now)
+	;~ DateTime := FormatTime("yyyy MMMM d, HH:mm:ss", A_Now)
+    ;~ MsgBox "Hello FirstName`nToday is " DateTime
 
-    MsgBox "Hello FirstName`nToday is " DateTime
-    Clipboard := DateTime
+    MsgBox("Hello FirstName`nToday is " A_Now)
+
+    formattedDateTime := FormatTime(A_Now, "yyyy-MM-dd HH:mm:ss")
+    MsgBox("Hello FirstName`nToday is " formattedDateTime)
+
+    Clipboard := formattedDateTime
 }
-
 
 
 ;******************************************************************************
@@ -254,6 +427,7 @@ AND ROWNUM <= 10
 ::]oct::October
 ::]nov::November
 ::]dec::December
+
 ::]1wol::January
 ::]2wol::February
 ::]3wol::March
@@ -266,6 +440,7 @@ AND ROWNUM <= 10
 ::]10wol::October
 ::]11wol::November
 ::]12wol::December
+
 ::]months::January, February, March, April, May, June, July, August, September, October, November, December
 ::]months1::January`nFebruary`nMarch`nApril`nMay`nJune`nJuly`nAugust`nSeptember`nOctober`nNovember`nDecember
 

@@ -9,6 +9,12 @@
  ;~ Return
 ;~ }
 
+
+
+#Requires AutoHotkey v1.0
+#SingleInstance
+
+
 ^+g::
 {
   google(2)
@@ -79,6 +85,11 @@ return
 Run,https://www.youtube.com
 return
 
+^1::
+Run,https://www.youtube.com
+return
+
+
 ^NumPad2::
 Run,https://www.netflix.com/browse
 return
@@ -102,7 +113,9 @@ return
 ;Pause::WinClose, A
 
 ;YouTube Incognito
-Pause & Home::
+;~ Pause & Home::
+
+Home::
 Run "chrome.exe" -incognito "https://www.youtube.com"
 return
 
@@ -202,8 +215,6 @@ send, >
 sleep 0010
 send, {Left}
 return
-
-
 
 ;----------------------------------------------------------------------------
 ;Volume mixer, f7 opens it, if it's not active it recalls it, if its active,
