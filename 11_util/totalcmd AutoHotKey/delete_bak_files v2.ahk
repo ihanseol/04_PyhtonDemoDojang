@@ -20,3 +20,13 @@ Loop Files, "*.dwl", "FD"
 }
 
 
+^!L::
+{
+
+     Loop Files, "*.ahk", "FD" ; F: Files, D: Directories
+    {
+        MsgBox(A_LoopFileFullPath)
+    }
+
+
+}
