@@ -1,4 +1,18 @@
-﻿#Requires AutoHotkey v2
+﻿/*
+
+2024, 7월 17, 수요일 5:46 오후
+
+이것은, 디버그 윈도우로 사용하기 위해서 만듬
+콘솔 아웃풋이 적절한것을 못찾아서
+그냥 리스트박스를 띠우고
+거기에다가 메시지를 추가하는 형태로 구현하고자 함 ..
+
+
+*/
+
+
+#Requires AutoHotkey v2
+#SingleInstance
 
 global myGui := ""
 global ListBox := ""
