@@ -26,6 +26,7 @@ G_COMPANY = "산수개발(주)"
 # G_COMPANY = "(주)태양이엔지"
 # G_COMPANY = "삼원개발(주)"
 # G_COMPANY = "마인지오 주식회사"
+# G_COMPANY = "(합) 청대개발"
 
 G_ADDRESS = "주소"
 
@@ -81,10 +82,10 @@ def main_job(well, address, company):
 
 def main():
     title = 'Please choose your Company: '
-    options = ['SanSu', 'DaeWoong', 'WooKyung', 'HanIL', 'DongHae', 'HyunYoon', 'JunIL','BuYeo','TaeYang','SamWon','MainGeo']
+    options = ['SanSu', 'DaeWoong', 'WooKyung', 'HanIL', 'DongHae', 'HyunYoon', 'JunIL','BuYeo','TaeYang','SamWon','MainGeo', 'CheongDae']
 
     MyCompany  = ["산수개발(주)", "대웅엔지니어링 주식회사", "(주) 우경엔지니어링", "주식회사 한일지하수", "(주)동해엔지니어링",
-                  "(주)현윤이앤씨",  "(주) 전일", "부여지하수개발 주식회사", "(주)태양이엔지", "삼원개발(주)",  "마인지오 주식회사"]
+                  "(주)현윤이앤씨",  "(주) 전일", "부여지하수개발 주식회사", "(주)태양이엔지", "삼원개발(주)",  "마인지오 주식회사", "(합) 청대개발"]
 
     option, index = pick(options, title, indicator='==>', default_index=1)
     print(option, index, MyCompany[index])
