@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'aqt_inputxXVjqj.ui'
+## Form generated from reading UI file 'aqt_inputkUkHUi.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.3
 ##
@@ -25,19 +25,19 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(615, 792)
+        MainWindow.resize(615, 859)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.tabWidget = QTabWidget(self.centralwidget)
         self.tabWidget.setObjectName(u"tabWidget")
-        self.tabWidget.setGeometry(QRect(20, 490, 571, 281))
+        self.tabWidget.setGeometry(QRect(20, 570, 581, 281))
         sizePolicy = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.tabWidget.sizePolicy().hasHeightForWidth())
         self.tabWidget.setSizePolicy(sizePolicy)
         self.tabWidget.setTabPosition(QTabWidget.North)
-        self.tabWidget.setTabShape(QTabWidget.Triangular)
+        self.tabWidget.setTabShape(QTabWidget.Rounded)
         self.tabWidget.setIconSize(QSize(32, 32))
         self.tabWidget.setElideMode(Qt.ElideLeft)
         self.tab_1 = QWidget()
@@ -111,54 +111,58 @@ class Ui_MainWindow(object):
         self.textEdit_2.setFont(font)
         self.groupBox = QGroupBox(self.centralwidget)
         self.groupBox.setObjectName(u"groupBox")
-        self.groupBox.setGeometry(QRect(10, 160, 271, 321))
+        self.groupBox.setGeometry(QRect(10, 160, 271, 391))
         self.groupBox.setFont(font4)
         self.radio11 = QRadioButton(self.groupBox)
         self.radio11.setObjectName(u"radio11")
-        self.radio11.setGeometry(QRect(20, 284, 161, 21))
+        self.radio11.setGeometry(QRect(21, 301, 218, 22))
         self.radio11.setFont(font)
         self.radio1 = QRadioButton(self.groupBox)
         self.radio1.setObjectName(u"radio1")
-        self.radio1.setGeometry(QRect(20, 24, 131, 21))
+        self.radio1.setGeometry(QRect(21, 21, 218, 22))
         self.radio1.setFont(font)
         self.radio5 = QRadioButton(self.groupBox)
         self.radio5.setObjectName(u"radio5")
-        self.radio5.setGeometry(QRect(20, 128, 161, 21))
+        self.radio5.setGeometry(QRect(21, 133, 218, 22))
         self.radio5.setFont(font)
         self.radio4 = QRadioButton(self.groupBox)
         self.radio4.setObjectName(u"radio4")
-        self.radio4.setGeometry(QRect(20, 102, 161, 21))
+        self.radio4.setGeometry(QRect(21, 105, 218, 22))
         self.radio4.setFont(font)
         self.radio4.setChecked(True)
         self.radio2 = QRadioButton(self.groupBox)
         self.radio2.setObjectName(u"radio2")
-        self.radio2.setGeometry(QRect(20, 76, 201, 21))
+        self.radio2.setGeometry(QRect(21, 49, 218, 22))
         self.radio2.setFont(font)
         self.radio8 = QRadioButton(self.groupBox)
         self.radio8.setObjectName(u"radio8")
-        self.radio8.setGeometry(QRect(20, 206, 221, 21))
+        self.radio8.setGeometry(QRect(21, 217, 218, 22))
         self.radio8.setFont(font)
         self.radio6 = QRadioButton(self.groupBox)
         self.radio6.setObjectName(u"radio6")
-        self.radio6.setGeometry(QRect(20, 154, 121, 21))
+        self.radio6.setGeometry(QRect(21, 161, 218, 22))
         self.radio6.setFont(font)
         self.radio10 = QRadioButton(self.groupBox)
         self.radio10.setObjectName(u"radio10")
-        self.radio10.setGeometry(QRect(20, 258, 121, 21))
+        self.radio10.setGeometry(QRect(21, 273, 218, 22))
         self.radio10.setFont(font)
         self.radio10.setChecked(False)
         self.radio7 = QRadioButton(self.groupBox)
         self.radio7.setObjectName(u"radio7")
-        self.radio7.setGeometry(QRect(20, 180, 131, 21))
+        self.radio7.setGeometry(QRect(21, 189, 218, 22))
         self.radio7.setFont(font)
         self.radio9 = QRadioButton(self.groupBox)
         self.radio9.setObjectName(u"radio9")
-        self.radio9.setGeometry(QRect(20, 232, 91, 21))
+        self.radio9.setGeometry(QRect(21, 245, 218, 22))
         self.radio9.setFont(font)
         self.radio3 = QRadioButton(self.groupBox)
         self.radio3.setObjectName(u"radio3")
-        self.radio3.setGeometry(QRect(20, 50, 161, 21))
+        self.radio3.setGeometry(QRect(21, 77, 218, 22))
         self.radio3.setFont(font)
+        self.radio12 = QRadioButton(self.groupBox)
+        self.radio12.setObjectName(u"radio12")
+        self.radio12.setGeometry(QRect(21, 329, 218, 21))
+        self.radio12.setFont(font)
         self.label_2 = QLabel(self.centralwidget)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(370, 170, 91, 21))
@@ -182,7 +186,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
 
         QMetaObject.connectSlotsByName(MainWindow)
 
@@ -219,7 +223,7 @@ class Ui_MainWindow(object):
                                                        u"\ub300\uc6c5\uc5d4\uc9c0\ub2c8\uc5b4\ub9c1 \uc8fc\uc2dd\ud68c\uc0ac",
                                                        None))
         self.radio8.setText(QCoreApplication.translate("MainWindow",
-                                                       u"(\uc8fc)\ubd80\uc5ec\uc9c0\ud558\uc218\uac1c\ubc1c \uc8fc\uc2dd\ud68c\uc0ac",
+                                                       u"\ubd80\uc5ec\uc9c0\ud558\uc218\uac1c\ubc1c \uc8fc\uc2dd\ud68c\uc0ac",
                                                        None))
         self.radio6.setText(QCoreApplication.translate("MainWindow", u"(\uc8fc)\ud604\uc724\uc774\uc5d4\uc528", None))
         self.radio10.setText(QCoreApplication.translate("MainWindow", u"\uc0bc\uc6d0\uac1c\ubc1c(\uc8fc)", None))
@@ -227,6 +231,7 @@ class Ui_MainWindow(object):
         self.radio9.setText(QCoreApplication.translate("MainWindow", u"(\uc8fc)\uc804\uc77c", None))
         self.radio3.setText(
             QCoreApplication.translate("MainWindow", u"(\uc8fc)\uc6b0\uacbd\uc5d4\uc9c0\ub2c8\uc5b4\ub9c1", None))
+        self.radio12.setText(QCoreApplication.translate("MainWindow", u"(\ud569) \uccad\ub300\uac1c\ubc1c", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"\uad00\uc815\uc758 \uac2f\uc218", None))
         self.checkBox.setText(QCoreApplication.translate("MainWindow", u"\ub2e8\uacc4\ud3ec\ud568", None))
     # retranslateUi
