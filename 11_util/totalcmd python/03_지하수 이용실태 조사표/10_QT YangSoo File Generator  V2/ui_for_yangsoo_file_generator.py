@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-<<<<<<< HEAD
 ## Form generated from reading UI file 'aqt_inputkUkHUi.ui'
-=======
-## Form generated from reading UI file 'aqt_inputTzSsyC.ui'
->>>>>>> c345bf9c34e22e15e6426c4d5c5752004fccfb7d
 ##
 ## Created by: Qt User Interface Compiler version 6.4.3
 ##
