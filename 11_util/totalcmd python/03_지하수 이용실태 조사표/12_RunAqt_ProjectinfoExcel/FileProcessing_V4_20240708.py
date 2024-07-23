@@ -111,9 +111,9 @@ class FileBase(AQTBASE, PathChecker):
         self._directory = directory
 
         if self.check_path(directory) is False:
-            self._set_directory("d:\\05_Send\\")
-        else:
             self._set_directory(directory)
+        else:
+            self._set_directory("d:\\05_Send\\")
 
     def _set_directory(self, directory):
         """
@@ -200,7 +200,6 @@ class FileBase(AQTBASE, PathChecker):
         rlist = []
         for fl in file_list:
             rlist = rlist + self._get_files_by_extension(fl)
-
         return rlist
 
     def get_xlsm_filter(self, path=None, sfilter="*_ge_OriginalSaveFile.xlsm"):

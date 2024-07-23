@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>615</width>
-    <height>792</height>
+    <height>859</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>490</y>
-      <width>571</width>
+      <y>570</y>
+      <width>581</width>
       <height>281</height>
      </rect>
     </property>
@@ -33,10 +33,10 @@
      <enum>QTabWidget::North</enum>
     </property>
     <property name="tabShape">
-     <enum>QTabWidget::Triangular</enum>
+     <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <property name="iconSize">
      <size>
@@ -283,7 +283,7 @@
       <x>10</x>
       <y>160</y>
       <width>271</width>
-      <height>321</height>
+      <height>391</height>
      </rect>
     </property>
     <property name="font">
@@ -298,10 +298,10 @@
     <widget class="QRadioButton" name="radio11">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>284</y>
-       <width>161</width>
-       <height>21</height>
+       <x>21</x>
+       <y>301</y>
+       <width>218</width>
+       <height>22</height>
       </rect>
      </property>
      <property name="font">
@@ -317,10 +317,10 @@
     <widget class="QRadioButton" name="radio1">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>24</y>
-       <width>131</width>
-       <height>21</height>
+       <x>21</x>
+       <y>21</y>
+       <width>218</width>
+       <height>22</height>
       </rect>
      </property>
      <property name="font">
@@ -336,10 +336,10 @@
     <widget class="QRadioButton" name="radio5">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>128</y>
-       <width>161</width>
-       <height>21</height>
+       <x>21</x>
+       <y>133</y>
+       <width>218</width>
+       <height>22</height>
       </rect>
      </property>
      <property name="font">
@@ -355,10 +355,10 @@
     <widget class="QRadioButton" name="radio4">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>102</y>
-       <width>161</width>
-       <height>21</height>
+       <x>21</x>
+       <y>105</y>
+       <width>218</width>
+       <height>22</height>
       </rect>
      </property>
      <property name="font">
@@ -377,10 +377,10 @@
     <widget class="QRadioButton" name="radio2">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>76</y>
-       <width>201</width>
-       <height>21</height>
+       <x>21</x>
+       <y>49</y>
+       <width>218</width>
+       <height>22</height>
       </rect>
      </property>
      <property name="font">
@@ -396,10 +396,10 @@
     <widget class="QRadioButton" name="radio8">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>206</y>
-       <width>221</width>
-       <height>21</height>
+       <x>21</x>
+       <y>217</y>
+       <width>218</width>
+       <height>22</height>
       </rect>
      </property>
      <property name="font">
@@ -415,10 +415,10 @@
     <widget class="QRadioButton" name="radio6">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>154</y>
-       <width>121</width>
-       <height>21</height>
+       <x>21</x>
+       <y>161</y>
+       <width>218</width>
+       <height>22</height>
       </rect>
      </property>
      <property name="font">
@@ -434,10 +434,10 @@
     <widget class="QRadioButton" name="radio10">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>258</y>
-       <width>121</width>
-       <height>21</height>
+       <x>21</x>
+       <y>273</y>
+       <width>218</width>
+       <height>22</height>
       </rect>
      </property>
      <property name="font">
@@ -456,10 +456,10 @@
     <widget class="QRadioButton" name="radio7">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>180</y>
-       <width>131</width>
-       <height>21</height>
+       <x>21</x>
+       <y>189</y>
+       <width>218</width>
+       <height>22</height>
       </rect>
      </property>
      <property name="font">
@@ -475,10 +475,10 @@
     <widget class="QRadioButton" name="radio9">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>232</y>
-       <width>91</width>
-       <height>21</height>
+       <x>21</x>
+       <y>245</y>
+       <width>218</width>
+       <height>22</height>
       </rect>
      </property>
      <property name="font">
@@ -494,10 +494,10 @@
     <widget class="QRadioButton" name="radio3">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>50</y>
-       <width>161</width>
-       <height>21</height>
+       <x>21</x>
+       <y>77</y>
+       <width>218</width>
+       <height>22</height>
       </rect>
      </property>
      <property name="font">
@@ -508,6 +508,25 @@
      </property>
      <property name="text">
       <string>(주)우경엔지니어링</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radio12">
+     <property name="geometry">
+      <rect>
+       <x>21</x>
+       <y>329</y>
+       <width>218</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>맑은 고딕</family>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>(합) 청대개발</string>
      </property>
     </widget>
    </widget>
