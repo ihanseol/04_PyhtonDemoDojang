@@ -85,6 +85,11 @@ def get_screen_height() -> int:
     return screen.height
 
 
+def check_screen_dimension():
+    print('get screen width ', get_screen_width())
+    print('get screen height ', get_screen_height())
+
+
 class AQTBASE:
     def __init__(self):
 
@@ -283,7 +288,8 @@ class AQTProcessor(AQTBASE):
                 pyautogui.click(x=1557, y=93)  # maximize sub window 2560x1440
             case 1920:
                 if get_screen_height() == 1200:
-                    pyautogui.click(x=1126, y=94)  # maximize sub window 1920x1200
+                    # pyautogui.click(x=1126, y=94)  # maximize sub window 1920x1200
+                    pyautogui.click(x=1152, y=94)  # maximize sub window 1920x1200
                 else:
                     pyautogui.click(x=1152, y=94)  # maximize sub window 1920x1080
 
