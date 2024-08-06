@@ -291,7 +291,7 @@ class AQTProcessor(AQTBASE):
                     if len(get_monitors()) == 1:
                         pyautogui.click(x=1126, y=94)  # maximize sub window 1920x1200
                     else:
-                        pyautogui.click(x=1152, y=94)  # maximize sub window 1920x1200
+                        pyautogui.click(x=1152, y=94)  # just in case dual monitor, main FHD, sub 1920x1200 - maximize sub window 1920x1200
                 else:
                     pyautogui.click(x=1152, y=94)  # maximize sub window 1920x1080
 
