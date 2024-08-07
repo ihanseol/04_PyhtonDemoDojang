@@ -440,7 +440,6 @@ class InjectValueToSheet(FileProcessing):
         excel.ScreenUpdating = True
 
         try:
-            wb.DisplayAlerts = False
             """
             helpful if saving multiple times to save file, it means you won't get a pop up for overwrite 
             and will default to save it.
