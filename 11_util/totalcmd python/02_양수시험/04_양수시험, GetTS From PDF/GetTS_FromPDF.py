@@ -375,6 +375,7 @@ class AQTProcessor(AQTBASE):
                 print('\n\nAQTProcessor running mode --> Auto')
 
         self.print_pdf(os.path.join(self.SEND, 'aqt_data.pdf'))
+        time.sleep(1)
         result = self.aqtpdf.getTSX()
         self.auto_script.close_program()
 
