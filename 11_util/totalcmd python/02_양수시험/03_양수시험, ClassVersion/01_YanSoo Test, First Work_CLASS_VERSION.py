@@ -135,8 +135,8 @@ class YangSooInjector:
         """
         for obj in ws.OLEObjects():
             if obj.Name == button_name:
-                return True
-        return False
+                return False
+        return True
 
     def get_excel_row(self, row_index):
         try:
@@ -254,7 +254,7 @@ class YangSooInjector:
             "new": ["CommandButton_CB1", "CommandButton_CB2", "CommandButton_Chart"]
         }
 
-        if self.isit_oldversion(ws, button_mapping["old"][2]):
+        if self.isit_oldversion(ws, button_mapping["new"][0]):
             self.isOLD = True
             print("YangSoo Type - Old Version")
             button_set = button_mapping["old"]
