@@ -111,9 +111,9 @@ class FileBase(AQTBASE, PathChecker):
         self._directory = directory
 
         if self.check_path(directory) is False:
-            self._set_directory("d:\\05_Send\\")
-        else:
             self._set_directory(directory)
+        else:
+            self._set_directory("d:\\05_Send\\")
 
     def _set_directory(self, directory):
         """
@@ -200,7 +200,6 @@ class FileBase(AQTBASE, PathChecker):
         rlist = []
         for fl in file_list:
             rlist = rlist + self._get_files_by_extension(fl)
-
         return rlist
 
     def get_xlsm_filter(self, path=None, sfilter="*_ge_OriginalSaveFile.xlsm"):
@@ -924,7 +923,8 @@ class TransferYangSooFile(FileBase):
                                     "YangSoo Test")
 
         # Move files to the respective directories
-        if filtered_files['a_pdf'] or filtered_files['jpg_a']:
+        if filtered_files['a_pdf'] or filtered_files['jpg_a'] or filtered_files['w_aqt'] or filtered_files['jpg_w'] or \
+                filtered_files['w_pdf']:
             self._move_files_to_dir(folder_path, filtered_files, ['a_pdf', 'p_pdf', 'jpg_a', 'jpg_p', 'w_aqt'],
                                     self.DIR_AQT, "02_AQTEver3.4(170414)")
 
