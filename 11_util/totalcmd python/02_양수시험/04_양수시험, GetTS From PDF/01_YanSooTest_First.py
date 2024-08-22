@@ -46,6 +46,45 @@ import pygetwindow as gw
 import pytz
 from datetime import datetime, timedelta
 
+# Create a dictionary based on the table
+table_data = {
+    60: 17,
+    75: 18,
+    90: 19,
+    105: 20,
+    120: 21,
+    140: 22,
+    160: 23,
+    180: 24,
+    240: 25,
+    300: 26,
+    360: 27,
+    420: 28,
+    480: 29,
+    540: 30,
+    600: 31,
+    660: 32,
+    720: 33,
+    780: 34,
+    840: 35,
+    900: 36,
+    960: 37,
+    1020: 38,
+    1080: 39,
+    1140: 40,
+    1200: 41,
+    1260: 42,
+    1320: 43,
+    1380: 44,
+    1440: 45,
+    1500: 46,
+}
+
+
+def get_mytime_from_table(stabletime):
+    # Return the corresponding MY_TIME for the given STABLETIME
+    return table_data.get(stabletime, "STABLETIME not found")
+
 
 class YangSooInjector:
     def __init__(self, directory):
@@ -284,6 +323,8 @@ class YangSooInjector:
 
     def _inject_long_term_test(self, wb, excel):
         ws = wb.Worksheets("LongTest")
+        wskin = wb.Worksheets("SkinFactor")
+
         ws.Activate()
         values = [540, 600, 660, 720, 780, 840]
 
@@ -291,6 +332,7 @@ class YangSooInjector:
         ws.Range("GoalSeekTarget").Value = 0
 
         selected_value = random.choice(values) if self.STABLE_TIME == 0 else self.STABLE_TIME
+        wskin.Range("G16").Value = selected_value
 
         if self.debug_yes:
             print(f'stable time selection ... : {selected_value}')
@@ -330,7 +372,9 @@ class YangSooInjector:
         else:
             module_name = module_names[1]
 
+        excel.Application.Run(f"{module_name}.SetMY_TIME")
         excel.Application.Run(f"{module_name}.TimeSetting")
+
         time.sleep(1)
         print(f"Application.Run, {module_name} is running successfully")
 
