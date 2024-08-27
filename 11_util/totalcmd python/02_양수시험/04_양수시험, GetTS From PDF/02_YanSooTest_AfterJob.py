@@ -419,10 +419,15 @@ class InjectValueToSheet(FileProcessing):
         # Input * 3,  SkinFactor * 4, SafeYield * 5, StepTest * 6, LongTest * 7
         # Step.Select * 8, Janggi.Select * 9, Recover.Select * 10
 
-        ws_skin = wb.Worksheets(4)
-        ws_step = wb.Worksheets(8)
-        ws_janggi = wb.Worksheets(9)
-        ws_recover = wb.Worksheets(10)
+        # ws_skin = wb.Worksheets(4)
+        # ws_step = wb.Worksheets(9)
+        # ws_janggi = wb.Worksheets(10)
+        # ws_recover = wb.Worksheets(11)
+
+        ws_skin = wb.Worksheets("SkinFactor")
+        ws_step = wb.Worksheets("Step.Select")
+        ws_janggi = wb.Worksheets("Janggi.Select")
+        ws_recover = wb.Worksheets("Recover.Select")
 
         if ((Mode != 3) and (Mode != 4)) and self.IsStepFileExist(well):
             self.InjecttionStep(well, ws_step)
