@@ -16,10 +16,10 @@ params = {
     "service": "address",
     "request": "getcoord",
     "crs": "epsg:4326",
-    "address": "유성대로740번길 26",
+    "address": "충청남도 예산군 봉산면 옹안리 210",
     "format": "json",
-    "type": "road",
-    "key": "***"
+    "type": "parcel",
+    "key": "9DD7DF7E-016C-3B7B-84BE-5FD028784A00"
 }
 
 response = requests.get(apiurl, params=params)
