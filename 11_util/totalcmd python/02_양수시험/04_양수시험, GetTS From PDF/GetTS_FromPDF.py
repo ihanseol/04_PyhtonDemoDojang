@@ -50,17 +50,18 @@ def get_screen_width() -> int:
     print('get_monitors:', hmonitor)
 
     screen1 = get_monitors()[0]
-    if hmonitor != 1:
-        screen2 = get_monitors()[1]
+    # if hmonitor != 1:
+    #     screen2 = get_monitors()[1]
+    #
+    # if hmonitor == 1:
+    #     screen = screen1
+    # else:
+    #     if screen1.width > screen2.width:
+    #         screen = screen1
+    #     else:
+    #         screen = screen2
 
-    if hmonitor == 1:
-        screen = screen1
-    else:
-        if screen1.width > screen2.width:
-            screen = screen1
-        else:
-            screen = screen2
-
+    screen = screen1
     print(f'screen width : {screen.width}')
     return screen.width
 
@@ -70,18 +71,19 @@ def get_screen_height() -> int:
     print('get_monitors:', hmonitor)
 
     screen1 = get_monitors()[0]
-    if hmonitor != 1:
-        screen2 = get_monitors()[1]
+    # if hmonitor != 1:
+    #     screen2 = get_monitors()[1]
+    #
+    # if hmonitor == 1:
+    #     screen = screen1
+    # else:
+    #     if screen1.width > screen2.width:
+    #         screen = screen1
+    #     else:
+    #         screen = screen2
 
-    if hmonitor == 1:
-        screen = screen1
-    else:
-        if screen1.width > screen2.width:
-            screen = screen1
-        else:
-            screen = screen2
-
-    print(f'screen width : {screen.width}')
+    screen = screen1
+    print(f'screen height : {screen.height}')
     return screen.height
 
 
@@ -291,12 +293,13 @@ class AQTProcessor(AQTBASE):
                     if len(get_monitors()) == 1:
                         pyautogui.click(x=1126, y=94)  # maximize sub window 1920x1200
                     else:
-                        pyautogui.click(x=1194, y=95)  # just in case dual monitor, main FHD, sub 1920x1200 - maximize sub window 1920x1200
+                        pyautogui.click(x=1127, y=95)  # just in case dual monitor, main FHD, sub 1920x1200 - maximize sub window 1920x1200
                 else:
                     pyautogui.click(x=1127, y=95)  # maximize sub window 1920x1080
 
             case 3072:
                 pyautogui.click(x=1860, y=96)  # maximize sub window 3072x1200
+
             case _:
                 pyautogui.click(x=1152, y=94)
 
