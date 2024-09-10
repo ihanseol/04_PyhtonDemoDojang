@@ -291,9 +291,9 @@ class AQTProcessor(AQTBASE):
                     if len(get_monitors()) == 1:
                         pyautogui.click(x=1126, y=94)  # maximize sub window 1920x1200
                     else:
-                        pyautogui.click(x=1152, y=94)  # just in case dual monitor, main FHD, sub 1920x1200 - maximize sub window 1920x1200
+                        pyautogui.click(x=1127, y=95)  # just in case dual monitor, main FHD, sub 1920x1200 - maximize sub window 1920x1200
                 else:
-                    pyautogui.click(x=1152, y=94)  # maximize sub window 1920x1080
+                    pyautogui.click(x=1127, y=95)  # maximize sub window 1920x1080
 
             case 3072:
                 pyautogui.click(x=1860, y=96)  # maximize sub window 3072x1200
@@ -311,7 +311,7 @@ class AQTProcessor(AQTBASE):
         time.sleep(self.DELAY)
         pyautogui.typewrite(fname)
         pyautogui.press('enter')
-        time.sleep(2)
+        time.sleep(3)
 
     @staticmethod
     def wait_for_user_input(sec=10):
