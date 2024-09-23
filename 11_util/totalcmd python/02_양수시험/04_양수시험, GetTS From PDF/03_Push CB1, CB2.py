@@ -228,17 +228,23 @@ class YangSooInjector:
             print(f'_inject_input -- {label}')
             time.sleep(1)
 
-    def push_CB1CB2(self, wb):
+    def push_CB1CB2(self, wb, excel):
         ws = wb.Worksheets("Input")
         ws.Activate()
         time.sleep(1)
+        self.inject_value_to_cells(wb)
+        time.sleep(1)
+
+        self.change_window('EXCEL')
+        excel.Application.SendKeys("{PGUP}")
+        # excel.ActiveWindow.LargeScroll(Down=-1)
 
         button_mapping = {
             "old": ["CommandButton2", "CommandButton3", "CommandButton6", "CommandButton1"],
             "new": ["CommandButton_CB1", "CommandButton_CB2", "CommandButton_Chart"]
         }
 
-        if self.isit_oldversion(ws, button_mapping["old"][0]):
+        if self.isit_oldversion(ws, button_mapping["new"][0]):
             self.isOLD = True
             print("YangSoo Type - Old Version")
             button_set = button_mapping["old"]
@@ -248,6 +254,14 @@ class YangSooInjector:
             print("YangSoo Type - New Version")
             button_set = button_mapping["new"]
             labels = ['SetCB1', 'SetCB2', 'SetChart']
+
+        # ws.Range('S17').Value = 'Click'
+        # excel.Application.Run(f"mod_INPUT.CommandButton_CB1_ClickRun")
+        # time.sleep(1)
+        # excel.Application.Run(f"mod_INPUT.CommandButton_CB2_ClickRun")
+        # time.sleep(1)
+        # excel.Application.Run(f"mod_INPUT.CommandButton_Chart_ClickRun")
+        # time.sleep(1)
 
         for button, label in zip(button_set, labels):
             self.click_excel_button(ws, button)
@@ -376,7 +390,7 @@ class YangSooInjector:
         for file in files:
             if self.debug_yes: print('Processing file: ', file)
             wb = excel.Workbooks.Open(self.directory + file)
-            self.push_CB1CB2(wb)
+            self.push_CB1CB2(wb, excel)
             wb.Close(SaveChanges=True)
 
         excel.ScreenUpdating = True

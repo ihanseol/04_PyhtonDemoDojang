@@ -273,7 +273,8 @@ class YangSooInjector:
 
     def inject_values(self, wb, excel):
         if self.debug_yes: print('inject value to cell, _inject_input is started ...')
-        self._inject_input(wb)
+
+        self._inject_input(wb, excel)
 
         if self.debug_yes: print('inject step test ...')
         self._inject_step_test(wb)
@@ -281,12 +282,17 @@ class YangSooInjector:
         if self.debug_yes: print('inject long term test ...')
         self._inject_long_term_test(wb, excel)
 
-    def _inject_input(self, wb):
+
+    def _inject_input(self, wb, excel):
         ws = wb.Worksheets("Input")
         ws.Activate()
         time.sleep(1)
         self.inject_value_to_cells(wb)
         time.sleep(1)
+
+        self.change_window('EXCEL')
+        excel.Application.SendKeys("{PGUP}")
+        # excel.ActiveWindow.LargeScroll(Down=-1)
 
         button_mapping = {
             "old": ["CommandButton2", "CommandButton3", "CommandButton6", "CommandButton1"],
@@ -303,6 +309,15 @@ class YangSooInjector:
             print("YangSoo Type - New Version")
             button_set = button_mapping["new"]
             labels = ['SetCB1', 'SetCB2', 'SetChart']
+
+
+        # ws.Range('S17').Value = 'Click'
+        # excel.Application.Run(f"mod_INPUT.CommandButton_CB1_ClickRun")
+        # time.sleep(1)
+        # excel.Application.Run(f"mod_INPUT.CommandButton_CB2_ClickRun")
+        # time.sleep(1)
+        # excel.Application.Run(f"mod_INPUT.CommandButton_Chart_ClickRun")
+        # time.sleep(1)
 
         for button, label in zip(button_set, labels):
             self.click_excel_button(ws, button)
