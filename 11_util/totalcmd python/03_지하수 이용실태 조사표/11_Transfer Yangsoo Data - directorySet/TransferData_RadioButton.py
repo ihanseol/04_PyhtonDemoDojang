@@ -1,4 +1,3 @@
-
 import os
 import pickle
 import sys
@@ -8,6 +7,7 @@ from ui_transfer_radio import Ui_MainWindow
 
 import FileProcessing_V4_20240708 as fp2c
 from FileProcessing_V4_20240708 import TransferYangSooFile
+
 # from TransferYangsoo import TransferYangSooFile
 # fp2c - file processing class v2
 
@@ -18,7 +18,6 @@ from FileProcessing_V4_20240708 import TransferYangSooFile
     그리고
     BASEDIR 세팅에서, 추가한 부분등 ...
 """
-
 
 fp = fp2c.FileBase('')
 TYF = TransferYangSooFile()
@@ -77,6 +76,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.lineEdit_2.setText(f"선택한 항목: {radio_button_name}, {radio_button.text()}")
 
     def on_pushButton_clicked(self):
+        # seclect button
+
         self.lineEdit_2.setText("Selection button clicked ...")
         current_year = datetime.now().year
         if self.sp.flocation != '':
@@ -94,10 +95,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.sp.savepath_to_file(select_folder)
 
     def on_pushButton_2_clicked(self):
+        # Exit button
         self.lineEdit_2.setText("Exit button clicked ...")
         self.close()
 
     def on_pushButton_3_clicked(self):
+        # Run Butotton ...
+
         self.lineEdit_2.setText("Run button clicked ...")
 
         path = TYF.setBASEDIR(self.BASE_PATH)
