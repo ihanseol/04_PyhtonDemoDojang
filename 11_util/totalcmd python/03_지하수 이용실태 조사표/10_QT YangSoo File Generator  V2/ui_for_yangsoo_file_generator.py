@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'aqt_inputkUkHUi.ui'
+## Form generated from reading UI file 'aqt_inputiTtusW.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.3
 ##
@@ -225,7 +225,7 @@ class Ui_MainWindow(object):
         self.radio8.setText(QCoreApplication.translate("MainWindow",
                                                        u"\ubd80\uc5ec\uc9c0\ud558\uc218\uac1c\ubc1c \uc8fc\uc2dd\ud68c\uc0ac",
                                                        None))
-        self.radio6.setText(QCoreApplication.translate("MainWindow", u"(\uc8fc)\ud604\uc724\uc774\uc5d4\uc528", None))
+        self.radio6.setText(QCoreApplication.translate("MainWindow", u"(\uc8fc)\ud604\uc724\uc774\uc564\uc528", None))
         self.radio10.setText(QCoreApplication.translate("MainWindow", u"\uc0bc\uc6d0\uac1c\ubc1c(\uc8fc)", None))
         self.radio7.setText(QCoreApplication.translate("MainWindow", u"(\uc8fc)\ud0dc\uc591\uc774\uc5d4\uc9c0", None))
         self.radio9.setText(QCoreApplication.translate("MainWindow", u"(\uc8fc)\uc804\uc77c", None))

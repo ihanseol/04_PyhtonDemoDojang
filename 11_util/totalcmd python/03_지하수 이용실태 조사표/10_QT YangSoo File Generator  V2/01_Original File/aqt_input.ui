@@ -428,7 +428,7 @@
       </font>
      </property>
      <property name="text">
-      <string>(주)현윤이엔씨</string>
+      <string>(주)현윤이앤씨</string>
      </property>
     </widget>
     <widget class="QRadioButton" name="radio10">
