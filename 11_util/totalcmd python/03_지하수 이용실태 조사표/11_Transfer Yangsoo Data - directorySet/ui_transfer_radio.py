@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'move_after3uuIEhr.ui'
+## Form generated from reading UI file 'move_after3UdTfJe.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.3
 ##
@@ -9,27 +9,26 @@
 ################################################################################
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-                            QMetaObject, QObject, QPoint, QRect,
-                            QSize, QTime, QUrl, Qt)
+    QMetaObject, QObject, QPoint, QRect,
+    QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-                           QFont, QFontDatabase, QGradient, QIcon,
-                           QImage, QKeySequence, QLinearGradient, QPainter,
-                           QPalette, QPixmap, QRadialGradient, QTransform)
+    QFont, QFontDatabase, QGradient, QIcon,
+    QImage, QKeySequence, QLinearGradient, QPainter,
+    QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QGroupBox, QLabel, QLineEdit,
-                               QMainWindow, QMenuBar, QPushButton, QRadioButton,
-                               QSizePolicy, QWidget)
-
+    QMainWindow, QMenuBar, QPushButton, QRadioButton,
+    QSizePolicy, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1076, 657)
+        MainWindow.resize(1076, 791)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.groupBox = QGroupBox(self.centralwidget)
         self.groupBox.setObjectName(u"groupBox")
-        self.groupBox.setGeometry(QRect(20, 280, 501, 91))
+        self.groupBox.setGeometry(QRect(20, 470, 501, 91))
         font = QFont()
         font.setFamilies([u"Consolas"])
         font.setPointSize(12)
@@ -56,7 +55,7 @@ class Ui_MainWindow(object):
         self.lineEdit.setFont(font1)
         self.groupBox_2 = QGroupBox(self.centralwidget)
         self.groupBox_2.setObjectName(u"groupBox_2")
-        self.groupBox_2.setGeometry(QRect(20, 380, 501, 171))
+        self.groupBox_2.setGeometry(QRect(20, 570, 501, 171))
         self.groupBox_2.setFont(font)
         self.label_2 = QLabel(self.groupBox_2)
         self.label_2.setObjectName(u"label_2")
@@ -72,11 +71,11 @@ class Ui_MainWindow(object):
         self.label_4.setFont(font)
         self.pushButton_2 = QPushButton(self.centralwidget)
         self.pushButton_2.setObjectName(u"pushButton_2")
-        self.pushButton_2.setGeometry(QRect(620, 560, 211, 71))
+        self.pushButton_2.setGeometry(QRect(630, 680, 211, 71))
         self.pushButton_2.setFont(font)
         self.pushButton_3 = QPushButton(self.centralwidget)
         self.pushButton_3.setObjectName(u"pushButton_3")
-        self.pushButton_3.setGeometry(QRect(840, 560, 211, 71))
+        self.pushButton_3.setGeometry(QRect(850, 680, 211, 71))
         self.pushButton_3.setFont(font)
         self.label = QLabel(self.centralwidget)
         self.label.setObjectName(u"label")
@@ -97,6 +96,26 @@ class Ui_MainWindow(object):
         self.lineEdit_2.setObjectName(u"lineEdit_2")
         self.lineEdit_2.setGeometry(QRect(20, 180, 1021, 51))
         self.lineEdit_2.setFont(font1)
+        self.lineEdit_3 = QLineEdit(self.centralwidget)
+        self.lineEdit_3.setObjectName(u"lineEdit_3")
+        self.lineEdit_3.setGeometry(QRect(20, 280, 1021, 51))
+        self.lineEdit_3.setFont(font1)
+        self.label_6 = QLabel(self.centralwidget)
+        self.label_6.setObjectName(u"label_6")
+        self.label_6.setGeometry(QRect(20, 250, 181, 31))
+        self.label_6.setFont(font)
+        self.label_7 = QLabel(self.centralwidget)
+        self.label_7.setObjectName(u"label_7")
+        self.label_7.setGeometry(QRect(20, 350, 181, 31))
+        self.label_7.setFont(font)
+        self.lineEdit_4 = QLineEdit(self.centralwidget)
+        self.lineEdit_4.setObjectName(u"lineEdit_4")
+        self.lineEdit_4.setGeometry(QRect(20, 380, 1021, 51))
+        self.lineEdit_4.setFont(font1)
+        self.pushButton_4 = QPushButton(self.centralwidget)
+        self.pushButton_4.setObjectName(u"pushButton_4")
+        self.pushButton_4.setGeometry(QRect(850, 450, 191, 51))
+        self.pushButton_4.setFont(font)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -106,7 +125,6 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         QMetaObject.connectSlotsByName(MainWindow)
-
     # setupUi
 
     def retranslateUi(self, MainWindow):
@@ -120,15 +138,21 @@ class Ui_MainWindow(object):
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"d:\\05_Send :  *.aqt, *.jpg, *.pdf", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"d:\\06_Send2 :  *.prn, *.xlsm", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Exit", None))
-        # if QT_CONFIG(shortcut)
+#if QT_CONFIG(shortcut)
         self.pushButton_2.setShortcut(QCoreApplication.translate("MainWindow", u"Alt+X", None))
-        # endif // QT_CONFIG(shortcut)
+#endif // QT_CONFIG(shortcut)
         self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"Run", None))
-        # if QT_CONFIG(shortcut)
+#if QT_CONFIG(shortcut)
         self.pushButton_3.setShortcut(QCoreApplication.translate("MainWindow", u"Enter", None))
-        # endif // QT_CONFIG(shortcut)
-        self.label.setText(
-            QCoreApplication.translate("MainWindow", u"\ubcf5\uc0ac\ud560 \ud3f4\ub354 \uc124\uc815", None))
+#endif // QT_CONFIG(shortcut)
+        self.label.setText(QCoreApplication.translate("MainWindow", u"\ubcf5\uc0ac\ud560 \ud3f4\ub354 \uc124\uc815", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Choose Folder", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"System Explain", None))
+        self.label_6.setText(QCoreApplication.translate("MainWindow", u"self.sp.flocation", None))
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"self.BASE_PATH", None))
+        self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"Internal Variable", None))
+#if QT_CONFIG(shortcut)
+        self.pushButton_4.setShortcut(QCoreApplication.translate("MainWindow", u"Alt+X", None))
+#endif // QT_CONFIG(shortcut)
     # retranslateUi
+

@@ -811,6 +811,8 @@ class TransferYangSooFile(FileBase):
 
         else:
             inside_yangsootest = self.list_directories_only(self.DIR_YANGSOO_TEST)
+            self.DIR_YANGSOO_TEST = self.join_path_from_list([self.BASEDIR, self.YANGSOO_BASE])
+
             if inside_yangsootest:
                 print(inside_yangsootest)
                 os.chdir(self.DIR_YANGSOO_TEST)

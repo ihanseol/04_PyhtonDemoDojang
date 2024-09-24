@@ -60,6 +60,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pushButton.clicked.connect(self.on_pushButton_clicked)
         self.pushButton_2.clicked.connect(self.on_pushButton_2_clicked)
         self.pushButton_3.clicked.connect(self.on_pushButton_3_clicked)
+        self.pushButton_4.clicked.connect(self.on_pushButton_4_clicked)
 
         self.BASE_PATH = self.sp.flocation
         self.lineEdit.setText(self.sp.flocation)
@@ -77,8 +78,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def on_pushButton_clicked(self):
         # seclect button
-
         self.lineEdit_2.setText("Selection button clicked ...")
+
         current_year = datetime.now().year
         if self.sp.flocation != '':
             location_temp = self.sp.flocation
@@ -91,8 +92,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return False
 
         self.BASE_PATH = select_folder
-        self.lineEdit.setText(select_folder)
-        self.sp.savepath_to_file(select_folder)
+        self.sp.flocation = select_folder
+
+        self.lineEdit.setText(self.BASE_PATH)
+        self.sp.savepath_to_file(self.BASE_PATH)
+
+        self.lineEdit_3.setText(self.sp.flocation)
+
+    def on_pushButton_4_clicked(self):
+        # internal variable
+        self.lineEdit_3.setText(self.sp.flocation)
+        self.lineEdit_4.setText(self.BASE_PATH)
 
     def on_pushButton_2_clicked(self):
         # Exit button
@@ -103,6 +113,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Run Butotton ...
 
         self.lineEdit_2.setText("Run button clicked ...")
+        self.lineEdit_4.setText(self.BASE_PATH)
 
         path = TYF.setBASEDIR(self.BASE_PATH)
 
