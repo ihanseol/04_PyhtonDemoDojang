@@ -111,9 +111,9 @@ class FileBase(AQTBASE, PathChecker):
         self._directory = directory
 
         if self.check_path(directory) is False:
-            self._set_directory("d:\\05_Send\\")
-        else:
             self._set_directory(directory)
+        else:
+            self._set_directory("d:\\05_Send\\")
 
     def _set_directory(self, directory):
         """
@@ -200,7 +200,6 @@ class FileBase(AQTBASE, PathChecker):
         rlist = []
         for fl in file_list:
             rlist = rlist + self._get_files_by_extension(fl)
-
         return rlist
 
     def get_xlsm_filter(self, path=None, sfilter="*_ge_OriginalSaveFile.xlsm"):
@@ -447,12 +446,13 @@ class FileBase(AQTBASE, PathChecker):
 
         :param source: Source file path.
         :param destination: Destination file path.
+
         :return: True if the file was moved successfully, False otherwise.
         """
         try:
             if os.path.exists(destination):
-                os.remove(destination)
-                print(f'Removed existing file: {destination}')
+                    os.remove(destination)
+                    print(f'Removed existing file: {destination}')
 
             shutil.move(source, destination)
             print(f"File moved successfully from '{source}' to '{destination}'")
@@ -460,6 +460,36 @@ class FileBase(AQTBASE, PathChecker):
         except Exception as e:
             print(f"Error moving file: {e}")
             return False
+
+    @staticmethod
+    def move_file_check(source, destination, remove_yes=False):
+        """
+        Move a file from source to destination.
+        source and destination are must be full path
+
+        :param source: Source file path.
+        :param destination: Destination file path.
+        :param remove_yes:
+           False : if found the target file exists, and Exit sub and Return False
+           True : Try to remove file
+
+        :return: True if the file was moved successfully, False otherwise.
+        """
+        try:
+            if os.path.exists(destination):
+                if remove_yes:
+                    os.remove(destination)
+                    print(f'Removed existing file: {destination}')
+                else:
+                    return False
+
+            shutil.move(source, destination)
+            print(f"File moved successfully from '{source}' to '{destination}'")
+            return True
+        except Exception as e:
+            print(f"Error moving file: {e}")
+            return False
+
 
     def delete_file(self, file_path):
         """
@@ -474,8 +504,7 @@ class FileBase(AQTBASE, PathChecker):
                 if os.path.exists(file_path):
                     try:
                         os.remove(file_path)
-                        print(
-                            f"{self.get_basename(file_path)} removed successfully from {self.get_dirname(file_path)}.")
+                        print(f"{self.get_basename(file_path)} removed successfully from {self.get_dirname(file_path)}.")
                     except Exception as e:
                         print(f"Error deleting {file_path}: {e}")
                         return False
@@ -765,33 +794,29 @@ class TransferYangSooFile(FileBase):
         # return "d:\\09_hardRain\\09_ihanseol - 2024\\00_YangSoo File Move TestBed\\"
 
     def dir_yangsoo_test(self):
-        if self.DIR_YANGSOO_TEST == '':
-            self.DIR_YANGSOO_TEST = self.join_path_from_list([self.BASEDIR, self.YANGSOO_BASE])
-            if self.check_path(self.DIR_YANGSOO_TEST) != PathChecker.RET_DIR:
-                os.mkdir(self.DIR_YANGSOO_TEST)
+        self.DIR_YANGSOO_TEST = self.join_path_from_list([self.BASEDIR, self.YANGSOO_BASE])
+        if self.check_path(self.DIR_YANGSOO_TEST) != PathChecker.RET_DIR:
+            os.mkdir(self.DIR_YANGSOO_TEST)
         return self.DIR_YANGSOO_TEST
 
     def dir_prn(self):
-        if self.DIR_PRN == '':
-            self.DIR_PRN = self.join_path_from_list([self.BASEDIR, self.YANGSOO_BASE, self.PRN_BASE])
-            if self.check_path(self.DIR_PRN) != PathChecker.RET_DIR:
-                os.mkdir(self.DIR_PRN)
+        self.DIR_PRN = self.join_path_from_list([self.BASEDIR, self.YANGSOO_BASE, self.PRN_BASE])
+        if self.check_path(self.DIR_PRN) != PathChecker.RET_DIR:
+            os.mkdir(self.DIR_PRN)
 
         return self.DIR_PRN
 
     def dir_aqt(self):
-        if self.DIR_AQT == '':
-            self.DIR_AQT = self.join_path_from_list([self.BASEDIR, self.YANGSOO_BASE, self.AQT_BASE])
-            if self.check_path(self.DIR_AQT) != PathChecker.RET_DIR:
-                os.mkdir(self.DIR_AQT)
+        self.DIR_AQT = self.join_path_from_list([self.BASEDIR, self.YANGSOO_BASE, self.AQT_BASE])
+        if self.check_path(self.DIR_AQT) != PathChecker.RET_DIR:
+            os.mkdir(self.DIR_AQT)
 
         return self.DIR_AQT
 
     def dir_yangsoo_ilbo(self):
-        if self.DIR_YANGSOOILBO == '':
-            self.DIR_YANGSOOILBO = self.join_path_from_list([self.BASEDIR, self.YANGSOO_BASE, self.YANGSOOILBO_BASE])
-            if self.check_path(self.DIR_YANGSOOILBO) != PathChecker.RET_DIR:
-                os.mkdir(self.DIR_YANGSOOILBO)
+        self.DIR_YANGSOOILBO = self.join_path_from_list([self.BASEDIR, self.YANGSOO_BASE, self.YANGSOOILBO_BASE])
+        if self.check_path(self.DIR_YANGSOOILBO) != PathChecker.RET_DIR:
+            os.mkdir(self.DIR_YANGSOOILBO)
 
         return self.DIR_YANGSOOILBO
 
@@ -812,6 +837,9 @@ class TransferYangSooFile(FileBase):
 
         else:
             inside_yangsootest = self.list_directories_only(self.DIR_YANGSOO_TEST)
+            print(self.dir_yangsoo_test())
+            # self.DIR_YANGSOO_TEST = self.join_path_from_list([self.BASEDIR, self.YANGSOO_BASE])
+
             if inside_yangsootest:
                 print(inside_yangsootest)
                 os.chdir(self.DIR_YANGSOO_TEST)
@@ -881,6 +909,12 @@ class TransferYangSooFile(FileBase):
         - aqt files start with 'w'
         - pdf files start with 'a', 'w', or 'p'
         - jpg files start with '*page1'
+
+
+        :return
+            True : Everything is ok
+            False : File Already Exists
+
         """
         fb = FileBase()
         fb.set_directory(folder_path)
@@ -917,20 +951,24 @@ class TransferYangSooFile(FileBase):
         self.print_debug('-')
 
         if filtered_files['prn']:
-            self._move_files_to_dir(folder_path, filtered_files, ['prn'], self.DIR_PRN, "Prn Files")
+            if self._move_files_to_dir_check(folder_path, filtered_files, ['prn'], self.DIR_PRN, "Prn Files"):
+                self.print_debug('File Already Exists .... ')
+                return False
 
         if filtered_files['xlsx'] or filtered_files['xlsm']:
             self._move_files_to_dir(folder_path, filtered_files, ['xlsx', 'xlsm'], self.DIR_YANGSOO_TEST,
                                     "YangSoo Test")
 
         # Move files to the respective directories
-        if filtered_files['a_pdf'] or filtered_files['jpg_a']:
+        if filtered_files['a_pdf'] or filtered_files['jpg_a'] or filtered_files['w_aqt'] or filtered_files['jpg_w'] or \
+                filtered_files['w_pdf']:
             self._move_files_to_dir(folder_path, filtered_files, ['a_pdf', 'p_pdf', 'jpg_a', 'jpg_p', 'w_aqt'],
                                     self.DIR_AQT, "02_AQTEver3.4(170414)")
 
         if filtered_files['jpg_w'] or filtered_files['w_pdf']:
             self._move_files_to_dir(folder_path, filtered_files, ['jpg_w', 'w_pdf'], self.DIR_YANGSOOILBO,
                                     "yangsoo ilbo")
+        return True
 
     def _move_files_to_dir(self, source_path, filtered_files, keys, target_directory, debug_message):
         fb = FileBase()
@@ -941,6 +979,22 @@ class TransferYangSooFile(FileBase):
                 source = self.join_path_tofilename(source_path, f)
                 target = self.join_path_tofilename(target_directory, f)
                 fb.move_file(source, target)
+
+    def _move_files_to_dir_check(self, source_path, filtered_files, keys, target_directory, debug_message):
+        """
+            만일 파일을 이동하려고 할때, 파일이 존재하면 True를 리턴하고 빠짐
+
+        """
+        fb = FileBase()
+        # self.erase_all_yangsoo_test_files(target_directory)
+        print(f'this is goto {debug_message}')
+        for key in keys:
+            for f in filtered_files[key]:
+                source = self.join_path_tofilename(source_path, f)
+                target = self.join_path_tofilename(target_directory, f)
+                if not fb.move_file_check(source, target, remove_yes=False):
+                    return True
+
 
     def Test(self):
         fb = FileBase()
