@@ -17,7 +17,11 @@ def Write_Formula(formula_string):
     pyperclip.copy(formula_string)
     pyautogui.hotkey('ctrl', 'v')
 
-    pyautogui.hotkey('shift', 'esc')
+    pyautogui.hotkey('ctrl', 'tab')
+    pyperclip.copy(formula_string)
+    pyautogui.hotkey('ctrl', 'v')
+
+    pyautogui.hotkey('shift', 'esc')  #close formula editor window
     time.sleep(1)
 
     pyautogui.press('enter')
