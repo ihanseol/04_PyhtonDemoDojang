@@ -5,14 +5,16 @@ from tkinter import messagebox
 from datetime import datetime
 
 import fnmatch
-import time
 import os
-import pyperclip
-import re
 from natsort import natsorted
-import pyautogui
 import ctypes
-import pandas as pd
+
+
+# import time
+# import pyperclip
+# import re
+# import pyautogui
+# import pandas as pd
 
 
 class AQTBASE:
@@ -451,8 +453,8 @@ class FileBase(AQTBASE, PathChecker):
         """
         try:
             if os.path.exists(destination):
-                    os.remove(destination)
-                    print(f'Removed existing file: {destination}')
+                os.remove(destination)
+                print(f'Removed existing file: {destination}')
 
             shutil.move(source, destination)
             print(f"File moved successfully from '{source}' to '{destination}'")
@@ -490,7 +492,6 @@ class FileBase(AQTBASE, PathChecker):
             print(f"Error moving file: {e}")
             return False
 
-
     def delete_file(self, file_path):
         """
         Delete files from a specified folder.
@@ -504,7 +505,8 @@ class FileBase(AQTBASE, PathChecker):
                 if os.path.exists(file_path):
                     try:
                         os.remove(file_path)
-                        print(f"{self.get_basename(file_path)} removed successfully from {self.get_dirname(file_path)}.")
+                        print(
+                            f"{self.get_basename(file_path)} removed successfully from {self.get_dirname(file_path)}.")
                     except Exception as e:
                         print(f"Error deleting {file_path}: {e}")
                         return False
@@ -994,7 +996,6 @@ class TransferYangSooFile(FileBase):
                 target = self.join_path_tofilename(target_directory, f)
                 if not fb.move_file_check(source, target, remove_yes=False):
                     return True
-
 
     def Test(self):
         fb = FileBase()
