@@ -292,6 +292,7 @@ class InjectValueToSheet(FileProcessing):
 
         # 장기 1단계 양수시험, T,S 구하기
         ws_janggi.Activate()
+        time.sleep(1)
 
         # toggle radius click
         self.click_excel_button(ws_janggi, button_name="CommandButton4")
