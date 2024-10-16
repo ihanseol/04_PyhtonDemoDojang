@@ -295,239 +295,167 @@
     <property name="title">
      <string>지하수 영향조사자</string>
     </property>
-    <widget class="QRadioButton" name="radio11">
+    <widget class="QSplitter" name="splitter">
      <property name="geometry">
       <rect>
-       <x>21</x>
-       <y>301</y>
-       <width>218</width>
-       <height>22</height>
+       <x>20</x>
+       <y>30</y>
+       <width>193</width>
+       <height>351</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <family>맑은 고딕</family>
-       <pointsize>11</pointsize>
-      </font>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
-     <property name="text">
-      <string>마인지오 주식회사</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="radio1">
-     <property name="geometry">
-      <rect>
-       <x>21</x>
-       <y>21</y>
-       <width>218</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>맑은 고딕</family>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>산수개발(주)</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="radio5">
-     <property name="geometry">
-      <rect>
-       <x>21</x>
-       <y>133</y>
-       <width>218</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>맑은 고딕</family>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>(주)동해엔지니어링</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="radio4">
-     <property name="geometry">
-      <rect>
-       <x>21</x>
-       <y>105</y>
-       <width>218</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>맑은 고딕</family>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>주식회사 한일지하수</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="radio2">
-     <property name="geometry">
-      <rect>
-       <x>21</x>
-       <y>49</y>
-       <width>218</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>맑은 고딕</family>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>대웅엔지니어링 주식회사</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="radio8">
-     <property name="geometry">
-      <rect>
-       <x>21</x>
-       <y>217</y>
-       <width>218</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>맑은 고딕</family>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>부여지하수개발 주식회사</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="radio6">
-     <property name="geometry">
-      <rect>
-       <x>21</x>
-       <y>161</y>
-       <width>218</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>맑은 고딕</family>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>(주)현윤이앤씨</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="radio10">
-     <property name="geometry">
-      <rect>
-       <x>21</x>
-       <y>273</y>
-       <width>218</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>맑은 고딕</family>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>삼원개발(주)</string>
-     </property>
-     <property name="checked">
-      <bool>false</bool>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="radio7">
-     <property name="geometry">
-      <rect>
-       <x>21</x>
-       <y>189</y>
-       <width>218</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>맑은 고딕</family>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>(주)태양이엔지</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="radio9">
-     <property name="geometry">
-      <rect>
-       <x>21</x>
-       <y>245</y>
-       <width>218</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>맑은 고딕</family>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>(주)전일</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="radio3">
-     <property name="geometry">
-      <rect>
-       <x>21</x>
-       <y>77</y>
-       <width>218</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>맑은 고딕</family>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>(주)우경엔지니어링</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="radio12">
-     <property name="geometry">
-      <rect>
-       <x>21</x>
-       <y>329</y>
-       <width>218</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>맑은 고딕</family>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>(합) 청대개발</string>
-     </property>
+     <widget class="QRadioButton" name="radio1">
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>산수개발(주)</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radio2">
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>대웅엔지니어링 주식회사</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radio3">
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>(주)우경엔지니어링</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radio4">
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>주식회사 한일지하수</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radio5">
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>(주)동해엔지니어링</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radio6">
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>(주)현윤이앤씨</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radio7">
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>(주)태양이엔지</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radio8">
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>부여지하수개발 주식회사</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radio9">
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>(주)전일</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radio10">
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>삼원개발(주)</string>
+      </property>
+      <property name="checked">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radio11">
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>마인지오 주식회사</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radio12">
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>(합) 청대개발</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radio13">
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>주식회사 보성건설</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QLabel" name="label_2">

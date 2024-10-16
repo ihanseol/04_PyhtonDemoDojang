@@ -8,6 +8,7 @@ from ui_transfer_radio import Ui_MainWindow
 import FileProcessing_V4_20240923 as fp2c
 from FileProcessing_V4_20240923 import TransferYangSooFile
 
+import tkinter as tk
 from tkinter import messagebox
 
 
@@ -17,6 +18,8 @@ def show_message(message):
 
     # Print the response (in this case, it will be "ok")
     print("Response:", response)
+
+
 
 
 # from TransferYangsoo import TransferYangSooFile
@@ -146,6 +149,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.radioButton_3.isChecked():
             if not TYF.move_origin_to_ihanseol(TYF.SEND2):
                 self.lineEdit_2.setText("File Already Exists and Exit to Move ..")
+
 
 
 if __name__ == "__main__":
