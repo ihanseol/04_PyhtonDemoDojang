@@ -550,6 +550,3 @@ if __name__ == "__main__":
     pump_test = PumpTestAutomation()
     pump_test.main_processing(Mode=2)
     name = input("Program is Terminated and check console message ... ")
-
-
-

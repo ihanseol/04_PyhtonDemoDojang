@@ -50,8 +50,10 @@ def get_screen_width() -> int:
     print('get_monitors:', hmonitor)
 
     screen1 = get_monitors()[0]
-    if hmonitor != 1:
+    if hmonitor > 1:
         screen2 = get_monitors()[1]
+    else:
+        screen2 = screen1
 
     if hmonitor == 1:
         screen = screen1
@@ -70,8 +72,10 @@ def get_screen_height() -> int:
     print('get_monitors:', hmonitor)
 
     screen1 = get_monitors()[0]
-    if hmonitor != 1:
+    if hmonitor > 1:
         screen2 = get_monitors()[1]
+    else:
+        screen2 = screen1
 
     if hmonitor == 1:
         screen = screen1
@@ -229,6 +233,16 @@ class CaptureScreen(AQTbase):
             ([1064, 282, 88, 22], 'screenshot_02_S.jpg')
         ]
 
+        # screen_2560x1600 = [
+        #     ([1063, 265, 88, 22], 'screenshot_01_T.jpg'),
+        #     ([1060, 282, 88, 22], 'screenshot_02_S.jpg')
+        # ]
+        #
+        # screen_2560x1600_4 = [
+        #     ([1063, 265, 88, 22], 'screenshot_01_T.jpg'),
+        #     ([1060, 282, 88, 22], 'screenshot_02_S.jpg')
+        # ]
+
         screen_1920x1200 = [
             ([919, 265, 88, 22], 'screenshot_01_T.jpg'),
             ([916, 282, 88, 22], 'screenshot_02_S.jpg')
@@ -259,8 +273,19 @@ class CaptureScreen(AQTbase):
             ([1239, 282, 88, 22], 'screenshot_02_S.jpg')
         ]
 
-
         match get_screen_width():
+            # case 2560:
+            #     if get_screen_height() == 1440:
+            #         if step == 4:
+            #             areas_filenames = screen_2560x1440_4
+            #         else:
+            #             areas_filenames = screen_2560x1440
+            #     else:
+            #         if step == 4:
+            #             areas_filenames = screen_1920x1080_4
+            #         else:
+            #             areas_filenames = screen_1920x1080
+
             case 2560:
                 if step == 4:
                     areas_filenames = screen_2560x1440_4
@@ -424,7 +449,11 @@ class AQTProcessor(AQTbase):
 
         match get_screen_width():
             case 2560:
-                pyautogui.click(x=1557, y=93)  # maximize sub window 2560x1440
+                if get_screen_height() == 1440:
+                    pyautogui.click(x=1557, y=93)  # maximize sub window 2560x1440
+                else:
+                    pyautogui.click(x=1510, y=102)  # maximize sub window 2560x1600
+
             case 1920:
                 if get_screen_height() == 1200:
                     pyautogui.click(x=1126, y=94)  # maximize sub window 1920x1200
