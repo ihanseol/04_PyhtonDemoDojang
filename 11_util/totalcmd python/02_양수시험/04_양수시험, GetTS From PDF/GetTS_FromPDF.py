@@ -286,6 +286,9 @@ class AQTProcessor(AQTBASE):
         time.sleep(1)
 
         match get_screen_width():
+            case 2160:
+                pyautogui.click(x=1282, y=93)  # maximize sub window 2560x1440
+
             case 2560:
                 if get_screen_height() == 1440:
                     pyautogui.click(x=1557, y=93)  # maximize sub window 2560x1440
