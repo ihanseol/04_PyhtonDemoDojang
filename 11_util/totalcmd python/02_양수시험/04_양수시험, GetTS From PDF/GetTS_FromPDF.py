@@ -49,13 +49,11 @@ def get_screen_width() -> int:
     hmonitor = len(get_monitors())
     print('get_monitors:', hmonitor)
 
-    # if hmonitor > 1:
-    #     screen2 = get_monitors()[1]
-    # else:
-    #     screen1 = get_monitors()[0]
-
     screen1 = get_monitors()[0]
-    screen2 = get_monitors()[1]
+    screen2 = get_monitors()[0]
+
+    if hmonitor != 1:
+        screen2 = get_monitors()[1]
 
     if screen1.width > screen2.width:
         screen = screen1
@@ -71,18 +69,16 @@ def get_screen_height() -> int:
     print('get_monitors:', hmonitor)
 
     screen1 = get_monitors()[0]
-    # if hmonitor != 1:
-    #     screen2 = get_monitors()[1]
-    #
-    # if hmonitor == 1:
-    #     screen = screen1
-    # else:
-    #     if screen1.width > screen2.width:
-    #         screen = screen1
-    #     else:
-    #         screen = screen2
+    screen2 = get_monitors()[0]
 
-    screen = screen1
+    if hmonitor != 1:
+        screen2 = get_monitors()[1]
+
+    if screen1.width > screen2.width:
+        screen = screen1
+    else:
+        screen = screen2
+
     print(f'screen height : {screen.height}')
     return screen.height
 
@@ -214,9 +210,9 @@ class AqtPDF(AutoScript):
         page = document.load_page(0)
         text = page.get_text("text")
 
-        T_value = None
-        S_value = None
-        X_value = None
+        T_value = 0.0
+        S_value = 0.0
+        X_value = 0.0
 
         lines = text.split('\n')
         S_value = float(lines[-2].split('=')[1])
