@@ -49,19 +49,19 @@ def get_screen_width() -> int:
     hmonitor = len(get_monitors())
     print('get_monitors:', hmonitor)
 
-    screen1 = get_monitors()[0]
-    # if hmonitor != 1:
+    # if hmonitor > 1:
     #     screen2 = get_monitors()[1]
-    #
-    # if hmonitor == 1:
-    #     screen = screen1
     # else:
-    #     if screen1.width > screen2.width:
-    #         screen = screen1
-    #     else:
-    #         screen = screen2
+    #     screen1 = get_monitors()[0]
 
-    screen = screen1
+    screen1 = get_monitors()[0]
+    screen2 = get_monitors()[1]
+
+    if screen1.width > screen2.width:
+        screen = screen1
+    else:
+        screen = screen2
+
     print(f'screen width : {screen.width}')
     return screen.width
 
@@ -288,6 +288,9 @@ class AQTProcessor(AQTBASE):
         match get_screen_width():
             case 2160:
                 pyautogui.click(x=1282, y=93)  # maximize sub window 2560x1440
+
+            case 3200:
+                pyautogui.click(x=1931, y=93)  # maximize sub window 2560x1440
 
             case 2560:
                 if get_screen_height() == 1440:
