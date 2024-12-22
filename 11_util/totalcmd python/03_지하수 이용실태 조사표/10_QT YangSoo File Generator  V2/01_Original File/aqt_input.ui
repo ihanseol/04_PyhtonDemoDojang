@@ -36,7 +36,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <property name="iconSize">
      <size>
@@ -132,7 +132,7 @@
      <widget class="QPushButton" name="pushButton_3">
       <property name="geometry">
        <rect>
-        <x>250</x>
+        <x>400</x>
         <y>180</y>
         <width>151</width>
         <height>61</height>
@@ -189,7 +189,7 @@
      <widget class="QPushButton" name="pushButton_4">
       <property name="geometry">
        <rect>
-        <x>410</x>
+        <x>240</x>
         <y>180</y>
         <width>151</width>
         <height>61</height>

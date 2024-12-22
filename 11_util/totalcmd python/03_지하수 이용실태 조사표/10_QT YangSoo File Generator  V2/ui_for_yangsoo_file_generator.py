@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'aqt_inputpUmqmO.ui'
+## Form generated from reading UI file 'aqt_inputKiBwoY.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.3
 ##
@@ -72,7 +72,7 @@ class Ui_MainWindow(object):
         self.tab_2.setObjectName(u"tab_2")
         self.pushButton_3 = QPushButton(self.tab_2)
         self.pushButton_3.setObjectName(u"pushButton_3")
-        self.pushButton_3.setGeometry(QRect(250, 180, 151, 61))
+        self.pushButton_3.setGeometry(QRect(400, 180, 151, 61))
         self.pushButton_3.setFont(font2)
         self.label_5 = QLabel(self.tab_2)
         self.label_5.setObjectName(u"label_5")
@@ -87,7 +87,7 @@ class Ui_MainWindow(object):
         self.textEdit_4.setFont(font3)
         self.pushButton_4 = QPushButton(self.tab_2)
         self.pushButton_4.setObjectName(u"pushButton_4")
-        self.pushButton_4.setGeometry(QRect(410, 180, 151, 61))
+        self.pushButton_4.setGeometry(QRect(240, 180, 151, 61))
         self.pushButton_4.setFont(font2)
         self.tabWidget.addTab(self.tab_2, "")
         self.textEdit = QTextEdit(self.centralwidget)
@@ -194,7 +194,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
 
         QMetaObject.connectSlotsByName(MainWindow)
 
