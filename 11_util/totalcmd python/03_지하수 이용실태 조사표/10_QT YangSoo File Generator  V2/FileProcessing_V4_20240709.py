@@ -214,6 +214,18 @@ class FileBase(AQTBASE, PathChecker):
         xl_files = self.get_xlsm_files()
         return natsorted(fnmatch.filter(xl_files, sfilter))
 
+    def get_xlsmlist_filter(self, path=None, sfilter="*.xlsm"):
+        """
+            Filter .xlsm files based on a pattern.
+            :param path: Directory to search in.
+            :param sfilter: Pattern to filter files.
+            :return: Sorted list of filtered .xlsm files.
+        """
+        if path:
+            self.set_directory(path)
+        xl_files = self.get_xlsm_files()
+        return natsorted(fnmatch.filter(xl_files, sfilter))
+
     def get_jpg_filter(self, path=None, sfilter="*page1.jpg"):
         """
             Filter .jpg files based on a pattern.
@@ -678,7 +690,11 @@ class PrepareYangsoofile(FileBase):
 
     def initial_set_yangsoo_excel(self):
         """Copy the initial Yangsoo Excel file to the SEND directory."""
-        self.copy_file(self.TC_DIR + self.YANGSOO_EXCEL, self.SEND + self.YANGSOO_EXCEL)
+
+        list_xlsm = self.get_xlsmlist_filter(self.TC_DIR)
+        filename = list_xlsm[0]
+        print('initial_set_yangsoo_excel', str(filename))
+        self.copy_file(self.TC_DIR + filename, self.SEND + self.YANGSOO_EXCEL)
 
     def aqtfile_to_send(self, well_no=1, aqtstep_include=False):
         """
@@ -948,7 +964,6 @@ class TransferYangSooFile(FileBase):
         print(fb.get_list_files(['.dat', '.xlsm']))
 
 
-
 class AqtProjectInfoInjector(FileBase):
     def __init__(self, directory, _company):
         super().__init__()
@@ -1056,7 +1071,8 @@ class AqtProjectInfoInjector(FileBase):
             i = 0
 
             for part in parts:
-                if part.endswith("읍") or part.endswith("면") or part.endswith("동") or part.endswith("구") or part.endswith("시"):
+                if part.endswith("읍") or part.endswith("면") or part.endswith("동") or part.endswith(
+                        "구") or part.endswith("시"):
                     break
                 i += 1
 
@@ -1312,8 +1328,6 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
         self.unblock_user_input()
 
 
-
-
 if __name__ == "__main__":
     # fp = PrepareYangsoofile()
     # fp.aqtfile_to_send(well_no=1)
@@ -1330,5 +1344,10 @@ if __name__ == "__main__":
     # tyd.move_documents_to_ihanseol()
     # tyd.Test()
 
-    spi = AqtProjectInfoInjector("d:\\05_Send","aa")
-    print(spi.process_address("충청남도 당진시 송악읍 신평로 1469"))
+    # main
+    # spi = AqtProjectInfoInjector("d:\\05_Send", "aa")
+    # print(spi.process_address("충청남도 당진시 송악읍 신평로 1469"))
+
+    # test, initial_set_yangsoo_excel
+    py = PrepareYangsoofile()
+    py.initial_set_yangsoo_excel()
