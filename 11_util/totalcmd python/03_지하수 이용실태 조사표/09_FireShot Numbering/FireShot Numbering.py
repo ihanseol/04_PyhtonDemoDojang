@@ -14,7 +14,12 @@ def rename_files():
     for i, file in enumerate(files):
         filename, file_extension = os.path.splitext(file)
         parts = filename.split(' - ')
-        new_filename = f'FireShot Capture {str(start_number + i).zfill(3)} - {parts[1]}{file_extension}'
+
+        if remove_header_var.get():
+            new_filename = f'{str(start_number + i).zfill(3)} - {parts[1]}{file_extension}'
+        else:
+            new_filename = f'FireShot Capture {str(start_number + i).zfill(3)} - {parts[1]}{file_extension}'
+
         os.rename(os.path.join(directory, file), os.path.join(directory, new_filename))
     messagebox.showinfo("Success", "Files renamed successfully!")
 
@@ -27,8 +32,9 @@ screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
 
 # Set the window size
-window_width = 400
-window_height = 150
+window_width = 380
+window_height = 160
+remove_header_var = tk.BooleanVar()
 
 # Calculate the x and y coordinates to center the window
 x = (screen_width / 2) - (window_width / 2)
@@ -46,7 +52,11 @@ label.pack(pady=5)
 entry = tk.Entry(main_frame, font=("Arial", 12), width=20)
 entry.pack(pady=5)
 
+# 체크박스
+checkbox = tk.Checkbutton(main_frame, text="Remove Header", variable=remove_header_var, font=("Arial", 10))
+checkbox.pack(pady=5)
+
 button = tk.Button(main_frame, text="   Rename Files   ", command=rename_files, font=("Arial", 10))
-button.pack(pady=5)
+button.pack(pady=7)
 
 root.mainloop()
