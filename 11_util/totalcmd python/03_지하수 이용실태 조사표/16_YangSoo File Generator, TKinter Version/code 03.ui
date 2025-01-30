@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<interface>
+    <object class="tk.Tk" id="root">
+        <property name="title">User Interface</property>
+        <property name="resizable">True, True</property>
+        
+        <object class="ttk.Notebook" id="Notebook">
+            
+            <!-- Initial Generation Tab -->
+            <object class="ttk.Frame" id="InitialGenerationTab">
+                <property name="padding">10</property>
+                
+                <object class="ttk.Frame" id="AddressFrame">
+                    <property name="padding">5</property>
+                    <object class="ttk.Label" id="AddressLabel">
+                        <property name="text" translatable="yes">Address:</property>
+                    </object>
+                    <object class="ttk.Entry" id="AddressEntry"/>
+                </object>
+                
+                <object class="ttk.Frame" id="CompanyFrame">
+                    <property name="padding">5</property>
+                    <object class="ttk.Label" id="CompanyLabel">
+                        <property name="text" translatable="yes">Company:</property>
+                    </object>
+                    <object class="ttk.Entry" id="CompanyEntry"/>
+                </object>
+                
+                <object class="ttk.Frame" id="InvestigatorFrame">
+                    <property name="padding">5</property>
+                    <object class="ttk.Label" id="InvestigatorLabel">
+                        <property name="text" translatable="yes">Investigator:</property>
+                    </object>
+                    <object class="ttk.Entry" id="InvestigatorEntry"/>
+                </object>
+                
+                <object class="ttk.Frame" id="RadioButtonFrame">
+                    <property name="padding">5</property>
+                    <object class="ttk.Label" id="RadioLabel">
+                        <property name="text" translatable="yes">Select Option:</property>
+                    </object>
+                    <object class="ttk.Radiobutton" id="Option1">
+                        <property name="text">Option 1</property>
+                        <property name="variable">SelectedOption</property>
+                        <property name="value">1</property>
+                    </object>
+                    <object class="ttk.Radiobutton" id="Option2">
+                        <property name="text">Option 2</property>
+                        <property name="variable">SelectedOption</property>
+                        <property name="value">2</property>
+                    </object>
+                </object>
+                
+                <object class="ttk.Frame" id="DropdownFrame">
+                    <property name="padding">5</property>
+                    <object class="ttk.Label" id="DropdownLabel">
+                        <property name="text" translatable="yes">Message:</property>
+                    </object>
+                    <object class="ttk.Combobox" id="MessageCombobox">
+                        <property name="values">['Info', 'Warning', 'Error']</property>
+                    </object>
+                </object>
+            </object>
+            
+            <!-- Project Info Setting Tab -->
+            <object class="ttk.Frame" id="ProjectInfoSettingTab">
+                <property name="padding">10</property>
+                
+                <object class="ttk.Label" id="ProjectLabel">
+                    <property name="text" translatable="yes">Project Name:</property>
+                </object>
+                <object class="ttk.Entry" id="ProjectEntry"/>
+                
+                <object class="ttk.Checkbutton" id="TermsCheck">
+                    <property name="text">Accept Terms</property>
+                </object>
+            </object>
+        </object>
+        
+        <object class="ttk.Frame" id="ButtonFrame">
+            <property name="padding">10</property>
+            <object class="ttk.Button" id="RunButton">
+                <property name="text">Run</property>
+                <property name="command">on_run</property>
+            </object>
+            <object class="ttk.Button" id="ExitButton">
+                <property name="text">Exit</property>
+                <property name="command">on_exit</property>
+            </object>
+        </object>
+    </object>
+</interface>
