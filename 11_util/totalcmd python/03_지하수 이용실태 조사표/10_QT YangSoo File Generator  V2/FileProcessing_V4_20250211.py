@@ -1180,7 +1180,7 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
             그 해당하는 인덱스의 공번, 주소를 리턴
         """
 
-        if self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
+        if self.df.empty and self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
             df = pd.read_excel(r"d:\05_Send\YanSoo_Spec.xlsx")
             self.set_dataframe(df)
 
@@ -1202,7 +1202,7 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
         :return:
         """
 
-        if self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
+        if self.df.empty and self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
             df = pd.read_excel(r"d:\05_Send\YanSoo_Spec.xlsx")
             self.set_dataframe(df)
 
@@ -1222,7 +1222,7 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
             이곳에서 공번만을 주려서
             그것을  정수로, 돌려준다.
         """
-        if self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
+        if self.df.empty and self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
             df = pd.read_excel(r"d:\05_Send\YanSoo_Spec.xlsx")
             self.set_dataframe(df)
 
