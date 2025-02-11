@@ -39,6 +39,7 @@ class MyClass:
 
 # self.spi = AqtProjectInfoInjector("d:\\05_Send\\", "")
 # self.spiexcel = AqtExcelProjectInfoInjector("d:\\05_Send\\", "")
+# spi -- Set Project Info
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -117,7 +118,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if len(aqt_files) > 0:
                 self.spiexcel.process_projectinfo_byexcel(self.Company, self.Address)
             else:
-                for i in range(1, spin_value + 1):
+
+                last_gong = len(self.spiexcel.get_gong_list())
+                for i in range(1, last_gong + 1):
                     self.file_processing.aqtfile_to_send(i, mode)
                 self.spiexcel.process_projectinfo_byexcel(self.Company, self.Address)
         else:

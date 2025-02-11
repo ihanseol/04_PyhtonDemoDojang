@@ -1179,6 +1179,11 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
             줄번호, row_index 를 받아서
             그 해당하는 인덱스의 공번, 주소를 리턴
         """
+
+        if self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
+            df = pd.read_excel(r"d:\05_Send\YanSoo_Spec.xlsx")
+            self.set_dataframe(df)
+
         try:
             row_data = self.df.iloc[row_index - 1, :].tolist()
             str_gong = row_data[0]
@@ -1196,6 +1201,11 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
           엑셀파일의 마지막 공번을 리턴
         :return:
         """
+
+        if self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
+            df = pd.read_excel(r"d:\05_Send\YanSoo_Spec.xlsx")
+            self.set_dataframe(df)
+
         try:
             str_gong = self.df.iloc[-1, 0]
             gong = self.df.extract_number(str_gong)
@@ -1212,6 +1222,10 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
             이곳에서 공번만을 주려서
             그것을  정수로, 돌려준다.
         """
+        if self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
+            df = pd.read_excel(r"d:\05_Send\YanSoo_Spec.xlsx")
+            self.set_dataframe(df)
+
         g_list = []
         gong_column = self.df['gong'].tolist()
         for f in gong_column:
