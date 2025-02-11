@@ -1066,7 +1066,7 @@ class AqtProjectInfoInjector(FileBase):
 
         :return:
         """
-        if len(input_str) > 20:
+        if len(input_str) >= 18:
             parts = input_str.split()
             i = 0
 
