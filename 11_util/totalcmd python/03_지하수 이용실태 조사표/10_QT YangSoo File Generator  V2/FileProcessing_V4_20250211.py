@@ -1251,7 +1251,7 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
 
     def process_projectinfo_byexcel(self, company, address):
 
-        if self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
+        if self.df.empty and self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
             df = pd.read_excel(r"d:\05_Send\YanSoo_Spec.xlsx")
             self.set_dataframe(df)
 
@@ -1294,7 +1294,7 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
 
     def process_projectinfo_likesejong(self, company):
 
-        if self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
+        if self.df.empty and self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
             df = pd.read_excel(r"d:\05_Send\YanSoo_Spec.xlsx")
             self.set_dataframe(df)
 
