@@ -100,7 +100,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         spin_value = self.spinBox.value()
         checkbox_state = self.checkBox.isChecked()
-        mode = True if checkbox_state else False
 
         self.file_processing.set_directory(self.file_processing.SEND)
         aqt_files = self.file_processing.get_aqt_files()
@@ -121,7 +120,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
                 last_gong = len(self.spiexcel.get_gong_list())
                 for i in range(1, last_gong + 1):
-                    self.file_processing.aqtfile_to_send(i, mode)
+                    self.file_processing.aqtfile_to_send(i, checkbox_state)
                 self.spiexcel.process_projectinfo_byexcel(self.Company, self.Address)
         else:
             # 양수스펙파일이 없으면
@@ -137,7 +136,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Get spin value and checkbox state
         spin_value = self.spinBox.value()
         checkbox_state = self.checkBox.isChecked()
-        mode = True if checkbox_state else False
 
         # Get and validate address
         self.Address = self.textEdit.toPlainText()
@@ -146,7 +144,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             self.textEdit_3.setText(f"{spin_value} file to Send, Company: {self.Company} / {self.Address}")
             for i in range(1, spin_value + 1):
-                self.file_processing.aqtfile_to_send(i, mode)
+                self.file_processing.aqtfile_to_send(i, checkbox_state)
 
             print(f'inside, copyaqt_and_set : self.Company : {self.Company}, self.Address: {self.Address}')
             self.spi.Set_Projectinfo(self.Company, self.Address)
