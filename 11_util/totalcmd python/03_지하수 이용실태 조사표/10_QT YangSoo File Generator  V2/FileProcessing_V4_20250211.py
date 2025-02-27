@@ -1067,7 +1067,7 @@ class AqtProjectInfoInjector(FileBase):
         :return:
         """
         if len(input_str) >= 18:
-            result = input_str.replace('번지', '')
+            input_str = input_str.replace('번지', '')
             parts = input_str.split()
             i = 0
 
