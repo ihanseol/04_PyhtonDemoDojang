@@ -1067,6 +1067,7 @@ class AqtProjectInfoInjector(FileBase):
         :return:
         """
         if len(input_str) >= 18:
+            result = input_str.replace('번지', '')
             parts = input_str.split()
             i = 0
 
@@ -1077,10 +1078,6 @@ class AqtProjectInfoInjector(FileBase):
                 i += 1
 
             result = ' '.join(parts[i:])
-
-            if len(result) > 21:
-                result = result.replace('번지', '')
-
             address_list = result.split()
             filtered_list = [item for item in address_list if not (item.endswith('아파트') or item == ',')]
             address_string = ' '.join(filtered_list)
