@@ -10,7 +10,8 @@
 
 import sys
 
-from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtWidgets import QApplication
+from PySide6.QtWidgets import QMainWindow
 from ui_for_yangsoo_file_generator import Ui_MainWindow
 
 from FileProcessing_V4_20250211 import PrepareYangsoofile

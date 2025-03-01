@@ -10,13 +10,16 @@ def get_desktop():
 
 
 def load_image_from_send(hwp):
+    hwp.Run('SelectAll')
+    hwp.Run("Delete")
+
     jpg_files = [f for f in os.listdir("d:\\05_Send\\") if f.endswith('.jpg')]
     print(jpg_files)
 
     print('-' * 80)
     if jpg_files:
         for fname in jpg_files:
-            hwp.InsertPicture(os.path.join(r"d:\05_Send", fname), treat_as_char=True,embedded=True, sizeoption=0)
+            hwp.insert_picture(os.path.join(r"d:\05_Send", fname), treat_as_char=True,embedded=True, sizeoption=0)
             hwp.MovePos(3)
             print(fname)
     print('-' * 80)
