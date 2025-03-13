@@ -238,6 +238,18 @@ class FileBase(AQTBASE, PathChecker):
         _files = self.get_jpg_files()
         return natsorted(fnmatch.filter(_files, sfilter))
 
+    def get_file_filter(self, path=None, sfilter="*.hwp"):
+        """
+            Filter .jpg files based on a pattern.
+            :param path: Directory to search in.
+            :param sfilter: Pattern to filter files.
+            :return: Sorted list of filtered .jpg files.
+        """
+        if path:
+            self.set_directory(path)
+        self.files = os.listdir(self._directory)
+        return natsorted(fnmatch.filter(self.files, sfilter))
+
     @staticmethod
     def has_path(file_name):
         """
