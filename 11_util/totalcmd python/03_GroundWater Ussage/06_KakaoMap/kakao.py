@@ -4,6 +4,8 @@ date : 2025/3/14
 """
 import json
 import requests
+import pyperclip
+
 
 # api 정보 셋팅
 url = "https://dapi.kakao.com/v2/local/search/address.json"
@@ -26,14 +28,16 @@ def extract_coordinates(data):
 
 def transform_coordinates(x, y):
     url_b = f"https://dapi.kakao.com/v2/local/geo/transcoord.json?x={x}&y={y}&input_coord=WGS84&output_coord=TM"
-    api_test = requests.get(url_b, headers=headers)
-    url_text = json.loads(api_test.text)
+    response = requests.get(url_b, headers=headers)
+    url_text = json.loads(response.text)
     x = url_text['documents'][0]['x']
     y = url_text['documents'][0]['y']
 
     print(f"x: {x}")
     print(f"y: {y}")
-    print("*"*80)
+    print("-"*100)
+
+    pyperclip.copy(f"{x},{y}")
     print(f"{x},{y}")
 
 
@@ -62,13 +66,11 @@ def main():
 
     print('address : ', addr)
     params = {"query": f"{addr}"}  # 주소정보를 파라미터에  담습니다.
-    print('url:', url)
-    print('params:', params)
-    print('headers:', headers)
 
     resp = requests.get(url, params=params, headers=headers)  # 해더와 파라미터 정보를 넣어 get 타입으로 전송합니다.
     documents = resp.json()["documents"]  # json으로 받은 파일을 파싱하기.
 
+    print("-" * 100)
     print('documents : ', documents)
 
     address_data = ""
