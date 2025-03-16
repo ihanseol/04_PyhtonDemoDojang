@@ -2,6 +2,7 @@ import os
 from pyhwpx import Hwp
 from FileProcessing_V4_20250211 import FileBase
 import time
+import pyautogui
 
 
 class WellType:
@@ -40,7 +41,6 @@ class WellType:
             print("Number not found in the expected format.")
 
         self.N_WELL = int(extracted_number)
-
 
     def print(self):
         if self.DANGYE_INCLUDE:
@@ -102,10 +102,10 @@ def print_report(hwp, well_no, wt):
         load_image_from_send(hwp, jpg_files[i])
 
         pjpg_files = fb.get_jpg_filter(".", f"p{well_no}-{i + 1}*.jpg")
+
         for k in range(len(pjpg_files)):
             goto_page(hwp, a_page + k + 1)
             load_image_from_send(hwp, pjpg_files[k])
-
     hwp.Save()
     hwp.close()
 
