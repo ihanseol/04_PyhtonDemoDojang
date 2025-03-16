@@ -14,7 +14,7 @@ class WellType:
 
     def determin_well_type(self):
         fb = FileBase(self.Directory)
-        jpg_files = fb.get_jpg_filter(".", "a1*.jpg")
+        jpg_files = fb.get_jpg_filter(".", "a1-*.jpg")
         prt_files = fb.get_file_filter(".", "p*.jpg")
 
         if len(jpg_files) == 4:
