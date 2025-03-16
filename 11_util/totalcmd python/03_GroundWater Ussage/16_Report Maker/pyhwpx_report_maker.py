@@ -14,6 +14,8 @@ class WellType:
 
     def determin_well_type(self):
         fb = FileBase(self.Directory)
+        import re
+
         jpg_files = fb.get_jpg_filter(".", "a1-*.jpg")
         prt_files = fb.get_file_filter(".", "p*.jpg")
 
@@ -28,8 +30,17 @@ class WellType:
             self.REPORT_YES = False
 
         jpg_files = fb.get_jpg_filter(".", "a*.jpg")
-        last = ''.join(jpg_files[-1:])
-        self.N_WELL = int(last[1])
+        last_string = ''.join(jpg_files[-1:])
+        match = re.search(r"(\d+)-", last_string)  # Find digits followed by a hyphen
+        extracted_number = 1
+        if match:
+            extracted_number = match.group(1)  # Group 1 captures the digits
+            print(extracted_number)  # Output: 11
+        else:
+            print("Number not found in the expected format.")
+
+        self.N_WELL = int(extracted_number)
+
 
     def print(self):
         if self.DANGYE_INCLUDE:
@@ -82,7 +93,7 @@ def print_report(hwp, well_no, wt):
             insert_final = d_insert
 
     print(os.getcwd())
-    jpg_files = fb.get_jpg_filter("d:\\05_Send", f"a{well_no}*.jpg")
+    jpg_files = fb.get_jpg_filter("d:\\05_Send", f"a{well_no}-*.jpg")
     print("jpg_files", jpg_files)
 
     for i, a_page in enumerate(insert_final):
