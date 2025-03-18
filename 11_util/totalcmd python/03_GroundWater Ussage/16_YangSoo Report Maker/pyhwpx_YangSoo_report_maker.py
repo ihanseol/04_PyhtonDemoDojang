@@ -31,6 +31,8 @@ class WellType:
             extracted_number = match.group(1)  # Group 1 captures the digits
             print(extracted_number)  # Output: 11
         else:
+            match = re.search(r"(\d+)", last_string)  # Find digits followed by a hyphen
+            extracted_number = match.group(1)
             print("Number not found in the expected format.")
 
         self.N_WELL = int(extracted_number)
