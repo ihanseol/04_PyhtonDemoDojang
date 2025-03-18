@@ -17,6 +17,9 @@ class WellType:
         fb = FileBase(self.Directory)
         jpg_files = fb.get_file_filter(".", "w1-*.jpg")
 
+        if not jpg_files:
+            jpg_files = fb.get_file_filter(".", "w-1*.jpg")
+
         if len(jpg_files) == 6:
             self.DANGYE_INCLUDE = True
         else:
@@ -76,6 +79,8 @@ def print_report(hwp, well_no, wt):
     else:
         # 단계제외, 장기양수시험일보만
         jpg_files = fb.get_jpg_filter("d:\\05_Send", f"w{well_no}_*.jpg")
+        if not jpg_files:
+            jpg_files = fb.get_jpg_filter("d:\\05_Send", f"w-{well_no}_*.jpg")
 
     print("jpg_files", jpg_files)
 
