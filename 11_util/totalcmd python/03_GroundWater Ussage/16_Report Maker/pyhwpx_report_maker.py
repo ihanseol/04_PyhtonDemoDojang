@@ -1,6 +1,7 @@
 import os
 from pyhwpx import Hwp
 from FileProcessing_V4_20250211 import FileBase
+import re
 import time
 import pyautogui
 
@@ -15,7 +16,6 @@ class WellType:
 
     def determin_well_type(self):
         fb = FileBase(self.Directory)
-        import re
 
         jpg_files = fb.get_jpg_filter(".", "a1-*.jpg")
         prt_files = fb.get_file_filter(".", "p*.jpg")

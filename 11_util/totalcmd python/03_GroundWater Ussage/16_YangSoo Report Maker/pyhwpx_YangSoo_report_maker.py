@@ -2,6 +2,7 @@ import os
 from pyhwpx import Hwp
 from FileProcessing_V4_20250211 import FileBase
 import time
+import re
 
 
 class WellType:
@@ -22,8 +23,17 @@ class WellType:
             self.DANGYE_INCLUDE = False
 
         jpg_files = fb.get_jpg_filter(".", "w*.jpg")
-        last = ''.join(jpg_files[-1:])
-        self.N_WELL = int(last[1])
+        last_string = ''.join(jpg_files[-1:])
+
+        match = re.search(r"(\d+)-", last_string)  # Find digits followed by a hyphen
+        extracted_number = 1
+        if match:
+            extracted_number = match.group(1)  # Group 1 captures the digits
+            print(extracted_number)  # Output: 11
+        else:
+            print("Number not found in the expected format.")
+
+        self.N_WELL = int(extracted_number)
 
     def print(self):
         if self.DANGYE_INCLUDE:
