@@ -88,7 +88,7 @@ def main():
     # 시작할때, 한글에 집어넣기 위한 엑셀데이타파일을 만들어준다.
     appendix_maker = AppendixMaker()
     appendix_maker.run()
-    countdown(3)
+    countdown(1)
 
     shutil.copy(r"c:\Program Files\totalcmd\ini\02_python\appendix_01(field).hwpx", desktop)
 
