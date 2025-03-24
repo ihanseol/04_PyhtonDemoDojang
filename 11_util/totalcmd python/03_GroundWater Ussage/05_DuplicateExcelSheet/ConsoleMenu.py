@@ -2,6 +2,7 @@
 import keyboard
 import time
 import os
+from pathlib import Path
 
 class ConsoleMenu:
     # ANSI 색상 코드
@@ -69,3 +70,19 @@ class ConsoleMenu:
 
 
 # end of ConsoleMenu
+
+
+if __name__ == "__main__":
+    menu_options = [
+        "   집수정    ",
+        "   지열공    ",
+    ]
+
+    file_path = Path(__file__).parent
+    print(file_path)
+
+    # menu = ConsoleMenu(menu_options)
+    # selected_option = menu.run()
+
+
+
