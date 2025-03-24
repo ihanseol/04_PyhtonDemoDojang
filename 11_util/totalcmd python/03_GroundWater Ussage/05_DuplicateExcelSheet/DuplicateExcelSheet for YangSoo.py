@@ -5,7 +5,6 @@ import time
 from FileProcessing_V4_refactored import FileManager
 
 
-
 class ConsoleMenu:
     # ANSI 색상 코드
     COLOR_RESET = "\033[0m"
@@ -35,10 +34,16 @@ class ConsoleMenu:
         if self.selected > 0:
             self.selected -= 1
             self.display_menu()
+        else:
+            self.selected = len(self.options) - 1
+            self.display_menu()
 
     def move_down(self):
         if self.selected < len(self.options) - 1:
             self.selected += 1
+            self.display_menu()
+        else:
+            self.selected = 0
             self.display_menu()
 
     def select(self):
@@ -48,7 +53,9 @@ class ConsoleMenu:
     def run(self):
         # Bind arrow keys and enter
         keyboard.on_press_key("up", lambda _: self.move_up())
+        keyboard.on_press_key("left", lambda _: self.move_up())
         keyboard.on_press_key("down", lambda _: self.move_down())
+        keyboard.on_press_key("right", lambda _: self.move_down())
         keyboard.on_press_key("enter", lambda _: self.select())
 
         # Display initial menu
@@ -96,8 +103,10 @@ def get_user_input():
 def main():
     menu_options = [
         "   집수정    ",
-        "   지열공   "
+        "   지열공    ",
     ]
+
+    # print(len(menu_options))
 
     menu = ConsoleMenu(menu_options)
     selected_option = menu.run()
@@ -122,6 +131,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
