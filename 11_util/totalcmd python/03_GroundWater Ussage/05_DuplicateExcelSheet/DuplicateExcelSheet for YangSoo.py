@@ -4,29 +4,30 @@ import keyboard
 import time
 from FileProcessing_V4_refactored import FileManager
 
-# ANSI 색상 코드
-COLOR_RESET = "\033[0m"
-INVERTED = "\033[7m"  # 반전 색상 (흰색 배경, 검은색 글씨)
-
-
-def clear_screen():
-    # Clear console based on OS
-    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 class ConsoleMenu:
+    # ANSI 색상 코드
+    COLOR_RESET = "\033[0m"
+    INVERTED = "\033[7m"  # 반전 색상 (흰색 배경, 검은색 글씨)
+
     def __init__(self, options):
         self.options = options
         self.selected = 0
         self.running = True
 
+    @staticmethod
+    def clear_screen():
+        # Clear console based on OS
+        os.system('cls' if os.name == 'nt' else 'clear')
+
     def display_menu(self):
-        clear_screen()
+        self.clear_screen()
         print("Use ↑↓ arrows to navigate, Enter to select:\n")
         for i, option in enumerate(self.options):
             if i == self.selected:
                 # 선택된 항목에 반전 색상 적용
-                print(f"{INVERTED}> {option} {COLOR_RESET}")
+                print(f"{self.INVERTED}> {option} {self.COLOR_RESET}")
             else:
                 print(f"  {option}")
 
@@ -62,7 +63,9 @@ class ConsoleMenu:
         return self.options[self.selected]
 
 
-# Example usage
+# end of ConsoleMenu
+
+
 YangSoo_Folder = r"d:\12_dev\02_Excel2\01_Acquifer Pumping Test\01_양수시험"
 original_file_path = "d:/05_Send/A1_ge_OriginalSaveFile.xlsm"
 destination_folder = "d:/05_Send/"
@@ -105,7 +108,6 @@ def main():
     else:
         source = fm.get_file_filter(YangSoo_Folder, 'A1*지열공*.xlsm')[-1:]
 
-
     my_source = ''.join(source)
     print(my_source)
     if source:
@@ -120,3 +122,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
