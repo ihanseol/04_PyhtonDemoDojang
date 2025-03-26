@@ -56,6 +56,14 @@ def get_desktop():
     return desktop
 
 
+def pagesetup(hwp):
+    my_page = {'위쪽': 20, '머리말': 10, '왼쪽': 20, '오른쪽': 20, '제본여백': 0, '꼬리말': 10, '아래쪽': 13, '제본타입': 0, '용지방향': 0,
+               '용지길이': 297, '용지폭': 210}
+
+    hwp.set_pagedef(my_page, "cur")
+    print(my_page)
+
+
 def goto_page(hwp, n):
     hwp.goto_page(n)
     hwp.HAction.Run("MoveRight")
@@ -106,6 +114,11 @@ def print_report(hwp, well_no, wt):
         for k in range(len(pjpg_files)):
             goto_page(hwp, a_page + k + 1)
             load_image_from_send(hwp, pjpg_files[k])
+
+    hwp.HAction.Run("MoveRight")
+    hwp.HAction.Run('SelectAll')
+    pagesetup(hwp)
+
     hwp.Save()
     hwp.close()
 
@@ -160,6 +173,7 @@ def main():
         print(f"w{i}_AQTESOLV.hwpx")
         print_report(hwp, i, wt)
         hwp.close()
+
     hwp.quit()
 
 
