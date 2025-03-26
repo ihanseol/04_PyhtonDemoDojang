@@ -118,10 +118,7 @@ def print_report(hwp, well_no, wt):
         goto_page(hwp, i)
         load_image_from_send(hwp, jpg_files[i - 1])
 
-    hwp.HAction.Run("MoveRight")
-    hwp.HAction.Run('SelectAll')
     pagesetup(hwp)
-
     hwp.Save()
     hwp.close()
 

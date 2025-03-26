@@ -115,10 +115,7 @@ def print_report(hwp, well_no, wt):
             goto_page(hwp, a_page + k + 1)
             load_image_from_send(hwp, pjpg_files[k])
 
-    hwp.HAction.Run("MoveRight")
-    hwp.HAction.Run('SelectAll')
     pagesetup(hwp)
-
     hwp.Save()
     hwp.close()
 
@@ -172,7 +169,6 @@ def main():
 
         print(f"w{i}_AQTESOLV.hwpx")
         print_report(hwp, i, wt)
-        hwp.close()
 
     hwp.quit()
 
