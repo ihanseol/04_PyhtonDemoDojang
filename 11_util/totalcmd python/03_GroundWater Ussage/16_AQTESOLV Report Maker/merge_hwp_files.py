@@ -33,7 +33,7 @@ def merge_hwp_files():
         hwp.insert_file(i)  # 문서끼워넣기(기본값은 섹션, 글자, 문단, 스타일 모두 유지??)
 
     pagesetup(hwp)
-    hwp.save_as("취합본.hwp")  # 반복이 끝났으면 "취합본.hwp"로 다른이름으로저장
+    hwp.save_as("01_취합본.hwp")  # 반복이 끝났으면 "취합본.hwp"로 다른이름으로저장
     hwp.Quit()  # 한/글 프로그램 종료
 
 
