@@ -10,15 +10,36 @@ class WellType:
         self.DANGYE_INCLUDE = False
         self.REPORT_YES = True
         self.N_WELL = 1
+        self.WELL_LIST = []
         self.Directory = _directory
         self.determin_well_type()
 
-    def determin_well_type(self):
+    def get_welllist(self):
         fb = FileBase(self.Directory)
-        jpg_files = fb.get_file_filter(".", "w1-*.jpg")
+        jpg_files = fb.get_file_filter(".", "*-1_page1*.jpg")
+
+        print("number of jpgfiles :", len(jpg_files))
+        print(jpg_files)
+        print("-" * 50)
+
+        return_well_list = []
+        for well in jpg_files:
+            # print(well)
+            return_well_list.append(well.split("-1")[0])
+            match = re.search(r"(\d+)", well)
+            self.WELL_LIST.append(int(match.group(1)))
+
+        return return_well_list
+
+    def determin_well_type(self):
+
+        self.get_welllist()
+
+        fb = FileBase(self.Directory)
+        jpg_files = fb.get_file_filter(".", f"w{self.WELL_LIST[0]}-*.jpg")
 
         if not jpg_files:
-            jpg_files = fb.get_file_filter(".", "w-1*.jpg")
+            jpg_files = fb.get_file_filter(".", f"w{self.WELL_LIST[0]}-1*.jpg")
 
         if len(jpg_files) == 6:
             self.DANGYE_INCLUDE = True
@@ -94,7 +115,7 @@ def print_report(hwp, well_no, wt):
 def prepare_empty_paper(wt):
     fb = FileBase()
     source_file = ""
-    for i in range(1, wt.N_WELL + 1):
+    for i in wt.WELL_LIST:
         if wt.DANGYE_INCLUDE:
             source_file = fb.join_path_tofilename(
                 r"d:\09_hardRain\10_ihanseol - 2025\00_data\04_Reference Data\12_보고서, 부록\A3_YangSoo_Report",
@@ -117,7 +138,7 @@ def main():
 
     hwp = Hwp(visible=False)
 
-    for i in range(1, wt.N_WELL + 1):
+    for i in wt.WELL_LIST:
         if wt.DANGYE_INCLUDE:
             hwp.open(f"d:\\05_Send\\A{i}_YangSoo_Step.hwpx")
         else:
