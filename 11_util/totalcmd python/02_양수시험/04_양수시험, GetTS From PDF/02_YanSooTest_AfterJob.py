@@ -267,7 +267,7 @@ class InjectValueToSheet(FileProcessing):
         else:
             print(f"No  {name_title} found.")
 
-    def InjecttionStep(self, well, ws_step):
+    def injecttion_step(self, well, ws_step):
         print('**************************************************')
         print(f'*  W{well} - StepTest Starting ....           ')
         print('**************************************************')
@@ -280,12 +280,12 @@ class InjectValueToSheet(FileProcessing):
             print('Step.Select,  StepPrn_Button1')
         time.sleep(1)
 
-        getTS = GetTS.AQTProcessor('auto')
-        val_T, val_S, val_X = getTS.AqtesolverMain(file_name=self.SEND + f"w{well}_01_step.aqt")
+        get_ts = GetTS.AQTProcessor('auto')
+        val_t, val_s, val_x = get_ts.AqtesolverMain(file_name=self.SEND + f"w{well}_01_step.aqt")
 
-        print(f'T: {val_T}, S: {val_S} X: {val_X} - Type:{type(val_T)}')
+        print(f'T: {val_t}, S: {val_s} X: {val_x} - Type:{type(val_t)}')
 
-    def InjecttionLongTest_01(self, well, ws_janggi, ws_skin):
+    def injecttion_long_test_01(self, well, ws_janggi, ws_skin):
         print('**************************************************')
         print(f'* W{well} - LongTermTest Phase 1 Starting ....')
         print('**************************************************')
@@ -314,7 +314,7 @@ class InjectValueToSheet(FileProcessing):
         ws_skin.Range("E10").Value = val_S
         time.sleep(1)
 
-    def InjecttionLongTest_02(self, well, ws_janggi, ws_skin):
+    def injecttion_long_test_02(self, well, ws_janggi, ws_skin):
         print('**************************************************')
         print(f'* W{well} - LongTermTest Phase 2 Starting')
         print('**************************************************')
@@ -326,15 +326,15 @@ class InjectValueToSheet(FileProcessing):
             print('Janggi.Select,  JangGi*02_Button2')
         time.sleep(1)
 
-        getTS = GetTS.AQTProcessor('auto')
-        val_T, val_S, val_X = getTS.AqtesolverMain(file_name=self.SEND + f"w{well}_02_long_01.aqt")
-        print(f'T: {val_T}, S: {val_S} X: {val_X} - Type:{type(val_T)}')
+        get_ts = GetTS.AQTProcessor('auto')
+        val_t, val_s, val_x = get_ts.AqtesolverMain(file_name=self.SEND + f"w{well}_02_long_01.aqt")
+        print(f'T: {val_t}, S: {val_s} X: {val_x} - Type:{type(val_t)}')
 
         ws_skin.Activate()
-        ws_skin.Range("I16").Value = val_S
+        ws_skin.Range("I16").Value = val_s
         time.sleep(0.5)
 
-    def InjectionRecover(self, well, ws_recover, ws_skin, mode='auto'):
+    def injection_recover(self, well, ws_recover, ws_skin, mode='auto'):
         print('**************************************************')
         print(f'* W{well} - RecoverTest Starting')
         print('**************************************************')
@@ -350,21 +350,21 @@ class InjectValueToSheet(FileProcessing):
             return False
 
         if mode == 'mannual':
-            getTS = GetTS.AQTProcessor('mannual')
-            val_T, val_S, val_X = getTS.AqtesolverMain(file_name=self.SEND + f"w{well}_03_recover.aqt")
+            get_ts = GetTS.AQTProcessor('mannual')
+            val_t, val_s, val_x = get_ts.AqtesolverMain(file_name=self.SEND + f"w{well}_03_recover.aqt")
         else:
-            getTS = GetTS.AQTProcessor('auto')
-            val_T, val_S, val_X = getTS.AqtesolverMain(file_name=self.SEND + f"w{well}_03_recover.aqt")
+            get_ts = GetTS.AQTProcessor('auto')
+            val_t, val_s, val_x = get_ts.AqtesolverMain(file_name=self.SEND + f"w{well}_03_recover.aqt")
 
-        print(f'T: {val_T}, S: {val_S} X: {val_X} - Type:{type(val_T)}')
+        print(f'T: {val_t}, S: {val_s} X: {val_x} - Type:{type(val_t)}')
 
         ws_skin.Activate()
-        ws_skin.Range("H13").Value = val_T
+        ws_skin.Range("H13").Value = val_t
 
-        ws_skin.Range("I13").Value = val_S
+        ws_skin.Range("I13").Value = val_s
         time.sleep(0.5)
 
-    def IsStepFileExist(self, well) -> bool:
+    def is_step_file_exist(self, well) -> bool:
         path = self.SEND
 
         self.set_directory(path)
@@ -388,7 +388,7 @@ class InjectValueToSheet(FileProcessing):
         pyautogui.hotkey(ctrl_key, key)
         time.sleep(self.DELAY)
 
-    def main_process(self, well, Mode=1) -> None:
+    def main_process(self, well, mode=1) -> None:
         """
             If the input here is received only by the well number - gongbun (well: 1),
             the rest is determined by it.
@@ -413,7 +413,7 @@ class InjectValueToSheet(FileProcessing):
 
         # 여기서 well 은 숫자, 공별숫자이다.
 
-        if (Mode != 3) and (Mode != 4):
+        if (mode != 3) and (mode != 4):
             self.duplicate_aqtfile_long(well)
 
         # StepTest
@@ -430,18 +430,18 @@ class InjectValueToSheet(FileProcessing):
         ws_janggi = wb.Worksheets("Janggi.Select")
         ws_recover = wb.Worksheets("Recover.Select")
 
-        if ((Mode != 3) and (Mode != 4)) and self.IsStepFileExist(well):
-            self.InjecttionStep(well, ws_step)
+        if ((mode != 3) and (mode != 4)) and self.is_step_file_exist(well):
+            self.injecttion_step(well, ws_step)
 
-        if ((Mode != 3) and (Mode != 4)) and Mode:
-            self.InjecttionLongTest_01(well, ws_janggi, ws_skin)
-            self.InjecttionLongTest_02(well, ws_janggi, ws_skin)
+        if ((mode != 3) and (mode != 4)) and mode:
+            self.injecttion_long_test_01(well, ws_janggi, ws_skin)
+            self.injecttion_long_test_02(well, ws_janggi, ws_skin)
 
-        if (Mode == 2 or Mode == 3) and Mode != 4:
-            self.InjectionRecover(well, ws_recover, ws_skin, mode='mannual')
+        if (mode == 2 or mode == 3) and mode != 4:
+            self.injection_recover(well, ws_recover, ws_skin, mode='mannual')
             # click_excel_button(ws_recover, "CommandButton2")
         else:
-            self.InjectionRecover(well, ws_recover, ws_skin, mode='auto')
+            self.injection_recover(well, ws_recover, ws_skin, mode='auto')
 
         excel.ScreenUpdating = True
 

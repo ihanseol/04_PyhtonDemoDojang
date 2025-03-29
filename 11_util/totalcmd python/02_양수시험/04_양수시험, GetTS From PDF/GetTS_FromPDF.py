@@ -199,7 +199,7 @@ class AqtPDF(AutoScript):
         AutoScript.__init__(self)
         self.pdf_path = os.path.join(self.SEND, 'aqt_data.pdf')
 
-    def getTSX(self):
+    def get_tsx(self):
 
         if pathcheck.check_path(self.pdf_path) == pathcheck.RET_FILE:
             document = fitz.open(self.pdf_path)
@@ -210,21 +210,21 @@ class AqtPDF(AutoScript):
         page = document.load_page(0)
         text = page.get_text("text")
 
-        T_value = 0.0
-        S_value = 0.0
-        X_value = 0.0
+        value_t = 0.0
+        value_s = 0.0
+        value_x = 0.0
 
         lines = text.split('\n')
-        S_value = float(lines[-2].split('=')[1])
-        T_value = float(lines[-3].split('=')[1].split(' ')[1])
+        value_s = float(lines[-2].split('=')[1])
+        value_t = float(lines[-3].split('=')[1].split(' ')[1])
 
         for line in lines:
             if 'Observation Wells' in line:
                 index = lines.index(line)
-                X_value = float(lines[index + 5])
+                value_x = float(lines[index + 5])
                 break
 
-        return [T_value, S_value, X_value]
+        return [value_t, value_s, value_x]
 
 
 class AQTProcessor(AQTBASE):
@@ -350,25 +350,26 @@ class AQTProcessor(AQTBASE):
         well = self.open_aqt(file_name)
         running_step = self.determine_runningstep(file_name)
 
+        dat_file = ''
         match running_step:
             case (1):
                 step = 1
-                DAT_FILE = f"A{well}_ge_step_01.dat"
+                dat_file = f"A{well}_ge_step_01.dat"
             case (2):
                 step = 2
-                DAT_FILE = f"A{well}_ge_janggi_01.dat"
+                dat_file = f"A{well}_ge_janggi_01.dat"
             case (3):
                 step = 3
-                DAT_FILE = f"A{well}_ge_janggi_02.dat"
+                dat_file = f"A{well}_ge_janggi_02.dat"
             case (4):
                 step = 4
-                DAT_FILE = f"A{well}_ge_recover_01.dat"
+                dat_file = f"A{well}_ge_recover_01.dat"
             case _:
                 print('Match case exception ...')
                 raise FileNotFoundError("cannot determin DAT_FILE ...")
 
-        print(f'DAT_FILE: {DAT_FILE}')
-        self.auto_script.run_script(DAT_FILE)
+        print(f'DAT_FILE: {dat_file}')
+        self.auto_script.run_script(dat_file)
 
         if running_step == 4:
             if self.mode == 'mannual':
@@ -391,7 +392,7 @@ class AQTProcessor(AQTBASE):
 
         self.print_pdf(os.path.join(self.SEND, 'aqt_data.pdf'))
         time.sleep(1)
-        result = self.aqtpdf.getTSX()
+        result = self.aqtpdf.get_tsx()
         self.auto_script.close_program()
 
         return result

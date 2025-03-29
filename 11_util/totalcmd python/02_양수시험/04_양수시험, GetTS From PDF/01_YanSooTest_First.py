@@ -282,15 +282,17 @@ class YangSooInjector:
 
     def inject_values(self, wb, excel):
         if self.debug_yes: print('inject value to cell, _inject_input is started ...')
-
         self._inject_input(wb, excel)
 
+        print('')
         if self.debug_yes: print('inject step test ...')
         self._inject_step_test(wb)
 
+        print('')
         if self.debug_yes: print('inject long term test ...')
         self._inject_long_term_test(wb, excel)
 
+        print('')
         if self.debug_yes: print('water quality check  ...')
         self._inject_w1_test(wb)
 
