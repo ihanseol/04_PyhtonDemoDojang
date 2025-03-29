@@ -461,6 +461,12 @@ class YangSooInjector:
         for file in files:
             if self.debug_yes: print('Processing file: ', file)
             wb = excel.Workbooks.Open(self.directory + file)
+
+            print('\n\n')
+            print('-'*80)
+            print(f'Processing file: {file}')
+            print('-' * 80)
+
             self.inject_values(wb, excel)
             wb.Close(SaveChanges=True)
 
