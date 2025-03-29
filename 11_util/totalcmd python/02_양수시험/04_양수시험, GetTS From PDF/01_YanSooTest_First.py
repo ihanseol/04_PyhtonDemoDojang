@@ -294,13 +294,15 @@ class YangSooInjector:
         if self.debug_yes: print('water quality check  ...')
         self._inject_w1_test(wb)
 
+    # 간이양수시험
+    # 2025-3-29
     def _inject_w1_test(self, wb):
         ws = wb.Worksheets("w1")
         ws.Activate()
         print(" YangSoo Type - New Version")
 
-        temp_ref = [15.1, 15.2, 15.3, 15.4, 15.5, 15.6, 15.7]
-        ec_ref = [200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 215, 217]
+        temp_ref = [14.8, 14.9, 15.1, 15.2, 15.3, 15.4, 15.5, 15.6, 15.7]
+        ec_ref = [200, 201, 202, 219, 203, 204, 218, 205, 206, 213, 207, 208, 209, 210, 211, 215, 217]
 
         temp = random.choice(temp_ref)
         ec = random.choice(ec_ref)
@@ -340,14 +342,6 @@ class YangSooInjector:
             print("YangSoo Type - New Version")
             button_set = button_mapping["new"]
             labels = ['SetCB1', 'SetCB2', 'SetChart']
-
-        # ws.Range('S17').Value = 'Click'
-        # excel.Application.Run(f"mod_INPUT.CommandButton_CB1_ClickRun")
-        # time.sleep(1)
-        # excel.Application.Run(f"mod_INPUT.CommandButton_CB2_ClickRun")
-        # time.sleep(1)
-        # excel.Application.Run(f"mod_INPUT.CommandButton_Chart_ClickRun")
-        # time.sleep(1)
 
         for button, label in zip(button_set, labels):
             self.click_excel_button(ws, button)
@@ -463,7 +457,7 @@ class YangSooInjector:
             wb = excel.Workbooks.Open(self.directory + file)
 
             print('\n\n')
-            print('-'*80)
+            print('-' * 80)
             print(f'Processing file: {file}')
             print('-' * 80)
 
@@ -504,7 +498,6 @@ def main():
     injector = YangSooInjector("d:\\05_Send\\")
     injector.initial_delete_output_file(r"c:/Users/minhwasoo/Documents/")
     injector.process_files()
-    # name = input("Program is Terminated and check console message ... ")
 
 
 if __name__ == "__main__":
