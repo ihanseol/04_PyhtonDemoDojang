@@ -213,6 +213,7 @@ class YangSooInjector:
 
         address, hp, casing, well_rad, simdo, q, natural, stable = row_data[1:9]
         project_name = jigu_name = company_name = ''
+        ph = 7.0
 
         self.STABLE_TIME = row_data[12]
 
@@ -224,6 +225,7 @@ class YangSooInjector:
 
         if len_row_data > 9:
             project_name, jigu_name, company_name = row_data[9:12]
+            if row_data[15]: ph = row_data[15]
 
         # Swap natural and stable if stable is less than natural to prevent errors
         if stable < natural:
@@ -250,13 +252,16 @@ class YangSooInjector:
             cell_values.update({
                 "I44": project_name,
                 "I45": jigu_name,
-                "I47": company_name
+                "I47": company_name,
+                "c9": ph
             })
 
         return cell_values
 
     def inject_value_to_cells(self, book):
         sheet = book.Worksheets("Input")
+        sheet_w1 = book.Worksheets("w1")
+
         filename = os.path.basename(book.Name)
         row_index = self.extract_number(filename) - 1
         if self.debug_yes: print('inject value to cell, processing make_cell_values...')
@@ -266,7 +271,11 @@ class YangSooInjector:
 
         for cell, value in cell_values.items():
             print(f'inject_value_to_cells : {cell} - {value}')
-            sheet.Range(cell).Value = value
+            if cell != "c9":
+                sheet.Range(cell).Value = value
+            else:
+                sheet_w1.Range(cell).Value = value
+
             time.sleep(1)
 
         if self.debug_yes: print('inject value to cell, finished...')
@@ -282,6 +291,28 @@ class YangSooInjector:
         if self.debug_yes: print('inject long term test ...')
         self._inject_long_term_test(wb, excel)
 
+        if self.debug_yes: print('water quality check  ...')
+        self._inject_w1_test(wb)
+
+    def _inject_w1_test(self, wb):
+        ws = wb.Worksheets("w1")
+        ws.Activate()
+        print(" YangSoo Type - New Version")
+
+        temp_ref = [15.1, 15.2, 15.3, 15.4, 15.5, 15.6, 15.7]
+        ec_ref = [200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 215, 217]
+
+        temp = random.choice(temp_ref)
+        ec = random.choice(ec_ref)
+
+        if self.debug_yes: print(f' inject basic Temp : {temp} ...')
+        ws.Range("C7").Value = temp
+        if self.debug_yes: print(f' inject basic EC : {ec} ...')
+        ws.Range("C8").Value = ec
+
+        print(' Make adjust Value Pressed ... ')
+        self.click_excel_button(ws, "CommandButton2")
+        time.sleep(1)
 
     def _inject_input(self, wb, excel):
         ws = wb.Worksheets("Input")
@@ -309,7 +340,6 @@ class YangSooInjector:
             print("YangSoo Type - New Version")
             button_set = button_mapping["new"]
             labels = ['SetCB1', 'SetCB2', 'SetChart']
-
 
         # ws.Range('S17').Value = 'Click'
         # excel.Application.Run(f"mod_INPUT.CommandButton_CB1_ClickRun")
