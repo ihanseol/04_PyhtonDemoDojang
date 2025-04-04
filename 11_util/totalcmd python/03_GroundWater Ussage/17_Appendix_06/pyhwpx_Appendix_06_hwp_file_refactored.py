@@ -4,7 +4,7 @@ import pandas as pd
 from pyhwpx import Hwp
 from pathlib import Path
 import shutil
-from make_appendix_06 import AppendixMaker
+from make_appendix_06_refactored import AppendixMaker
 
 
 class HwpProcessor:
@@ -20,11 +20,13 @@ class HwpProcessor:
         self.excel_data = None
         self.field_list = []
 
-    def get_desktop(self):
+    @staticmethod
+    def get_desktop():
         """Get the path to the user's desktop."""
         return Path(os.path.join(os.environ['USERPROFILE']), 'Desktop')
 
-    def countdown(self, seconds):
+    @staticmethod
+    def countdown(seconds):
         """Display a countdown timer."""
         print(' Please Move the Command Window to Side ! ')
         for i in range(seconds, 0, -1):

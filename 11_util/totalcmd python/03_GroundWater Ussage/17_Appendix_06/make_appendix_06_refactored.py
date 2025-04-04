@@ -122,7 +122,8 @@ class AppendixMaker:
             print(f"Error saving output: {str(e)}")
             return False
             
-    def process_row(self, row):
+    @staticmethod
+    def process_row(row):
         """Process a single row of input data."""
         well_data = WellData()
         
