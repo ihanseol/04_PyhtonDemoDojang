@@ -140,6 +140,7 @@ class HwpProcessor:
         """Save the document and clean up resources."""
         try:
             # Save the document
+            self.hwp.delete_all_fields()
             output_path = self.base_dir / self.hwp_output
             self.hwp.save_as(str(output_path))
             print(f"Document saved successfully to {output_path}")

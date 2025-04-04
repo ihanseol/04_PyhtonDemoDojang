@@ -154,6 +154,7 @@ class HwpDocumentGenerator:
     def save_document(self):
         """Save the document and close HWP."""
         try:
+            self.hwp.delete_all_fields()
             output_path = self.base_dir / self.hwp_output
             self.hwp.save_as(str(output_path))
             self.hwp.quit()
