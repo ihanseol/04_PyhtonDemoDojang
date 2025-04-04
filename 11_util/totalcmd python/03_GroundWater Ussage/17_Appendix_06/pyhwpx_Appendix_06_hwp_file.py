@@ -96,6 +96,7 @@ def main():
     hwp, excel = initial_work()
     field_list = initial_opencopy(hwp, excel)
     copy_work(hwp, excel, field_list)
+    hwp.delete_all_fields()
     end_work(hwp, excel)
     print('------------------------------------------------------')
 

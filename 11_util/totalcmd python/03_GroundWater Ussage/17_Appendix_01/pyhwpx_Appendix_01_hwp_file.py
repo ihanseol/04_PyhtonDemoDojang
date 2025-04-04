@@ -82,6 +82,18 @@ def end_work(hwp, excel):
     hwp.quit()
 
 
+# function OnScriptMacro_누름틀지우기()
+# {
+# 	HAction.GetDefault("DeleteCtrls", HParameterSet.HDeleteCtrls.HSet);
+# 	with (HParameterSet.HDeleteCtrls)
+# 	{
+# 		CreateItemArray("DeleteCtrlType", 1);
+# 		DeleteCtrlType.Item(0) = 17;
+# 	}
+# 	HAction.Execute("DeleteCtrls", HParameterSet.HDeleteCtrls.HSet);
+# }
+
+
 def main():
     desktop = get_desktop()
 
@@ -96,6 +108,7 @@ def main():
     hwp, excel = initial_work()
     field_list = initial_opencopy(hwp, excel)
     copy_work(hwp, excel, field_list)
+    hwp.delete_all_fields()
     end_work(hwp, excel)
     print('------------------------------------------------------')
 
