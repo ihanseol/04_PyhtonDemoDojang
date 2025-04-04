@@ -18,7 +18,7 @@ class WellType:
         self.determine_well_type()
 
     def get_welllist(self):
-        jpg_files = self.fb.get_file_filter(".", "*-1_page1*.jpg")
+        jpg_files = self.fb.get_file_filter(".", "*1_page1*.jpg")
 
         print("number of jpgfiles :", len(jpg_files))
         print(jpg_files)
