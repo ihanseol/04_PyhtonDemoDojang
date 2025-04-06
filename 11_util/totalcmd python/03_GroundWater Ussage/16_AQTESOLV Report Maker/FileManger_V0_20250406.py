@@ -159,9 +159,9 @@ class FileBase(AQTBASE, PathChecker):
 
     @staticmethod
     def line_print(msg, **kwargs):
-        print('-' * 80)
+        print('-' * 150)
         print(msg)
-        print('-' * 80)
+        print('-' * 150)
 
     def set_directory(self, directory):
         """ Reset the directory and refresh the file list. """
