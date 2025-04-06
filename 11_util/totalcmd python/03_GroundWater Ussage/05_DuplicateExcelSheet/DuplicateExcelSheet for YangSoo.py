@@ -73,7 +73,7 @@ class ConsoleMenu:
 # end of ConsoleMenu
 
 
-YangSoo_Folder = r"d:\12_dev\02_Excel2\01_Acquifer Pumping Test\01_양수시험"
+YangSoo_Folder = r"d:\12_dev\02_Excel3\01_Acquifer Pumping Test\01_양수시험"
 original_file_path = "d:/05_Send/A1_ge_OriginalSaveFile.xlsm"
 destination_folder = "d:/05_Send/"
 
