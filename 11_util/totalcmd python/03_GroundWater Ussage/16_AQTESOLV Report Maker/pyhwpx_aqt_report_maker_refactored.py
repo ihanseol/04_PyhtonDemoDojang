@@ -2,7 +2,7 @@ import os
 import re
 from pathlib import Path
 from pyhwpx import Hwp
-from FileProcessing_V4_20250211 import FileBase
+from FileManger_V0_20250406 import FileBase
 
 
 class WellType:
@@ -58,10 +58,10 @@ class ReportGenerator:
         self.hwp = None
 
     @staticmethod
-    def line_print(msg):
-        print('-' * 80)
+    def line_print(msg, n=80):
+        print('-' * n)
         print(msg)
-        print('-' * 80)
+        print('-' * n)
 
     def pagesetup(self):
         my_page = {'위쪽': 20, '머리말': 10, '왼쪽': 20, '오른쪽': 20, '제본여백': 0, '꼬리말': 10, '아래쪽': 13, '제본타입': 0, '용지방향': 0,
@@ -87,9 +87,10 @@ class ReportGenerator:
         self.hwp.save_as("01_취합본.hwp")  # 반복이 끝났으면 "취합본.hwp"로 다른이름으로저장
         self.hwp.Quit()  # 한/글 프로그램 종료
 
-        self.line_print(' delete left over hwpx files ....')
+        self.line_print(' delete left over hwpx files ....', 150)
         for _ in file_list:
             file = self.send_dir / _
+            print(file)
             self.fb.delete_file(file)
 
     def prepare_template_files(self):
@@ -121,6 +122,9 @@ class ReportGenerator:
     def _process_well_report(self, well_no):
         """Process report for a specific well."""
         # Determine the filename based on well configuration
+
+        self.line_print(f" _process_well_report,  Well : {well_no} ")
+
         if self.well_type.dangye_include:
             prefix = "" if self.well_type.report_yes else "00_"
             filename = f"{prefix}w{well_no}_AQTESOLV.hwpx"
@@ -180,8 +184,14 @@ def main():
 
     # Generate reports
     report_generator = ReportGenerator(well_type)
+
+    report_generator.line_print(" Prepare template files  ... ", 130)
     report_generator.prepare_template_files()
+
+    report_generator.line_print(" Generate files  ... ",130)
     report_generator.generate_reports()
+
+    report_generator.line_print(" Merge HWP files  ... ",130)
     report_generator.merge_hwp_files()
 
 

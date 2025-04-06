@@ -1,42 +1,47 @@
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
-from datetime import datetime
-import shutil
-
 import fnmatch
-import time
 import os
-import pyperclip
-import re
+import shutil
+from pathlib import Path
 from natsort import natsorted
-import pyautogui
 import ctypes
+from datetime import datetime
+import time
+import re
+import pyperclip
+import pyautogui
 import pandas as pd
+
+"""
+    2025/04/06
+    file_path convert str to Path object
+"""
 
 
 class AQTBASE:
     def __init__(self):
-        self.AQTESOLV_PATH = 'C:\\WHPA\\AQTEver3.4(170414)\\AQTW32.EXE'
-        self.DOCUMENTS = os.path.expanduser("~\\Documents")
-        self.SEND = 'D:\\05_Send\\'
-        self.SEND2 = 'D:\\06_Send2\\'
+        self.aqtesolv_path = Path('c:/WHPA/AQTEver3.4(170414)/AQTW32.EXE')
+        self.documents = Path.home() / "Documents"
+        self.send = Path('d:/05_send')
+        self.send2 = Path('d:/06_send2')
 
-        self.YANGSOO_EXCEL = "A1_ge_OriginalSaveFile.xlsm"
-        self.YANGSOO_REST = "_ge_OriginalSaveFile.xlsm"
-        self.YANSOO_SPEC = "d:\\05_Send\\YanSoo_Spec.xlsx"
-        self.TC_DIR = 'C:\\Program Files\\totalcmd\\AqtSolv\\'
+        self.yangsoo_excel = "A1_ge_OriginalSaveFile.xlsm"
+        self.yangsoo_rest = "_ge_OriginalSaveFile.xlsm"
+        self.yangsoo_spec = "d:/05_send/YanSoo_Spec.xlsx"
+        self.tc_dir = Path('c:/Program Files/totalcmd/AqtSolv')
 
-        self.STEP_FILE = "_01_step.aqt"
-        self.LONG_FILE = "_02_long.aqt"
-        self.RECOVER_FILE = "_03_recover.aqt"
+        self.step_file = "_01_step.aqt"
+        self.long_file = "_02_long.aqt"
+        self.recover_file = "_03_recover.aqt"
 
-        self.ISAQTOPEN = False
-        self.DEBUG_YES = True
-        self.DELAY = 0.2
-        self.IS_BLOCK = False
+        self.isaqtopen = False
+        self.debug_yes = True
+        self.delay = 0.2
+        self.is_block = False
         """
-        self.IS_BLOCK = False :
+        self.is_block = False :
          because while running the program causes block or wait for user input
          then can't do anything
          so it must be False, user input allowed ...
@@ -53,7 +58,7 @@ class AQTBASE:
         user32.BlockInput(False)
 
     def print_debug(self, message):
-        if self.DEBUG_YES:
+        if self.debug_yes:
             if "*-@#$%&" in message:
                 print(message * 180)
             else:
@@ -65,19 +70,23 @@ class PathChecker:
     RET_DIR = 2
     RET_NOTHING = 0
 
-    @staticmethod
-    def check_path(path=""):
-        if path is None:
-            return PathChecker.RET_NOTHING
+    def line_print(self, msg):
+        print('-' * 80)
+        print(msg)
+        print('-' * 80)
 
-        if os.path.exists(path):
-            if os.path.isfile(path):
+    def check_path(self, file_path):
+        if isinstance(file_path, Path):
+            if file_path.is_file():
+                # print("  - It is a file.")
                 return PathChecker.RET_FILE
-            elif os.path.isdir(path):
+            elif file_path.is_dir():
+                # print("  - It is a directory.")
                 return PathChecker.RET_DIR
             else:
                 return PathChecker.RET_NOTHING
         else:
+            self.line_print(f"The file path '{file_path}' is not a Path object.")
             return PathChecker.RET_NOTHING
 
     def resolve_path(self, path=""):
@@ -100,34 +109,38 @@ class PathChecker:
 
 
 class FileBase(AQTBASE, PathChecker):
-    def __init__(self, directory='D:\\05_Send\\'):
+    def __init__(self, directory=Path('d:/05_send')):
         AQTBASE.__init__(self)
 
         if directory is None:
             print('in File Base , directory is None')
-            self.SEND = self.SEND
 
         self.files = None
         self._directory = directory
 
-        if self.check_path(directory) is False:
+        if self.check_path(directory) is PathChecker.RET_DIR:
             self._set_directory(directory)
         else:
-            self._set_directory("d:\\05_Send\\")
+            self._set_directory(self.send)
 
-    def _set_directory(self, directory):
+    def _set_directory(self, target_dir):
         """
             Set the working directory and refresh the file list.
         """
-        self._directory = directory
-        os.chdir(self._directory)
-        self.files = os.listdir(directory)
 
-    # def refresh_files(self):
-    #     if self.check_path(self.SEND):
-    #         self.files = os.listdir(self.SEND)
-    #     else:
-    #         self._set_directory(r"d:\05_Send\\")
+        try:
+            # Change the current working directory
+            self._directory = target_dir
+            os.chdir(target_dir)
+            self.files = os.listdir(target_dir)
+            if self.debug_yes: print(f" _set_directory(),  Successfully changed directory to: {Path.cwd()}")
+
+        except FileNotFoundError:
+            print(f"Error: Directory not found: {target_dir}")
+        except NotADirectoryError:
+            print(f"Error: Not a directory: {target_dir}")
+        except OSError as e:
+            print(f"Error changing directory to {target_dir}: {e}")
 
     @property
     def directory(self):
@@ -143,6 +156,12 @@ class FileBase(AQTBASE, PathChecker):
         """
         if self._directory != value:
             self._set_directory(value)
+
+    @staticmethod
+    def line_print(msg, **kwargs):
+        print('-' * 80)
+        print(msg)
+        print('-' * 80)
 
     def set_directory(self, directory):
         """ Reset the directory and refresh the file list. """
@@ -276,16 +295,42 @@ class FileBase(AQTBASE, PathChecker):
         return os.path.dirname(file_path), os.path.basename(file_path)
 
     @staticmethod
-    def is_hidden(filepath):
-        """
-            is filepath are hidden, True is hidden, False otherwise
-        """
+    def is_hidden(filepath: Path) -> bool:
+        """Checks if a file or directory is considered hidden."""
+        name = filepath.name
+        if name.startswith('.'):
+            return True  # Unix-like hidden files
+
+        if os.name == 'nt':
+            import ctypes
+            try:
+                attrs = ctypes.windll.kernel32.GetFileAttributesW(str(filepath))
+                if attrs != -1:
+                    return (attrs & 0x2) != 0  # Check for the FILE_ATTRIBUTE_HIDDEN flag
+            except Exception as e:
+                return False  # Unable to get attributes, assume not hidden
+        return False
+
+    def get_filelist_indir(self, target_dir: Path = None):
         try:
-            attrs = ctypes.windll.kernel32.GetFileAttributesW(str(filepath))
-            assert attrs != -1
-            return bool(attrs & 2)  # FILE_ATTRIBUTE_HIDDEN
-        except (AssertionError, AttributeError):
-            return False
+            if not isinstance(target_dir, Path):
+                target_dir = self.send
+
+            if target_dir.is_dir():
+                file_list = [
+                    item for item in target_dir.iterdir()
+                    if item.is_file() and not self.is_hidden(item)
+                ]
+
+                if file_list:
+                    return file_list
+                else:
+                    print(f"No non-hidden files found in '{target_dir}'.")
+            else:
+                print(f"Error: '{target_dir}' is not a valid directory.")
+
+        except OSError as e:
+            print(f"An error occurred: {e}")
 
     @staticmethod
     def list_directory_contents(path):
@@ -302,113 +347,134 @@ class FileBase(AQTBASE, PathChecker):
         except Exception as e:
             return f"An error occurred: {e}"
 
-    def list_directories_only(self, path):
+    def list_directories_only(self, folder_path) -> object:
         """
+            folder_path:
+                Path object
+
             list directory only but exclude hidden directory:
         """
-        dir_non_hidden = self.list_non_hidden_directories(path)
-        dir_hidden = self.list_hidden_directories(path)
+        non_hidden_directory: object = self.list_non_hidden_directories(folder_path)
+        dir_hidden: object = self.list_hidden_directories(folder_path)
 
-        if isinstance(dir_non_hidden, str) or isinstance(dir_hidden, str):
+        if isinstance(non_hidden_directory, str) or isinstance(dir_hidden, str):
             return "An error occurred while fetching directories."
 
-        return [_d for _d in dir_non_hidden if dir not in dir_hidden]
-        # return list(set(dir_non_hidden) - set(dir_hidden))
-        # using set, difference
+        return [_d for _d in non_hidden_directory if _d not in dir_hidden]
 
-    @staticmethod
-    def list_non_hidden_directories(path):
-        """
-            list directory include hidden directory:
-        """
-        try:
-            # Get the list of all entries in the given path
-            entries = os.listdir(path)
-            # Filter the list to include only non-hidden directories
-            directories = [
-                entry for entry in entries
-                if os.path.isdir(os.path.join(path, entry)) and not entry.startswith('.')
-            ]
-            return directories
-        except FileNotFoundError:
-            return f"The directory '{path}' does not exist."
-        except PermissionError:
-            return f"Permission denied to access the directory '{path}'."
-        except Exception as e:
-            return f"An error occurred: {e}"
 
-    @staticmethod
-    def last_one(path):
-        """
-            c:\PythonProject\01_this folder\02_that folder\04_last_folder
-            in this case
-            return 04_last_folder
-            return last one
-        """
-        seperation = path.split('\\')
-        return seperation[len(seperation) - 1]
-
-    def list_hidden_directories(self, path):
+    def list_hidden_directories(self, folder_path):
         """
             return hidden directories only
         """
         try:
             # Get the list of all entries in the given path
-            entries = os.listdir(path)
+            entries = os.listdir(folder_path)
             # Filter the list to include only hidden directories
             hidden_directories = [
-                os.path.join(path, entry) for entry in entries
-                if os.path.isdir(os.path.join(path, entry)) and self.is_hidden(os.path.join(path, entry))
+                Path(entry) for entry in entries if
+                (os.path.isdir(entry) and self.is_hidden(Path(entry)))
             ]
-            return [self.last_one(f) for f in hidden_directories]
+            return hidden_directories
         except FileNotFoundError:
-            return f"The directory '{path}' does not exist."
+            return f"The directory '{folder_path}' does not exist."
         except PermissionError:
-            return f"Permission denied to access the directory '{path}'."
+            return f"Permission denied to access the directory '{folder_path}'."
         except Exception as e:
             return f"An error occurred: {e}"
+
+    def list_non_hidden_directories(self, folder_path) -> object:
+        """
+            list directory include hidden directory:
+            folder_path -> Path object
+
+            return:
+                list of all non-hidden directories. in a folder_path
+                :rtype: object
+        """
+
+        try:
+            # Get the list of all entries in the given path
+            entries = os.listdir(folder_path)
+            # Filter the list to include only non-hidden directories
+            directories = [
+                Path(entry) for entry in entries
+                if os.path.isdir(entry) and not entry.startswith('.') and not self.is_hidden(Path(entry))
+            ]
+            return directories
+        except FileNotFoundError:
+            return f"The directory '{folder_path}' does not exist."
+        except PermissionError:
+            return f"Permission denied to access the directory '{folder_path}'."
+        except Exception as e:
+            return f"An error occurred: {e}"
+
+    @staticmethod
+    def last_one(folder_path):
+        """
+            2025-4-6
+            path -> Path object
+
+            c:\PythonProject\01_this folder\02_that folder\04_last_folder
+            in this case
+            return 04_last_folder
+            return last one directory
+        """
+
+        if not isinstance(folder_path, Path):
+            seperation = folder_path.split('\\')
+            return seperation[len(seperation) - 1]
+        else:
+            return folder_path.parent
 
     def get_dirname(self, file_path):
         """
             Return the directory name of the given file path.
         """
-        if self.check_path() == PathChecker.RET_NOTHING:
+        if not isinstance(file_path, Path):
+            self.line_print(f"The file path '{file_path}' is not a Path object.")
+
+        if self.debug_yes: print(f" debug : {self.get_dirname.__name__}() : {str(file_path)}")
+
+        if self.check_path(file_path) == PathChecker.RET_NOTHING:
             print('get_dirname arg is not path ... ', file_path)
             return None
 
-        return os.path.dirname(file_path) + "\\"
+        return file_path.parent
 
     def get_basename(self, file_path):
         """
             Return the base name of the given file path.
+            os.path.basename("/home/user/documents/report.pdf") returns "report.pdf"
         """
-        if self.check_path() == PathChecker.RET_NOTHING:
-            print('get_dirname arg is not path ... ', file_path)
+        if not isinstance(file_path, Path):
+            self.line_print(f"The file path '{file_path}' is not a Path object.")
+
+        if self.check_path(file_path) == PathChecker.RET_NOTHING:
+            print(' get_dirname() argument is not path ... ', file_path)
             return None
 
-        return os.path.basename(file_path)
+        return file_path.name
 
     def is_exist(self, file_path):
         """
             Check if the file exists.
+            file_path --> Path object
+
             os.path.exist return value : True or False
         """
         if self.check_path(file_path) == PathChecker.RET_NOTHING:
-            print('get_dirname arg is not path ... ', file_path)
+            print(' get_dirname() argument is not path ... ', file_path)
             return False
 
-        return os.path.exists(file_path)
+        return os.path.exists(str(file_path))
 
     def is_valid(self, file_path):
         """
             Check if the file exists.
             os.path.exist return value : True or False
         """
-        if self.check_path(file_path) == PathChecker.RET_NOTHING:
-            print('get_dirname arg is not path ... ', file_path)
-            return False
-
-        return os.path.exists(file_path)
+        return self.is_exist(file_path)
 
     @staticmethod
     def set_pathstring_to_slash(file_path):
@@ -418,9 +484,11 @@ class FileBase(AQTBASE, PathChecker):
           파일패스에 \\ 와 / 이 동시에 섞이게 되어 이것을 정리해줄 필요가 있다.
         :return:
         """
-        source = file_path
-        source = source.replace("\\", "/")
-        return source
+
+        if not isinstance(file_path, Path):
+            source = file_path
+            source = source.replace("\\", "/")
+            return source
 
     def join_path_from_list(self, file_path_list):
         """
@@ -448,11 +516,15 @@ class FileBase(AQTBASE, PathChecker):
     def copy_file(source, destination):
         """
         Copy a file from source to destination.
-        source and destination are must be full path
+        source and destination are must be Path object
 
-        :param source: Source file path.
-        :param destination: Destination file path.
-        :return: True if the file was copied successfully, False otherwise.
+
+        :param
+            source: Source file path.
+        :param
+            destination: Destination file path.
+        :return:
+            True if the file was copied successfully, False otherwise.
         """
         try:
             shutil.copy(source, destination)
@@ -466,11 +538,14 @@ class FileBase(AQTBASE, PathChecker):
     def move_file(source, destination):
         """
         Move a file from source to destination.
-        source and destination are must be full path
+        source and destination are must be Path Object
 
-        :param source: Source file path.
-        :param destination: Destination file path.
-        :return: True if the file was moved successfully, False otherwise.
+        :param
+            source: Source file path.
+        :param
+            destination: Destination file path.
+        :return:
+            True if the file was moved successfully, False otherwise.
         """
         try:
             if os.path.exists(destination):
@@ -488,17 +563,19 @@ class FileBase(AQTBASE, PathChecker):
         """
         Delete files from a specified folder.
         :param file_path:
-            The folder path where the files are located = directory + filename.
-        :return: True if all files were deleted successfully, False otherwise.
+            file_path is the Path Object
+        :return:
+            True if all files were deleted successfully, False otherwise.
         """
 
-        if self.check_path(file_path) == PathChecker.RET_FILE:
+        if file_name := self.get_basename(file_path):
             try:
+                dir_name = self.get_dirname(file_path)
                 if os.path.exists(file_path):
                     try:
                         os.remove(file_path)
                         print(
-                            f"{self.get_basename(file_path)} removed successfully from {self.get_dirname(file_path)}.")
+                            f"{file_name} removed successfully from {dir_name}.")
                     except Exception as e:
                         print(f"Error deleting {file_path}: {e}")
                         return False
@@ -510,64 +587,65 @@ class FileBase(AQTBASE, PathChecker):
 
             return False
 
-    def delete_files(self, folder_path, files):
+    def delete_files(self, files):
         """
         Delete files from a specified folder.
-        :param folder_path: The folder path where the files are located.
         :param files: List of file names to delete.
         :return: True if all files were deleted successfully, False otherwise.
         """
 
-        if self.check_path(folder_path) == PathChecker.RET_FILE:
-            folder_path = self.get_dirname(folder_path)
+        if files:
+            try:
+                for file in files:
+                    if self.check_path(file) == PathChecker.RET_FILE:
+                        try:
 
-        try:
-            for file_name in files:
-                file_path = str(os.path.join(folder_path, file_name))
+                            file_name = file.name
+                            dir_name = file.parent
 
-                if self.check_path(file_path) == PathChecker.RET_FILE:
-                    try:
-                        os.remove(file_path)
-                        print(f"{file_name} removed successfully from {folder_path}")
-                    except Exception as e:
-                        print(f"Error deleting {file_name}: {e}")
-                        return False
-                else:
-                    print(f"The file {file_name} does not exist in the folder {folder_path} or its a directory")
-            return True
-        except Exception as e:
-            print(f"An error occurred while deleting files: {e}")
+                            os.remove(file)
+                            print(f"{file_name} removed successfully from {dir_name}")
+                        except Exception as e:
+                            print(f"Error deleting {file}: {e}")
+                            return False
+                    else:
+                        print(f" The file {file} does not exist in the folder ")
+                return True
+            except Exception as e:
+                print(f"An error occurred while deleting files: {e}")
+                return False
+        else:
             return False
 
     def delete_files_in_directory(self, folder_path):
         """
             delte all files in a directory
-        :param folder_path:
+        :param folder_path: --> Path Object
         :return:
         """
         if self.check_path(folder_path) == PathChecker.RET_DIR:
-            files = os.listdir(folder_path)
+            # files = os.listdir(folder_path)
+            files = self.get_filelist_indir(folder_path)
             print(f"delete_files_in_directory - {files}")
-            self.delete_files(folder_path, files)
+            self.delete_files(files)
             return True
         else:
             print(f"delete_files_in_directory: {folder_path} its not a directory")
             return False
 
-    @staticmethod
-    def erase_all_yangsoo_test_files(directory):
-        # if self.ask_yes_no_question(directory):
-        for filename in os.listdir(directory):
-            file_path = os.path.join(directory, filename)
+    def erase_all_yangsoo_test_files(self, directory):
+        files = self.get_filelist_indir(directory)
+
+        for filename in files:
             try:
                 # Check if it's a file (and not a directory)
-                if os.path.isfile(file_path) or os.path.islink(file_path):
-                    os.unlink(file_path)  # Remove the file
+                if os.path.isfile(filename) or os.path.islink(filename):
+                    os.unlink(filename)  # Remove the file
                 # If it's a directory, use shutil.rmtree to remove it
-                elif os.path.isdir(file_path):
-                    shutil.rmtree(file_path)
+                elif os.path.isdir(filename):
+                    shutil.rmtree(filename)
             except Exception as e:
-                print(f'Failed to delete {file_path}. Reason: {e}')
+                print(f'Failed to delete {filename}. Reason: {e}')
 
     @staticmethod
     def ask_yes_no_question(directory=''):
@@ -594,7 +672,7 @@ class FileBase(AQTBASE, PathChecker):
         root.withdraw()  # 메인 윈도우를 숨깁니다.
 
         if not initial_dir:
-            initial_dir = self.SEND
+            initial_dir = self.send
 
         folder_path = filedialog.askdirectory(initialdir=initial_dir)  # 초기 디렉토리를 설정하여 폴더 선택 대화 상자를 엽니다.
 
@@ -612,13 +690,18 @@ class FileBase(AQTBASE, PathChecker):
         :param file_name:
         :return:
         """
-        source = folder_path
 
-        if self.check_path(folder_path) == PathChecker.RET_DIR:
+        if isinstance(folder_path, Path):
+            posix_path = folder_path.as_posix()
+            if posix_path == ".":
+                folder_path = str(folder_path.cwd())
+
+        source = Path(folder_path)
+
+        if self.check_path(source) == PathChecker.RET_DIR:
             source = os.path.join(folder_path, file_name)
-            source = source.replace("/", "\\")
 
-        print('join_path: ', source)
+        print(' join_path: ', source)
         return source
 
     def unfold_path(self, folder_path):
@@ -626,10 +709,16 @@ class FileBase(AQTBASE, PathChecker):
             폴더패스를 분리해서, 리스트로 반환
             ['D:', '09_hardRain', '09_ihanseol - 2024', '07_공업용 - 세종, 주안레미콘 2개공, 연장허가 - 현윤이엔씨, 보완보고서 , 청주기상청']
         """
-        if not self.check_path(folder_path):
-            folder_path = self.SEND
 
-        parts = folder_path.replace('/', '\\').split('\\')
+        if not self.check_path(folder_path):
+            folder_path = self.send
+
+        if isinstance(folder_path, Path):
+            posix_path = folder_path.as_posix()
+            if posix_path == ".":
+                folder_path = str(folder_path.cwd())
+
+        parts = folder_path.split('\\')
         for part in parts:
             print(part)
         return parts
@@ -687,13 +776,27 @@ class FileBase(AQTBASE, PathChecker):
             return "\\".join(folder_list[:n])
 
 
+def main_test1():
+    fb = FileBase()
+    file_list = fb.get_file_filter(".", "*.hwp*")
+    if file_list:
+        print(file_list)
+    else:
+        exit()
 
-if __name__ == "__main__":
+    fb.line_print(' delete left over hwpx files ....')
+    for _ in file_list:
+        file = fb.send / _
+        print(f" file list in main_test1 : {file}")
+        fb.delete_file(file)
+
+
+def main_test2():
     fb = FileBase()
     jpg_files = fb.get_jpg_filter(".", "a1*.jpg")
-    nCount = len(jpg_files)
+    n_count = len(jpg_files)
     print("length of jpg_files:", len(jpg_files))
-    if nCount == 4 :
+    if n_count == 4:
         print("-- include dangye --")
     else:
         print("-- exclude dangye --")
@@ -705,11 +808,27 @@ if __name__ == "__main__":
     print("last :", well)
 
 
+def main_test3():
+    fb = FileBase()
+    # fb.delete_files_in_directory(Path.cwd())
+
+    # print(fb.list_non_hidden_directories(Path('d:/')))
+    # print(fb.list_non_hidden_directories(Path(".")))
+    # print(fb.list_hidden_directories(Path('d:/05_Send')))
+    # print(fb.list_directory_contents(Path(".")))
+
+    # print(fb.list_directories_only(Path(".")))
+    # print(fb.get_dirname(Path(r'd:\05_Send\05_수질성적서 왁구 - 30공까지.hwpx')))
+    # print(fb.get_basename(Path(r'd:\05_Send\05_수질성적서 왁구 - 30공까지.hwpx')))
+    # print(fb.is_exist(Path(r'd:\05_Send\05_수질성적서 왁구 - 30공까지.hwpx')))
+    # print(fb.is_exist(r'd:\05_Send\05_수질성적서 왁구 - 30공까지.hwpx'))
+    # fb.copy_file(Path(r'd:\05_Send\05_수질성적서 왁구 - 30공까지.hwpx'), Path('c:/Temp'))
+
+    # print(fb.unfold_path(Path(".")))
+    # print(fb.join_path_tofilename(Path("."), Path("05_수질성적서 왁구 - 30공까지.hwpx")))
+    print(fb.get_xlsm_files())
+    print(fb.last_one(Path(r'd:\05_Send\A2_ge_OriginalSaveFile.xlsm')))
 
 
-
-
-
-
-
-
+if __name__ == "__main__":
+    main_test3()

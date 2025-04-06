@@ -1,7 +1,7 @@
 import os
 import re
 from pyhwpx import Hwp
-from FileProcessing_V4_20250211 import FileBase
+from FileManger_V0_20250406 import FileBase
 from pathlib import Path
 
 
@@ -9,10 +9,10 @@ class WellType:
     """Class for determining and storing well configuration properties."""
 
     def __init__(self, directory='D:\\05_Send\\'):
-        self.DANGYE_INCLUDE = False
-        self.REPORT_YES = True
-        self.N_WELL = 1
-        self.WELL_LIST = []
+        self.dangye_include = False
+        self.report_yes = True
+        self.n_well = 1
+        self.well_list = []
         self.Directory = directory
         self.fb = FileBase()
         self.determine_well_type()
@@ -27,9 +27,13 @@ class WellType:
         return_well_list = []
         for well in jpg_files:
             # print(well)
-            return_well_list.append(well.split("-1")[0])
+            return_well_list.append(well.split("-")[0])
             match = re.search(r"(\d+)", well)
-            self.WELL_LIST.append(int(match.group(1)))
+            self.well_list.append(int(match.group(1)))
+
+        # remove duplicate in the list
+        self.well_list = list(set(self.well_list))
+        return_well_list = list(set(return_well_list))
 
         return return_well_list
 
@@ -39,19 +43,19 @@ class WellType:
         first_well = self.get_welllist()[0]
         print(" first well ;", first_well)
 
-        jpg_files = self.fb.get_file_filter(".", f"w{self.WELL_LIST[0]}-*.jpg")
+        jpg_files = self.fb.get_file_filter(".", f"w{self.well_list[0]}-*.jpg")
 
         if not jpg_files:
-            jpg_files = self.fb.get_file_filter(".", f"w{self.WELL_LIST[0]}-1*.jpg")
+            jpg_files = self.fb.get_file_filter(".", f"w{self.well_list[0]}-1*.jpg")
 
-        self.DANGYE_INCLUDE = len(jpg_files) == 6
+        self.dangye_include = len(jpg_files) == 6
 
         # Determine number of wells from file naming pattern
         jpg_files = self.fb.get_jpg_filter(".", "w*.jpg")
         if jpg_files:
             last_string = ''.join(jpg_files[-1:])
             extracted_number = self._extract_well_number(last_string)
-            self.N_WELL = int(extracted_number)
+            self.n_well = int(extracted_number)
 
     @staticmethod
     def _extract_well_number(filename):
@@ -71,12 +75,12 @@ class WellType:
 
     def print(self):
         """Print well configuration information."""
-        if self.DANGYE_INCLUDE:
+        if self.dangye_include:
             print("-- 단계포함, include dangye --")
         else:
             print("-- 단계제외, exclude dangye --")
 
-        print(f"Number of Well : {self.N_WELL}")
+        print(f"Number of Well : {self.n_well}")
 
 
 class ReportGenerator:
@@ -91,10 +95,10 @@ class ReportGenerator:
         self.hwp = None
 
     @staticmethod
-    def line_print(msg):
-        print('-' * 80)
+    def line_print(msg,n=100):
+        print('-' * n)
         print(msg)
-        print('-' * 80)
+        print('-' * n)
 
     def pagesetup(self):
         my_page = {'위쪽': 20, '머리말': 10, '왼쪽': 20, '오른쪽': 20, '제본여백': 0, '꼬리말': 10, '아래쪽': 13, '제본타입': 0, '용지방향': 0,
@@ -127,8 +131,8 @@ class ReportGenerator:
 
     def prepare_template_files(self):
         """Copy appropriate template files based on well configuration."""
-        for i in self.well_type.WELL_LIST:
-            if self.well_type.DANGYE_INCLUDE:
+        for i in self.well_type.well_list:
+            if self.well_type.dangye_include:
                 filename = f"A{i}_YangSoo_Step.hwpx"
             else:
                 filename = f"B{i}_YangSoo_Long.hwpx"
@@ -141,7 +145,7 @@ class ReportGenerator:
         self.hwp = Hwp(visible=False)
 
         try:
-            for i in self.well_type.WELL_LIST:
+            for i in self.well_type.well_list:
                 self._process_well_report(i)
         finally:
             if self.hwp:
@@ -150,7 +154,7 @@ class ReportGenerator:
     def _process_well_report(self, well_no):
         """Process report for a specific well."""
         # Determine the filename based on well configuration
-        if self.well_type.DANGYE_INCLUDE:
+        if self.well_type.dangye_include:
             filename = f"A{well_no}_YangSoo_Step.hwpx"
         else:
             filename = f"B{well_no}_YangSoo_Long.hwpx"
@@ -175,7 +179,7 @@ class ReportGenerator:
 
     def _get_well_images(self, well_no):
         """Get the list of images for a specific well."""
-        if self.well_type.DANGYE_INCLUDE:
+        if self.well_type.dangye_include:
             # 단계포함
             jpg_files = self.fb.get_jpg_filter(str(self.send_dir), f"w{well_no}-*.jpg")
         else:
@@ -208,11 +212,30 @@ def main():
     # Initialize well configuration
     wt = WellType()
     wt.print()
+    fb = FileBase()
+
+    jpg_files = fb.get_file_filter(".", "*.jpg")
+
+    # error check , len of yangsoo file are correct ?
+
+    if wt.dangye_include:
+        if len(jpg_files) % 6 != 0:
+            print(f' YangSoo Report W files are not miss match ')
+            exit()
+    else:
+        if len(jpg_files) % 4 != 0:
+            print(f' YangSoo Report W files are not miss match ')
+            exit()
 
     # Generate reports
     report_generator = ReportGenerator(wt)
+    report_generator.line_print(" Prepare template files  ... ")
     report_generator.prepare_template_files()
+
+    report_generator.line_print(" Generate Report Files ... ")
     report_generator.generate_reports()
+
+    report_generator.line_print(" Merge HWP Files ... ")
     report_generator.merge_hwp_files()
 
 
