@@ -53,6 +53,7 @@ class ConsoleMenu:
 
     def select(self):
         self.running = False
+        self.clear_screen()
         return self.options[self.selected]
 
     def run(self):
@@ -93,7 +94,7 @@ def write_formula(formula_string, inject_yes):
         pyautogui.hotkey('ctrl', 'v')
 
     pyautogui.hotkey('shift', 'esc')  # close formula editor window
-    time.sleep(0.5)
+    time.sleep(1)
 
     pyautogui.press('enter')
 
@@ -150,7 +151,7 @@ def main():
             hwp = Hwp(new=True, visible=True)
             for line in file:
                 if line.startswith('W'):
-                    print(line)
+                    print(f"  {line}")
                     write_formula(line, inject_yes)
 
     except Exception as e:
