@@ -1209,9 +1209,9 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
             self.set_dataframe(df)
 
         try:
-            row_data = self.df.iloc[row_index - 1, :].tolist()
-            str_gong = row_data[0]
-            address = row_data[1]
+            row_data = self.df.loc[row_index - 1]
+            str_gong = row_data['gong']
+            address = row_data['address']
             time.sleep(1)
         except Exception as e:
             print(f"get_gong_n_address: {e}")

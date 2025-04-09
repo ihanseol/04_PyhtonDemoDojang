@@ -172,25 +172,38 @@ class YangSooInjector:
         len_row_data = len(row_data)
         print('len(row_data):', len_row_data)
 
-        address, hp, casing, well_rad, simdo, q, natural, stable = row_data[1:9]
+        # address, hp, casing, well_rad, simdo, q, natural, stable = row_data[1:9]
+        address = row_data['address']
+        hp = row_data['hp']
+        casing = row_data['casing']
+        well_rad = row_data['well_rad']
+        simdo = row_data['simdo']
+        q = row_data['q']
+        natural = row_data['natural']
+        stable = row_data['stable']
+
         project_name = jigu_name = company_name = ''
 
-        self.STABLE_TIME = row_data[12]
+        self.STABLE_TIME = row_data['stable_time']
 
-        print('time stamp of longtest_time :', row_data[13], type(row_data[13]))
+        print('time stamp of longtest_time :', row_data['longterm_test_time'], type(row_data[13]))
         # self.LONG_TERM_TEST_TIME = self.parse_and_adjust_timestamp(row_data[13])
 
-        self.LONG_TERM_TEST_TIME = row_data[13].tz_localize('UTC')
+        self.LONG_TERM_TEST_TIME = row_data['longterm_test_time'].tz_localize('UTC')
         print('time stamp of longtest_time :', self.LONG_TERM_TEST_TIME, type(self.LONG_TERM_TEST_TIME))
 
         if len_row_data > 9:
-            project_name, jigu_name, company_name = row_data[9:12]
+            # project_name, jigu_name, company_name = row_data[9:12]
+            project_name = row_data['Project Name']
+            jigu_name = row_data['Jigu Name']
+            company_name = row_data['Company']
+
 
         # Swap natural and stable if stable is less than natural to prevent errors
         if stable < natural:
             natural, stable = stable, natural
 
-        gong = self.extract_number(row_data[0])
+        gong = self.extract_number(row_data['gong'])
         str_gong = f"공  번 : W - {gong}"
 
         time.sleep(1)
