@@ -1079,16 +1079,20 @@ class AqtProjectInfoInjector(FileBase):
         :return:
         """
         if len(input_str) >= 18:
-            input_str = input_str.replace('번지', '')
+            if input_str.endswith('호'):
+                input_str = input_str.replace('번지 ', '-').replace('호','')
+            else:
+                input_str = input_str.replace('번지', '')
+
             parts = input_str.split()
             i = 0
 
             for part in parts:
-                if part.endswith('읍') or part.endswith('면') or part.endswith('동') or part.endswith('구') or part.endswith('시'):
+                if part.endswith('도') or  part.endswith('시') or part.endswith('구') or part.endswith('동'):
                     break
                 i += 1
 
-            result = ' '.join(parts[(i+1):])
+            result = ' '.join(parts[(i + 1):])
             address_list = result.split()
             filtered_list = [item for item in address_list if not (item.endswith('아파트') or item == ',')]
             address_string = ' '.join(filtered_list)
