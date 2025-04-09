@@ -190,7 +190,6 @@ class YangSooInjector:
 
         return r_value
 
-
     @staticmethod
     def parse_and_adjust_timestamp(timestamp_str):
         """ Parse, localize to Seoul timezone, and add seconds to a timestamp string. """
@@ -239,12 +238,13 @@ class YangSooInjector:
         self.LONG_TERM_TEST_TIME = row_data['longterm_test_time'].tz_localize('UTC')
         print('time stamp of longtest_time :', self.LONG_TERM_TEST_TIME, type(self.LONG_TERM_TEST_TIME))
 
-        if len_row_data > 9:
-            # project_name, jigu_name, company_name = row_data[9:12]
-            project_name = row_data['Project Name']
-            jigu_name = row_data['Jigu Name']
-            company_name = row_data['Company']
-            if row_data['ph']: ph = row_data['ph']
+        project_name = row_data['Project Name']
+        jigu_name = row_data['Jigu Name']
+        company_name = row_data['Company']
+        pump_simdo = row_data['pump_simdo']
+        tochul = row_data['tochul']
+        ph = row_data['ph']
+        pumping_capacity = row_data['pumping_capacity']
 
         # Swap natural and stable if stable is less than natural to prevent errors
         if stable < natural:
@@ -264,7 +264,10 @@ class YangSooInjector:
             "M45": simdo,
             "M48": natural,
             "M49": stable,
-            "M51": q
+            "M51": q,
+            "I50": pump_simdo,
+            "K50": tochul,
+            "I51": pumping_capacity
         }
 
         if len_row_data > 9:
