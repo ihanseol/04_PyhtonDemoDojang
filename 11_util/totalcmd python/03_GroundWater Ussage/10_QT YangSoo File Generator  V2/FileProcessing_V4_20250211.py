@@ -1273,11 +1273,19 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
             for _ in ffiles:
                 os.remove(_)
 
+    """
+        2025/4/9 6:58 오후
+        Excel File, 'Yansoo_Spec.xlsx' 로 처리할때는, 회사명과 주소를 엑셀파일에서 찾는것으로 수정
+        def process_projectinfo_byexcel(self, company, address):
+    """
     def process_projectinfo_byexcel(self, company, address):
 
         if self.df.empty and self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
             df = pd.read_excel(r"d:\05_Send\YanSoo_Spec.xlsx")
             self.set_dataframe(df)
+
+        company = self.df.loc[0, 'Company']
+        address = self.df.loc[0, 'address']
 
         self.set_company(company)
         self.set_address(address)

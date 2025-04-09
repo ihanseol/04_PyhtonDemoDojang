@@ -38,9 +38,11 @@ class MyClass:
         self.close()
 
 
-# self.spi = AqtProjectInfoInjector("d:\\05_Send\\", "")
-# self.spiexcel = AqtExcelProjectInfoInjector("d:\\05_Send\\", "")
-# spi -- Set Project Info
+"""
+ self.spi = AqtProjectInfoInjector("d:\\05_Send\\", "")
+ self.spiexcel = AqtExcelProjectInfoInjector("d:\\05_Send\\", "")
+ spi -- Set Project Info
+"""
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
