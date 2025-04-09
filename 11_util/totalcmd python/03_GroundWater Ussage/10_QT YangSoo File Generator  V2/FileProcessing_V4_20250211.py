@@ -1079,7 +1079,9 @@ class AqtProjectInfoInjector(FileBase):
         :return:
         """
 
-        input_str = input_str.replace('특별', '').replace('광역', '')
+        input_str = input_str.strip().replace('특별', '').replace('광역', '')
+        input_str = re.sub(r'\s+', ' ', input_str).strip()
+
         if ',' in input_str:
             input_str = input_str.split(',')[0]
 
@@ -1089,7 +1091,7 @@ class AqtProjectInfoInjector(FileBase):
         if len(input_str) >= 18:
             if input_str.endswith('호'):
                 input_str = input_str.replace('번지 ', '-')
-                input_str = input_str[0:-1]
+                input_str = input_str[0:-1]  # remove '호'
             else:
                 input_str = input_str.replace('번지', '')
 

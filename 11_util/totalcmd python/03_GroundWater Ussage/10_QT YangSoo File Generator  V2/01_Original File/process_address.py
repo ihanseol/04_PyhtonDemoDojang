@@ -1,3 +1,6 @@
+import re
+
+
 def process_address(input_str):
     """
     :param input_str:
@@ -12,18 +15,19 @@ def process_address(input_str):
     :return:
     """
 
-    input_str = input_str.replace('특별', '').replace('광역', '')
+    input_str = input_str.strip().replace('특별', '').replace('광역', '')
+    input_str = re.sub(r'\s+', ' ', input_str).strip()
+
     if ',' in input_str:
         input_str = input_str.split(',')[0]
 
     if '(' in input_str:
         input_str = input_str.split('(')[0]
 
-
     if len(input_str) >= 18:
         if input_str.endswith('호'):
             input_str = input_str.replace('번지 ', '-')
-            input_str = input_str[0:-1]
+            input_str = input_str[0:-1]  # remove '호'
         else:
             input_str = input_str.replace('번지', '')
 
@@ -47,7 +51,7 @@ def process_address(input_str):
 
 
 def main():
-    # a = '경기도 안양시 동안구 호계동 1001번지 28호'
+    a = '경기도 안양시 동안구     호계동   1001번지  28호 '
     # a = '세종특별자치시 부강면 금호리 501번지 1호'
 
     # a = '대전광역시 서구 영골길 158, (서구 오동 276번지)'
@@ -56,7 +60,7 @@ def main():
     # a = '충청남도 당진시 송악읍 신평로 1469 (동부제강(주)사원임대아파트)'
     # a = '충청남도 당진시 순성면 순성로 453-30 '
     # a = '충청남도 당진시 송악읍 반촌리 374-3 번지 , 동진아파트'
-    a = ' 충청남도 보령시 남포면 양기리 285-1 (보령시 남포면 월전로 697-20)'
+    # a = ' 충청남도 보령시 남포면 양기리 285-1 (보령시 남포면 월전로 697-20)'
     a = process_address(a)
     print(a, len(a))
 
