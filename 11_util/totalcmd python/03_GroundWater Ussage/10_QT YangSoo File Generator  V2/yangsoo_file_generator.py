@@ -118,13 +118,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print(f'self.Company : {self.Company}, self.Address: {self.Address}')
 
             if len(aqt_files) > 0:
-                self.spiexcel.process_projectinfo_byexcel(self.Company, self.Address)
+                self.spiexcel.process_projectinfo_byexcel()
             else:
 
-                last_gong = len(self.spiexcel.get_gong_list())
-                for i in range(1, last_gong + 1):
-                    self.file_processing.aqtfile_to_send(i, checkbox_state)
-                self.spiexcel.process_projectinfo_byexcel(self.Company, self.Address)
+                gong_lists = self.spiexcel.get_gong_list()
+                for i in gong_lists:
+                    self.file_processing.aqtfile_to_send(i, checkbox_state or self.spiexcel.is_jiyeol)
+                self.spiexcel.process_projectinfo_byexcel()
         else:
             # 양수스펙파일이 없으면
             if len(aqt_files) > 0:

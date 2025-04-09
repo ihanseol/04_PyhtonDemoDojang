@@ -1194,9 +1194,14 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
         # self.df = pd.read_excel(r"d:\05_Send\YanSoo_Spec.xlsx")
         self.df = pd.DataFrame()
         self.fb = FileBase()
+        self.project_name = ''
+        self.is_jiyeol = False # 지열공이면, 단계파일을 포함해서 해야해서 ...
 
     def set_dataframe(self, df):
         self.df = df
+        self.project_name = self.df.loc[0, 'Project Name']
+        self.is_jiyeol = True if ('지열' in self.project_name) else False
+
 
     def get_gong_n_address(self, row_index):
         """
@@ -1278,9 +1283,10 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
         Excel File, 'Yansoo_Spec.xlsx' 로 처리할때는, 회사명과 주소를 엑셀파일에서 찾는것으로 수정
         def process_projectinfo_byexcel(self, company, address):
     """
-    def process_projectinfo_byexcel(self, company, address):
+    def process_projectinfo_byexcel(self):
 
-        if self.df.empty and self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
+        # if self.df.empty and self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
+        if  self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
             df = pd.read_excel(r"d:\05_Send\YanSoo_Spec.xlsx")
             self.set_dataframe(df)
 
@@ -1297,7 +1303,7 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
         difference_set = list(set(send_list) - set(xlsx_list))
         self.delete_difference(difference_set)
 
-        aqtfiles = natsorted([f for f in os.listdir() if f.endswith('.aqt')])
+        # aqtfiles = natsorted([f for f in os.listdir() if f.endswith('.aqt')])
         aqtfiles = self.get_aqt_files()
         print(f'aqtfiles: {aqtfiles}')
         # self.block_user_input()
