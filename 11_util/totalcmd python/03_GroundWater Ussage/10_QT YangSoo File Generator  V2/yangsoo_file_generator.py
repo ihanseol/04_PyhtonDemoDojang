@@ -57,7 +57,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.file_processing = PrepareYangsoofile()
 
         # Connect all radio buttons to the same handler
-        for i in range(1, 15):
+        for i in range(1, 16):
             radio_button = getattr(self, f'radio{i}')
             radio_button.toggled.connect(self.on_radio_button_toggled)
 

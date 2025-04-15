@@ -92,7 +92,7 @@
         <x>260</x>
         <y>180</y>
         <width>141</width>
-        <height>61</height>
+        <height>51</height>
        </rect>
       </property>
       <property name="font">
@@ -111,7 +111,7 @@
         <x>410</x>
         <y>180</y>
         <width>141</width>
-        <height>61</height>
+        <height>51</height>
        </rect>
       </property>
       <property name="font">
@@ -565,6 +565,25 @@
      </property>
      <property name="text">
       <string>다다건설(주)</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radio15">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>410</y>
+       <width>193</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>맑은 고딕</family>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>(주)환일</string>
      </property>
     </widget>
    </widget>

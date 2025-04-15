@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'aqt_inputsMdjty.ui'
+## Form generated from reading UI file 'aqt_inputaNUKHP.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.3
 ##
@@ -57,14 +57,14 @@ class Ui_MainWindow(object):
         self.label_4.setFont(font1)
         self.pushButton = QPushButton(self.tab_1)
         self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setGeometry(QRect(260, 180, 141, 61))
+        self.pushButton.setGeometry(QRect(260, 180, 141, 51))
         font2 = QFont()
         font2.setFamilies([u"Consolas"])
         font2.setPointSize(12)
         self.pushButton.setFont(font2)
         self.pushButton_2 = QPushButton(self.tab_1)
         self.pushButton_2.setObjectName(u"pushButton_2")
-        self.pushButton_2.setGeometry(QRect(410, 180, 141, 61))
+        self.pushButton_2.setGeometry(QRect(410, 180, 141, 51))
         self.pushButton_2.setFont(font2)
         self.tabWidget.addTab(self.tab_1, "")
         self.tab_2 = QWidget()
@@ -170,6 +170,10 @@ class Ui_MainWindow(object):
         self.radio14.setObjectName(u"radio14")
         self.radio14.setGeometry(QRect(20, 380, 193, 21))
         self.radio14.setFont(font)
+        self.radio15 = QRadioButton(self.groupBox)
+        self.radio15.setObjectName(u"radio15")
+        self.radio15.setGeometry(QRect(20, 410, 193, 21))
+        self.radio15.setFont(font)
         self.label_2 = QLabel(self.centralwidget)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(370, 170, 91, 21))
@@ -228,6 +232,7 @@ class Ui_MainWindow(object):
         self.radio4.setText(QCoreApplication.translate("MainWindow", u"\uc8fc\uc2dd\ud68c\uc0ac \ud55c\uc77c\uc9c0\ud558\uc218", None))
         self.radio1.setText(QCoreApplication.translate("MainWindow", u"\uc0b0\uc218\uac1c\ubc1c(\uc8fc)", None))
         self.radio14.setText(QCoreApplication.translate("MainWindow", u"\ub2e4\ub2e4\uac74\uc124(\uc8fc)", None))
+        self.radio15.setText(QCoreApplication.translate("MainWindow", u"(\uc8fc)\ud658\uc77c", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"\uad00\uc815\uc758 \uac2f\uc218", None))
         self.checkBox.setText(QCoreApplication.translate("MainWindow", u"\ub2e8\uacc4\ud3ec\ud568", None))
     # retranslateUi
