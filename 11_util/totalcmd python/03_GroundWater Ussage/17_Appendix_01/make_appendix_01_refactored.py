@@ -204,7 +204,8 @@ class AppendixMaker:
         
         # Add new data to output
         new_data_df = pd.DataFrame(output_rows)
-        self.output_data = pd.concat([self.output_data, new_data_df], ignore_index=True)
+        # self.output_data = pd.concat([self.output_data, new_data_df], ignore_index=True)
+        self.output_data = pd.concat([new_data_df], ignore_index=True)
         return True
     
     def save_output_data(self):

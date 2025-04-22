@@ -8,7 +8,7 @@ from FileManger_V0_20250406 import FileBase
 class WellType:
     """Class for determining and storing well configuration properties."""
 
-    def __init__(self, directory='D:\\05_Send\\'):
+    def __init__(self, directory=Path("d:/05_Send")):
         self.dangye_include = False
         self.report_yes = True
         self.n_well = 1

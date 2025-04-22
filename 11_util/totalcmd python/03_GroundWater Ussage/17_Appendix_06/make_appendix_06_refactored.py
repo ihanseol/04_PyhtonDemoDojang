@@ -155,7 +155,8 @@ class AppendixMaker:
             
         # Add new rows to output data
         new_data = pd.DataFrame(output_rows)
-        self.output_data = pd.concat([self.output_data, new_data], ignore_index=True)
+        # self.output_data = pd.concat([self.output_data, new_data], ignore_index=True)
+        self.output_data = pd.concat([new_data], ignore_index=True)
         return True
         
     def run(self):

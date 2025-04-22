@@ -133,8 +133,8 @@ class FileBase(AQTBASE, PathChecker):
             self._directory = target_dir
             os.chdir(target_dir)
             self.files = os.listdir(target_dir)
-            if self.debug_yes: print(f" _set_directory(),  Successfully changed directory to: {Path.cwd()}")
-
+            # if self.debug_yes:
+            #     print(f" _set_directory(),  Successfully changed directory to: {Path.cwd()}")
         except FileNotFoundError:
             print(f"Error: Directory not found: {target_dir}")
         except NotADirectoryError:
@@ -415,7 +415,7 @@ class FileBase(AQTBASE, PathChecker):
             2025-4-6
             path -> Path object
 
-            c:\PythonProject\01_this folder\02_that folder\04_last_folder
+            c:\\PythonProject\\01_this folder\\02_that folder\\04_last_folder
             in this case
             return 04_last_folder
             return last one directory
@@ -496,10 +496,10 @@ class FileBase(AQTBASE, PathChecker):
          그 패스의 리스트를 합쳐준다.
          그리고 합쳐진 패스리스트를 반환한다.
 
-        :param file_path_list:
-            file_path_list = ['d:\send\, 'path1', 'path2']
-        :return:
-            "d:\send\path1\path2'
+        param file_path_list:
+           file_path_list = ['d:\\send\\, 'path1', 'path2']
+        return:
+            d:\\send\\path1\\path2
         """
 
         base_path = file_path_list[0]
