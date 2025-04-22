@@ -2,6 +2,7 @@ import os
 import re
 from pathlib import Path
 from pyhwpx import Hwp
+import time
 from FileManger_V0_20250406 import FileBase
 
 
@@ -88,6 +89,7 @@ class ReportGenerator:
         self.hwp.Quit()  # 한/글 프로그램 종료
 
         self.line_print(' delete left over hwpx files ....', 150)
+        time.sleep(1)
         for _ in file_list:
             file = self.send_dir / _
             print(file)

@@ -1,5 +1,7 @@
 import os
 import re
+import time
+
 from pyhwpx import Hwp
 from FileManger_V0_20250406 import FileBase
 from pathlib import Path
@@ -125,6 +127,7 @@ class ReportGenerator:
         self.hwp.Quit()  # 한/글 프로그램 종료
 
         self.line_print(' delete left over hwpx files ....')
+        time.sleep(1)
         for _ in file_list:
             file = self.send_dir / _
             self.fb.delete_file(file)
