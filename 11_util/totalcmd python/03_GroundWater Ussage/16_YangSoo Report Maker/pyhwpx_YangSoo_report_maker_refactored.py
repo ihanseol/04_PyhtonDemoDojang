@@ -48,9 +48,13 @@ class WellType:
         jpg_files = self.fb.get_file_filter(".", f"w{self.well_list[0]}-*.jpg")
 
         if not jpg_files:
-            jpg_files = self.fb.get_file_filter(".", f"w{self.well_list[0]}-1*.jpg")
+            jpg_files = self.fb.get_file_filter(".", f"w{self.well_list[0]}*.jpg")
 
-        self.dangye_include = len(jpg_files) == 6
+        # self.dangye_include = len(jpg_files) == 6
+        if len(jpg_files) == 6 or len(jpg_files) == 5:
+            self.dangye_include = True
+        else:
+            self.dangye_include = False
 
         # Determine number of wells from file naming pattern
         jpg_files = self.fb.get_jpg_filter(".", "w*.jpg")
@@ -97,7 +101,7 @@ class ReportGenerator:
         self.hwp = None
 
     @staticmethod
-    def line_print(msg,n=100):
+    def line_print(msg, n=100):
         print('-' * n)
         print(msg)
         print('-' * n)
@@ -223,12 +227,18 @@ def main():
 
     if wt.dangye_include:
         if len(jpg_files) % 6 != 0:
-            print(f' YangSoo Report W files are not miss match ')
-            exit()
+            if len(jpg_files) % 5 != 0:
+                print(f' YangSoo Report W files are not miss match ')
+                exit()
+            else:
+                print(f'YangSoo Report  5 type, Long 3Page, Step 2Page')
     else:
         if len(jpg_files) % 4 != 0:
-            print(f' YangSoo Report W files are not miss match ')
-            exit()
+            if len(jpg_files) % 3 != 0:
+                print(f' YangSoo Report W files are not miss match ')
+                exit()
+            else:
+                print(f' YangSoo Report 3 type, Long 3Page ')
 
     # Generate reports
     report_generator = ReportGenerator(wt)
