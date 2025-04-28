@@ -89,7 +89,7 @@ class ReportGenerator:
         self.hwp.Quit()  # 한/글 프로그램 종료
 
         self.line_print(' delete left over hwpx files ....', 150)
-        time.sleep(1)
+        time.sleep(3)
         for _ in file_list:
             file = self.send_dir / _
             print(file)

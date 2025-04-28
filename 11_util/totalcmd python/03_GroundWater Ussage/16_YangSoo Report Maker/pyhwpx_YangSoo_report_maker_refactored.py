@@ -131,7 +131,7 @@ class ReportGenerator:
         self.hwp.Quit()  # 한/글 프로그램 종료
 
         self.line_print(' delete left over hwpx files ....')
-        time.sleep(1)
+        time.sleep(3)
         for _ in file_list:
             file = self.send_dir / _
             self.fb.delete_file(file)
@@ -250,6 +250,7 @@ def main():
 
     report_generator.line_print(" Merge HWP Files ... ")
     report_generator.merge_hwp_files()
+    input("Ente to Exit ...")
 
 
 if __name__ == "__main__":
