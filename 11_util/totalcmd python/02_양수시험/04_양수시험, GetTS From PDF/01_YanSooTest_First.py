@@ -232,7 +232,7 @@ class YangSooInjector:
 
         self.STABLE_TIME = row_data['stable_time']
 
-        print('time stamp of longtest_time :', row_data['longterm_test_time'], type(row_data[13]))
+        print('time stamp of longtest_time :', row_data['longterm_test_time'])
         # self.LONG_TERM_TEST_TIME = self.parse_and_adjust_timestamp(row_data[13])
 
         self.LONG_TERM_TEST_TIME = row_data['longterm_test_time'].tz_localize('UTC')
@@ -245,6 +245,7 @@ class YangSooInjector:
         tochul = row_data['tochul']
         ph = row_data['ph']
         pumping_capacity = row_data['pumping_capacity']
+        yangsoo_time = row_data['yangsoo_time']
 
         # Swap natural and stable if stable is less than natural to prevent errors
         if stable < natural:
@@ -275,12 +276,13 @@ class YangSooInjector:
                 "I44": project_name,
                 "I45": jigu_name,
                 "I47": company_name,
-                "c9": ph
+                "c9": ph,
+                "z999": yangsoo_time
             })
 
         return cell_values
 
-    def inject_value_to_cells(self, book):
+    def inject_value_to_cells(self, book, excel):
         sheet = book.Worksheets("Input")
         sheet_w1 = book.Worksheets("w1")
 
@@ -290,6 +292,11 @@ class YangSooInjector:
 
         cell_values = self.make_cell_values(row_index)
         sheet.Range("M49").Value = 300  # 안정수위를 일단 300으로 , 에러를 차단하기 위해서 ...
+
+        if cell_values.get("z999") == 2880:
+            excel.Application.Run("mod_INPUT.SetTimeTo2880")
+        else:
+            excel.Application.Run("mod_INPUT.SetTimeTo1440")
 
         for cell, value in cell_values.items():
             print(f'inject_value_to_cells : {cell} - {value}')
@@ -344,7 +351,8 @@ class YangSooInjector:
         ws = wb.Worksheets("Input")
         ws.Activate()
         time.sleep(1)
-        self.inject_value_to_cells(wb)
+        self.inject_value_to_cells(wb,excel)
+
         time.sleep(1)
 
         self.change_window('EXCEL')
