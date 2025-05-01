@@ -197,9 +197,8 @@ def main():
     report_generator.line_print(" Merge HWP files  ... ",130)
     report_generator.merge_hwp_files()
 
-    while True:
-        keyboard.wait('space')
-        print("Spacebar pressed!")
+    print("Exit to Press Spacebar !!!")
+    keyboard.wait('space')
 
 
 if __name__ == "__main__":
