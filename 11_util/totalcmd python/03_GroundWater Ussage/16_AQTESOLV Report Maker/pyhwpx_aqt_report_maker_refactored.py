@@ -3,6 +3,7 @@ import re
 from pathlib import Path
 from pyhwpx import Hwp
 import time
+import keyboard
 from FileManger_V0_20250406 import FileBase
 
 
@@ -195,6 +196,10 @@ def main():
 
     report_generator.line_print(" Merge HWP files  ... ",130)
     report_generator.merge_hwp_files()
+
+    while True:
+        keyboard.wait('space')
+        print("Spacebar pressed!")
 
 
 if __name__ == "__main__":
