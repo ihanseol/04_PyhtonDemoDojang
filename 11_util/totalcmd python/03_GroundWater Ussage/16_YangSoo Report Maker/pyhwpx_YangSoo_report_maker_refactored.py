@@ -100,6 +100,7 @@ class ReportGenerator:
         self.well_type = well_type
         self.fb = FileBase()
         self.hwp = None
+        self.hwp2 = None
 
     @staticmethod
     def line_print(msg, n=100):
@@ -111,28 +112,35 @@ class ReportGenerator:
         my_page = {'위쪽': 20, '머리말': 10, '왼쪽': 20, '오른쪽': 20, '제본여백': 0, '꼬리말': 10, '아래쪽': 13, '제본타입': 0, '용지방향': 0,
                    '용지길이': 297, '용지폭': 210}
 
-        self.hwp.set_pagedef(my_page, "cur")
+        self.hwp2.set_pagedef(my_page, "cur")
         print(my_page)
 
     def merge_hwp_files(self):
-        self.hwp = Hwp()  # 한/글 실행
+        # 작업할 디렉토리를 명시적으로 설정 (예: "C:/Users/Username/Documents")
+        target_dir = "D:\\05_Send\\"
 
-        file_list = self.fb.get_file_filter(".", "*.hwpx")
+        # 작업 디렉토리로 변경
+        os.chdir(target_dir)
+        self.hwp2 = Hwp(visible=True)  # 한/글 실행
+
+        file_list = self.fb.get_file_filter(".", "*.hwp*")
         print(file_list)
 
-        self.hwp.open(file_list[0])  # 첫 번째(0) 파일 열기
+        self.hwp2.open(file_list[0])  # 첫 번째(0) 파일 열기
         for i in file_list[1:]:  # 첫 번째(0) 파일은 제외하고 두 번째(1)파일부터 아래 들여쓰기한 코드 반복
-            self.hwp.MoveDocEnd()  # 한/글의 문서 끝으로 이동해서
-            self.hwp.insert_file(i)  # 문서끼워넣기(기본값은 섹션, 글자, 문단, 스타일 모두 유지??)
+            self.hwp2.MoveDocEnd()  # 한/글의 문서 끝으로 이동해서
+            self.hwp2.insert_file(i)  # 문서끼워넣기(기본값은 섹션, 글자, 문단, 스타일 모두 유지??)
 
-        self.hwp.HAction.Run("MoveRight")
-        self.hwp.HAction.Run('SelectAll')
+        self.hwp2.HAction.Run("MoveRight")
+        self.hwp2.HAction.Run('SelectAll')
+
         self.pagesetup()
-        self.hwp.save_as("01_취합본.hwp")  # 반복이 끝났으면 "취합본.hwp"로 다른이름으로저장
-        self.hwp.Quit()  # 한/글 프로그램 종료
+
+        self.hwp2.save_as("01_취합본.hwp")  # 반복이 끝났으면 "취합본.hwp"로 다른이름으로저장
+        self.hwp2.Quit()  # 한/글 프로그램 종료
 
         self.line_print(' delete left over hwpx files ....')
-        time.sleep(3)
+        time.sleep(1)
         for _ in file_list:
             file = self.send_dir / _
             self.fb.delete_file(file)
@@ -157,7 +165,8 @@ class ReportGenerator:
                 self._process_well_report(i)
         finally:
             if self.hwp:
-                self.hwp.quit()
+                self.hwp.Quit()
+
 
     def _process_well_report(self, well_no):
         """Process report for a specific well."""
@@ -210,8 +219,10 @@ class ReportGenerator:
         """Insert an image into the current position in the document."""
         image_path = self.send_dir / image_filename
         print(f'image_path: {image_path}, image_filename : {image_filename}')
-        # self.hwp.insert_picture(image_path, treat_as_char=True, embedded=True, sizeoption=0)
-        # pass by image_path cause error , i don't know why
+        """
+            # self.hwp.insert_picture(image_path, treat_as_char=True, embedded=True, sizeoption=0)
+            # pass by image_path cause error , i don't know why
+        """
         self.hwp.insert_picture(image_filename, treat_as_char=True, embedded=True, sizeoption=0)
 
 
@@ -224,7 +235,9 @@ def main():
 
     jpg_files = fb.get_file_filter(".", "*.jpg")
 
-    # error check , len of yangsoo file are correct ?
+    """
+       error check , len of yangsoo file are correct ?
+    """
 
     if wt.dangye_include:
         if len(jpg_files) % 6 != 0:
@@ -252,8 +265,8 @@ def main():
     report_generator.line_print(" Merge HWP Files ... ")
     report_generator.merge_hwp_files()
 
-    print("Exit to Press Spacebar !!!")
-    keyboard.wait('space')
+    # print("Exit to Press Spacebar !!!")
+    # keyboard.wait('space')
 
 
 if __name__ == "__main__":
