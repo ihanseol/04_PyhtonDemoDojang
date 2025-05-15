@@ -204,7 +204,6 @@ def main_ss():
     df = initial_work("ss")
 
     length = len(df)
-    quo = length / 25
     nquo, remainder = divmod(length, 25)
 
     if length <= 24:
@@ -215,7 +214,7 @@ def main_ss():
             for i in range(nquo):
                 source_file = HWP_BASE + "\\01_SS_General.hwpx"
                 print(source_file)
-                print('ss_0' + str(i) + '.hwpx')
+                # print('ss_0' + str(i) + '.hwpx')
                 shutil.copy(source_file, XL_BASE + f"\\ss_0{i}.hwpx")
             shutil.copy(HWP_BASE + "\\02_SS_Final.hwpx", XL_BASE + f"\\ss_0{i + 1}.hwpx")
         else:
@@ -234,7 +233,6 @@ def main_aa():
     df = initial_work("aa")
 
     length = len(df)
-    quo = length / 25
     nquo, remainder = divmod(length, 25)
 
     if length <= 24:
@@ -245,7 +243,7 @@ def main_aa():
             for i in range(nquo):
                 source_file = HWP_BASE + "\\01_AA_General.hwpx"
                 print(source_file)
-                print('aa_0' + str(i) + '.hwpx')
+                # print('aa_0' + str(i) + '.hwpx')
                 shutil.copy(source_file, XL_BASE + f"\\aa_0{i}.hwpx")
             shutil.copy(HWP_BASE + "\\02_AA_Final.hwpx", XL_BASE + f"\\aa_0{i + 1}.hwpx")
         else:
@@ -279,11 +277,11 @@ def move_hwp_files_from_desktop(destination_path):
             print(f"Error moving {os.path.basename(file_path)}: {e}")
 
 
-def delete_hwp_files_in_current_directory():
+def delete_hwp_files_in_current_directory(file_path='*.hwpx'):
     """Deletes all *.hwp files in the current directory."""
     # Use glob to find all *.hwp files in the current directory
     os.chdir(XL_BASE)
-    hwp_files = glob.glob("*.hwp*")
+    hwp_files = glob.glob(file_path)
 
     if not hwp_files:
         print("No *.hwp files found in the current directory.")
@@ -299,8 +297,11 @@ def delete_hwp_files_in_current_directory():
 
 
 if __name__ == "__main__":
-    delete_hwp_files_in_current_directory()
+    delete_hwp_files_in_current_directory("*.hwp*")
     main_aa()
     countdown(2)
     main_ss()
     move_hwp_files_from_desktop(XL_BASE)
+    mh.merge_hwp_files("01_기사용관정.hwp","reverse")
+    delete_hwp_files_in_current_directory("a*.hwp")
+    delete_hwp_files_in_current_directory("s*.hwp")
