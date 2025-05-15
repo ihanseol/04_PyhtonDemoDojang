@@ -65,79 +65,94 @@ def initial_work(mode):
 
 
 def initial_opencopy(df, mode):
+    """
+        :param df: datafrom of excel, ss_out.xlsx & aa_out.xlsx
+        :param mode: selection mode ss or aa
+        :return:
+    """
+
     def loop25(n):
+        """
+            :param n: number of loop 25times
+            :return:
+        """
         hwp.goto_page(n)
         j = 1
-        for i in range((n - 1) * 25 + 1, n * 25 + 1):
-            n_a = df.iloc[i - 1]['gong']
+        for ii in range((n - 1) * 25 + 1, n * 25 + 1):
+            n_a: str = df.iloc[ii - 1]['gong']
             hwp.goto_addr("a" + str(j + 2))
             hwp.insert_text(n_a)
 
             hwp.goto_addr("b" + str(j + 2))
-            n_b = df.iloc[i - 1]['address']
+            n_b: str = df.iloc[ii - 1]['address']
             hwp.insert_text(n_b)
 
             hwp.goto_addr("c" + str(j + 2))
-            n_c = df.iloc[i - 1]['simdo']
+            n_c: str = df.iloc[ii - 1]['simdo']
             hwp.insert_text(n_c)
 
             hwp.goto_addr("d" + str(j + 2))
-            n_d = df.iloc[i - 1]['well_diameter']
+            n_d: str = df.iloc[ii - 1]['well_diameter']
             hwp.insert_text(n_d)
 
             hwp.goto_addr("e" + str(j + 2))
-            n_e = df.iloc[i - 1]['hp']
+            n_e: str = df.iloc[ii - 1]['hp']
             hwp.insert_text(n_e)
 
             hwp.goto_addr("f" + str(j + 2))
-            n_f = df.iloc[i - 1]['q']
+            n_f: str = df.iloc[ii - 1]['q']
             hwp.insert_text(n_f)
 
             hwp.goto_addr("g" + str(j + 2))
-            n_g = df.iloc[i - 1]['purpose']
+            n_g: str = df.iloc[ii - 1]['purpose']
             hwp.insert_text(n_g)
 
             hwp.goto_addr("h" + str(j + 2))
-            n_h = df.iloc[i - 1]['inout']
+            n_h: str = df.iloc[ii - 1]['inout']
             hwp.insert_text(n_h)
 
             j += 1
 
-    def loop_rest(start, remainder):
-        i = 1
-        for j in range((start * 25) + 1, (start * 25) + remainder + 1):
-            n_a = df.iloc[j - 1]['gong']
-            hwp.goto_addr("a" + str(i + 2))
+    def loop_rest(start, remainder_j):
+        """
+            :param start: quotient
+            :param remainder_j: rest
+            :return:
+        """
+        j = 1
+        for ii in range((start * 25) + 1, (start * 25) + remainder_j + 1):
+            n_a: str = df.iloc[ii - 1]['gong']
+            hwp.goto_addr("a" + str(j + 2))
             hwp.insert_text(n_a)
 
-            hwp.goto_addr("b" + str(i + 2))
-            n_b = df.iloc[j - 1]['address']
+            hwp.goto_addr("b" + str(j + 2))
+            n_b: str= df.iloc[ii - 1]['address']
             hwp.insert_text(n_b)
 
-            hwp.goto_addr("c" + str(i + 2))
-            n_c = df.iloc[j - 1]['simdo']
+            hwp.goto_addr("c" + str(j + 2))
+            n_c: str = df.iloc[ii - 1]['simdo']
             hwp.insert_text(n_c)
 
-            hwp.goto_addr("d" + str(i + 2))
-            n_d = df.iloc[j - 1]['well_diameter']
+            hwp.goto_addr("d" + str(j + 2))
+            n_d: str = df.iloc[ii - 1]['well_diameter']
             hwp.insert_text(n_d)
 
-            hwp.goto_addr("e" + str(i + 2))
-            n_e = df.iloc[j - 1]['hp']
+            hwp.goto_addr("e" + str(j + 2))
+            n_e: str = df.iloc[ii - 1]['hp']
             hwp.insert_text(n_e)
 
-            hwp.goto_addr("f" + str(i + 2))
-            n_f = df.iloc[j - 1]['q']
+            hwp.goto_addr("f" + str(j + 2))
+            n_f: str = df.iloc[ii - 1]['q']
             hwp.insert_text(n_f)
 
-            hwp.goto_addr("g" + str(i + 2))
-            n_g = df.iloc[j - 1]['purpose']
+            hwp.goto_addr("g" + str(j + 2))
+            n_g: str = df.iloc[ii - 1]['purpose']
             hwp.insert_text(n_g)
 
-            hwp.goto_addr("h" + str(i + 2))
-            n_h = df.iloc[j - 1]['inout']
+            hwp.goto_addr("h" + str(j + 2))
+            n_h: str = df.iloc[ii - 1]['inout']
             hwp.insert_text(n_h)
-            i = i + 1
+            j += 1
 
     os.chdir(XL_BASE)
     q_sum_in = round(df.loc[df['inout'] == "O", 'q'].sum(), 2)
