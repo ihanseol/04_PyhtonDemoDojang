@@ -204,7 +204,7 @@ def main_ss():
                 shutil.copy(source_file, XL_BASE + f"\\ss_0{i}.hwpx")
             shutil.copy(HWP_BASE + "\\02_SS_Final.hwpx", XL_BASE + f"\\ss_0{i + 1}.hwpx")
         else:
-            for i in range(nquo - 1):
+            for i in range(nquo):
                 shutil.copy(HWP_BASE + "\\01_SS_General.hwpx", XL_BASE + f"\\ss_0{i}.hwpx")
             shutil.copy(HWP_BASE + "\\02_SS_Final.hwpx", XL_BASE + f"\\ss_0{i + 1}.hwpx")
 
@@ -234,7 +234,7 @@ def main_aa():
                 shutil.copy(source_file, XL_BASE + f"\\aa_0{i}.hwpx")
             shutil.copy(HWP_BASE + "\\02_AA_Final.hwpx", XL_BASE + f"\\aa_0{i + 1}.hwpx")
         else:
-            for i in range(nquo - 1):
+            for i in range(nquo):
                 shutil.copy(HWP_BASE + "\\01_AA_General.hwpx", XL_BASE + f"\\aa_0{i}.hwpx")
             shutil.copy(HWP_BASE + "\\02_AA_Final.hwpx", XL_BASE + f"\\aa_0{i + 1}.hwpx")
 
