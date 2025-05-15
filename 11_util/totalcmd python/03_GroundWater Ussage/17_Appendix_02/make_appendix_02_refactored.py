@@ -8,15 +8,15 @@ class WellData:
         """Initialize well data attributes."""
         self.data = {}
 
-    def set_data(self, gong, title, address):
+    def set_data(self, gong, title, address, casing):
         """Store well data and calculate derived values."""
         # Store base data
         self.data = {
             "gong": gong,
             "title": title,
-            "address": address
+            "address": address,
+            "casing": casing
         }
-
 
     def get_all_data(self):
         """Return combined dictionary of base and derived data."""
@@ -31,17 +31,16 @@ class WellData:
             print(f"{key}: {value}")
 
 
-
 class AppendixMaker:
     """Class to process well data and generate appendix output."""
 
     # Define column names as class constants
     INPUT_COLUMNS = [
-        'gong', 'Project Name', 'address'
+        'gong', 'Project Name', 'address', 'casing'
     ]
 
     OUTPUT_COLUMNS = [
-        'gong', 'title', 'address'
+        'gong', 'title', 'address', 'casing'
     ]
 
     def __init__(self, base_dir=None):
@@ -117,17 +116,17 @@ class AppendixMaker:
         address = f"{row['address']}({row['gong']})"
 
         # Set well data and calculate derived attributes
-        self.well_processor.set_data(row['gong'], row['Project Name'], address)
+        self.well_processor.set_data(row['gong'], row['Project Name'], address, row['casing']*100)
 
         # Print debug information
         self.well_processor.print_data()
         print("-" * 80)
 
-
         return {
             'gong': row['gong'],
             'title': row['Project Name'],
-            'address': address
+            'address': address,
+            'casing': row['casing']*100
         }
 
     def process_data(self):

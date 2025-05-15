@@ -138,11 +138,36 @@ class HwpProcessor:
             print(f"Error filling fields: {str(e)}")
             return False
 
+
+    def delete_insert_field(self):
+        """
+            # functionOnScriptMacro_누름틀지우기()
+            # {
+            #     HAction.GetDefault("DeleteCtrls", HParameterSet.HDeleteCtrls.HSet);
+            #     with (HParameterSet.HDeleteCtrls)
+            #     {
+            #     CreateItemArray("DeleteCtrlType", 1);
+            #     DeleteCtrlType.Item(0) = 17;
+            #     }
+            #     HAction.Execute("DeleteCtrls", HParameterSet.HDeleteCtrls.HSet);
+            #     }
+            # }
+        """
+
+        pset = self.hwp.HParameterSet.HDeleteCtrls
+        self.hwp.HAction.GetDefault("DeleteCtrls", pset.HSet)
+        pset.CreateItemArray("DeleteCtrlType", 1)
+        pset.DeleteCtrlType.SetItem(0, 17)
+        self.hwp.HAction.Execute("DeleteCtrls", pset.HSet)
+
+
     def save_and_cleanup(self):
         """Save the document and clean up resources."""
         try:
             # Save the document
-            self.hwp.delete_all_fields()
+            # self.hwp.delete_all_fields()
+
+            self.delete_insert_field()
             output_path = self.base_dir / self.hwp_output
             self.hwp.save_as(str(output_path))
             print(f"Document saved successfully to {output_path}")
@@ -164,20 +189,17 @@ class HwpProcessor:
         """Run the complete HWP processing workflow."""
         print("Starting HWP document processing...")
 
-        # Prepare environment
         if not self.prepare_environment():
             return "Failed to prepare environment."
 
-        self.countdown(1)
+        # self.countdown(1)
 
-        # Initialize HWP and load data
         if not self.initialize_hwp():
             return "Failed to initialize HWP."
 
         if not self.load_excel_data():
             return "Failed to load Excel data."
 
-        # Process document
         if not self.open_hwp_template():
             return "Failed to open HWP template."
 
@@ -187,7 +209,6 @@ class HwpProcessor:
         if not self.fill_fields():
             return "Failed to fill fields with data."
 
-        # Save and cleanup
         if not self.save_and_cleanup():
             return "Failed during save and cleanup."
 

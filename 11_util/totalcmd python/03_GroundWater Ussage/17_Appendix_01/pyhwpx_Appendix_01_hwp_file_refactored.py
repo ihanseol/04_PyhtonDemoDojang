@@ -154,11 +154,35 @@ class HwpDocumentGenerator:
             print(f"Error filling fields: {str(e)}")
             return False
 
+    def delete_insert_field(self):
+        """
+            # functionOnScriptMacro_누름틀지우기()
+            # {
+            #     HAction.GetDefault("DeleteCtrls", HParameterSet.HDeleteCtrls.HSet);
+            #     with (HParameterSet.HDeleteCtrls)
+            #     {
+            #     CreateItemArray("DeleteCtrlType", 1);
+            #     DeleteCtrlType.Item(0) = 17;
+            #     }
+            #     HAction.Execute("DeleteCtrls", HParameterSet.HDeleteCtrls.HSet);
+            #     }
+            # }
+        """
+
+        pset = self.hwp.HParameterSet.HDeleteCtrls
+        self.hwp.HAction.GetDefault("DeleteCtrls", pset.HSet)
+        pset.CreateItemArray("DeleteCtrlType", 1)
+        pset.DeleteCtrlType.SetItem(0, 17)
+        self.hwp.HAction.Execute("DeleteCtrls", pset.HSet)
+
+
     def save_and_cleanup(self):
         """Save the document and clean up resources."""
         try:
             # Save the document
-            self.hwp.delete_all_fields()
+            # self.hwp.delete_all_fields() --> default pyhwpx function
+
+            self.delete_insert_field()
             output_path = self.base_dir / self.hwp_output
             self.hwp.save_as(str(output_path))
             print(f"Document saved successfully to {output_path}")
@@ -180,37 +204,29 @@ class HwpDocumentGenerator:
         """Run the complete document generation process."""
         print("Starting HWP document generation...")
 
-        # Step 1: Generate Excel data
         if not self.prepare_excel_data():
             return "Failed to generate Excel data."
 
-        self.display_countdown(1)
+        # self.display_countdown(1)
 
-        # Step 2: Copy template to desktop
         if not self.copy_template_to_desktop():
             return "Failed to copy template to desktop."
 
-        # Step 3: Load Excel data
         if not self.load_excel_data():
             return "Failed to load Excel data."
 
-        # Step 4: Initialize HWP
         if not self.initialize_hwp():
             return "Failed to initialize HWP."
 
-        # Step 5: Open template and get field list
         if not self.open_template():
             return "Failed to open template."
 
-        # Step 6: Duplicate template for each row
         if not self.duplicate_template():
             return "Failed to duplicate template pages."
 
-        # Step 7: Fill fields with data
         if not self.fill_fields():
             return "Failed to fill fields with data."
 
-        # Save and cleanup
         if not self.save_and_cleanup():
             return "Failed during save and cleanup."
 

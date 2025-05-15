@@ -153,10 +153,34 @@ class HwpDocumentGenerator:
             print(f"Error filling fields: {str(e)}")
             return False
 
+
+    def delete_insert_field(self):
+        """
+            # functionOnScriptMacro_누름틀지우기()
+            # {
+            #     HAction.GetDefault("DeleteCtrls", HParameterSet.HDeleteCtrls.HSet);
+            #     with (HParameterSet.HDeleteCtrls)
+            #     {
+            #     CreateItemArray("DeleteCtrlType", 1);
+            #     DeleteCtrlType.Item(0) = 17;
+            #     }
+            #     HAction.Execute("DeleteCtrls", HParameterSet.HDeleteCtrls.HSet);
+            #     }
+            # }
+        """
+
+        pset = self.hwp.HParameterSet.HDeleteCtrls
+        self.hwp.HAction.GetDefault("DeleteCtrls", pset.HSet)
+        pset.CreateItemArray("DeleteCtrlType", 1)
+        pset.DeleteCtrlType.SetItem(0, 17)
+        self.hwp.HAction.Execute("DeleteCtrls", pset.HSet)
+
+
+
     def save_and_cleanup(self):
         """Save the document and clean up resources."""
         try:
-            # self.hwp.delete_all_fields()
+            self.delete_insert_field()
             output_path = self.base_dir / self.hwp_output
             self.hwp.save_as(str(output_path))
             print(f"Document saved successfully to {output_path}")
@@ -179,7 +203,8 @@ class HwpDocumentGenerator:
         if not self.prepare_excel_data():
             return "Failed to generate Excel data."
 
-        self.display_countdown(1)
+        # self.display_countdown(1)
+
         if not self.copy_template_to_desktop():
             return "Failed to copy template to desktop."
 
