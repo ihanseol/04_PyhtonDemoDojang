@@ -51,7 +51,7 @@
       <string>Documents</string>
      </property>
      <property name="checked">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QRadioButton" name="radioButton_2">
@@ -90,9 +90,6 @@
      </property>
      <property name="text">
       <string>d:\06_Send2</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
      </property>
     </widget>
    </widget>
