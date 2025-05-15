@@ -192,7 +192,7 @@ def main_ss():
     quo = length / 25
     nquo, remainder = divmod(length, 25)
 
-    if length <= 23:
+    if length <= 24:
         shutil.copy(HWP_BASE + "\\02_SS_Final.hwpx", XL_BASE + '\\ss_00.hwpx')
     else:
         i = 0
@@ -222,7 +222,7 @@ def main_aa():
     quo = length / 25
     nquo, remainder = divmod(length, 25)
 
-    if length <= 23:
+    if length <= 24:
         shutil.copy(HWP_BASE + "\\02_AA_Final.hwpx", XL_BASE + '\\aa_00.hwpx')
     else:
         i = 0
