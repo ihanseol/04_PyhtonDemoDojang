@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'aqt_inputkRwhSj.ui'
+## Form generated from reading UI file 'aqt_inputuNnuKj.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.3
 ##
@@ -57,21 +57,21 @@ class Ui_MainWindow(object):
         self.label_4.setFont(font1)
         self.pushButton = QPushButton(self.tab_1)
         self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setGeometry(QRect(260, 180, 141, 51))
+        self.pushButton.setGeometry(QRect(290, 190, 141, 51))
         font2 = QFont()
         font2.setFamilies([u"Consolas"])
         font2.setPointSize(12)
         self.pushButton.setFont(font2)
         self.pushButton_2 = QPushButton(self.tab_1)
         self.pushButton_2.setObjectName(u"pushButton_2")
-        self.pushButton_2.setGeometry(QRect(410, 180, 141, 51))
+        self.pushButton_2.setGeometry(QRect(440, 190, 141, 51))
         self.pushButton_2.setFont(font2)
         self.tabWidget.addTab(self.tab_1, "")
         self.tab_2 = QWidget()
         self.tab_2.setObjectName(u"tab_2")
         self.pushButton_3 = QPushButton(self.tab_2)
         self.pushButton_3.setObjectName(u"pushButton_3")
-        self.pushButton_3.setGeometry(QRect(430, 180, 151, 51))
+        self.pushButton_3.setGeometry(QRect(430, 190, 151, 51))
         self.pushButton_3.setFont(font2)
         self.label_5 = QLabel(self.tab_2)
         self.label_5.setObjectName(u"label_5")
@@ -79,14 +79,14 @@ class Ui_MainWindow(object):
         self.label_5.setFont(font1)
         self.textEdit_4 = QTextEdit(self.tab_2)
         self.textEdit_4.setObjectName(u"textEdit_4")
-        self.textEdit_4.setGeometry(QRect(10, 40, 571, 121))
+        self.textEdit_4.setGeometry(QRect(10, 40, 571, 141))
         font3 = QFont()
         font3.setFamilies([u"D2Coding"])
         font3.setPointSize(10)
         self.textEdit_4.setFont(font3)
         self.pushButton_4 = QPushButton(self.tab_2)
         self.pushButton_4.setObjectName(u"pushButton_4")
-        self.pushButton_4.setGeometry(QRect(270, 180, 151, 51))
+        self.pushButton_4.setGeometry(QRect(270, 190, 151, 51))
         self.pushButton_4.setFont(font2)
         self.tabWidget.addTab(self.tab_2, "")
         self.textEdit = QTextEdit(self.centralwidget)
@@ -209,7 +209,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
