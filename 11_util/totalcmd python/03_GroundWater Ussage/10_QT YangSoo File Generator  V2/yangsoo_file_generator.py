@@ -95,6 +95,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.file_processing.duplicate_yangsoo_excel(spin_value)
             for i in range(1, spin_value + 1):
                 self.file_processing.aqtfile_to_send(i, mode)
+
+            if self.radio16.isChecked():
+                self.Company = self.textEdit_company.toPlainText()
+
             self.spi.Set_Projectinfo(self.Company, self.Address)
 
     def on_pushButton3_clicked(self):
