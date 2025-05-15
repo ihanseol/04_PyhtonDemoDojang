@@ -168,7 +168,7 @@ class HwpProcessor:
         if not self.prepare_environment():
             return "Failed to prepare environment."
 
-        self.countdown(1)
+        # self.countdown(1)
 
         # Initialize HWP and load data
         if not self.initialize_hwp():

@@ -179,7 +179,8 @@ class HwpDocumentGenerator:
         if not self.prepare_excel_data():
             return "Failed to generate Excel data."
 
-        self.display_countdown(1)
+        # self.display_countdown(1)
+
         if not self.copy_template_to_desktop():
             return "Failed to copy template to desktop."
 

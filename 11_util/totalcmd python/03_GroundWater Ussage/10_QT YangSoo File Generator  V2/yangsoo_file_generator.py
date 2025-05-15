@@ -57,11 +57,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.file_processing = PrepareYangsoofile()
 
         # Connect all radio buttons to the same handler
-        for i in range(1, 16):
+        for i in range(1, 17):
             radio_button = getattr(self, f'radio{i}')
             radio_button.toggled.connect(self.on_radio_button_toggled)
 
-        self.textEdit_2.setText("선택한 항목: 주식회사 한일지하수")
+        self.textEdit_2.setText("항목: 주식회사 한일지하수")
         self.Company = "주식회사 한일지하수"
         self.Address = "주소는 없어요"
         self.spi = AqtProjectInfoInjector("d:\\05_Send\\", "")
@@ -70,8 +70,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_radio_button_toggled(self):
         radio_button = self.sender()
         if radio_button.isChecked():
-            self.textEdit_2.setText(f"선택한 항목: {radio_button.text()}")
-            self.Company = radio_button.text()
+            self.textEdit_2.setText(f"항목: {radio_button.text()}")
+            if radio_button.objectName() == "radio16":
+                self.Company = self.textEdit_company.toPlainText()
+            else:
+                self.Company = radio_button.text()
             print(f'Company : {self.Company}')
 
     def on_pushButton_clicked(self):
@@ -128,6 +131,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             # 양수스펙파일이 없으면
             if len(aqt_files) > 0:
+                if self.radio16.isChecked():
+                    self.Company = self.textEdit_company.toPlainText()
+
                 print(f'main_call : self.Company : {self.Company}, self.Address: {self.Address}')
                 # self.spi.main_call_project_info(self.Address, self.Company)
                 self.spi.Set_Projectinfo(self.Company, self.Address)
@@ -149,6 +155,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for i in range(1, spin_value + 1):
                 self.file_processing.aqtfile_to_send(i, checkbox_state)
 
+            if self.radio16.isChecked():
+                self.Company = self.textEdit_company.toPlainText()
+
             print(f'inside, copyaqt_and_set : self.Company : {self.Company}, self.Address: {self.Address}')
             self.spi.Set_Projectinfo(self.Company, self.Address)
 
@@ -157,6 +166,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def on_pushButton4_clicked(self):
         self.close()
+
 
 
 if __name__ == "__main__":
