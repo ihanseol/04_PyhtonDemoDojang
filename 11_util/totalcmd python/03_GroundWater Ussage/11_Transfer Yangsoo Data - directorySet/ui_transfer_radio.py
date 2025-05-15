@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'move_after3UdTfJe.ui'
+## Form generated from reading UI file 'move_after3dcRjMv.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.3
 ##
@@ -37,7 +37,7 @@ class Ui_MainWindow(object):
         self.radioButton_1.setObjectName(u"radioButton_1")
         self.radioButton_1.setGeometry(QRect(30, 40, 101, 20))
         self.radioButton_1.setFont(font)
-        self.radioButton_1.setChecked(True)
+        self.radioButton_1.setChecked(False)
         self.radioButton_2 = QRadioButton(self.groupBox)
         self.radioButton_2.setObjectName(u"radioButton_2")
         self.radioButton_2.setGeometry(QRect(170, 40, 111, 20))
@@ -46,6 +46,7 @@ class Ui_MainWindow(object):
         self.radioButton_3.setObjectName(u"radioButton_3")
         self.radioButton_3.setGeometry(QRect(310, 40, 151, 20))
         self.radioButton_3.setFont(font)
+        self.radioButton_3.setChecked(True)
         self.lineEdit = QLineEdit(self.centralwidget)
         self.lineEdit.setObjectName(u"lineEdit")
         self.lineEdit.setGeometry(QRect(20, 80, 1021, 51))
