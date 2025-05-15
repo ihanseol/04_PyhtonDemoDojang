@@ -145,7 +145,7 @@ def initial_opencopy(df, mode):
     qo_count = len(df.loc[df['inout'] == "O", 'q'])
     qx_count = len(df.loc[df['inout'] == "X", 'q'])
 
-    hwp = Hwp(visible=True)
+    hwp = Hwp(visible=False)
     hwp.open("01_취합본.hwp")
 
     length = len(df)
