@@ -5,14 +5,14 @@ import glob
 
 
 def pagesetup(hwp):
-    my_page = {'위쪽': 20, '머리말': 10, '왼쪽': 20, '오른쪽': 20, '제본여백': 0, '꼬리말': 10, '아래쪽': 13, '제본타입': 0, '용지방향': 0,
+    my_page = {'위쪽': 25, '머리말': 10, '왼쪽': 27, '오른쪽': 23, '제본여백': 0, '꼬리말': 10, '아래쪽': 13, '제본타입': 0, '용지방향': 0,
                '용지길이': 297, '용지폭': 210}
 
     hwp.set_pagedef(my_page, "cur")
     print(my_page)
 
 
-def merge_hwp_files():
+def merge_hwp_files(ofilename='01_취합본.hwp', mode='normal'):
     hwp = Hwp(visible=False)  # 한/글 실행
     fb = FileBase()
 
@@ -25,6 +25,13 @@ def merge_hwp_files():
     # 끼워넣기
     # file_list = [i for i in os.listdir() if i.endswith(".hwpx")]
     file_list = fb.get_file_filter(".", "*.hwp*")
+
+    if mode == 'normal':
+        pass
+    else:
+        reversed_list = file_list[::-1]
+        file_list = reversed_list
+
     print(file_list)
 
     hwp.open(file_list[0])  # 첫 번째(0) 파일 열기
@@ -36,7 +43,7 @@ def merge_hwp_files():
     hwp.HAction.Run("MoveRight")
     hwp.HAction.Run('SelectAll')
     pagesetup(hwp)
-    hwp.save_as("01_취합본.hwp")  # 반복이 끝났으면 "취합본.hwp"로 다른이름으로저장
+    hwp.save_as(ofilename)  # 반복이 끝났으면 "취합본.hwp"로 다른이름으로저장
     hwp.Quit()  # 한/글 프로그램 종료
     remove_hwpx_files()
 
