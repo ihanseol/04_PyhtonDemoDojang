@@ -992,7 +992,7 @@ class TransferYangSooFile(FileBase):
             for f in filtered_files[key]:
                 source = self.join_path_tofilename(source_path, f)
                 target = self.join_path_tofilename(target_directory, f)
-                if not fb.move_file_check(source, target, remove_yes=False):
+                if not fb.move_file_check(source, target, remove_yes=True):
                     return True
 
 
