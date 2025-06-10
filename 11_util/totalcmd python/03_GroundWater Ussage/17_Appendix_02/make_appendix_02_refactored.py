@@ -126,7 +126,7 @@ class AppendixMaker:
             'gong': row['gong'],
             'title': row['Project Name'],
             'address': address,
-            'casing': row['casing']*10
+            'casing': row['casing']*100
         }
 
     def process_data(self):
