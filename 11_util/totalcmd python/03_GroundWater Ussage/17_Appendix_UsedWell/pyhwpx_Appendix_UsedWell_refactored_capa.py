@@ -15,6 +15,7 @@ class HwpReportGenerator:
     # Constants
     SS_INPUT = "ss_out.xlsx"
     AA_INPUT = "aa_out.xlsx"
+    II_INPUT = "ii_out.xlsx"
     XL_BASE = "d:\\05_Send"
     HWP_BASE = r"d:\09_hardRain\10_ihanseol - 2025\00_data\04_Reference Data\12_보고서, 부록\00_UsedWell"
 
@@ -50,7 +51,22 @@ class HwpReportGenerator:
             bool: True if successful, False otherwise
         """
         self.mode = mode
-        file_name = self.AA_INPUT if mode == "aa" else self.SS_INPUT
+        # file_name = self.AA_INPUT if mode == "aa" else self.SS_INPUT
+
+        file_name = self.SS_INPUT
+
+        match mode:
+            case "ss":
+                print("mode is ss ...")
+                file_name = self.SS_INPUT
+            case "aa":
+                print("mode is aa ...")
+                file_name = self.AA_INPUT
+            case "ii":
+                print("mode is ii ...")
+                file_name = self.II_INPUT
+            case _:  # The wildcard pattern, catches anything else
+                print(f"Unknown command: {mode}")
 
         try:
             self.df = pd.read_excel(f"{self.XL_BASE}\\{file_name}")
@@ -98,7 +114,23 @@ class HwpReportGenerator:
 
         length = len(self.df)
         nquo, remainder = divmod(length, 25)
-        file_prefix = "aa" if self.mode == "aa" else "ss"
+        # file_prefix = "aa" if self.mode == "aa" else "ss"
+
+        file_prefix = "ss"
+
+        match self.mode:
+            case "ss":
+                print("<prepare_hwp_files> : mode is ss ...")
+                file_prefix = "ss"
+            case "aa":
+                print("<prepare_hwp_files> : mode is aa ...")
+                file_prefix = "aa"
+            case "ii":
+                print("<prepare_hwp_files> : mode is ii ...")
+                file_prefix = "ii"
+            case _:  # The wildcard pattern, catches anything else
+                print(f"Unknown command: {self.mode}")
+
         general_template = f"01_{file_prefix.upper()}_General.hwpx"
         final_template = f"02_{file_prefix.upper()}_Final.hwpx"
 
@@ -114,7 +146,7 @@ class HwpReportGenerator:
                 source_file = f"{self.HWP_BASE}\\{general_template}"
                 print(f"Copying template: {source_file}")
                 shutil.copy(source_file, f"{self.XL_BASE}\\{file_prefix}_0{i}.hwpx")
-            
+
             shutil.copy(f"{self.HWP_BASE}\\{final_template}", f"{self.XL_BASE}\\{file_prefix}_0{i + 1}.hwpx")
 
     def fill_report_data(self):
@@ -125,10 +157,10 @@ class HwpReportGenerator:
 
         # Change to output directory
         os.chdir(self.XL_BASE)
-        
+
         # Merge HWP files first
         mh.merge_hwp_files()
-        
+
         # Calculate summary values
         q_sum_in = round(self.df.loc[self.df['inout'] == "O", 'q'].sum(), 2)
         q_sum_out = round(self.df.loc[self.df['inout'] == "X", 'q'].sum(), 2)
@@ -155,7 +187,7 @@ class HwpReportGenerator:
         # Fill summary information
         self.hwp.goto_addr("b27")
         self.hwp.insert_text(f"{qo_count}개소(유역내)")
-        
+
         self.hwp.goto_addr("b28")
         if q_sum_out == 0:
             self.hwp.insert_text("-")
@@ -182,7 +214,7 @@ class HwpReportGenerator:
         self.hwp.goto_page(page_num)
         start_idx = (page_num - 1) * 25
         end_idx = page_num * 25
-        
+
         for row_idx, data_idx in enumerate(range(start_idx, end_idx)):
             self._fill_row_data(row_idx + 1, data_idx)
 
@@ -190,15 +222,15 @@ class HwpReportGenerator:
         """Fill data for a partial page (less than 25 rows)"""
         start_idx = quotient * 25
         end_idx = start_idx + remainder
-        
+
         for row_idx, data_idx in enumerate(range(start_idx, end_idx)):
             self._fill_row_data(row_idx + 1, data_idx)
 
     def _fill_row_data(self, row_num, data_idx):
         """Fill data for a single row"""
         columns = ['gong', 'address', 'simdo', 'well_diameter', 'hp', 'capa', 'q', 'purpose', 'inout']
-        column_addrs = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h','i']
-        
+        column_addrs = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']
+
         for col_addr, col_name in zip(column_addrs, columns):
             self.hwp.goto_addr(f"{col_addr}{row_num + 2}")
             value = str(self.df.iloc[data_idx][col_name])
@@ -208,7 +240,7 @@ class HwpReportGenerator:
         """Move HWP files from desktop to destination path"""
         if destination_path is None:
             destination_path = self.XL_BASE
-            
+
         desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
         search_pattern = os.path.join(desktop_path, "*.hwp")
         hwp_files = glob.glob(search_pattern)
@@ -256,32 +288,47 @@ class HwpReportGenerator:
             if os.path.exists("01_취합본.hwp"):
                 os.remove("01_취합본.hwp")
 
+    def process_ii_report(self):
+        """Process SS report generation"""
+        if self.load_excel_data("ii"):
+            self.prepare_hwp_files()
+            self.fill_report_data()
+            if os.path.exists("01_취합본.hwp"):
+                os.remove("01_취합본.hwp")
+
 
 def main():
     """Main function to run the HWP report generator"""
     generator = HwpReportGenerator()
-    
+
     # Clean up existing HWP files
     generator.delete_hwp_files("*.hwp*")
-    
+
     # Process AA report
     generator.process_aa_report()
-    
+
     # Countdown before processing SS report
-    generator.countdown(2)
-    
+    generator.countdown(1)
+
     # Process SS report
     generator.process_ss_report()
-    
+
+    # Countdown before processing II report
+    generator.countdown(1)
+
+    # Process II report
+    generator.process_ii_report()
+
     # Move HWP files from desktop
     generator.move_hwp_files_from_desktop()
-    
+
     # Merge HWP files for final report
-    mh.merge_hwp_files("01_기사용관정.hwp", "reverse")
-    
+    mh.merge_aassii_files("01_기사용관정.hwp")
+
     # Clean up temporary files
     generator.delete_hwp_files("a*.hwp")
     generator.delete_hwp_files("s*.hwp")
+    generator.delete_hwp_files("i*.hwp")
 
 
 if __name__ == "__main__":
