@@ -308,13 +308,13 @@ def main():
     generator.process_aa_report()
 
     # Countdown before processing SS report
-    generator.countdown(1)
+    # generator.countdown(1)
 
     # Process SS report
     generator.process_ss_report()
 
     # Countdown before processing II report
-    generator.countdown(1)
+    # generator.countdown(1)
 
     # Process II report
     generator.process_ii_report()
