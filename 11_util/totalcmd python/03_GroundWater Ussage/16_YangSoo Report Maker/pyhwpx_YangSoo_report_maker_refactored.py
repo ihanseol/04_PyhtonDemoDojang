@@ -137,7 +137,7 @@ class ReportGenerator:
 
         self.pagesetup()
 
-        self.hwp.save_as("01_취합본.hwp")  # 반복이 끝났으면 "취합본.hwp"로 다른이름으로저장
+        self.hwp.save_as("01_양수일보.hwp")  # 반복이 끝났으면 "취합본.hwp"로 다른이름으로저장
         self.hwp.Quit()  # 한/글 프로그램 종료
 
         self.line_print(' delete left over hwpx files ....')

@@ -87,7 +87,7 @@ class ReportGenerator:
         self.hwp.HAction.Run("MoveRight")
         self.hwp.HAction.Run('SelectAll')
         self.pagesetup()
-        self.hwp.save_as("01_취합본.hwp")  # 반복이 끝났으면 "취합본.hwp"로 다른이름으로저장
+        self.hwp.save_as("01_AqtReport.hwp")  # 반복이 끝났으면 "취합본.hwp"로 다른이름으로저장
         self.hwp.Quit()  # 한/글 프로그램 종료
 
         self.line_print(' delete left over hwpx files ....', 150)
