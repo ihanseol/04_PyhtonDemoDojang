@@ -57,13 +57,13 @@ class HwpReportGenerator:
 
         match mode:
             case "ss":
-                print("mode is ss ...")
+                print("<load_excel_data> mode is ss ...")
                 file_name = self.SS_INPUT
             case "aa":
-                print("mode is aa ...")
+                print("<load_excel_data> mode is aa ...")
                 file_name = self.AA_INPUT
             case "ii":
-                print("mode is ii ...")
+                print("<load_excel_data> mode is ii ...")
                 file_name = self.II_INPUT
             case _:  # The wildcard pattern, catches anything else
                 print(f"Unknown command: {mode}")
