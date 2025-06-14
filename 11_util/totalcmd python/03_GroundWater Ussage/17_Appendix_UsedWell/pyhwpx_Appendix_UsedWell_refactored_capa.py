@@ -190,7 +190,7 @@ class HwpReportGenerator:
 
         self.hwp.goto_addr("b28")
         if q_sum_out == 0:
-            self.hwp.insert_text("-")
+            self.hwp.insert_text(f"0개소(유역외)")
         else:
             self.hwp.insert_text(f"{qx_count}개소(유역외)")
 
