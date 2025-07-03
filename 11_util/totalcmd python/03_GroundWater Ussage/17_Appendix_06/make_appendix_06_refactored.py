@@ -11,10 +11,10 @@ class WellData:
     """
     
     DIAMETER_MAPPING = {
-        150: 6,
-        200: 8,
-        250: 10,
-        1700: "1700mm"
+        150: '6″',
+        200: '8″',
+        250: '10″',
+        1700: '1700mm'
     }
     
     def __init__(self):
@@ -34,7 +34,7 @@ class WellData:
         
     def normalize_diameter(self, diameter):
         """Convert diameter to standard value."""
-        return self.DIAMETER_MAPPING.get(diameter, 8)
+        return self.DIAMETER_MAPPING.get(diameter, '8″')
         
     def print_data(self):
         """Print all well data."""
