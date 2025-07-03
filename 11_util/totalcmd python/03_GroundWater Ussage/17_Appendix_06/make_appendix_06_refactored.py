@@ -4,12 +4,17 @@ from pathlib import Path
 
 
 class WellData:
-    """Class to handle well data storage and processing."""
+    """
+     Class to handle well data storage and processing.
+     2025/07/03
+     집수정 우물직경 1700미리 추가해줌 ....
+    """
     
     DIAMETER_MAPPING = {
         150: 6,
         200: 8,
-        250: 10
+        250: 10,
+        1700: "1700mm"
     }
     
     def __init__(self):
