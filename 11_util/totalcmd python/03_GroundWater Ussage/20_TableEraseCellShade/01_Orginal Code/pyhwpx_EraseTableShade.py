@@ -14,7 +14,7 @@ def get_desktop():
 def EraseTableShade(hwp):
     pset = hwp.HParameterSet.HCellBorderFill
     hwp.HAction.GetDefault("NoneTableCellShade", pset.HSet)
-    pset.FillAttr.Type = hwp.BrushType("NullBrush")
+    pset.FillAttr.type = hwp.BrushType("NullBrush|WinBrush")
     hwp.HAction.Execute("NoneTableCellShade", pset.HSet)
     hwp.HAction.Run("Cancel")
 
@@ -26,6 +26,11 @@ def countdown(n):
         time.sleep(1)
         n -= 1
     print("Time's up!")
+
+
+def hwp_py_func():
+    hwp = Hwp()
+    hwp.clipboard_to_pyfunc()
 
 
 def exam_table_search(hwp, n="", startrow=0):
@@ -47,9 +52,14 @@ def exam_table_search(hwp, n="", startrow=0):
         hwp.TableCellBlock()  # 셀블록
         hwp.TableCellBlockExtend()  # 셀블록 확장
         hwp.TableCellBlockExtend()  # 전체 셀 선택
-        hwp.run_script_macro("OnScriptMacro_배경색지우기")
+        EraseTableShade(hwp)
+        # hwp.run_script_macro("OnScriptMacro_배경색지우기")
 
     return None
+
+
+def main1():
+    hwp_py_func()
 
 
 def main():
@@ -60,7 +70,10 @@ def main():
     print(hwp_files[0])
     hwp.open(hwp_files[0])
     exam_table_search(hwp)
+    hwp.save()
+    hwp.close()
 
 
 if __name__ == "__main__":
+    # main1()
     main()
