@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'aqt_inputuNnuKj.ui'
+## Form generated from reading UI file 'aqt_inputlKVCbS.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.3
 ##
@@ -205,6 +205,10 @@ class Ui_MainWindow(object):
         self.label_6.setObjectName(u"label_6")
         self.label_6.setGeometry(QRect(340, 80, 91, 21))
         self.label_6.setFont(font5)
+        self.checkBox_addOne = QCheckBox(self.centralwidget)
+        self.checkBox_addOne.setObjectName(u"checkBox_addOne")
+        self.checkBox_addOne.setGeometry(QRect(430, 200, 101, 20))
+        self.checkBox_addOne.setFont(font4)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -249,5 +253,6 @@ class Ui_MainWindow(object):
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"\uad00\uc815\uc758 \uac2f\uc218", None))
         self.checkBox.setText(QCoreApplication.translate("MainWindow", u"\ub2e8\uacc4\ud3ec\ud568", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"\uc870\uc0ac\uc790", None))
+        self.checkBox_addOne.setText(QCoreApplication.translate("MainWindow", u"\uacf5\ud558\ub098\ucd94\uac00", None))
     # retranslateUi
 

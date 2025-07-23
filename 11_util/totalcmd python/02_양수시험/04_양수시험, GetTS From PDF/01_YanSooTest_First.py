@@ -465,7 +465,11 @@ class YangSooInjector:
 
         last_file = yangsoo_files[-1]
         row_index = self.extract_number(last_file) - 1
-        check = self.get_excel_row(row_index)
+
+        if len(yangsoo_files) == 1:
+            check = self.get_excel_row(0)
+        else:
+            check = self.get_excel_row(row_index)
 
         return yangsoo_files if check is not None else None
 

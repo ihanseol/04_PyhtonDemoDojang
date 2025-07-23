@@ -707,6 +707,25 @@
      <string>조사자</string>
     </property>
    </widget>
+   <widget class="QCheckBox" name="checkBox_addOne">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>200</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>D2Coding</family>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>공하나추가</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>

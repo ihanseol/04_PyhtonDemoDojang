@@ -131,7 +131,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 gong_lists = self.spiexcel.get_gong_list()
                 for i in gong_lists:
                     self.file_processing.aqtfile_to_send(i, checkbox_state or self.spiexcel.is_jiyeol)
-                self.spiexcel.process_projectinfo_byexcel()
+
+                """
+                    더힐CC 처럼 마지막에 공을 하나추가를 해야 할때
+                    체크박스를 따로 만들고, checkBox_addOne
+                    이것이 체크되어 있으면 
+                """
+                if self.checkBox_addOne.isChecked():
+                    self.spiexcel.process_projectinfo_byexcel(addOne=True)
+                else:
+                    self.spiexcel.process_projectinfo_byexcel(addOne=False)
+
         else:
             # 양수스펙파일이 없으면
             if len(aqt_files) > 0:
