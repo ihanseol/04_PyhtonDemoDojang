@@ -107,9 +107,15 @@ class YangSooInjector:
         self.STABLE_TIME = 0
         self.LONG_TERM_TEST_TIME = pd.Timestamp('2024-06-29 15:45:09')
         '''
-            여기서, 안정수위 도달시간 stable_time = 0 이면
-            이것은, 자동으로 처리한다는 의미이다.        
+                    여기서, 안정수위 도달시간 stable_time = 0 이면
+                    이것은, 자동으로 처리한다는 의미이다.        
         '''
+
+        self.yangsoo_files = []
+        """
+            yangsoo_files = ge_Original_SaveFiles
+        """
+
 
     @staticmethod
     def countdown(n):
@@ -212,7 +218,16 @@ class YangSooInjector:
             return None  # Handle this appropriately in your code
 
     def make_cell_values(self, row_index):
-        row_data = self.get_excel_row(row_index)
+        if len(self.yangsoo_files) == 1:
+            row_data = self.get_excel_row(0)
+            """
+                yangsoo_files가 한개밖에 없으면
+                더힐CC처럼 , 공 하나가 추가되어
+                이것만 처리해야 할경우
+            """
+        else:
+            row_data = self.get_excel_row(row_index)
+
         len_row_data = len(row_data)
         print('len(row_data):', len_row_data)
 
@@ -351,7 +366,7 @@ class YangSooInjector:
         ws = wb.Worksheets("Input")
         ws.Activate()
         time.sleep(1)
-        self.inject_value_to_cells(wb,excel)
+        self.inject_value_to_cells(wb, excel)
 
         time.sleep(1)
 
@@ -454,6 +469,7 @@ class YangSooInjector:
             files = natsorted([f for f in os.listdir() if f.endswith('.xlsm')])
             filtered_files = [f for f in files if "ge_OriginalSaveFile" in f]
 
+            self.yangsoo_files = filtered_files
             return filtered_files
 
         os.chdir(self.directory)
