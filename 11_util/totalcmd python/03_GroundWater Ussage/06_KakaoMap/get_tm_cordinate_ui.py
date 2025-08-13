@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'kakaomap_uiXgxdXG.ui'
+## Form generated from reading UI file 'kakaomap_uiPifJXA.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.3
 ##
@@ -23,6 +23,12 @@ class Ui_Dialog(object):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
         Dialog.resize(930, 516)
+        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(Dialog.sizePolicy().hasHeightForWidth())
+        Dialog.setSizePolicy(sizePolicy)
+        Dialog.setModal(True)
         self.label = QLabel(Dialog)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(20, 30, 211, 31))
@@ -55,7 +61,7 @@ class Ui_Dialog(object):
     # setupUi
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
+        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Get TM Cordinate - Using KaKao API", None))
         self.label.setText(QCoreApplication.translate("Dialog", u"Address", None))
         self.pushButton.setText(QCoreApplication.translate("Dialog", u"Get TM Cordinate", None))
         self.pushButton_2.setText(QCoreApplication.translate("Dialog", u"Exit", None))
