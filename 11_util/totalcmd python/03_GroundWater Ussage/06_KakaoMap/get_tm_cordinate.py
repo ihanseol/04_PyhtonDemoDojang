@@ -1,41 +1,61 @@
 import sys
 
 from PySide6.QtWidgets import QApplication, QDialog
-from PySide6.QtWidgets import QMainWindow
 from get_tm_cordinate_ui import Ui_Dialog
 import kakao
 
 
 class MainWindow(QDialog):
+    """
+    Main application window for fetching TM coordinates for a given address.
+    """
+    DEFAULT_ADDRESS = "대전시 유성구 장대동 278-13"
+
     def __init__(self, parent=None):
-        super(MainWindow, self).__init__()
+        """
+        Initializes the main window, sets up the UI, and connects signals.
+        """
+        super().__init__(parent)
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
 
-        self.ui.pushButton.clicked.connect(self.on_pushButton_clicked)
-        self.ui.pushButton_2.clicked.connect(self.on_pushButton2_clicked)
+        self._setup_initial_state()
+        self._connect_signals()
 
-        self.ui.textEdit.setText("대전시 유성구 장대동 278-13 ")
+    def _setup_initial_state(self):
+        """Sets the initial text in the UI widgets."""
+        self.ui.textEdit.setText(self.DEFAULT_ADDRESS)
 
-    def on_pushButton_clicked(self):
+    def _connect_signals(self):
+        """Connects UI element signals to corresponding slots."""
+        self.ui.pushButton.clicked.connect(self.fetch_and_display_coordinates)
+        self.ui.pushButton_2.clicked.connect(self.close)
+
+    def fetch_and_display_coordinates(self):
         """
-            Get TM Cordinate ...
-            카카오맵 API를 이용해서, 좌표를 읽어온다.
+        Fetches TM coordinates for the address in the textEdit using the
+        Kakao Maps API and displays the result.
         """
-        addr = self.ui.textEdit.toPlainText()
-        result01, result02, result03 = kakao.get_tm_cordinate(addr)
+        address = self.ui.textEdit.toPlainText().strip()
+        if not address:
+            self.ui.plainTextEdit.setPlainText("Please enter an address.")
+            return
 
-        self.ui.plainTextEdit.setPlainText(result01 + result02 + result03)
+        try:
+            result1, result2, result3 = kakao.get_tm_cordinate(address)
 
-    def on_pushButton2_clicked(self):
-        self.close()
+            result_text = f"{result1} {result2} {result3}"
+            self.ui.plainTextEdit.setPlainText(result_text)
+
+        except Exception as e:
+            error_message = f"An error occurred:\n{e}\n\nPlease check the address or your connection."
+            self.ui.plainTextEdit.setPlainText(error_message)
+            print(f"Error fetching coordinates for '{address}': {e}")  # Log error for debugging
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setStyle('windows')
-
     window = MainWindow()
     window.show()
-
-    app.exec()
+    sys.exit(app.exec())
