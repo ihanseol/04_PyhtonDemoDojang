@@ -40,6 +40,39 @@ def transform_coordinates(x, y):
     print(f"{x},{y}")
 
 
+def transform_coordinates_01(x, y):
+    url_b = f"https://dapi.kakao.com/v2/local/geo/transcoord.json?x={x}&y={y}&input_coord=WGS84&output_coord=TM"
+    response = requests.get(url_b, headers=headers)
+    url_text = json.loads(response.text)
+    x = url_text['documents'][0]['x']
+    y = url_text['documents'][0]['y']
+
+    print(f"{x},  {y}")
+    return f"{x},   {y}\n"
+
+
+def get_tm_cordinate(addr):
+    print('address : ', addr)
+    params = {"query": f"{addr}"}  # 주소정보를 파라미터에  담습니다.
+
+    resp = requests.get(url, params=params, headers=headers)  # 해더와 파라미터 정보를 넣어 get 타입으로 전송합니다.
+    documents = resp.json()["documents"]  # json으로 받은 파일을 파싱하기.
+
+    address_data = ""
+
+    if len(documents) > 0:  # json을 파싱후 documents 에 데이터가 있을 경우에만
+        address_data = documents[0]['address']['address_name']  # 지번주소
+
+    print(address_data)
+    x, y = extract_coordinates(documents)
+
+    result01 = f"{address_data}\n"
+    result02 = f"x: {x},   y: {y}\n"
+    result03 = transform_coordinates_01(x, y)
+
+    return result01, result02, result03
+
+
 def main():
     # addr = "대전시 유성구 장대동 278-13"
 
