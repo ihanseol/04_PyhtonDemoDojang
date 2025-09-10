@@ -22,7 +22,8 @@
 import os
 import zipfile
 import rarfile
-import py7zr # py7zr 라이브러리 추가
+import py7zr
+# py7zr 라이브러리 추가
 
 zip_folder = r"d:\05_Send"
 extract_base_folder = r"d:\06_Send3"
