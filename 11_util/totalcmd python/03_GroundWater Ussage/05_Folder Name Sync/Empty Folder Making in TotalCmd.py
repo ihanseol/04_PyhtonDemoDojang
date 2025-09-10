@@ -51,13 +51,14 @@ def create_folder(path):
 def get_lastdirectory(path):
     print(path)
 
+    normalized_path = os.path.normpath(path)
+    last_part = os.path.basename(normalized_path)
+    filename_without_ext, _ = os.path.splitext(last_part)
+
     if os.path.isdir(path):
-        normalized_path = os.path.normpath(path)
-        last_part = os.path.basename(normalized_path)
         return last_part
     else:
-        _ = input("Do you want to Exit")
-        return "The given path is not a directory."
+        return filename_without_ext
 
 
 def main():
