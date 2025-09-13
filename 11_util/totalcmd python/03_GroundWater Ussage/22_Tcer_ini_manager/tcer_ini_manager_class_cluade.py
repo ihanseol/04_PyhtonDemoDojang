@@ -196,7 +196,10 @@ class CorelConfigManager:
                     comment_added = True
                     continue
 
-                new_lines.append(line)
+                if (active_version.value in line_stripped) and in_corel_section:
+                    continue
+                else:
+                    new_lines.append(line)
 
             # Write updated content
             with open(self.config_file, 'w', encoding='utf-8') as f:
