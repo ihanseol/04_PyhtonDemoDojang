@@ -10,6 +10,8 @@ from enum import Enum
 
 #  ;FullPath=c:\Program Files (x86)\HNC\Office 2022\HOffice120\Bin\Hwp.exe
 #  FullPath=C:\Program Files (x86)\Hnc\Office 2024\HOffice130\Bin\Hwp.exe
+# c:\Program Files\totalcmd\ini\02_python\03_GroundWater Ussage\22_Tcer_ini_manager\tcer.ini
+# c:\Program Files\totalcmd\ini\02_python\03_GroundWater Ussage\22_Tcer_ini_manager
 
 class HwpVersion(Enum):
     """Enumeration for HWP versions"""
@@ -29,6 +31,7 @@ class HwpConfigManager:
     """Manager for CorelDRAW configuration in tcer.ini file"""
 
     DEFAULT_CONFIG_FILE = "tcer.ini"
+    DEFAULT_CONFIG_DIR = r"c:\Program Files\totalcmd\ini\02_python\03_GroundWater Ussage\22_Tcer_ini_manager"
     SECTION_NAME = "Program_HWP"
     DEFAULT_DEST_DIR = r"c:\Program Files\totalcmd\plugins\utils\util_tcer"
 
@@ -39,6 +42,7 @@ class HwpConfigManager:
         Args:
             config_file: Path to the configuration file (default: tcer.ini)
         """
+        os.chdir(self.DEFAULT_CONFIG_DIR)
         self.config_file = config_file
         self.config = configparser.ConfigParser()
         self.config.comment_prefixes = (';', '#')
@@ -81,7 +85,7 @@ class HwpConfigManager:
                 if version.value in full_path:
                     return version
 
-            print("Unknown CorelDRAW version in configuration.")
+            print("Unknown HWP version in configuration.")
             return None
 
         except Exception as e:
@@ -308,6 +312,10 @@ def main():
     print("Manages HWP version switching between 2022 and 2024")
 
     try:
+
+        CONFIG_DIR: str = r"c:\Program Files\totalcmd\ini\02_python\03_GroundWater Ussage\22_Tcer_ini_manager"
+        os.chdir(CONFIG_DIR)
+
         # Initialize manager
         manager = HwpConfigManager()
 
