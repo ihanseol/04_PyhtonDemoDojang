@@ -121,6 +121,19 @@ def folder_name_sync(path_source, path_target='empty'):
     return True
 
 
+
+
+# 폴더이름을 양쪽 일치 시키기 위해서 작업을 하던중에 문제
+# 토털커맨더에서 인자를 어떻게 설정해야 되는지를  몰라서, 여러가지를 시험하던 도중에 하나
+# 시간이 지난뒤에 보게 되어, 잘은 모르지만 ...
+
+# 나중에 , 그리고 후에 알게된 사실
+# 토털커맨더 인자
+
+#  "%P\" "%T\"
+
+
+
 if __name__ == "__main__":
 
     # Print the number of arguments (including the script name)

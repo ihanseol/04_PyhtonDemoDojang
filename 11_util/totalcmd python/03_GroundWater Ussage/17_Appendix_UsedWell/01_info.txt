@@ -1,0 +1,13 @@
+03_GroundWater Ussage\17_Appendix_UsedWell\pyhwpx_Appendix_UsedWell_refactored.py
+03_GroundWater Ussage\17_Appendix_UsedWell\pyhwpx_Appendix_UsedWell_refactored_capa.py
+
+aa_out.xlsx
+ii_out.xlsx
+ss_out.xlsx
+
+기사용관정을 위의 엑셀파일로 부터 자동으로 만들어준다.
+
+
+
+
+

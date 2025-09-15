@@ -5,6 +5,13 @@ import time
 from FileProcessing_V4_refactored import FileManager
 
 
+# 양수시험을 하기 위해서
+# 최신의 양수시험일보 엑셀파일을 가져와야 하는데
+# 그 최신의 양수시험일보는
+# 12_dev 폴더 안에 있는것을 가져와야 해서
+# 다음과 같이 작성함
+
+
 class ConsoleMenu:
     # ANSI 색상 코드
     COLOR_RESET = "\033[0m"
