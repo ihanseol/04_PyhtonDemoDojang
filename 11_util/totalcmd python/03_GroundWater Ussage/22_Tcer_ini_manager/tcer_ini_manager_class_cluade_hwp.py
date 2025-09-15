@@ -20,7 +20,7 @@ class HwpVersion(Enum):
     def path(self) -> str:
         """Get the full path for this CorelDRAW version"""
 
-        officeversion = 'Hoffice120' if self.value == '2022' else 'Hoffice130'
+        officeversion = 'HOffice120' if self.value == '2022' else 'HOffice130'
         base_path = r"C:\Program Files (x86)\Hnc\Office"
         return f"{base_path} {self.value}\\{officeversion}\\Bin\\Hwp.exe"
 
