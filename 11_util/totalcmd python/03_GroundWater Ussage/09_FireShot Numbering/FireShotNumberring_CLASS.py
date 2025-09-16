@@ -37,6 +37,8 @@ class PDFRenamerApp:
 
         self.entry = tk.Entry(main_frame, font=("Arial", 12), width=20)
         self.entry.pack(pady=3)
+        # Insert the default value here
+        self.entry.insert(0, "999")
 
         # Checkbox for header removal
         checkbox = tk.Checkbutton(main_frame, text="Remove Header", variable=self.remove_header_var, font=("Arial", 10))
@@ -88,7 +90,10 @@ class PDFRenamerApp:
                 continue
 
             if self.remove_header_var.get():
-                new_filename = f'{str(start_number + i).zfill(3)} - {parts[1]}{file_extension}'
+                if start_number == 999:
+                    new_filename = f'{parts[1]} - {parts[2]}{file_extension}'
+                else:
+                    new_filename = f'{str(start_number + i).zfill(3)} - {parts[1]}{file_extension}'
             else:
                 new_filename = f'FireShot Capture {str(start_number + i).zfill(3)} - {parts[1]}{file_extension}'
 
