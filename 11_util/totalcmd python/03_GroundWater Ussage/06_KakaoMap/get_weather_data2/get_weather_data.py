@@ -112,12 +112,18 @@ class WeatherDataApp(QMainWindow):
     def convert_to_all(self):
         self.printinfo("=" * 100)
         self.printinfo("Excel VBA 코드로 변환시작 ")
-        slist = cb.convert_to_vbacode()
-        self.printinfo(f"성공적으로 {len(slist)}갯수의 파일을 변환하였습니다.")
-        self.printinfo("=" * 100)
-        self.printinfo(slist)
-        self.printinfo("=" * 100)
-        self.printinfo(" 수고하셨습니다. ! ")
+        try:
+            slist = cb.convert_to_vbacode()
+
+            self.printinfo(f"성공적으로 {len(slist)}갯수의 파일을 변환하였습니다.")
+            self.printinfo("=" * 100)
+            self.printinfo(slist)
+            self.printinfo("=" * 100)
+            self.printinfo(" 수고하셨습니다. ! ")
+
+        except Exception as e:
+            self.printinfo(f"오류가 발생했습니다: {e}")
+            self.printinfo("=" * 100)
 
 
     def collect_weather_data(self):
@@ -151,8 +157,8 @@ class WeatherDataApp(QMainWindow):
             message = f"선택된 지역 ({len(selected_locations)}개):\n"
             message += "\n".join(f"• {location}" for location in selected_locations)
             message += "\n\n날씨 데이터 수집을 시작합니다."
-            QMessageBox.information(self, "날씨 데이터 수집", message)
 
+            # QMessageBox.information(self, "날씨 데이터 수집", message)
             # 여기에 실제 날씨 데이터 수집 로직을 구현할 수 있습니다
             # print(f"수집할 지역: {selected_locations}")
 

@@ -231,7 +231,7 @@ def convert_to_vbacode():
     fnames = get_filename()
     if len(fnames) == 0:
         print(".csv file is not found ...")
-        exit()
+        return None
 
     eof_line = 0
     slist = []
