@@ -157,7 +157,7 @@ def main():
     elementPasswordConfirm.send_keys("1234")
 
     # 2초 대기 후 종료
-    time.sleep(2)
+    time.sleep(10)
     driver.quit()
 
 
