@@ -111,26 +111,6 @@ class WeatherDataApp(QMainWindow):
     def exit_button(self):
         self.close()
 
-    def convert_to_all(self):
-        self.printinfo("=" * 100)
-        self.printinfo("Excel VBA 코드로 변환시작 ")
-        try:
-            slist = cb.convert_to_vbacode()
-
-            self.printinfo(f"성공적으로 {len(slist)}갯수의 파일을 변환하였습니다.")
-            self.printinfo("=" * 100)
-            for i, _ in enumerate(slist):
-                self.printinfo(f" {i} : {_}")
-
-            self.printinfo("=" * 100)
-            self.printinfo(" 수고하셨습니다. ! ")
-
-        except Exception as e:
-            self.printinfo(f"오류가 발생했습니다: {e}")
-            self.printinfo("=" * 100)
-
-        self.combine_bas_files()
-
     def collect_weather_data(self):
         """날씨 데이터 수집 (예제 함수)"""
         selected_locations = []
@@ -178,6 +158,7 @@ class WeatherDataApp(QMainWindow):
             self.printinfo("경고: 수집할 지역이 선택되지 않았습니다.")
             QMessageBox.warning(self, "알림", "수집할 지역을 선택해주세요.")
 
+
     def get_selected_locations(self):
         """선택된 지역 목록을 반환하는 유틸리티 함수"""
         selected_locations = []
@@ -218,25 +199,45 @@ class WeatherDataApp(QMainWindow):
         # 콘솔에도 동시 출력 (디버깅용)
         print(*args, sep=sep, end=end)
 
-    def find_bas_files(self):
-        """
-        # glob.glob을 사용하여 .bas 확장자를 가진 모든 파일을 찾습니다.
-        # **/* 는 하위 모든 디렉토리를 재귀적으로 검색하겠다는 의미입니다.
-        # *.bas는 .bas로 끝나는 모든 파일을 의미합니다.
-        # recursive=True 옵션을 통해 하위 디렉토리까지 모두 탐색합니다.
-        """
+    def convert_to_all(self):
+        self.printinfo("=" * 100)
+        self.printinfo("Excel VBA 코드로 변환시작 ")
+        try:
+            slist = cb.convert_to_vbacode()
 
-        self.printinfo()
-        directory = os.path.expanduser('~/Downloads')
+            self.printinfo(f"성공적으로 {len(slist)}갯수의 파일을 변환하였습니다.")
+            self.printinfo("=" * 100)
+            for i, _ in enumerate(slist):
+                self.printinfo(f" {i} : {_}")
 
-        file_list = glob.glob(os.path.join(directory, '**', '*.bas'), recursive=False)
-        return file_list
+            self.printinfo("=" * 100)
+            self.printinfo(" 수고하셨습니다. ! ")
+
+        except Exception as e:
+            self.printinfo(f"오류가 발생했습니다: {e}")
+            self.printinfo("=" * 100)
+
+        self.combine_bas_files()
+
+    def find_bas_files(self, downloads_path=None):
+        # Default path for Downloads (Windows)
+        if downloads_path is None:
+            downloads_path = os.path.join(os.path.expanduser("~"), "Downloads")
+
+        bas_files = [
+            f for f in os.listdir(downloads_path)
+            if f.lower().endswith(".bas") and os.path.isfile(os.path.join(downloads_path, f))
+        ]
+        return bas_files
 
     def combine_bas_files(self):
         source_folder = os.path.expanduser('~/Downloads')
         output_file = r'd:\05_Send\combined.bas'
 
         if len(self.find_bas_files()) == 0:
+            self.printinfo("=" * 100)
+            self.printinfo(f" .bas 파일이 존재하지 않습니다.")
+            self.printinfo("=" * 100)
             return
 
         self.printinfo("=" * 100)
