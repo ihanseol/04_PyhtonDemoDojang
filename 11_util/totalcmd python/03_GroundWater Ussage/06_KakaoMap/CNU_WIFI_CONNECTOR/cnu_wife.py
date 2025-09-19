@@ -156,8 +156,13 @@ def main():
     elementPasswordConfirm = driver.find_element(By.CSS_SELECTOR, "#strPwConfirm")
     elementPasswordConfirm.send_keys("1234")
 
+    print('element_request_pw  = driver.find_element(By.CSS_SELECTOR, "#requestpw")')
+    element_request_pw = driver.find_element(By.CSS_SELECTOR, "#requestpw")
+    element_request_pw .click()
+
+
     # 2초 대기 후 종료
-    time.sleep(10)
+    time.sleep(5)
     driver.quit()
 
 
