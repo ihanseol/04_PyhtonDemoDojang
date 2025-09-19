@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
+import os
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QStandardItemModel, QStandardItem
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox
@@ -117,7 +118,9 @@ class WeatherDataApp(QMainWindow):
 
             self.printinfo(f"성공적으로 {len(slist)}갯수의 파일을 변환하였습니다.")
             self.printinfo("=" * 100)
-            self.printinfo(slist)
+            for i, _ in enumerate(slist):
+                self.printinfo(f" {i} : {_}")
+
             self.printinfo("=" * 100)
             self.printinfo(" 수고하셨습니다. ! ")
 
@@ -125,6 +128,7 @@ class WeatherDataApp(QMainWindow):
             self.printinfo(f"오류가 발생했습니다: {e}")
             self.printinfo("=" * 100)
 
+        self.combine_bas_files()
 
     def collect_weather_data(self):
         """날씨 데이터 수집 (예제 함수)"""
@@ -212,6 +216,50 @@ class WeatherDataApp(QMainWindow):
 
         # 콘솔에도 동시 출력 (디버깅용)
         print(*args, sep=sep, end=end)
+
+    def combine_bas_files(self):
+        source_folder = os.path.expanduser('~/Downloads')
+        output_file = r'd:\05_Send\combined.bas'
+
+        self.printinfo("=" * 100)
+
+        if not os.path.isdir('d:\\05_Send\\'):
+            self.printinfo(f"오류: 'd:\\05_Send\\' 폴더를 찾을 수 없습니다.")
+            os.mkdir('d:\\05_Send\\')
+            self.printinfo(f"폴더를 생성하였습니다. ")
+
+        # 소스 폴더가 존재하는지 확인합니다.
+        if not os.path.isdir(source_folder):
+            self.printinfo(f"오류: '{source_folder}' 폴더를 찾을 수 없습니다.")
+            return
+
+        # 합쳐진 내용을 저장할 파일을 쓰기 모드로 엽니다.
+        with open(output_file, 'w', encoding='utf-8') as outfile:
+            self.printinfo(f"'{source_folder}' 폴더의 .bas 파일을 합치는 중...")
+            self.printinfo("=" * 100)
+
+            # 폴더 내 모든 파일 목록을 가져옵니다.
+            for filename in os.listdir(source_folder):
+                # 파일 확장자가 '.bas'인지 확인합니다.
+                if filename.endswith('.bas'):
+                    file_path = os.path.join(source_folder, filename)
+
+                    # 파일인지 확인하고 내용을 읽습니다.
+                    if os.path.isfile(file_path):
+                        self.printinfo(f"  - '{filename}' 파일 추가...")
+                        try:
+                            with open(file_path, 'r', encoding='utf-8') as infile:
+                                content = infile.read()
+                                # 파일 내용을 합쳐진 파일에 씁니다.
+                                outfile.write(f"\n'--- 시작: {filename} ---\n")
+                                outfile.write(content)
+                                outfile.write(f"\n'--- 끝: {filename} ---\n\n")
+                        except Exception as e:
+                            self.printinfo(f"    경고: '{filename}' 파일을 읽는 중 오류가 발생했습니다: {e}")
+
+        self.printinfo("=" * 100)
+        self.printinfo(f"\n모든 .bas 파일이 '{output_file}'에 성공적으로 합쳐졌습니다.")
+        self.printinfo("=" * 100)
 
 
 def main():
