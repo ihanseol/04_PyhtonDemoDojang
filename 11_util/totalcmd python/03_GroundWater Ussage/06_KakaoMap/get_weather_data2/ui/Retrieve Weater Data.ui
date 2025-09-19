@@ -1050,25 +1050,6 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_1">
-     <property name="geometry">
-      <rect>
-       <x>1130</x>
-       <y>760</y>
-       <width>221</width>
-       <height>61</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Consolas</family>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Collect Weater Data</string>
-     </property>
-    </widget>
     <widget class="QListView" name="listView_info">
      <property name="geometry">
       <rect>
@@ -1082,9 +1063,9 @@
     <widget class="QPushButton" name="pushButton_4">
      <property name="geometry">
       <rect>
-       <x>1130</x>
+       <x>1120</x>
        <y>830</y>
-       <width>221</width>
+       <width>231</width>
        <height>61</height>
       </rect>
      </property>
@@ -1104,7 +1085,7 @@
        <x>1120</x>
        <y>40</y>
        <width>231</width>
-       <height>151</height>
+       <height>211</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -1143,6 +1124,25 @@
         </property>
         <property name="text">
          <string>UnSelect All</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_1">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Consolas</family>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Collect Weater Data</string>
         </property>
        </widget>
       </item>
