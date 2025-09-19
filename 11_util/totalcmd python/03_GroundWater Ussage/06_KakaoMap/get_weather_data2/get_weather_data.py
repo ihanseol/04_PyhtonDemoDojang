@@ -135,9 +135,9 @@ class WeatherDataApp(QMainWindow):
 
         if selected_locations:
             # printinfo 함수 사용 예제
-            self.printinfo("=" * 50)
+            self.printinfo("=" * 100)
             self.printinfo("날씨 데이터 수집 시작")
-            self.printinfo("=" * 50)
+            self.printinfo("=" * 100)
             self.printinfo(f"선택된 지역 수: {len(selected_locations)}개")
             self.printinfo()
 
@@ -153,10 +153,16 @@ class WeatherDataApp(QMainWindow):
             message += "\n\n날씨 데이터 수집을 시작합니다."
             QMessageBox.information(self, "날씨 데이터 수집", message)
 
+            # 여기에 실제 날씨 데이터 수집 로직을 구현할 수 있습니다
+            # print(f"수집할 지역: {selected_locations}")
+
             get_rainfall_data(selected_locations)
 
-            # 여기에 실제 날씨 데이터 수집 로직을 구현할 수 있습니다
-            print(f"수집할 지역: {selected_locations}")
+            self.printinfo("=" * 100)
+            self.printinfo("모든 데이터 수집을 완료했습니다...")
+            self.printinfo(f"수집할 지역: {selected_locations}")
+            self.printinfo("=" * 100)
+
         else:
             self.printinfo("경고: 수집할 지역이 선택되지 않았습니다.")
             QMessageBox.warning(self, "알림", "수집할 지역을 선택해주세요.")

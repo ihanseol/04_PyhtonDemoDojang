@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'Retrieve Weater DatauOlckp.ui'
+## Form generated from reading UI file 'Retrieve Weater DataBIDjgc.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.9.0
 ##
@@ -676,23 +676,19 @@ class Ui_MainWindow(object):
         self.listView = QListView(self.frame)
         self.listView.setObjectName(u"listView")
         self.listView.setGeometry(QRect(10, 260, 211, 641))
-        self.pushButton_1 = QPushButton(self.frame)
-        self.pushButton_1.setObjectName(u"pushButton_1")
-        self.pushButton_1.setGeometry(QRect(1130, 760, 221, 61))
-        font1 = QFont()
-        font1.setFamilies([u"Consolas"])
-        font1.setPointSize(11)
-        self.pushButton_1.setFont(font1)
         self.listView_info = QListView(self.frame)
         self.listView_info.setObjectName(u"listView_info")
         self.listView_info.setGeometry(QRect(230, 260, 871, 641))
         self.pushButton_4 = QPushButton(self.frame)
         self.pushButton_4.setObjectName(u"pushButton_4")
-        self.pushButton_4.setGeometry(QRect(1130, 830, 221, 61))
+        self.pushButton_4.setGeometry(QRect(1120, 830, 231, 61))
+        font1 = QFont()
+        font1.setFamilies([u"Consolas"])
+        font1.setPointSize(11)
         self.pushButton_4.setFont(font1)
         self.widget = QWidget(self.frame)
         self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(1120, 40, 231, 151))
+        self.widget.setGeometry(QRect(1120, 40, 231, 211))
         self.verticalLayout_2 = QVBoxLayout(self.widget)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -714,6 +710,14 @@ class Ui_MainWindow(object):
         self.pushButton_3.setFont(font1)
 
         self.verticalLayout_2.addWidget(self.pushButton_3)
+
+        self.pushButton_1 = QPushButton(self.widget)
+        self.pushButton_1.setObjectName(u"pushButton_1")
+        sizePolicy1.setHeightForWidth(self.pushButton_1.sizePolicy().hasHeightForWidth())
+        self.pushButton_1.setSizePolicy(sizePolicy1)
+        self.pushButton_1.setFont(font1)
+
+        self.verticalLayout_2.addWidget(self.pushButton_1)
 
         self.pushButton_5 = QPushButton(self.widget)
         self.pushButton_5.setObjectName(u"pushButton_5")
@@ -865,9 +869,9 @@ class Ui_MainWindow(object):
         self.checkBox_103.setText(QCoreApplication.translate("MainWindow", u"\uc81c\uc8fc", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_6),
                                   QCoreApplication.translate("MainWindow", u"\uc81c\uc8fc\ub3c4", None))
-        self.pushButton_1.setText(QCoreApplication.translate("MainWindow", u"Collect Weater Data", None))
         self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"Exit", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Select All", None))
         self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"UnSelect All", None))
+        self.pushButton_1.setText(QCoreApplication.translate("MainWindow", u"Collect Weater Data", None))
         self.pushButton_5.setText(QCoreApplication.translate("MainWindow", u"Convert To BAS", None))
     # retranslateUi
