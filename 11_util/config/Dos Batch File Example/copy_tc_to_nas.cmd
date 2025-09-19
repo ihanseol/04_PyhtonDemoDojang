@@ -1,0 +1,1 @@
+xcopy /y d:\11_exaData\06_util\099_Game\totalcmd.zip z:\11_exaData\06_util\099_Game\

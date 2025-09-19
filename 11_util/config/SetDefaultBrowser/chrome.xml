@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DefaultAssociations>
+  <Association Identifier=".hta" ProgId="htafile" ApplicationName="Microsoft (R) HTML 응용 프로그램 호스트" />
+  <Association Identifier=".htm" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+  <Association Identifier=".html" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+  <Association Identifier=".mht" ProgId="MSEdgeMHT" ApplicationName="Google Chrome" />
+  <Association Identifier=".mhtml" ProgId="MSEdgeMHT" ApplicationName="Google Chrome" />
+  <Association Identifier=".xht" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+  <Association Identifier=".xhtml" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+  <Association Identifier="ftp" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+  <Association Identifier="microsoft-edge" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+  <Association Identifier="microsoft-edge-holographic" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+  <Association Identifier="ms-xbl-3d8b930f" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+  <Association Identifier="read" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+
+  <Association Identifier="http" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+  <Association Identifier="https" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+  <Association Identifier="mailto" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+</DefaultAssociations>

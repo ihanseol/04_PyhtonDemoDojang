@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DefaultAssociations>
+  <Association Identifier=".hta" ProgId="htafile" ApplicationName="Microsoft (R) HTML 응용 프로그램 호스트" />
+  <Association Identifier=".htm" ProgId="FirefoxHTML-308046B0AF4A39CB" ApplicationName="Firefox" />
+  <Association Identifier=".html" ProgId="FirefoxHTML-308046B0AF4A39CB" ApplicationName="Firefox" />
+  <Association Identifier=".mht" ProgId="MSEdgeMHT" ApplicationName="Firefox" />
+  <Association Identifier=".mhtml" ProgId="MSEdgeMHT" ApplicationName="Firefox" />
+  <Association Identifier=".xht" ProgId="FirefoxHTML-308046B0AF4A39CB" ApplicationName="Firefox" />
+  <Association Identifier=".xhtml" ProgId="FirefoxHTML-308046B0AF4A39CB" ApplicationName="Firefox" />
+  <Association Identifier="ftp" ProgId="FirefoxHTML-308046B0AF4A39CB" ApplicationName="Firefox" />
+  <Association Identifier="microsoft-edge" ProgId="FirefoxHTML-308046B0AF4A39CB" ApplicationName="Firefox" />
+  <Association Identifier="microsoft-edge-holographic" ProgId="FirefoxHTML-308046B0AF4A39CB" ApplicationName="Firefox" />
+  <Association Identifier="ms-xbl-3d8b930f" ProgId="FirefoxHTML-308046B0AF4A39CB" ApplicationName="Firefox" />
+  <Association Identifier="read" ProgId="FirefoxHTML-308046B0AF4A39CB" ApplicationName="Firefox" />
+
+  <Association Identifier="http" ProgId="FirefoxHTML-308046B0AF4A39CB" ApplicationName="Firefox" />
+  <Association Identifier="https" ProgId="FirefoxHTML-308046B0AF4A39CB" ApplicationName="Firefox" />
+  <Association Identifier="mailto" ProgId="FirefoxHTML-308046B0AF4A39CB" ApplicationName="Firefox" />
+</DefaultAssociations>

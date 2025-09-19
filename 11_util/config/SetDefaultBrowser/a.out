@@ -1,0 +1,40 @@
+
+SetDefaultBrowser v1.5
+======================
+Copyright 2020 by Christoph Kolbicz, https://kolbi.cz
+
+usage: SetDefaultBrowser hive browser
+example: SetDefaultBrowser HKLM IEXPLORE.EXE
+
+shortcuts: (no hive needed, will use HKLM) chrome, ie, iexplore and edge
+
+Installed browsers:
+===================
+
+HKLM Avast Secure Browser
+  name: Avast Secure Browser
+  path: "C:\Program Files (x86)\AVAST Software\Browser\Application\AvastBrowser.exe"
+
+HKLM Brave
+  name: Brave
+  path: "C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"
+
+HKLM Firefox-308046B0AF4A39CB
+  name: Firefox
+  path: "C:\Program Files\Mozilla Firefox\firefox.exe"
+
+HKLM Google Chrome
+  name: Google Chrome
+  path: "C:\Program Files\Google\Chrome\Application\chrome.exe"
+
+HKLM IEXPLORE.EXE
+  name: Internet Explorer
+  path: C:\Program Files\Internet Explorer\iexplore.exe
+
+HKLM Microsoft Edge
+  name: Microsoft Edge
+  path: "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+
+HKLM Naver Whale
+  name:  
+  path: "C:\Program Files\Naver\Naver Whale\Application\whale.exe"

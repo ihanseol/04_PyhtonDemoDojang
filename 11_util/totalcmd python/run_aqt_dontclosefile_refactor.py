@@ -16,7 +16,7 @@ PROGRAM_PATH = r'C:\WHPA\AQTEver3.4(170414)\AQTW32.EXE'
 ISAQTOPEN = False
 DIRECTORY = "d:\\05_Send\\"
 DELAY = 0.6
-IS_BLOCK = True
+IS_BLOCK = False
 
 
 def setview_mode(mode):
