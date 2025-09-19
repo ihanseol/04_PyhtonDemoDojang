@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
+import glob
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QStandardItemModel, QStandardItem
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox
@@ -217,9 +218,26 @@ class WeatherDataApp(QMainWindow):
         # 콘솔에도 동시 출력 (디버깅용)
         print(*args, sep=sep, end=end)
 
+    def find_bas_files(self):
+        """
+        # glob.glob을 사용하여 .bas 확장자를 가진 모든 파일을 찾습니다.
+        # **/* 는 하위 모든 디렉토리를 재귀적으로 검색하겠다는 의미입니다.
+        # *.bas는 .bas로 끝나는 모든 파일을 의미합니다.
+        # recursive=True 옵션을 통해 하위 디렉토리까지 모두 탐색합니다.
+        """
+
+        self.printinfo()
+        directory = os.path.expanduser('~/Downloads')
+
+        file_list = glob.glob(os.path.join(directory, '**', '*.bas'), recursive=False)
+        return file_list
+
     def combine_bas_files(self):
         source_folder = os.path.expanduser('~/Downloads')
         output_file = r'd:\05_Send\combined.bas'
+
+        if len(self.find_bas_files()) == 0:
+            return
 
         self.printinfo("=" * 100)
 
