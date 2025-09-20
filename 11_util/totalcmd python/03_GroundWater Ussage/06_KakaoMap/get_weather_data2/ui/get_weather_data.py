@@ -143,11 +143,14 @@ class WeatherDataApp(QMainWindow):
             message += "\n".join(f"• {location}" for location in selected_locations)
             message += "\n\n날씨 데이터 수집을 시작합니다."
 
-            # QMessageBox.information(self, "날씨 데이터 수집", message)
+            QMessageBox.information(self, "날씨 데이터 수집", message)
             # 여기에 실제 날씨 데이터 수집 로직을 구현할 수 있습니다
             # print(f"수집할 지역: {selected_locations}")
 
             get_rainfall_data(selected_locations)
+
+            # for i, location in enumerate(selected_locations):
+            #     get_rainfall_data(location)
 
             self.printinfo("=" * 100)
             self.printinfo("모든 데이터 수집을 완료했습니다...")
@@ -158,8 +161,8 @@ class WeatherDataApp(QMainWindow):
             self.printinfo("경고: 수집할 지역이 선택되지 않았습니다.")
             QMessageBox.warning(self, "알림", "수집할 지역을 선택해주세요.")
 
-
     def get_selected_locations(self):
+        self.printinfo()
         """선택된 지역 목록을 반환하는 유틸리티 함수"""
         selected_locations = []
         all_checkboxes = []
@@ -220,6 +223,7 @@ class WeatherDataApp(QMainWindow):
         self.combine_bas_files()
 
     def find_bas_files(self, downloads_path=None):
+        self.printinfo()
         # Default path for Downloads (Windows)
         if downloads_path is None:
             downloads_path = os.path.join(os.path.expanduser("~"), "Downloads")

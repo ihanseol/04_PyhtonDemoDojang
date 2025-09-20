@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'Retrieve Weater DataBIDjgc.ui'
+## Form generated from reading UI file 'Retrieve Weater DataWvkkFR.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.9.0
 ##
@@ -675,10 +675,10 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab_6, "")
         self.listView = QListView(self.frame)
         self.listView.setObjectName(u"listView")
-        self.listView.setGeometry(QRect(10, 260, 211, 641))
+        self.listView.setGeometry(QRect(10, 260, 151, 641))
         self.listView_info = QListView(self.frame)
         self.listView_info.setObjectName(u"listView_info")
-        self.listView_info.setGeometry(QRect(230, 260, 871, 641))
+        self.listView_info.setGeometry(QRect(170, 260, 931, 641))
         self.pushButton_4 = QPushButton(self.frame)
         self.pushButton_4.setObjectName(u"pushButton_4")
         self.pushButton_4.setGeometry(QRect(1120, 830, 231, 61))
@@ -686,13 +686,13 @@ class Ui_MainWindow(object):
         font1.setFamilies([u"Consolas"])
         font1.setPointSize(11)
         self.pushButton_4.setFont(font1)
-        self.widget = QWidget(self.frame)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(1120, 40, 231, 211))
-        self.verticalLayout_2 = QVBoxLayout(self.widget)
+        self.layoutWidget1 = QWidget(self.frame)
+        self.layoutWidget1.setObjectName(u"layoutWidget1")
+        self.layoutWidget1.setGeometry(QRect(1120, 40, 231, 211))
+        self.verticalLayout_2 = QVBoxLayout(self.layoutWidget1)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.pushButton_2 = QPushButton(self.widget)
+        self.pushButton_2 = QPushButton(self.layoutWidget1)
         self.pushButton_2.setObjectName(u"pushButton_2")
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
         sizePolicy1.setHorizontalStretch(0)
@@ -703,7 +703,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addWidget(self.pushButton_2)
 
-        self.pushButton_3 = QPushButton(self.widget)
+        self.pushButton_3 = QPushButton(self.layoutWidget1)
         self.pushButton_3.setObjectName(u"pushButton_3")
         sizePolicy1.setHeightForWidth(self.pushButton_3.sizePolicy().hasHeightForWidth())
         self.pushButton_3.setSizePolicy(sizePolicy1)
@@ -711,7 +711,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addWidget(self.pushButton_3)
 
-        self.pushButton_1 = QPushButton(self.widget)
+        self.pushButton_1 = QPushButton(self.layoutWidget1)
         self.pushButton_1.setObjectName(u"pushButton_1")
         sizePolicy1.setHeightForWidth(self.pushButton_1.sizePolicy().hasHeightForWidth())
         self.pushButton_1.setSizePolicy(sizePolicy1)
@@ -719,7 +719,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addWidget(self.pushButton_1)
 
-        self.pushButton_5 = QPushButton(self.widget)
+        self.pushButton_5 = QPushButton(self.layoutWidget1)
         self.pushButton_5.setObjectName(u"pushButton_5")
         sizePolicy1.setHeightForWidth(self.pushButton_5.sizePolicy().hasHeightForWidth())
         self.pushButton_5.setSizePolicy(sizePolicy1)
