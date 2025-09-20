@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1389</width>
-    <height>937</height>
+    <height>986</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -32,10 +32,10 @@
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>9</x>
+      <x>-1</x>
       <y>9</y>
-      <width>1371</width>
-      <height>911</height>
+      <width>1381</width>
+      <height>971</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -1044,19 +1044,19 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>260</y>
-       <width>151</width>
-       <height>641</height>
+       <y>280</y>
+       <width>121</width>
+       <height>621</height>
       </rect>
      </property>
     </widget>
     <widget class="QListView" name="listView_info">
      <property name="geometry">
       <rect>
-       <x>170</x>
-       <y>260</y>
-       <width>931</width>
-       <height>641</height>
+       <x>140</x>
+       <y>280</y>
+       <width>961</width>
+       <height>621</height>
       </rect>
      </property>
     </widget>
@@ -1167,9 +1167,21 @@
       </item>
      </layout>
     </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>240</y>
+       <width>1191</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>금산, 대전, 보령, 보은, 부여, 서산, 제천, 천안, 청주, 추풍령, 충주, 서울, 수원, 인천   / &lt; 서청주, 홍성, 세종 &gt;</string>
+     </property>
+    </widget>
    </widget>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>

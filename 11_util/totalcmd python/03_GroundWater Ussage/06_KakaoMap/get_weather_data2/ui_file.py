@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'Retrieve Weater DataWvkkFR.ui'
+## Form generated from reading UI file '01_Retrieve Weater DataOrAnIO.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.9.0
 ##
@@ -16,8 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
                            QImage, QKeySequence, QLinearGradient, QPainter,
                            QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QFrame, QGroupBox,
-                               QHBoxLayout, QListView, QMainWindow, QPushButton,
-                               QSizePolicy, QStatusBar, QTabWidget, QVBoxLayout,
+                               QHBoxLayout, QLabel, QListView, QMainWindow,
+                               QPushButton, QSizePolicy, QTabWidget, QVBoxLayout,
                                QWidget)
 
 
@@ -25,7 +25,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1389, 937)
+        MainWindow.resize(1389, 986)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -40,7 +40,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.frame = QFrame(self.centralwidget)
         self.frame.setObjectName(u"frame")
-        self.frame.setGeometry(QRect(9, 9, 1371, 911))
+        self.frame.setGeometry(QRect(-1, 9, 1381, 971))
         sizePolicy.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
         self.frame.setSizePolicy(sizePolicy)
         self.frame.setAutoFillBackground(True)
@@ -675,10 +675,10 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab_6, "")
         self.listView = QListView(self.frame)
         self.listView.setObjectName(u"listView")
-        self.listView.setGeometry(QRect(10, 260, 151, 641))
+        self.listView.setGeometry(QRect(10, 280, 121, 621))
         self.listView_info = QListView(self.frame)
         self.listView_info.setObjectName(u"listView_info")
-        self.listView_info.setGeometry(QRect(170, 260, 931, 641))
+        self.listView_info.setGeometry(QRect(140, 280, 961, 621))
         self.pushButton_4 = QPushButton(self.frame)
         self.pushButton_4.setObjectName(u"pushButton_4")
         self.pushButton_4.setGeometry(QRect(1120, 830, 231, 61))
@@ -727,10 +727,10 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addWidget(self.pushButton_5)
 
+        self.label = QLabel(self.frame)
+        self.label.setObjectName(u"label")
+        self.label.setGeometry(QRect(10, 240, 1191, 31))
         MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QStatusBar(MainWindow)
-        self.statusbar.setObjectName(u"statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
 
@@ -874,4 +874,7 @@ class Ui_MainWindow(object):
         self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"UnSelect All", None))
         self.pushButton_1.setText(QCoreApplication.translate("MainWindow", u"Collect Weater Data", None))
         self.pushButton_5.setText(QCoreApplication.translate("MainWindow", u"Convert To BAS", None))
+        self.label.setText(QCoreApplication.translate("MainWindow",
+                                                      u"\uae08\uc0b0, \ub300\uc804, \ubcf4\ub839, \ubcf4\uc740, \ubd80\uc5ec, \uc11c\uc0b0, \uc81c\ucc9c, \ucc9c\uc548, \uccad\uc8fc, \ucd94\ud48d\ub839, \ucda9\uc8fc, \uc11c\uc6b8, \uc218\uc6d0, \uc778\ucc9c   / < \uc11c\uccad\uc8fc, \ud64d\uc131, \uc138\uc885 >",
+                                                      None))
     # retranslateUi
