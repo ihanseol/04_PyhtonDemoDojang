@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file '01_Retrieve Weater Databvywkf.ui'
+## Form generated from reading UI file '01_Retrieve Weater DataULUSZL.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.9.0
 ##
@@ -936,7 +936,9 @@ class Ui_MainWindow(object):
         self.checkBox_103.setText(QCoreApplication.translate("MainWindow", u"\uc81c\uc8fc", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_6),
                                   QCoreApplication.translate("MainWindow", u"\uc81c\uc8fc\ub3c4", None))
-        self.groupBox_7.setTitle(QCoreApplication.translate("MainWindow", u"GroupBox", None))
+        self.groupBox_7.setTitle(
+            QCoreApplication.translate("MainWindow", u"\uc804\uad6d, \ub3c4\ub2e8\uc704 \uc790\ub8cc\ud68d\ub4dd",
+                                       None))
         self.checkBox_104.setText(QCoreApplication.translate("MainWindow", u"\uc804\uad6d", None))
         self.checkBox_105.setText(QCoreApplication.translate("MainWindow", u"\uc11c\uc6b8\uacbd\uae30", None))
         self.checkBox_106.setText(QCoreApplication.translate("MainWindow", u"\uac15\uc6d0\uc601\ub3d9", None))
