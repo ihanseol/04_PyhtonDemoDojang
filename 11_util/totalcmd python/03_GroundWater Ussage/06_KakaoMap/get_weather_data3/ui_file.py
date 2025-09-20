@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file '01_Retrieve Weater DatawYNeGD.ui'
+## Form generated from reading UI file '01_Retrieve Weater Databvywkf.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.9.0
 ##
@@ -801,7 +801,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(6)
+        self.tabWidget.setCurrentIndex(2)
 
         QMetaObject.connectSlotsByName(MainWindow)
 
