@@ -52,7 +52,10 @@ class WeatherDataApp(QMainWindow):
                 self.ui.checkBox_90, self.ui.checkBox_91, self.ui.checkBox_92, self.ui.checkBox_93,
                 self.ui.checkBox_94, self.ui.checkBox_95, self.ui.checkBox_96, self.ui.checkBox_97],
             5: [self.ui.checkBox_98, self.ui.checkBox_99, self.ui.checkBox_100, self.ui.checkBox_101,
-                self.ui.checkBox_102, self.ui.checkBox_103]
+                self.ui.checkBox_102, self.ui.checkBox_103],
+            6: [self.ui.checkBox_104, self.ui.checkBox_105, self.ui.checkBox_106, self.ui.checkBox_107,
+                self.ui.checkBox_108, self.ui.checkBox_109,self.ui.checkBox_110,self.ui.checkBox_111,
+                self.ui.checkBox_112,self.ui.checkBox_113,self.ui.checkBox_114]
         }
 
         self.setup_connections()

@@ -107,7 +107,19 @@ Area = {
     "성산": "SungSan",
     "성산2": "SungSan2",
     "성산포": "SungSanPo",
-    "제주": "JaeJu"
+    "제주": "JaeJu",
+
+    "전국": "JeonKook",
+    "서울경기": "SeoulGyungi",
+    "강원영동": "GangWonEast",
+    "강원영서": "GangWonWest",
+    "충북": "ChungBook",
+    "충남": "ChungNam",
+    "경북": "GyungBook",
+    "경남": "GyungNam",
+    "전북": "JeonBook",
+    "전남": "JeonNam",
+    "제주도": "Jejudo"
 }
 
 
@@ -149,7 +161,7 @@ def read_weather_data(fname):
 def write_bas_data(fname):
     # Extract the area name from the file name
     for korean_name, english_name in Area.items():
-        if korean_name in fname:
+        if fname.split('_')[0] == korean_name:
             eng_area_name = english_name
             break
     else:

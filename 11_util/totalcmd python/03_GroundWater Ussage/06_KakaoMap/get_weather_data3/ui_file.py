@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file '01_Retrieve Weater DataJMSrCP.ui'
+## Form generated from reading UI file '01_Retrieve Weater DatawYNeGD.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.9.0
 ##
@@ -673,15 +673,82 @@ class Ui_MainWindow(object):
         self.horizontalLayout_14.addWidget(self.checkBox_103)
 
         self.tabWidget.addTab(self.tab_6, "")
+        self.tab_7 = QWidget()
+        self.tab_7.setObjectName(u"tab_7")
+        self.groupBox_7 = QGroupBox(self.tab_7)
+        self.groupBox_7.setObjectName(u"groupBox_7")
+        self.groupBox_7.setGeometry(QRect(10, 9, 1061, 181))
+        self.layoutWidget_13 = QWidget(self.groupBox_7)
+        self.layoutWidget_13.setObjectName(u"layoutWidget_13")
+        self.layoutWidget_13.setGeometry(QRect(10, 30, 991, 51))
+        self.horizontalLayout_12 = QHBoxLayout(self.layoutWidget_13)
+        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
+        self.horizontalLayout_12.setContentsMargins(0, 0, 0, 0)
+        self.checkBox_104 = QCheckBox(self.layoutWidget_13)
+        self.checkBox_104.setObjectName(u"checkBox_104")
+
+        self.horizontalLayout_12.addWidget(self.checkBox_104)
+
+        self.checkBox_105 = QCheckBox(self.layoutWidget_13)
+        self.checkBox_105.setObjectName(u"checkBox_105")
+
+        self.horizontalLayout_12.addWidget(self.checkBox_105)
+
+        self.checkBox_106 = QCheckBox(self.layoutWidget_13)
+        self.checkBox_106.setObjectName(u"checkBox_106")
+
+        self.horizontalLayout_12.addWidget(self.checkBox_106)
+
+        self.checkBox_107 = QCheckBox(self.layoutWidget_13)
+        self.checkBox_107.setObjectName(u"checkBox_107")
+
+        self.horizontalLayout_12.addWidget(self.checkBox_107)
+
+        self.checkBox_108 = QCheckBox(self.layoutWidget_13)
+        self.checkBox_108.setObjectName(u"checkBox_108")
+
+        self.horizontalLayout_12.addWidget(self.checkBox_108)
+
+        self.checkBox_109 = QCheckBox(self.layoutWidget_13)
+        self.checkBox_109.setObjectName(u"checkBox_109")
+
+        self.horizontalLayout_12.addWidget(self.checkBox_109)
+
+        self.checkBox_110 = QCheckBox(self.layoutWidget_13)
+        self.checkBox_110.setObjectName(u"checkBox_110")
+
+        self.horizontalLayout_12.addWidget(self.checkBox_110)
+
+        self.checkBox_111 = QCheckBox(self.layoutWidget_13)
+        self.checkBox_111.setObjectName(u"checkBox_111")
+
+        self.horizontalLayout_12.addWidget(self.checkBox_111)
+
+        self.checkBox_112 = QCheckBox(self.layoutWidget_13)
+        self.checkBox_112.setObjectName(u"checkBox_112")
+
+        self.horizontalLayout_12.addWidget(self.checkBox_112)
+
+        self.checkBox_113 = QCheckBox(self.layoutWidget_13)
+        self.checkBox_113.setObjectName(u"checkBox_113")
+
+        self.horizontalLayout_12.addWidget(self.checkBox_113)
+
+        self.checkBox_114 = QCheckBox(self.layoutWidget_13)
+        self.checkBox_114.setObjectName(u"checkBox_114")
+
+        self.horizontalLayout_12.addWidget(self.checkBox_114)
+
+        self.tabWidget.addTab(self.tab_7, "")
         self.listView = QListView(self.frame)
         self.listView.setObjectName(u"listView")
-        self.listView.setGeometry(QRect(10, 280, 121, 681))
+        self.listView.setGeometry(QRect(10, 280, 121, 621))
         self.listView_info = QListView(self.frame)
         self.listView_info.setObjectName(u"listView_info")
-        self.listView_info.setGeometry(QRect(140, 280, 961, 681))
+        self.listView_info.setGeometry(QRect(140, 280, 961, 621))
         self.pushButton_4 = QPushButton(self.frame)
         self.pushButton_4.setObjectName(u"pushButton_4")
-        self.pushButton_4.setGeometry(QRect(1130, 890, 231, 61))
+        self.pushButton_4.setGeometry(QRect(1120, 830, 231, 61))
         font1 = QFont()
         font1.setFamilies([u"Consolas"])
         font1.setPointSize(11)
@@ -734,7 +801,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(6)
 
         QMetaObject.connectSlotsByName(MainWindow)
 
@@ -864,11 +931,25 @@ class Ui_MainWindow(object):
         self.checkBox_98.setText(QCoreApplication.translate("MainWindow", u"\uace0\uc0b0", None))
         self.checkBox_99.setText(QCoreApplication.translate("MainWindow", u"\uc11c\uadc0\ud3ec", None))
         self.checkBox_100.setText(QCoreApplication.translate("MainWindow", u"\uc131\uc0b0", None))
-        self.checkBox_101.setText(QCoreApplication.translate("MainWindow", u"\uc131\uc0b0", None))
+        self.checkBox_101.setText(QCoreApplication.translate("MainWindow", u"\uc131\uc0b02", None))
         self.checkBox_102.setText(QCoreApplication.translate("MainWindow", u"\uc131\uc0b0\ud3ec", None))
         self.checkBox_103.setText(QCoreApplication.translate("MainWindow", u"\uc81c\uc8fc", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_6),
                                   QCoreApplication.translate("MainWindow", u"\uc81c\uc8fc\ub3c4", None))
+        self.groupBox_7.setTitle(QCoreApplication.translate("MainWindow", u"GroupBox", None))
+        self.checkBox_104.setText(QCoreApplication.translate("MainWindow", u"\uc804\uad6d", None))
+        self.checkBox_105.setText(QCoreApplication.translate("MainWindow", u"\uc11c\uc6b8\uacbd\uae30", None))
+        self.checkBox_106.setText(QCoreApplication.translate("MainWindow", u"\uac15\uc6d0\uc601\ub3d9", None))
+        self.checkBox_107.setText(QCoreApplication.translate("MainWindow", u"\uac15\uc6d0\uc601\uc11c", None))
+        self.checkBox_108.setText(QCoreApplication.translate("MainWindow", u"\ucda9\ubd81", None))
+        self.checkBox_109.setText(QCoreApplication.translate("MainWindow", u"\ucda9\ub0a8", None))
+        self.checkBox_110.setText(QCoreApplication.translate("MainWindow", u"\uacbd\ubd81", None))
+        self.checkBox_111.setText(QCoreApplication.translate("MainWindow", u"\uacbd\ub0a8", None))
+        self.checkBox_112.setText(QCoreApplication.translate("MainWindow", u"\uc804\ubd81", None))
+        self.checkBox_113.setText(QCoreApplication.translate("MainWindow", u"\uc804\ub0a8", None))
+        self.checkBox_114.setText(QCoreApplication.translate("MainWindow", u"\uc81c\uc8fc\ub3c4", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_7),
+                                  QCoreApplication.translate("MainWindow", u"\uc804\uad6d", None))
         self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"Exit", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Select All", None))
         self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"UnSelect All", None))

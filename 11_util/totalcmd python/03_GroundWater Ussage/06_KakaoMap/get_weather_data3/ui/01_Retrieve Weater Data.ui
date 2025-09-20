@@ -69,7 +69,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>6</number>
      </property>
      <widget class="QWidget" name="tab">
       <property name="maximumSize">
@@ -1017,7 +1017,7 @@
          <item>
           <widget class="QCheckBox" name="checkBox_101">
            <property name="text">
-            <string>성산</string>
+            <string>성산2</string>
            </property>
           </widget>
          </item>
@@ -1032,6 +1032,113 @@
           <widget class="QCheckBox" name="checkBox_103">
            <property name="text">
             <string>제주</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="tab_7">
+      <attribute name="title">
+       <string>전국</string>
+      </attribute>
+      <widget class="QGroupBox" name="groupBox_7">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>9</y>
+         <width>1061</width>
+         <height>181</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>GroupBox</string>
+       </property>
+       <widget class="QWidget" name="layoutWidget_13">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>991</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_12">
+         <item>
+          <widget class="QCheckBox" name="checkBox_104">
+           <property name="text">
+            <string>전국</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_105">
+           <property name="text">
+            <string>서울경기</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_106">
+           <property name="text">
+            <string>강원영동</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_107">
+           <property name="text">
+            <string>강원영서</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_108">
+           <property name="text">
+            <string>충북</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_109">
+           <property name="text">
+            <string>충남</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_110">
+           <property name="text">
+            <string>경북</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_111">
+           <property name="text">
+            <string>경남</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_112">
+           <property name="text">
+            <string>전북</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_113">
+           <property name="text">
+            <string>전남</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_114">
+           <property name="text">
+            <string>제주도</string>
            </property>
           </widget>
          </item>

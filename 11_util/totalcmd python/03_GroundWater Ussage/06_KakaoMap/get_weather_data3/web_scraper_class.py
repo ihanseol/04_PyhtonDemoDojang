@@ -119,9 +119,21 @@ class RainfallDataScraper:
         {"area": "고산", "name": "GoSan", "Code": 185, "aCode": 128, "switch": 127},
         {"area": "서귀포", "name": "SeoGuiPo", "Code": 189, "aCode": 129, "switch": 127},
         {"area": "성산", "name": "SungSan", "Code": 188, "aCode": 130, "switch": 127},
-        {"area": "성산", "name": "SungSan2", "Code": 187, "aCode": 131, "switch": 127},
+        {"area": "성산2", "name": "SungSan2", "Code": 187, "aCode": 131, "switch": 127},
         {"area": "성산포", "name": "SungSanPo", "Code": 265, "aCode": 132, "switch": 127},
-        {"area": "제주", "name": "JaeJu", "Code": 184, "aCode": 133, "switch": 127}
+        {"area": "제주", "name": "JaeJu", "Code": 184, "aCode": 133, "switch": 127},
+
+        {"area": "전국", "name": "JeonKook", "Code": 0, "aCode": 3, "switch": 2},
+        {"area": "서울경기", "name": "SeoulGyungi", "Code": 0, "aCode": 4, "switch": 2},
+        {"area": "강원영동", "name": "GangWonEast", "Code": 0, "aCode": 5, "switch": 2},
+        {"area": "강원영서", "name": "GangWonWest", "Code": 0, "aCode": 6, "switch": 2},
+        {"area": "충북", "name": "ChungBook", "Code": 0, "aCode": 7, "switch": 2},
+        {"area": "충남", "name": "ChungNam", "Code": 0, "aCode": 8, "switch": 2},
+        {"area": "경북", "name": "GyungBook", "Code": 0, "aCode": 9, "switch": 2},
+        {"area": "경남", "name": "GyungNam", "Code": 0, "aCode": 10, "switch": 2},
+        {"area": "전북", "name": "JeonBook", "Code": 0, "aCode": 11, "switch": 2},
+        {"area": "전남", "name": "JeonNam", "Code": 0, "aCode": 12, "switch": 2},
+        {"area": "제주도", "name": "Jejudo", "Code": 0, "aCode": 13, "switch": 2}
     ]
     DEFAULT_AREAS = ["대전", "보령", "부여", "서산", "천안", "금산", "청주", "보은", "제천", "추풍령", "서울", "인천", "수원"]
 
@@ -215,11 +227,28 @@ class RainfallDataScraper:
         if area_info.empty:
             raise ValueError(f"지역 '{area_name}'을 찾을 수 없습니다.")
 
-        my_code = area_info['Code'].values[0]
-        my_switch = area_info['switch'].values[0]
+        # {"area": "성산2", "name": "SungSan2", "Code": 187, "aCode": 131, "switch": 127},
+
+        if area_name == "성산2":
+            my_code = 187
+            my_switch = 127
+        else:
+            my_code = area_info['Code'].values[0]
+            my_switch = area_info['switch'].values[0]
 
         one_string = f"ztree_{my_switch}_switch"
-        two_string = f"{area_name} ({my_code})"
+
+        # 선택을 화면에 보이는 이름으로 해준다.
+        if my_code == 0:
+            if area_name != "제주도":
+                two_string = f"{area_name}"
+            else:
+                two_string = f"제주"
+        else:
+            if area_name == "성산2":
+                two_string = f"성산 ({my_code})"
+            else:
+                two_string = f"{area_name} ({my_code})"
 
         print(f"Switch ID: {one_string}")
         print(f"지역 선택: {two_string}")
@@ -262,8 +291,12 @@ class RainfallDataScraper:
         print(f"기간: {start_year}년 ~ {end_year}년")
 
         # 검색 버튼 클릭
+        # 전국은 검색하는데 시간이 좀 더 걸린다.
         self.driver.find_element(By.CSS_SELECTOR, "button.SEARCH_BTN").click()
-        time.sleep(2)
+        if my_code == 0:
+            time.sleep(6)
+        else:
+            time.sleep(2)
 
         # 다운로드 버튼 클릭
         self.driver.find_element(By.CSS_SELECTOR, "a.DOWNLOAD_BTN").click()
@@ -360,10 +393,11 @@ def main():
 
     # 기본 지역 목록으로 다운로드
     # area_list = ["대전", "보령", "부여", "서산", "천안", "금산", "청주", "보은", "제천", "추풍령", "서울", "인천", "수원"]
-    area_list = ["대전", "보령"]
+    # area_list = ["제주도", "전국", "서울경기", "성산2"]
+    area_list = ["전국"]
 
     try:
-        downloaded_files = scraper.download_rainfall_data(area_list)
+        downloaded_files, message = scraper.download_rainfall_data(area_list)
         print(f"다운로드된 파일들: {downloaded_files}")
     except Exception as e:
         print(f"오류 발생: {e}")
