@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file '01_Retrieve Weater DataULUSZL.ui'
+## Form generated from reading UI file '01_Retrieve Weater DatavmKKQt.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.9.0
 ##
@@ -742,13 +742,13 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab_7, "")
         self.listView = QListView(self.frame)
         self.listView.setObjectName(u"listView")
-        self.listView.setGeometry(QRect(10, 280, 121, 621))
+        self.listView.setGeometry(QRect(10, 280, 121, 681))
         self.listView_info = QListView(self.frame)
         self.listView_info.setObjectName(u"listView_info")
-        self.listView_info.setGeometry(QRect(140, 280, 961, 621))
+        self.listView_info.setGeometry(QRect(140, 280, 961, 681))
         self.pushButton_4 = QPushButton(self.frame)
         self.pushButton_4.setObjectName(u"pushButton_4")
-        self.pushButton_4.setGeometry(QRect(1120, 830, 231, 61))
+        self.pushButton_4.setGeometry(QRect(1120, 890, 231, 61))
         font1 = QFont()
         font1.setFamilies([u"Consolas"])
         font1.setPointSize(11)
