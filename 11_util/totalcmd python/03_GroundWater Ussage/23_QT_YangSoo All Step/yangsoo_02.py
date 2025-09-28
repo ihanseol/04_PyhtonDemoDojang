@@ -436,7 +436,7 @@ class RunTimeTimer():
             return stdout, stderr
 
         # Example usage:
-        command = ['python.exe', self.program_name]
+        command = ['pythonw.exe', self.program_name]
         timeout_seconds = self.seconds
 
         run_command_with_timeout(command, timeout_seconds)
