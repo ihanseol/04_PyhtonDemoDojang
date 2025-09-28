@@ -25,8 +25,8 @@ from natsort import natsorted
 from threading import Timer
 from playsound import playsound
 
-from FileProcessing_V3 import FileBase
-from FileProcessing_V3 import PathChecker
+from Save.FileProcessing_V3 import FileBase
+from Save.FileProcessing_V3 import PathChecker
 
 sys.path.append(
     r"c:\Program Files\totalcmd\ini\02_python\03_GroundWater Ussage\23_QT_YangSoo All Step\YangSoo\GetTS_FromPDF.py")
@@ -48,7 +48,7 @@ class AQTBASE:
         self.IMG_SAVE_PATH = "c:\\Users\\minhwasoo\\Documents\\Downloads\\"
         self.DAT_FILE = ''
 
-        self.DOCUMENTS = os.path.expanduser("~\\Documents")
+        self.DOCUMENTS = os.path.join(os.path.expanduser("~"), "Documents\\")
         self.SEND = 'D:\\05_Send\\'
         self.SEND2 = 'D:\\06_Send2\\'
 

@@ -51,7 +51,7 @@ class AQTBASE:
         self.IMG_SAVE_PATH = "c:\\Users\\minhwasoo\\Documents\\Downloads\\"
         self.DAT_FILE = ''
 
-        self.DOCUMENTS = os.path.expanduser("~\\Documents")
+        self.DOCUMENTS = os.path.join(os.path.expanduser("~"), "Documents\\")
         self.SEND = 'D:\\05_Send\\'
         self.SEND2 = 'D:\\06_Send2\\'
 
@@ -860,9 +860,9 @@ class InjectValueToSheet(FileProcessing):
 
             # wb.Close(SaveChanges=True)
         except Exception as e:
-
             self.printinfo("failed to save the excel file")
             self.printinfo(str(e))
+
         finally:
             wb.Close(SaveChanges=True)
             excel.Quit()
@@ -982,7 +982,7 @@ class PumpTestAutomation(FileProcessing):
 def run_main():
     root = tk.Tk()
     root.title("Pump Test Automation")
-    root.geometry("900x1100")  # Initial size, but will expand
+    root.geometry("1200x700")  # Initial size, but will expand
 
     # Create a scrolled text widget that fills the entire window
     text_widget = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=100, height=40, font=('Consolas', 11))

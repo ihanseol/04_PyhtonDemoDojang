@@ -543,7 +543,7 @@ class YangSooInjector:
 def run_main():
     root = tk.Tk()
     root.title("YanSoo Injector")
-    root.geometry("900x1000")  # Initial size, but will expand
+    root.geometry("1200x700")  # Initial size, but will expand
 
     # Create a scrolled text widget that fills the entire window
     text_widget = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=100, height=40, font=('Consolas', 11))
