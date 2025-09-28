@@ -695,10 +695,10 @@ class FileBase(AQTBASE, PathChecker):
 
 class PrepareYangsoofile(FileBase):
     def __init__(self, directory=r'D:\05_Send\\'):
-        print('init FileProcessing', directory)
+        print('init File_Processing', directory)
 
         if directory is None:
-            print('in FileProcessing , directory is None')
+            print('in File_Processing , directory is None')
             super().__init__(r"d:\05_Send\\")
 
         if self.check_path(directory) == PathChecker.RET_DIR:

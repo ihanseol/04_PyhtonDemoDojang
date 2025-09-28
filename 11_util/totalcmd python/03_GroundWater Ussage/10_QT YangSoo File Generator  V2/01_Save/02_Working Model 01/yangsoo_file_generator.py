@@ -16,11 +16,10 @@ from PySide6.QtWidgets import QApplication
 from PySide6.QtWidgets import QMainWindow
 from ui_for_yangsoo_file_generator import Ui_MainWindow
 
-from File_Processing.FileManager import FileBase
-from File_Processing.PrepareYangsoo import PrepareYangsoofile
-from File_Processing.PrepareYangsoo import PrepareYangsooExcel
-from File_Processing.AqtProjectInfoInjector import AqtProjectInfoInjector
-from File_Processing.AqtExcelProjectInfoInjector import AqtExcelProjectInfoInjector
+from FileProcessing_V4_20250211 import PrepareYangsoofile
+from FileProcessing_V4_20250211 import AqtProjectInfoInjector
+from FileProcessing_V4_20250211 import AqtExcelProjectInfoInjector
+from FileProcessing_V4_20250211 import FileBase
 
 
 class MyClass:
@@ -59,7 +58,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pushButton_4.clicked.connect(self.on_pushButton4_clicked)
 
         self.file_processing = PrepareYangsoofile()
-        self.pxel = PrepareYangsooExcel()
 
         # Connect all radio buttons to the same handler
         for i in range(1, 17):
@@ -106,31 +104,31 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             self.spi.Set_Projectinfo(self.Company, self.Address)
 
-    # def duplicate_and_rename_file(self, original_path, destination_folder, cnt):
-    #     if not os.path.exists(destination_folder):
-    #         os.makedirs(destination_folder)
-    #
-    #     destination_path = os.path.join(destination_folder, f"A{cnt}_ge_OriginalSaveFile.xlsm")
-    #     shutil.copy(original_path, destination_path)
-    #     return destination_path
-    #
-    # def copy_and_get_yangsoo_file(self, nof_well):
-    #     YangSoo_Folder = r"d:\12_dev\02_Excel3\01_Acquifer Pumping Test\01_양수시험"
-    #     original_file_path = "d:/05_Send/A1_ge_OriginalSaveFile.xlsm"
-    #     destination_folder = "d:/05_Send/"
-    #
-    #     fm = FileBase()
-    #     source = fm.get_file_filter(YangSoo_Folder, 'A1*집수정*.xlsm')[-1:]
-    #
-    #     my_source = ''.join(source)
-    #     print(my_source)
-    #     if source:
-    #         fm.copy_file(my_source, original_file_path)
-    #
-    #     print("You entered:", nof_well)
-    #     for i in range(2, nof_well + 1):
-    #         new_file_path = self.duplicate_and_rename_file(original_file_path, destination_folder, i)
-    #         print(f"File duplicated and renamed to: {new_file_path}")
+    def duplicate_and_rename_file(self, original_path, destination_folder, cnt):
+        if not os.path.exists(destination_folder):
+            os.makedirs(destination_folder)
+
+        destination_path = os.path.join(destination_folder, f"A{cnt}_ge_OriginalSaveFile.xlsm")
+        shutil.copy(original_path, destination_path)
+        return destination_path
+
+    def copy_and_get_yangsoo_file(self, nofsheet):
+        YangSoo_Folder = r"d:\12_dev\02_Excel3\01_Acquifer Pumping Test\01_양수시험"
+        original_file_path = "d:/05_Send/A1_ge_OriginalSaveFile.xlsm"
+        destination_folder = "d:/05_Send/"
+
+        fm = FileBase()
+        source = fm.get_file_filter(YangSoo_Folder, 'A1*집수정*.xlsm')[-1:]
+
+        my_source = ''.join(source)
+        print(my_source)
+        if source:
+            fm.copy_file(my_source, original_file_path)
+
+        print("You entered:", nofsheet)
+        for i in range(2, nofsheet + 1):
+            new_file_path = self.duplicate_and_rename_file(original_file_path, destination_folder, i)
+            print(f"File duplicated and renamed to: {new_file_path}")
 
     def on_pushButton3_clicked(self):
         """
@@ -162,9 +160,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 gong_lists = self.spiexcel.get_gong_list()
 
                 # 양수파일을 Send로 복사해 온다.
-                # self.copy_and_get_yangsoo_file(len(gong_lists))
-
-                self.pxel.copy_and_get_yangsoo_file(len(gong_lists))
+                self.copy_and_get_yangsoo_file(len(gong_lists))
 
                 for i in gong_lists:
                     self.file_processing.aqtfile_to_send(i, checkbox_state or self.spiexcel.is_jiyeol)
