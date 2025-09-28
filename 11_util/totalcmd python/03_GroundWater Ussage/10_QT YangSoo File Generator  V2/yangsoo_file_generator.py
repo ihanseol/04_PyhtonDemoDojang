@@ -106,31 +106,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             self.spi.Set_Projectinfo(self.Company, self.Address)
 
-    # def duplicate_and_rename_file(self, original_path, destination_folder, cnt):
-    #     if not os.path.exists(destination_folder):
-    #         os.makedirs(destination_folder)
-    #
-    #     destination_path = os.path.join(destination_folder, f"A{cnt}_ge_OriginalSaveFile.xlsm")
-    #     shutil.copy(original_path, destination_path)
-    #     return destination_path
-    #
-    # def copy_and_get_yangsoo_file(self, nof_well):
-    #     YangSoo_Folder = r"d:\12_dev\02_Excel3\01_Acquifer Pumping Test\01_양수시험"
-    #     original_file_path = "d:/05_Send/A1_ge_OriginalSaveFile.xlsm"
-    #     destination_folder = "d:/05_Send/"
-    #
-    #     fm = FileBase()
-    #     source = fm.get_file_filter(YangSoo_Folder, 'A1*집수정*.xlsm')[-1:]
-    #
-    #     my_source = ''.join(source)
-    #     print(my_source)
-    #     if source:
-    #         fm.copy_file(my_source, original_file_path)
-    #
-    #     print("You entered:", nof_well)
-    #     for i in range(2, nof_well + 1):
-    #         new_file_path = self.duplicate_and_rename_file(original_file_path, destination_folder, i)
-    #         print(f"File duplicated and renamed to: {new_file_path}")
 
     def on_pushButton3_clicked(self):
         """
@@ -162,8 +137,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 gong_lists = self.spiexcel.get_gong_list()
 
                 # 양수파일을 Send로 복사해 온다.
-                # self.copy_and_get_yangsoo_file(len(gong_lists))
-
                 self.pxel.copy_and_get_yangsoo_file(len(gong_lists))
 
                 for i in gong_lists:
@@ -186,7 +159,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     self.Company = self.textEdit_company.toPlainText()
 
                 print(f'main_call : self.Company : {self.Company}, self.Address: {self.Address}')
-                # self.spi.main_call_project_info(self.Address, self.Company)
                 self.spi.Set_Projectinfo(self.Company, self.Address)
             else:
                 print(f'copyaqt_and_set :  self.Company : {self.Company}, self.Address: {self.Address}')
@@ -222,8 +194,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setStyle('windows')
-    # app.setStyle('windowsvista')
-    # app.setStyle('fusion')
 
     window = MainWindow()
     window.show()
