@@ -14,14 +14,12 @@ import pygetwindow as gw
 import sys
 import win32com.client as win32
 from natsort import natsorted
-# import GetTS_FromPDF as GetTS
-
 from .GetTS_FromPDF import AQTProcessor
 
 
-
 # sys.path.append("c:\\Program Files\\totalcmd\ini\\02_python\02_양수시험\\04_양수시험, GetTS From PDF\\")
-sys.path.append(r"d:\05_Send\pythonProject\03_GroundWater Ussage\23_QT_YangSoo All Step\YangSoo\GetTS_FromPDF.py")
+# sys.path.append(r"d:\05_Send\pythonProject\03_GroundWater Ussage\23_QT_YangSoo All Step\YangSoo\GetTS_FromPDF.py")
+sys.path.append(r"c:\Program Files\totalcmd\ini\02_python\03_GroundWater Ussage\23_QT_YangSoo All Step\YangSoo\GetTS_FromPDF.py")
 
 
 class AQTBASE:
