@@ -11,22 +11,22 @@ from PySide6.QtGui import QStandardItemModel, QStandardItem
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox
 from ui_yangsoo import Ui_MainWindow
 
-from YangSoo.YanSooTest_01_FirstStep import YangSooInjector
-from YangSoo.YanSooTest_02_FinalStep import PumpTestAutomation
+import yangsoo_01
+import yangsoo_02
+from move_window_to_second_monitor import SimpleWindowMover
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
-        # self.setupUi(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.injector = YangSooInjector("d:\\05_Send\\")
-        self.pump_test = PumpTestAutomation()
-
+        self.mover = SimpleWindowMover()
         self.setup_connections()
         self.setup_listview()
+
+
 
     def setup_connections(self):
         """시그널-슬롯 연결"""
@@ -80,17 +80,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.printinfo("=" * 100)
         self.printinfo(" execute yangsoo_first_step ... ")
         self.printinfo("=" * 100)
-
-        self.injector.initial_delete_output_file(r"c:/Users/minhwasoo/Documents/")
-        self.injector.process_files()
+        yangsoo_01.run_main()
 
 
     def yangsoo_final_step(self):
         self.printinfo("=" * 100)
         self.printinfo(" execute yangsoo_final_step ... ")
         self.printinfo("=" * 100)
+        yangsoo_02.run_main()
 
-        self.pump_test.main_processing(Mode=2)
 
     def on_pushButton3_clicked(self):
         self.close()
@@ -101,10 +99,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    # app.setStyle('windows')
+    app.setStyle('windows')
     # app.setStyle('fusion')
     # app.setStyle('windows11')
-    app.setStyle('vista')
+    # app.setStyle('vista')
 
     window = MainWindow()
     window.show()
