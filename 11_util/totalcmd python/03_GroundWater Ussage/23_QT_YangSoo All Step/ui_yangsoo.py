@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'ui_yangsoooqgenU.ui'
+## Form generated from reading UI file 'ui_yangsooXbWdsw.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.9.2
 ##
@@ -15,82 +15,83 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
                            QFont, QFontDatabase, QGradient, QIcon,
                            QImage, QKeySequence, QLinearGradient, QPainter,
                            QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QListView, QMainWindow, QPushButton,
-                               QSizePolicy, QTabWidget, QTextEdit, QVBoxLayout,
-                               QWidget)
+from PySide6.QtWidgets import (QApplication, QLayout, QListView, QMainWindow,
+                               QMenuBar, QPushButton, QSizePolicy, QStatusBar,
+                               QTabWidget, QTextEdit, QVBoxLayout, QWidget)
 
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.setWindowModality(Qt.WindowModality.WindowModal)
-        MainWindow.resize(1108, 1157)
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
-        MainWindow.setSizePolicy(sizePolicy)
+        MainWindow.resize(640, 677)
         font = QFont()
         font.setFamilies([u"Consolas"])
         font.setPointSize(10)
         MainWindow.setFont(font)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Ignored)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.centralwidget.sizePolicy().hasHeightForWidth())
-        self.centralwidget.setSizePolicy(sizePolicy1)
-        self.centralwidget.setMinimumSize(QSize(0, 1157))
-        self.verticalLayout_3 = QVBoxLayout(self.centralwidget)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.verticalLayout = QVBoxLayout()
+        self.layoutWidget = QWidget(self.centralwidget)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(10, 30, 611, 271))
+        self.verticalLayout = QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.tabWidget = QTabWidget(self.centralwidget)
+        self.verticalLayout.setSizeConstraint(QLayout.SizeConstraint.SetNoConstraint)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.tabWidget = QTabWidget(self.layoutWidget)
         self.tabWidget.setObjectName(u"tabWidget")
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.tabWidget.sizePolicy().hasHeightForWidth())
+        self.tabWidget.setSizePolicy(sizePolicy)
         self.tab = QWidget()
         self.tab.setObjectName(u"tab")
         self.textEdit = QTextEdit(self.tab)
         self.textEdit.setObjectName(u"textEdit")
-        self.textEdit.setGeometry(QRect(20, 10, 1051, 161))
+        self.textEdit.setGeometry(QRect(20, 10, 571, 161))
         font1 = QFont()
         font1.setFamilies([u"Consolas"])
         font1.setPointSize(11)
         self.textEdit.setFont(font1)
         self.pushButton = QPushButton(self.tab)
         self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setGeometry(QRect(820, 200, 261, 51))
+        self.pushButton.setGeometry(QRect(330, 180, 261, 51))
         self.pushButton_3 = QPushButton(self.tab)
         self.pushButton_3.setObjectName(u"pushButton_3")
-        self.pushButton_3.setGeometry(QRect(550, 200, 261, 51))
+        self.pushButton_3.setGeometry(QRect(50, 180, 261, 51))
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QWidget()
         self.tab_2.setObjectName(u"tab_2")
         self.pushButton_2 = QPushButton(self.tab_2)
         self.pushButton_2.setObjectName(u"pushButton_2")
-        self.pushButton_2.setGeometry(QRect(810, 200, 261, 51))
+        self.pushButton_2.setGeometry(QRect(310, 180, 261, 51))
         self.pushButton_4 = QPushButton(self.tab_2)
         self.pushButton_4.setObjectName(u"pushButton_4")
-        self.pushButton_4.setGeometry(QRect(540, 200, 261, 51))
+        self.pushButton_4.setGeometry(QRect(20, 180, 261, 51))
         self.tabWidget.addTab(self.tab_2, "")
 
         self.verticalLayout.addWidget(self.tabWidget)
 
-        self.verticalLayout_3.addLayout(self.verticalLayout)
-
-        self.verticalLayout_2 = QVBoxLayout()
+        self.layoutWidget_2 = QWidget(self.centralwidget)
+        self.layoutWidget_2.setObjectName(u"layoutWidget_2")
+        self.layoutWidget_2.setGeometry(QRect(10, 310, 611, 301))
+        self.verticalLayout_2 = QVBoxLayout(self.layoutWidget_2)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.listView = QListView(self.centralwidget)
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.listView = QListView(self.layoutWidget_2)
         self.listView.setObjectName(u"listView")
 
         self.verticalLayout_2.addWidget(self.listView)
 
-        self.verticalLayout_3.addLayout(self.verticalLayout_2)
-
-        self.verticalLayout_3.setStretch(0, 1)
-        self.verticalLayout_3.setStretch(1, 3)
         MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QMenuBar(MainWindow)
+        self.menubar.setObjectName(u"menubar")
+        self.menubar.setGeometry(QRect(0, 0, 640, 33))
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QStatusBar(MainWindow)
+        self.statusbar.setObjectName(u"statusbar")
+        MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
 
@@ -101,9 +102,8 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow",
-                                                             u"\uc591\uc218\uc2dc\ud5d8 \uc790\ub3d9\ud654, \uc2a4\ud15d 1, \uc2a4\ud15d 2",
-                                                             None))
+        MainWindow.setWindowTitle(
+            QCoreApplication.translate("MainWindow", u"\uc591\uc218\uc2dc\ud5d8 \uc790\ub3d9\ud654", None))
         self.textEdit.setHtml(QCoreApplication.translate("MainWindow",
                                                          u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                                                          "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"

@@ -103,7 +103,8 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     # app.setStyle('windows')
     # app.setStyle('fusion')
-    app.setStyle('windows11')
+    # app.setStyle('windows11')
+    app.setStyle('vista')
 
     window = MainWindow()
     window.show()
