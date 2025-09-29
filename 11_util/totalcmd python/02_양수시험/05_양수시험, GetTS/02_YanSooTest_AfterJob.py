@@ -357,14 +357,14 @@ class InjectValueToSheet(FileProcessing):
         self.click_excel_button(ws_janggi, button_name="CommandButton2")
         if self.DEBUG_YES:
             print('Janggi.Select,  JangGi*02_Button2')
-        sleep(1)
+        sleep(2)
 
         if mode == 'mannual':
             get_ts = GetTS.AQTProcessor('mannual')
-            val_t, val_s, val_x = get_ts.aqtesolver_main(file_name=self.SEND + f"w{well}_02_long.aqt")
+            val_t, val_s, val_x = get_ts.aqtesolver_main(file_name=self.SEND + f"w{well}_02_long_01.aqt")
         else:
             get_ts = GetTS.AQTProcessor('auto')
-            val_t, val_s, val_x = get_ts.aqtesolver_main(file_name=self.SEND + f"w{well}_02_long.aqt")
+            val_t, val_s, val_x = get_ts.aqtesolver_main(file_name=self.SEND + f"w{well}_02_long_01.aqt")
 
         print(f'T: {val_t}, S: {val_s} X: {val_x} - Type:{type(val_t)}')
         print("")
@@ -576,6 +576,7 @@ class PumpTestAutomation(FileProcessing):
         """
 
         self.countdown(5)
+        # pyautogui.hotkey('win', 'shift', 'right')
 
         xlsmfiles = self.get_xlsm_filter(self.SEND, sfilter="*_ge_OriginalSaveFile.xlsm")
 
