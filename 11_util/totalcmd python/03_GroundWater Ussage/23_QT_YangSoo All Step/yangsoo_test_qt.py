@@ -13,6 +13,8 @@ from ui_yangsoo import Ui_MainWindow
 
 import yangsoo_01
 import yangsoo_02
+import yangsoo_03
+
 from move_window_to_second_monitor import SimpleWindowMover
 
 
@@ -32,7 +34,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """시그널-슬롯 연결"""
         # 버튼 연결
         self.ui.pushButton.clicked.connect(self.yangsoo_first_step)
-        self.ui.pushButton_2.clicked.connect(self.yangsoo_final_step)
+        self.ui.pushButton_2.clicked.connect(self.yangsoo_final_01)
+        self.ui.pushButton_5.clicked.connect(self.yangsoo_final_02)
         self.ui.pushButton_3.clicked.connect(self.on_pushButton3_clicked)
         self.ui.pushButton_4.clicked.connect(self.on_pushButton4_clicked)
 
@@ -83,12 +86,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         yangsoo_01.run_main()
 
 
-    def yangsoo_final_step(self):
+    def yangsoo_final_01(self):
         self.printinfo("=" * 100)
-        self.printinfo(" execute yangsoo_final_step ... ")
+        self.printinfo(" execute yangsoo_final_step 01... ")
         self.printinfo("=" * 100)
         yangsoo_02.run_main()
 
+    def yangsoo_final_02(self):
+        self.printinfo("=" * 100)
+        self.printinfo(" execute yangsoo_final_step 02... ")
+        self.printinfo("=" * 100)
+        yangsoo_03.run_main()
 
     def on_pushButton3_clicked(self):
         self.close()

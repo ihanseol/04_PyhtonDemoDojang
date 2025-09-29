@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'ui_yangsooXbWdsw.ui'
+## Form generated from reading UI file 'ui_yangsooFqKSLr.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.9.2
 ##
@@ -65,10 +65,17 @@ class Ui_MainWindow(object):
         self.tab_2.setObjectName(u"tab_2")
         self.pushButton_2 = QPushButton(self.tab_2)
         self.pushButton_2.setObjectName(u"pushButton_2")
-        self.pushButton_2.setGeometry(QRect(310, 180, 261, 51))
+        self.pushButton_2.setGeometry(QRect(10, 190, 201, 51))
         self.pushButton_4 = QPushButton(self.tab_2)
         self.pushButton_4.setObjectName(u"pushButton_4")
-        self.pushButton_4.setGeometry(QRect(20, 180, 261, 51))
+        self.pushButton_4.setGeometry(QRect(430, 190, 161, 51))
+        self.pushButton_5 = QPushButton(self.tab_2)
+        self.pushButton_5.setObjectName(u"pushButton_5")
+        self.pushButton_5.setGeometry(QRect(220, 190, 201, 51))
+        self.textEdit_2 = QTextEdit(self.tab_2)
+        self.textEdit_2.setObjectName(u"textEdit_2")
+        self.textEdit_2.setGeometry(QRect(10, 10, 571, 161))
+        self.textEdit_2.setFont(font1)
         self.tabWidget.addTab(self.tab_2, "")
 
         self.verticalLayout.addWidget(self.tabWidget)
@@ -122,11 +129,31 @@ class Ui_MainWindow(object):
         self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"Exit", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab),
                                   QCoreApplication.translate("MainWindow", u"YangSoo Test Step First", None))
-        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Execute YanSoo Final Step", None))
+        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"YanSoo Final 01", None))
         # if QT_CONFIG(shortcut)
         self.pushButton_2.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+S", None))
         # endif // QT_CONFIG(shortcut)
         self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"Exit", None))
+        self.pushButton_5.setText(QCoreApplication.translate("MainWindow", u"YangSoo Final 02", None))
+        # if QT_CONFIG(shortcut)
+        self.pushButton_5.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+S", None))
+        # endif // QT_CONFIG(shortcut)
+        self.textEdit_2.setHtml(QCoreApplication.translate("MainWindow",
+                                                           u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+                                                           "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+                                                           "p, li { white-space: pre-wrap; }\n"
+                                                           "hr { height: 1px; border-width: 0; }\n"
+                                                           "li.unchecked::marker { content: \"\\2610\"; }\n"
+                                                           "li.checked::marker { content: \"\\2612\"; }\n"
+                                                           "</style></head><body style=\" font-family:'Consolas'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
+                                                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">\uc774\uac83\uc740, \uc591\uc218\uc2dc\ud5d8\uc77c\ubcf4\uc758 \uc790\ub3d9\ud654 \ud504\ub85c\uadf8\ub7a8\uc774\uba70 2\ub2e8\uacc4 \uc2a4\ud15d\uc740, AqteSolver \ub97c \ub3cc\ub824\uc11c T,S\uac12\uc744 \uc5bb\ub294 \uacfc\uc815\uc744 \ud558\uac8c\ub41c\ub2e4. </p>\n"
+                                                           "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; tex"
+                                                           "t-indent:0px;\"><br /></p>\n"
+                                                           "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">\uc5ec\uae30\uc11c\ub294 2\ub2e8\uacc4 \uacfc\uc815\uc911 \ud558\ub098\ub294 <span style=\" font-weight:700;\">\uc7a5\uae30\uc2dc\ud5d8\uc744 \uadf8\ub0e5 \uc790\ub3d9\uc73c\ub85c \ub450\uace0 \uc2a4\ud15d\ub9cc \ub9e4\ub274\uc5bc\ub85c </span>\ub610\ub2e4\ub978 \ud558\ub098 2\ub2e8\uacc4 \uacfc\uc815\uc911, <span style=\" font-weight:700;\">\uc7a5\uae30\uc2dc\ud5d8 \uc7a5\uae30 01, \uc7a5\uae30 02 \ub9e4\ub274\uc5bc 20\ucd08 \ub2e8\uacc4 \ub9e4\ub274\uc5bc 10\ucd08 </span>\uc774\ub807\uac8c \uc138\ud305\ud558\uace0 \uc0ac\uc6a9\ud558\uac8c \ub41c\ub2e4.</p></body></html>",
+                                                           None))
+        self.textEdit_2.setPlaceholderText(QCoreApplication.translate("MainWindow",
+                                                                      u"\uc774\uac83\uc740, \uc591\uc218\uc2dc\ud5d8\uc77c\ubcf4\uc758 \uc790\ub3d9\ud654 \ud504\ub85c\uadf8\ub7a8\uc774\uba70 \uc2a4\ud15d\uc740 2\ub2e8\uacc4\ub85c \uad6c\uc131\ub418\uc5b4, 1\ub2e8\uacc4 \uc2a4\ud15d\uc740, YanSoo.XLSX \ud30c\uc77c\uc5d0\uc11c \ub370\uc774\ud130\ub97c \uc77d\uc5b4\uc640\uc11c \uc591\uc218\uc77c\ubcf4\ud30c\uc77c\uc5d0 \ub370\uc774\ud130\ub97c \uc5c5\ub370\uc774\ud2b8 \ud574\uc8fc\ub294 1\ucc28\uacfc\uc815\uc774\uba70 2\ub2e8\uacc4 \uc2a4\ud15d\uc740, AqteSolver \ub97c \ub3cc\ub824\uc11c T,S\uac12\uc744 \uc5bb\ub294 \uacfc\uc815\uc744 \ud558\uac8c\ub41c\ub2e4.",
+                                                                      None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2),
                                   QCoreApplication.translate("MainWindow", u"YangSoo Test Step Final", None))
     # retranslateUi
