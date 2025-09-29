@@ -325,20 +325,37 @@ class YangSooInjector:
         if self.debug_yes: print('inject value to cell, finished...')
 
     def inject_values(self, wb, excel):
-        if self.debug_yes: print('inject value to cell, _inject_input is started ...')
+        if self.debug_yes:
+            print('='*100)
+            print('* inject value to cell, _inject_input is started ...')
+            print('=' * 100)
+
         self._inject_input(wb, excel)
+        print('\n\n')
 
-        print('')
-        if self.debug_yes: print('inject step test ...')
+        if self.debug_yes:
+            print('=' * 100)
+            print('* inject step test ...')
+            print('=' * 100)
+
         self._inject_step_test(wb)
+        print('\n\n')
 
-        print('')
-        if self.debug_yes: print('inject long term test ...')
+        if self.debug_yes:
+            print('=' * 100)
+            print('* inject long term test ...')
+            print('=' * 100)
+
         self._inject_long_term_test(wb, excel)
+        print('\n\n')
 
-        print('')
-        if self.debug_yes: print('water quality check  ...')
+        if self.debug_yes:
+            print('=' * 100)
+            print('* water quality check  ...')
+            print('=' * 100)
+
         self._inject_w1_test(wb)
+        print('\n\n')
 
     # 간이양수시험
     # 2025-3-29
@@ -394,6 +411,7 @@ class YangSooInjector:
             self.click_excel_button(ws, button)
             print(f'_inject_input -- {label}')
             time.sleep(1)
+
 
     def _inject_step_test(self, wb):
         ws = wb.Worksheets("stepTest")
@@ -509,9 +527,10 @@ class YangSooInjector:
             wb = excel.Workbooks.Open(self.directory + file)
 
             print('\n\n')
-            print('-' * 80)
-            print(f'Processing file: {file}')
-            print('-' * 80)
+            print('=' * 100)
+            print(f'*  Processing file: {file}')
+            print('=' * 100)
+            print('\n\n\n')
 
             self.inject_values(wb, excel)
             wb.Close(SaveChanges=True)
