@@ -13,6 +13,36 @@ from datetime import datetime
 from typing import List, Optional
 
 
+def find_area_info(area_data, target_area):
+    """
+    주어진 area_data 리스트에서 지정된 target_area의 name, Code, switch 정보를 반환하는 함수.
+
+    Args:
+    area_data (list): DEFAULT_AREA_DATA와 같은 딕셔너리 리스트
+    target_area (str): 찾고자 하는 area 이름 (예: "충남")
+
+    Returns:
+    dict: {"name": ..., "Code": ..., "switch": ...} 또는 None (찾지 못한 경우)
+    """
+    for item in area_data:
+        if item["area"] == target_area:
+            return {
+                "name": item["name"],
+                "Code": item["Code"],
+                "switch": item["switch"]
+            }
+    return None
+
+
+def find_area_info_test():
+    # 사용 예시 (충남에 대해 호출)
+    result = find_area_info(DEFAULT_AREA_DATA, "충남")
+    if result:
+        print(result)  # 출력: {'name': 'ChungNam', 'Code': 0, 'switch': 2}
+    else:
+        print("해당 area를 찾을 수 없습니다.")
+
+
 class RainfallDataScraper:
     """기상청 강우량 데이터를 자동으로 다운로드하는 클래스"""
 
