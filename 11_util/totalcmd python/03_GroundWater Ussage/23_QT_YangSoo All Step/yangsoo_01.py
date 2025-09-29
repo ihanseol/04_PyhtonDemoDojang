@@ -234,8 +234,28 @@ class YangSooInjector:
         self.printinfo(f' time stamp of longtest_time : {row_data["longterm_test_time"]}')
         # self.LONG_TERM_TEST_TIME = self.parse_and_adjust_timestamp(row_data[13])
 
-        self.LONG_TERM_TEST_TIME = row_data['longterm_test_time'].tz_localize('UTC')
-        self.printinfo(f' time stamp of longtest_time : {self.LONG_TERM_TEST_TIME} {type(self.LONG_TERM_TEST_TIME)}')
+        # Fixed: Check if timestamp exists and handle timezone properly
+        longterm_time = row_data['longterm_test_time']
+
+        try:
+            if pd.isna(longterm_time):
+                # If no timestamp provided, use a default
+                self.LONG_TERM_TEST_TIME = pd.Timestamp('2024-06-29 15:45:09')
+            else:
+                # Convert to Timestamp if it's not already
+                if not isinstance(longterm_time, pd.Timestamp):
+                    longterm_time = pd.Timestamp(longterm_time)
+
+                # Remove timezone info if it exists to avoid localization issues
+                if longterm_time.tzinfo is not None:
+                    self.LONG_TERM_TEST_TIME = longterm_time.tz_localize(None)
+                else:
+                    self.LONG_TERM_TEST_TIME = longterm_time
+        except Exception as e:
+            print(f"Error processing longterm_test_time: {e}")
+            # Fallback to default timestamp
+            self.LONG_TERM_TEST_TIME = pd.Timestamp('2024-06-29 15:45:09')
+
 
         project_name = row_data['Project Name']
         jigu_name = row_data['Jigu Name']
@@ -282,6 +302,26 @@ class YangSooInjector:
         return cell_values
 
     def inject_value_to_cells(self, book, excel):
+        cell_values_string = {
+            "J48": "str_gong",
+            "I46": "address",
+            "I52": "casing",
+            "I48": "hp",
+            "M44": "well_rad",
+            "M45": "simdo",
+            "M48": "natural",
+            "M49": "stable",
+            "M51": "q",
+            "I50": "pump_simdo",
+            "K50": "tochul",
+            "I51": "pumping_capacity",
+            "I44": "project_name",
+            "I45": "jigu_name",
+            "I47": "company_name",
+            "c9": "ph",
+            "z999": "yangsoo_time"
+        }
+
         sheet = book.Worksheets("Input")
         sheet_w1 = book.Worksheets("w1")
 
@@ -298,7 +338,7 @@ class YangSooInjector:
             excel.Application.Run("mod_INPUT.SetTimeTo1440")
 
         for cell, value in cell_values.items():
-            self.printinfo(f' inject_value_to_cells : {cell} - {value}')
+            self.printinfo(f'inject_value_to_cells : {cell} : {cell_values_string.get(cell)}, - {value}')
             if cell != "c9":
                 sheet.Range(cell).Value = value
             else:
@@ -309,19 +349,32 @@ class YangSooInjector:
         if self.debug_yes: self.printinfo(' inject value to cell, finished...')
 
     def inject_values(self, wb, excel):
-        if self.debug_yes: self.printinfo(' inject value to cell, _inject_input is started ...')
+        if self.debug_yes:
+            self.printinfo('='*100)
+            self.printinfo(' inject value to cell, _inject_input is started ...')
+            self.printinfo('=' * 100)
+
         self._inject_input(wb, excel)
-
         self.printinfo('')
-        if self.debug_yes: self.printinfo(' inject step test ...')
+
+        if self.debug_yes:
+            self.printinfo('=' * 100)
+            self.printinfo(' inject step test ...')
+            self.printinfo('=' * 100)
         self._inject_step_test(wb)
-
         self.printinfo('')
-        if self.debug_yes: self.printinfo(' inject long term test ...')
+
+        if self.debug_yes:
+            self.printinfo('=' * 100)
+            self.printinfo(' inject long term test ...')
+            self.printinfo('=' * 100)
         self._inject_long_term_test(wb, excel)
-
         self.printinfo('')
-        if self.debug_yes: self.printinfo(' water quality check  ...')
+
+        if self.debug_yes:
+            self.printinfo('=' * 100)
+            self.printinfo(' water quality check  ...')
+            self.printinfo('=' * 100)
         self._inject_w1_test(wb)
 
     # 간이양수시험

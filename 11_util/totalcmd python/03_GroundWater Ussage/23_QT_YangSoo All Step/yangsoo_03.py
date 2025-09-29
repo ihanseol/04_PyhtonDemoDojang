@@ -69,10 +69,10 @@ class AQTBASE:
         self.DELAY = 0.5
         self.IS_BLOCK = False
 
-    @staticmethod
-    def get_screen_width() -> int:
+    def get_screen_width(self) -> int:
         hmonitor = len(get_monitors())
         print('get_monitors:', hmonitor)
+        self.printinfo('get_monitors:', hmonitor)
 
         screen1 = get_monitors()[0]
         screen2 = get_monitors()[0]
@@ -86,12 +86,12 @@ class AQTBASE:
             screen = screen2
 
         print(f'screen width : {screen.width}')
+        self.printinfo(f'screen width : {screen.width}')
         return screen.width
 
-    @staticmethod
-    def get_screen_height() -> int:
+    def get_screen_height(self) -> int:
         hmonitor = len(get_monitors())
-        print('get_monitors:', hmonitor)
+        self.printinfo('get_monitors:', hmonitor)
 
         screen1 = get_monitors()[0]
         screen2 = get_monitors()[0]
@@ -104,13 +104,13 @@ class AQTBASE:
         else:
             screen = screen2
 
-        print(f'screen height : {screen.height}')
+        self.printinfo(f'screen height : {screen.height}')
         return screen.height
 
     @staticmethod
     def check_screen_dimension():
-        print('get screen width ', get_screen_width())
-        print('get screen height ', get_screen_height())
+        self.printinfo('get screen width ', get_screen_width())
+        self.printinfo('get screen height ', get_screen_height())
 
     @staticmethod
     def tkMessageBox(message):
@@ -251,7 +251,7 @@ class AQTProcessor(AQTBASE):
             mode : auto
             mode : mannual        
         """
-        self.auto_script = AutoScript()
+        self.auto_script = AutoScript(text_widget)
         self.aqtpdf = AqtPDF()
 
     @property
@@ -377,15 +377,15 @@ class AQTProcessor(AQTBASE):
                 step = 4
                 dat_file = f"A{well}_ge_recover_01.dat"
             case _:
-                print('Match case exception ...')
+                self.printinfo('Match case exception ...')
                 raise FileNotFoundError("cannot determin DAT_FILE ...")
 
-        print(f'DAT_FILE: {dat_file}, step: {step}, running_step: {running_step}')
+        self.printinfo(f'DAT_FILE: {dat_file}, step: {step}, running_step: {running_step}')
         self.auto_script.run_script(dat_file)
 
         if running_step in (2, 3, 4):
             if self.mode == 'mannual':
-                print('\n\nAQTProcessor running mode --> Mannual')
+                self.printinfo('\n\nAQTProcessor running mode --> Mannual')
 
                 match self.get_screen_width():
                     case 2560:
@@ -401,7 +401,7 @@ class AQTProcessor(AQTBASE):
                 rt_timer = RunTimeTimer(self.TimerDelay.get(running_step))
                 rt_timer.run_dual()
             else:
-                print('\n\nAQTProcessor running mode --> Auto')
+                self.printinfo('\n\nAQTProcessor running mode --> Auto')
 
         self.print_pdf(os.path.join(self.SEND, 'aqt_data.pdf'))
         time.sleep(1)
@@ -465,6 +465,13 @@ class RunTimeTimer:
     def run_dual(self):
         self.run_timer()
         self.run_background_timer()
+
+
+#============================================================================================================================
+#
+#
+#============================================================================================================================
+
 
 
 class FileProcessing(AQTBASE):
@@ -684,7 +691,7 @@ class InjectValueToSheet(FileProcessing):
             self.printinfo('Step.Select,  StepPrn_Button1')
         time.sleep(1)
 
-        get_ts = AQTProcessor('auto', text_widget)
+        get_ts = AQTProcessor('auto', self.text_widget)
         val_t, val_s, val_x = get_ts.AqtesolverMain(file_name=self.SEND + f"w{well}_01_step.aqt")
 
         self.printinfo(f'T: {val_t}, S: {val_s} X: {val_x} - Type:{type(val_t)}')
@@ -711,10 +718,10 @@ class InjectValueToSheet(FileProcessing):
         sleep(2)
 
         if mode == 'mannual':
-            get_ts = AQTProcessor('mannual')
+            get_ts = AQTProcessor('mannual', self.text_widget)
             val_t, val_s, val_x = get_ts.aqtesolver_main(file_name=self.SEND + f"w{well}_02_long.aqt")
         else:
-            get_ts = AQTProcessor('auto')
+            get_ts = AQTProcessor('auto', self.text_widget)
             val_t, val_s, val_x = get_ts.aqtesolver_main(file_name=self.SEND + f"w{well}_02_long.aqt")
 
         self.printinfo(f'T: {val_t}, S: {val_s} X: {val_x} - Type:{type(val_t)}')
@@ -738,10 +745,10 @@ class InjectValueToSheet(FileProcessing):
         sleep(2)
 
         if mode == 'mannual':
-            get_ts = AQTProcessor('mannual')
+            get_ts = AQTProcessor('mannual', self.text_widget)
             val_t, val_s, val_x = get_ts.aqtesolver_main(file_name=self.SEND + f"w{well}_02_long_01.aqt")
         else:
-            get_ts = AQTProcessor('auto')
+            get_ts = AQTProcessor('auto', self.text_widget)
             val_t, val_s, val_x = get_ts.aqtesolver_main(file_name=self.SEND + f"w{well}_02_long_01.aqt")
 
         self.printinfo(f'T: {val_t}, S: {val_s} X: {val_x} - Type:{type(val_t)}')
@@ -782,6 +789,7 @@ class InjectValueToSheet(FileProcessing):
 
         ws_skin.Range("I13").Value = val_s
         time.sleep(0.5)
+        return None
 
     def is_step_file_exist(self, well) -> bool:
         path = self.SEND

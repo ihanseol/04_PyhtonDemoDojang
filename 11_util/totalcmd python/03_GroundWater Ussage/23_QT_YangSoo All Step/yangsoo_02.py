@@ -68,10 +68,9 @@ class AQTBASE:
         self.DELAY = 0.5
         self.IS_BLOCK = False
 
-    @staticmethod
-    def get_screen_width() -> int:
+    def get_screen_width(self) -> int:
         hmonitor = len(get_monitors())
-        print('get_monitors:', hmonitor)
+        self.printinfo('get_monitors:', hmonitor)
 
         screen1 = get_monitors()[0]
         screen2 = get_monitors()[0]
@@ -84,13 +83,12 @@ class AQTBASE:
         else:
             screen = screen2
 
-        print(f'screen width : {screen.width}')
+        self.printinfo(f'screen width : {screen.width}')
         return screen.width
 
-    @staticmethod
-    def get_screen_height() -> int:
+    def get_screen_height(self) -> int:
         hmonitor = len(get_monitors())
-        print('get_monitors:', hmonitor)
+        self.printinfo('get_monitors:', hmonitor)
 
         screen1 = get_monitors()[0]
         screen2 = get_monitors()[0]
@@ -103,13 +101,12 @@ class AQTBASE:
         else:
             screen = screen2
 
-        print(f'screen height : {screen.height}')
+        self.printinfo(f'screen height : {screen.height}')
         return screen.height
 
-    @staticmethod
-    def check_screen_dimension():
-        print('get screen width ', get_screen_width())
-        print('get screen height ', get_screen_height())
+    def check_screen_dimension(self):
+        self.printinfo('get screen width ', get_screen_width())
+        self.printinfo('get screen height ', get_screen_height())
 
     @staticmethod
     def tkMessageBox(message):
@@ -248,7 +245,7 @@ class AQTProcessor(AQTBASE):
             mode : auto
             mode : mannual        
         """
-        self.auto_script = AutoScript()
+        self.auto_script = AutoScript(text_widget)
         self.aqtpdf = AqtPDF()
 
     @property
@@ -463,6 +460,11 @@ class RunTimeTimer():
         self.run_timer()
         self.run_background_timer()
 
+
+#============================================================================================================================
+#
+#
+#============================================================================================================================
 
 class FileProcessing(AQTBASE):
     def __init__(self, directory="d:\\05_Send\\", text_widget=None):
