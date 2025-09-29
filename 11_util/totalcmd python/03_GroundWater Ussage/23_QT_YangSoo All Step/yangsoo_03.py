@@ -439,7 +439,7 @@ class RunTimeTimer:
 
         # Example usage:
         timeout_seconds = self.seconds
-        command = ['python.exe', self.program_name, str(timeout_seconds)]
+        command = ['pythonw.exe', self.program_name, str(timeout_seconds)]
         print(f'run_background_timer: {command}, timeout: {timeout_seconds} seconds')
 
         run_command_with_timeout(command, timeout_seconds)
