@@ -220,18 +220,11 @@ class YangSooInjector:
     def make_cell_values(self, row_index):
         if len(self.yangsoo_files) == 1:
             row_data = self.get_excel_row(0)
-            """
-                yangsoo_files가 한개밖에 없으면
-                더힐CC처럼 , 공 하나가 추가되어
-                이것만 처리해야 할경우
-            """
         else:
             row_data = self.get_excel_row(row_index)
 
         len_row_data = len(row_data)
         print('len(row_data):', len_row_data)
-
-        # address, hp, casing, well_rad, simdo, q, natural, stable = row_data[1:9]
 
         address = row_data['address']
         hp = row_data['hp']
@@ -248,9 +241,29 @@ class YangSooInjector:
         self.STABLE_TIME = row_data['stable_time']
 
         print('time stamp of longtest_time :', row_data['longterm_test_time'])
-        # self.LONG_TERM_TEST_TIME = self.parse_and_adjust_timestamp(row_data[13])
 
-        self.LONG_TERM_TEST_TIME = row_data['longterm_test_time'].tz_localize('UTC')
+        # Fixed: Check if timestamp exists and handle timezone properly
+        longterm_time = row_data['longterm_test_time']
+
+        try:
+            if pd.isna(longterm_time):
+                # If no timestamp provided, use a default
+                self.LONG_TERM_TEST_TIME = pd.Timestamp('2024-06-29 15:45:09')
+            else:
+                # Convert to Timestamp if it's not already
+                if not isinstance(longterm_time, pd.Timestamp):
+                    longterm_time = pd.Timestamp(longterm_time)
+
+                # Remove timezone info if it exists to avoid localization issues
+                if longterm_time.tzinfo is not None:
+                    self.LONG_TERM_TEST_TIME = longterm_time.tz_localize(None)
+                else:
+                    self.LONG_TERM_TEST_TIME = longterm_time
+        except Exception as e:
+            print(f"Error processing longterm_test_time: {e}")
+            # Fallback to default timestamp
+            self.LONG_TERM_TEST_TIME = pd.Timestamp('2024-06-29 15:45:09')
+
         print('time stamp of longtest_time :', self.LONG_TERM_TEST_TIME, type(self.LONG_TERM_TEST_TIME))
 
         project_name = row_data['Project Name']
@@ -297,7 +310,29 @@ class YangSooInjector:
 
         return cell_values
 
+
     def inject_value_to_cells(self, book, excel):
+        cell_values_string = {
+            "J48": "str_gong",
+            "I46": "address",
+            "I52": "casing",
+            "I48": "hp",
+            "M44": "well_rad",
+            "M45": "simdo",
+            "M48": "natural",
+            "M49": "stable",
+            "M51": "q",
+            "I50": "pump_simdo",
+            "K50": "tochul",
+            "I51": "pumping_capacity",
+            "I44": "project_name",
+            "I45": "jigu_name",
+            "I47": "company_name",
+            "c9": "ph",
+            "z999":"yangsoo_time"
+            }
+
+
         sheet = book.Worksheets("Input")
         sheet_w1 = book.Worksheets("w1")
 
@@ -314,7 +349,7 @@ class YangSooInjector:
             excel.Application.Run("mod_INPUT.SetTimeTo1440")
 
         for cell, value in cell_values.items():
-            print(f'inject_value_to_cells : {cell} - {value}')
+            print(f'inject_value_to_cells : {cell} : {cell_values_string.get(cell)}, - {value}')
             if cell != "c9":
                 sheet.Range(cell).Value = value
             else:
