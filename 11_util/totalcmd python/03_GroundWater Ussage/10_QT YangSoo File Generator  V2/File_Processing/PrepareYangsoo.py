@@ -112,6 +112,7 @@ class PrepareYangsooExcel(FileBase):
         return destination_path
 
     def copy_and_get_yangsoo_file(self, nof_well):
+        # original_file_path = "d:/05_Send/A1_ge_OriginalSaveFile.xlsm"
         original_file_path = "d:/05_Send/A1_ge_OriginalSaveFile.xlsm"
         destination_folder = "d:/05_Send/"
 
