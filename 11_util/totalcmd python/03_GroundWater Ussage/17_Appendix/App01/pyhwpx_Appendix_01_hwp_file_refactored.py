@@ -7,6 +7,7 @@ import shutil
 from make_appendix_01_refactored import AppendixMaker
 
 
+
 class HwpDocumentGenerator:
     """Class to generate HWP documents from Excel data."""
 
@@ -188,7 +189,7 @@ class HwpDocumentGenerator:
             print(f"Document saved successfully to {output_path}")
 
             # Close HWP
-            self.hwp.quit()
+            self.hwp.close()
 
             # Remove template from desktop
             template_path = self.desktop / self.hwp_template
@@ -238,6 +239,7 @@ def main():
     """Main function to run the document generator."""
     generator = HwpDocumentGenerator()
     result = generator.run()
+    generator.hwp.quit()
     print(result)
 
 

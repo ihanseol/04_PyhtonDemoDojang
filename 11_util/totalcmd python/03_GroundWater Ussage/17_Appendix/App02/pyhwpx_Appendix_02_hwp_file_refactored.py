@@ -185,7 +185,7 @@ class HwpDocumentGenerator:
             self.hwp.save_as(str(output_path))
             print(f"Document saved successfully to {output_path}")
 
-            self.hwp.quit()
+            self.hwp.close()
 
             template_path = self.desktop / self.hwp_template
             if template_path.exists():
@@ -234,6 +234,7 @@ def main():
     """Main function to run the document generator."""
     generator = HwpDocumentGenerator()
     result = generator.run()
+    generator.hwp.quit()
     print(result)
 
 

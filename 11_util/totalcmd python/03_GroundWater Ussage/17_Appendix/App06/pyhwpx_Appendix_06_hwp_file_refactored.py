@@ -173,7 +173,7 @@ class HwpProcessor:
             print(f"Document saved successfully to {output_path}")
 
             # Close HWP
-            self.hwp.quit()
+            self.hwp.close()
 
             # Remove template from desktop
             template_path = self.desktop / self.hwp_template
@@ -220,6 +220,7 @@ class HwpProcessor:
 def main():
     processor = HwpProcessor()
     result = processor.run()
+    generator.hwp.quit()
     print(result)
 
 
