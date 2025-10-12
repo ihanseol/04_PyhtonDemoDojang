@@ -189,7 +189,7 @@ class HwpDocumentGenerator:
             print(f"Document saved successfully to {output_path}")
 
             # Close HWP
-            self.hwp.close()
+            self.hwp.quit()
 
             # Remove template from desktop
             template_path = self.desktop / self.hwp_template
@@ -239,7 +239,6 @@ def main():
     """Main function to run the document generator."""
     generator = HwpDocumentGenerator()
     result = generator.run()
-    generator.hwp.quit()
     print(result)
 
 

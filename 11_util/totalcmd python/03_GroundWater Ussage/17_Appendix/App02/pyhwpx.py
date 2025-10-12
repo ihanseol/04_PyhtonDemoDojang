@@ -4101,6 +4101,7 @@ class Hwp:
         """
         return self.hwp.XHwpDocuments.Active_XHwpDocument.Clear(option=option)
 
+
     def Clear(self, option: int = 1):
         """
         현재 편집중인 문서의 내용을 닫고 빈문서 편집 상태로 돌아간다.
