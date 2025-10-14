@@ -16,7 +16,8 @@ class HwpDocumentGenerator:
         self.excel_file = "appendix_02.xlsx"
         self.hwp_template = "appendix_02(field).hwpx"
         self.hwp_output = "appendix_02(result).hwpx"
-        self.template_source = Path("c:/Program Files/totalcmd/ini/02_python") / self.hwp_template
+        # self.template_source = Path("c:/Program Files/totalcmd/ini/02_python") / self.hwp_template
+        self.template_source = Path("c:/Program Files/totalcmd/hwp") / self.hwp_template
         self.desktop = self.get_desktop_path()
         self.hwp = None
         self.excel_data = None

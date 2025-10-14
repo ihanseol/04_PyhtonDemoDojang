@@ -41,7 +41,8 @@ class HwpProcessor:
         appendix_maker.run()
 
         # Copy template file to desktop
-        template_source = Path("c:/Program Files/totalcmd/ini/02_python") / self.hwp_template
+        # template_source = Path("c:/Program Files/totalcmd/ini/02_python") / self.hwp_template
+        template_source = Path("c:/Program Files/totalcmd/hwp") / self.hwp_template
         template_destination = self.desktop / self.hwp_template
         shutil.copy(template_source, template_destination)
 
