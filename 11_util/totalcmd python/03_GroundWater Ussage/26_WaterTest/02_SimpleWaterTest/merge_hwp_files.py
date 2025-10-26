@@ -44,6 +44,8 @@ def merge_hwp_files(ofilename='ex_wt_result.hwp', mode='normal'):
     hwp.HAction.Run("MoveRight")
     hwp.HAction.Run('SelectAll')
     pagesetup(hwp)
+
+    hwp.delete_all_fields()
     hwp.save_as(ofilename)  # 반복이 끝났으면 "취합본.hwp"로 다른이름으로저장
     hwp.Quit()  # 한/글 프로그램 종료
     remove_filelist_files(file_list)
