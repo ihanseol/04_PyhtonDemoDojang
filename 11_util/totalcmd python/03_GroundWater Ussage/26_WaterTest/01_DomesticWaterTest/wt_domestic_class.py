@@ -167,6 +167,13 @@ class PDFParser:
             except IndexError:
                 break
 
+
+        # print(f'line_results: {line_results}')
+        # line_results: ['0', '7.2', '10.3', '1.4', '불검출', '0.009', '불검출', '불검출', '불검출', '불검출', '불검출', '불검출', '불검출',
+        #                '불검출', '불검출', '불검출', '불검출', '불검출', '불검출', '불검출']
+        # 이것은 그냥 결과값만을 저장하는 부분이다.
+
+
         # Map results to parameter names
         for idx, (korean_name, english_name) in enumerate(WATER_QUALITY_PARAMS.items()):
             if idx < len(line_results):

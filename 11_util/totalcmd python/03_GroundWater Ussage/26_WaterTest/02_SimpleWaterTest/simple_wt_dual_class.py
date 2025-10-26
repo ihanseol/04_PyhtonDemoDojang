@@ -118,6 +118,7 @@ class ExcelDataExtractor:
     def __init__(self, file_path: str):
         self.file_path = Path(file_path)
         self.workbook = None
+        self.last_index = 1
 
     def load_workbook(self) -> bool:
         """Load the Excel workbook."""
@@ -143,7 +144,8 @@ class ExcelDataExtractor:
             if data:
                 results.append(data)
 
-        return results
+        print('self.last_index', self.last_index)
+        return results, self.last_index
 
     def _detect_mode(self, sheet) -> OpMode:
         """Detect if sheet is in single or dual mode."""
@@ -170,9 +172,11 @@ class ExcelDataExtractor:
         self._extract_statistics(sheet, mode, temps1, temps2, ecs1, ecs2, phs1, phs2)
 
         if mode == OpMode.SINGLE:
+            self.last_index = self._extract_number(well1)
             return WaterQualityData(well1, times, temps1, ecs1, phs1)
         else:
             well2 = sheet['G12'].value or f"W-{self._extract_number(well1) + 1}"
+            self.last_index = self._extract_number(well2)
             return WaterQualityData(well1, times, temps1, ecs1, phs1, well2, temps2, ecs2, phs2)
 
     def _extract_measurements(self, sheet, mode, times, temps1, temps2, ecs1, ecs2, phs1, phs2):
@@ -233,7 +237,7 @@ class HwpDocumentWriter:
         self.template_manager = template_manager
         self.output_dir = output_dir
 
-    def create_document(self, data: WaterQualityData) -> None:
+    def create_document(self, data: WaterQualityData, last_index) -> None:
         """Create an HWP document from water quality data."""
         template_path = self.template_manager.get_template_path(data.is_dual_mode)
 
@@ -241,7 +245,7 @@ class HwpDocumentWriter:
         hwp.open(str(template_path))
 
         try:
-            self._write_placeholders(hwp, data)
+            self._write_placeholders(hwp, data, last_index)
             self._write_table_data(hwp, data)
 
             output_path = self.output_dir / f"ex_water_{data.well_name}.hwp"
@@ -250,13 +254,15 @@ class HwpDocumentWriter:
         finally:
             hwp.Quit(save=False)
 
-    def _write_placeholders(self, hwp, data: WaterQualityData):
+    def _write_placeholders(self, hwp, data: WaterQualityData, last_index):
         """Write data to placeholder fields."""
         temp_min, temp_max = data.temp_stats
         ec_min, ec_max = data.ec_stats
         ph_min, ph_max = data.ph_stats
 
         if data.is_dual_mode:
+            self._write_field(hwp, 'index', last_index)
+
             self._write_field(hwp, 'well1', data.well_name)
             self._write_field(hwp, 'well2', data.well_name2)
             self._write_field(hwp, 'temp1_min', temp_min)
@@ -277,6 +283,7 @@ class HwpDocumentWriter:
             self._write_field(hwp, 'ph2_min', ph2_min)
             self._write_field(hwp, 'ph2_max', ph2_max)
         else:
+            self._write_field(hwp, 'index', last_index)
             self._write_field(hwp, 'well_main', data.well_name)
             self._write_field(hwp, 'temp_min', temp_min)
             self._write_field(hwp, 'temp_max', temp_max)
@@ -359,7 +366,7 @@ def main():
         return
 
     print("Extracting water quality data...")
-    all_data = extractor.extract_all_sheets()
+    all_data, last_index = extractor.extract_all_sheets()
 
     if not all_data:
         print("No data extracted from Excel file.")
@@ -373,9 +380,11 @@ def main():
         return
 
     try:
+        i = 1
         for data in all_data:
             print(f"\nProcessing {data.well_name}...")
-            writer.create_document(data)
+            writer.create_document(data, last_index + i)
+            i = i + 1
 
         print("\nMerging HWP files...")
         merge_hwp_files()
