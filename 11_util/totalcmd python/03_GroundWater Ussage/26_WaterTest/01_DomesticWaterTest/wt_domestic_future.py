@@ -12,7 +12,8 @@ from FileManger_V0_20250406 import FileBase
 
 from pdf_engine import get_data_hanwool
 from pdf_engine import get_data_kiwii
-
+from pdf_engine import get_data_malgeunmul
+from pdf_engine import get_data_nurilife
 
 BASE_DIR = Path("d:/05_Send")
 TEMPLATE_DIR = Path("c:/Program Files/totalcmd/hwp")
@@ -23,6 +24,9 @@ class PDFEngineType(Enum):
     """Supported PDF parsing engines."""
     HANWOOL = "hanwool"
     KIWII = "kiwii"
+    MALGEUNMUL = "malgeunmul"
+    NURILIFE = "nurilife"
+
     # Add future engines here
     # ALTERNATIVE = "alternative"
     # CUSTOM = "custom"
@@ -85,6 +89,31 @@ class KiwiiPDFEngine(PDFEngine):
         return True
 
 
+class MalgeunmulPDFEngine(PDFEngine):
+    """PDF engine for Hanwool format water quality reports."""
+
+    def extract_data(self, pdf_path: str, page_number: int) -> Dict[str, str]:
+        """Extract data using Hanwool-specific parser."""
+        return get_data_malgeunmul(pdf_path, page_number)
+
+    def validate_pdf(self, pdf_path: str) -> bool:
+        """Validate Hanwool format PDF."""
+        # Add validation logic if needed
+        return True
+
+
+class NurilifePDFEngine(PDFEngine):
+    """PDF engine for Hanwool format water quality reports."""
+
+    def extract_data(self, pdf_path: str, page_number: int) -> Dict[str, str]:
+        """Extract data using Hanwool-specific parser."""
+        return get_data_nurilife(pdf_path, page_number)
+
+    def validate_pdf(self, pdf_path: str) -> bool:
+        """Validate Hanwool format PDF."""
+        # Add validation logic if needed
+        return True
+
 
 class PDFEngineFactory:
     """Factory for creating PDF engine instances."""
@@ -92,6 +121,8 @@ class PDFEngineFactory:
     _engines: Dict[PDFEngineType, type] = {
         PDFEngineType.HANWOOL: HanwoolPDFEngine,
         PDFEngineType.KIWII: KiwiiPDFEngine,
+        PDFEngineType.MALGEUNMUL: MalgeunmulPDFEngine,
+        PDFEngineType.NURILIFE: NurilifePDFEngine,
         # Register future engines here
     }
 
@@ -399,11 +430,11 @@ def main():
     template_path = TEMPLATE_DIR / HWP_TEMPLATE
     output_dir = BASE_DIR
 
-
     # Create processor with default (Hanwool) engine
     processor = WaterQualityProcessor(
-        # engine_type=PDFEngineType.HANWOOL
-        engine_type=PDFEngineType.KIWII
+        engine_type=PDFEngineType.HANWOOL
+        # engine_type=PDFEngineType.KIWII
+        # engine_type=PDFEngineType.MALGEUNMUL
     )
 
     # Process and merge
