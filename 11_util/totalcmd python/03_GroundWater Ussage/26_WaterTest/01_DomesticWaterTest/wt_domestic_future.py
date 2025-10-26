@@ -5,7 +5,12 @@ from pathlib import Path
 import os
 from abc import ABC, abstractmethod
 from typing import Dict, Optional, List
+import enum
 from enum import Enum
+
+import sys
+from typing import Optional
+
 
 from merge_hwp_files import merge_hwp_files
 from FileManger_V0_20250406 import FileBase
@@ -414,7 +419,7 @@ class WaterQualityProcessor:
         return merged_path
 
 
-def main():
+def main(engine):
     """Main entry point."""
     # Find PDF files
     fb = FileBase()
@@ -431,11 +436,35 @@ def main():
     output_dir = BASE_DIR
 
     # Create processor with default (Hanwool) engine
-    processor = WaterQualityProcessor(
-        engine_type=PDFEngineType.HANWOOL
-        # engine_type=PDFEngineType.KIWII
-        # engine_type=PDFEngineType.MALGEUNMUL
-    )
+    # match engine:
+    #     # Case 1: Matching a specific member (recommended for enums)
+    #     case PDFEngineType.HANWOOL:
+    #         print("Action: Starting high-speed processing mode for the HANWOOL engine.")
+    #
+    #     # Case 2: Matching multiple members using the OR operator (|)
+    #     case PDFEngineType.KIWII | PDFEngineType.NURILIFE:
+    #         print("Action: Using standard memory management for KIWII or NURILIFE engines.")
+    #
+    #     # Case 3: Matching a single remaining member
+    #     case PDFEngineType.MALGEUNMUL:
+    #         print("Action: Activating image-heavy document parsing with MALGEUNMUL.")
+    #
+    #     # Case 4: The Wildcard (default case). This must be the last case.
+    #     # It handles any value that didn't match the cases above.
+    #     case _:
+    #         print("Error: Unknown or unsupported engine selected.")
+    #
+
+    # processor = WaterQualityProcessor(
+    #     # engine_type=PDFEngineType.HANWOOL
+    #     # engine_type=PDFEngineType.KIWII
+    #     # engine_type=PDFEngineType.MALGEUNMUL
+    #     # engine_type=PDFEngineType.NURILIFE
+    # )
+
+
+
+    processor = WaterQualityProcessor(engine_type=engine)
 
     # Process and merge
     processor.process_and_merge(pdf_path)
@@ -443,5 +472,85 @@ def main():
     print("\nProcessing completed successfully!")
 
 
+def display_menu(engine_enum: type[enum.Enum]) -> None:
+    """Displays the console menu options based on the Enum."""
+    print("\n--- PDF Engine Selection Menu ---")
+
+    # Iterate through the enum members to display options
+    for i, member in enumerate(engine_enum):
+        # We use i+1 as the menu number
+        # We use member.value to show the user-friendly string
+        print(f"[{i + 1}] Select: {member.value.upper()}")
+
+    # Add the exit option
+    print("[0] Exit")
+    print("-" * 35)
+
+
+def get_user_choice(max_options: int) -> Optional[int]:
+    """Prompts the user for a choice and validates the input."""
+    while True:
+        try:
+            choice_str = input("Enter your choice (0 to {}): ".format(max_options))
+
+            # Check for empty input (e.g., just pressing Enter)
+            if not choice_str.strip():
+                print("Input cannot be empty. Please enter a number.")
+                continue
+
+            choice = int(choice_str)
+
+            # Validate the choice range
+            if 0 <= choice <= max_options:
+                return choice
+            else:
+                print(f"Invalid choice. Please enter a number between 0 and {max_options}.")
+
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+
+def run_menu():
+    """Main function to run the interactive menu."""
+
+    # Get all members of the enum
+    engine_members = list(PDFEngineType)
+    num_options = len(engine_members)
+
+    while True:
+        display_menu(PDFEngineType)
+        choice = get_user_choice(num_options)
+
+        if choice is None:
+            # Should not happen if get_user_choice is robust, but kept for safety
+            continue
+
+        if choice == 0:
+            print("\nExiting PDF Engine Selector. Goodbye!")
+            # Exit the program gracefully
+            sys.exit(0)
+        else:
+            # Map the numerical choice back to the Enum member
+            # Choice 1 maps to index 0, 2 maps to index 1, etc.
+            try:
+                selected_engine = engine_members[choice - 1]
+
+                # --- Simulated Action ---
+                print(f"\n--- ACTION ---")
+                print(f"You selected engine: {selected_engine.name} ({selected_engine.value})")
+
+                main(selected_engine)
+                # Here is where you would call the function to initialize the parser
+                # Example: initialize_parser(selected_engine)
+
+                print("Engine parser initialized successfully!")
+                print("--------------\n")
+
+            except IndexError:
+                # This block should ideally not be reached if validation in get_user_choice is correct
+                print("An internal error occurred: Invalid option index.")
+
+
 if __name__ == "__main__":
-    main()
+    # main()
+    run_menu()
