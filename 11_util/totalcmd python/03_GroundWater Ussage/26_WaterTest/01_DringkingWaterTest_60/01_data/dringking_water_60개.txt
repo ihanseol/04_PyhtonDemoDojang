@@ -1,0 +1,125 @@
+일반세균
+총대장균군
+분원성대장균/대장균
+납
+불소
+비소
+세레늄
+수은
+시안
+크롬
+염소이온
+암모니아성질소
+질산성질소
+카드뮴
+보론
+페놀
+다이아지논
+페니트로티온
+파라티온
+카바릴
+1,1,1-트리클로로에탄
+테트라클로로에틸렌
+트리클로로에틸렌
+디클로로메탄
+벤젠
+톨루엔
+에틸벤젠
+크실렌
+1,1-디클로로에틸렌
+사염화탄소
+1,2-디브로모-3-클로로프로판
+유리잔류염소
+디브로모클로로메탄
+브로모디클로로메탄
+총트리할로메탄
+클로로포름
+트리클로로아세토니트릴
+클로랄하이드레이트
+디클로로아세토니트릴
+디브로모아세토니트릴
+할로아세틱에시드
+경도
+과망간산칼륨소비량
+냄새
+맛
+동
+색도
+세제
+수소이온농도
+아연
+증발잔류물
+철
+망간
+탁도
+황산이온
+알루미늄
+1,4-다이옥산
+포름알데히드
+브롬산염
+우라늄
+
+
+
+{
+  "일반세균": "General Bacteria",
+  "총대장균군": "Total Coliforms",
+  "분원성대장균/대장균": "Fecal Coliform/E. coli",
+  "납": "Lead (Pb)",
+  "불소": "Fluoride (F)",
+  "비소": "Arsenic (As)",
+  "세레늄": "Selenium (Se)",
+  "수은": "Mercury (Hg)",
+  "시안": "Cyanide (CN)",
+  "크롬": "Chromium (Cr)",
+  "염소이온": "Chloride Ion",
+  "암모니아성질소": "Ammonia Nitrogen",
+  "질산성질소": "Nitrate Nitrogen",
+  "카드뮴": "Cadmium (Cd)",
+  "보론": "Boron (B)",
+  "페놀": "Phenol",
+  "다이아지논": "Diazinon",
+  "페니트로티온": "Fenitrothion",
+  "파라티온": "Parathion",
+  "카바릴": "Carbaryl",
+  "1,1,1-트리클로로에탄": "1,1,1-Trichloroethane",
+  "테트라클로로에틸렌": "Tetrachloroethylene",
+  "트리클로로에틸렌": "Trichloroethylene",
+  "디클로로메탄": "Dichloromethane (DCM)",
+  "벤젠": "Benzene",
+  "톨루엔": "Toluene",
+  "에틸벤젠": "Ethylbenzene",
+  "크실렌": "Xylene",
+  "1,1-디클로로에틸렌": "1,1-Dichloroethylene",
+  "사염화탄소": "Carbon Tetrachloride",
+  "1,2-디브로모-3-클로로프로판": "1,2-Dibromo-3-chloropropane",
+  "유리잔류염소": "Free Residual Chlorine",
+  "디브로모클로로메탄": "Dibromochloromethane",
+  "브로모디클로로메탄": "Bromodichloromethane",
+  "총트리할로메탄": "Total Trihalomethanes (TTHMs)",
+  "클로로포름": "Chloroform",
+  "트리클로로아세토니트릴": "Trichloroacetonitrile",
+  "클로랄하이드레이트": "Chloral Hydrate",
+  "디클로로아세토니트릴": "Dichloroacetonitrile",
+  "디브로모아세토니트릴": "Dibromoacetonitrile",
+  "할로아세틱에시드": "Haloacetic Acids (HAAs)",
+  "경도": "Hardness",
+  "과망간산칼륨소비량": "Potassium Permanganate Consumption",
+  "냄새": "Odor",
+  "맛": "Taste",
+  "동": "Copper (Cu)",
+  "색도": "Color",
+  "세제": "Detergents (MBAS)",
+  "수소이온농도": "pH",
+  "아연": "Zinc (Zn)",
+  "증발잔류물": "Evaporation Residue (Total Solids)",
+  "철": "Iron (Fe)",
+  "망간": "Manganese (Mn)",
+  "탁도": "Turbidity",
+  "황산이온": "Sulfate Ion",
+  "알루미늄": "Aluminum (Al)",
+  "1,4-다이옥산": "1,4-Dioxane",
+  "포름알데히드": "Formaldehyde",
+  "브롬산염": "Bromate",
+  "우라늄": "Uranium (U)"
+}
