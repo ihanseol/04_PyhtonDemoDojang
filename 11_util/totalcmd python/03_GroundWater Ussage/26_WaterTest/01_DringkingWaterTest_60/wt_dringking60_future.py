@@ -163,6 +163,11 @@ class PDFEngineFactory:
         cls._engines[engine_type] = engine_class
 
 
+#
+# Require Fields 는 pdfengine 에서 데이터를 받아올때 사용하는 필드라서
+# pdfengine 의 영문필드와 동일하게 설정해야한다.
+#
+
 class WaterQualityData:
     """Container for water quality test results."""
 
@@ -239,85 +244,80 @@ class WaterQualityData:
         """
         self._validate_data(data)
 
-        self.General_Bacteria = data['General_Bacteria']        #일반세균
-        self.Total_Coliforms = data['Total_Coliforms']            #총대장균군
-        self.Fecal_Coliform = data['Fecal_Coliform']          #대장균/분원성대장균군
-        self.Lead = data['Lead']                                #납
-        self.Fluoride = data['Fluoride']                        #불소
-        self.Arsenic = data['Arsenic']                          #비소
-        self.Selenium = data['Selenium']                        #세레늄
-        self.Mercury = data['Mercury']                          #수은
-        self.Cyanide = data['Cyanide']                          #시안
-        self.Chromium = data['Chromium']                        #크롬
-        self.Chloride_Ion = data['Chloride_Ion']                        #크롬
+        self.General_Bacteria = data['General_Bacteria']  # 일반세균
+        self.Total_Coliforms = data['Total_Coliforms']  # 총대장균군
+        self.Fecal_Coliform = data['Fecal_Coliform']  # 대장균/분원성대장균군
+        self.Lead = data['Lead']  # 납
+        self.Fluoride = data['Fluoride']  # 불소
+        self.Arsenic = data['Arsenic']  # 비소
+        self.Selenium = data['Selenium']  # 세레늄
+        self.Mercury = data['Mercury']  # 수은
+        self.Cyanide = data['Cyanide']  # 시안
+        self.Chromium = data['Chromium']  # 크롬
+        self.Chloride_Ion = data['Chloride_Ion']  # 크롬
 
-        self.Ammonia_Nitrogen = data['Ammonia_Nitrogen']        #암모니아성질소
-        self.Nitrate_Nitrogen = data['Nitrate_Nitrogen']        #질산성질소
-        self.Cadmium = data['Cadmium']                          #카드뮴
-        self.Boron = data['Boron']                              #붕소
-        self.Phenol = data['Phenol']                            #페놀
+        self.Ammonia_Nitrogen = data['Ammonia_Nitrogen']  # 암모니아성질소
+        self.Nitrate_Nitrogen = data['Nitrate_Nitrogen']  # 질산성질소
+        self.Cadmium = data['Cadmium']  # 카드뮴
+        self.Boron = data['Boron']  # 붕소
+        self.Phenol = data['Phenol']  # 페놀
 
-        self.Diazinon = data['Diazinon']                        #다이아지논
-        self.Parathion = data['Parathion']                      #파라티논
-        self.Fenitrothion = data['Fenitrothion']                #페니트로티논
-        self.Carbaryl = data['Carbaryl']                        #카바릴
+        self.Diazinon = data['Diazinon']  # 다이아지논
+        self.Parathion = data['Parathion']  # 파라티논
+        self.Fenitrothion = data['Fenitrothion']  # 페니트로티논
+        self.Carbaryl = data['Carbaryl']  # 카바릴
 
-        self.Trichloroethane = data['1,1,1-Trichloroethane']    #1,1,1-트리클로로에탄
-        self.Tetrachloroethylene = data['Tetrachloroethylene']  #테트라클로로에틸렌
-        self.Trichloroethylene = data['Trichloroethylene']      #트리클로로에틸렌
-        self.Dichloromethane = data['Dichloromethane']          #디클로로메탄
+        self.Trichloroethane = data['1,1,1-Trichloroethane']  # 1,1,1-트리클로로에탄
+        self.Tetrachloroethylene = data['Tetrachloroethylene']  # 테트라클로로에틸렌
+        self.Trichloroethylene = data['Trichloroethylene']  # 트리클로로에틸렌
+        self.Dichloromethane = data['Dichloromethane']  # 디클로로메탄
 
-        self.Benzene = data['Benzene']                          #벤젠
-        self.Toluene = data['Toluene']                          #톨루엔
-        self.Ethylbenzene = data['Ethylbenzene']                #에틸벤젠
-        self.Xylene = data['Xylene']                            #크실렌
+        self.Benzene = data['Benzene']  # 벤젠
+        self.Toluene = data['Toluene']  # 톨루엔
+        self.Ethylbenzene = data['Ethylbenzene']  # 에틸벤젠
+        self.Xylene = data['Xylene']  # 크실렌
 
-        self.Dichloroethylene = data['1,1-Dichloroethylene']                #1.1-디클로로에틸렌
-        self.Carbon_Tetrachloride = data['Carbon_Tetrachloride']            #사염화탄소
-        self.Dibromo_3_chloropropane = data['1,2-Dibromo-3-chloropropane']  #1.2-디브로모-3-클로로프로판
+        self.Dichloroethylene = data['1,1-Dichloroethylene']  # 1.1-디클로로에틸렌
+        self.Carbon_Tetrachloride = data['Carbon_Tetrachloride']  # 사염화탄소
+        self.Dibromo_3_chloropropane = data['1,2-Dibromo-3-chloropropane']  # 1.2-디브로모-3-클로로프로판
 
+        self.Free_Residual_Chlorine = data['Free_Residual_Chlorine']  # 유리잔류염소
+        self.Dibromochloromethane = data['Dibromochloromethane']  # 디브로모클로로메탄
+        self.Bromodichloromethane = data['Bromodichloromethane']  # 브로로디클로로메탄
+        self.Total_Trihalomethanes = data['Total_Trihalomethanes']  # 총트리할로메탄
+        self.Chloroform = data['Chloroform']  # 클로로포름
 
+        self.Trichloroacetonitrile = data['Trichloroacetonitrile']  # 트리클로로아세토니트릴
+        self.Chloral_Hydrate = data['Chloral_Hydrate']  # 클로랄하이드레이트
+        self.Dichloroacetonitrile = data['Dichloroacetonitrile']  # 디클로로아세토니트릴
+        self.Dibromoacetonitrile = data['Dibromoacetonitrile']  # 디클로로아세토니트릴
 
-        self.Free_Residual_Chlorine = data['Free_Residual_Chlorine']    #유리잔류염소
-        self.Dibromochloromethane = data['Dibromochloromethane']    # 디브로모클로로메탄
-        self.Bromodichloromethane = data['Bromodichloromethane']    #브로로디클로로메탄
-        self.Total_Trihalomethanes = data['Total_Trihalomethanes']  #총트리할로메탄
-        self.Chloroform = data['Chloroform']    #클로로포름
+        self.Haloacetic_Acids = data['Haloacetic_Acids']  # 할로아세틱에시드
+        self.Hardness = data['Hardness']  # 경도
+        self.Potassium_Permanganate_Consumption = data['Potassium_Permanganate_Consumption']  # 과망간산칼륨소비량
 
-
-        self.Trichloroacetonitrile = data['Trichloroacetonitrile']      #트리클로로아세토니트릴
-        self.Chloral_Hydrate = data['Chloral_Hydrate']                  #클로랄하이드레이트
-        self.Dichloroacetonitrile = data['Dichloroacetonitrile']        #디클로로아세토니트릴
-        self.Dibromoacetonitrile = data['Dibromoacetonitrile']        #디클로로아세토니트릴
-
-
-        self.Haloacetic_Acids = data['Haloacetic_Acids']                #할로아세틱에시드
-        self.Hardness = data['Hardness']                                #경도
-        self.Potassium_Permanganate_Consumption = data['Potassium_Permanganate_Consumption']        #과망간산칼륨소비량
-
-
-        self.Odor = data['Odor']                #냄새
-        self.Taste = data['Taste']              #맛
-        self.Copper = data['Copper']                  #색도
-        self.Color = data['Color']                  #색도
-        self.Detergents = data['Detergents']        #세제
-        self.pH = data['pH']                        #수소이온농도
-        self.Zinc = data['Zinc']                    #아연
+        self.Odor = data['Odor']  # 냄새
+        self.Taste = data['Taste']  # 맛
+        self.Copper = data['Copper']  # 색도
+        self.Color = data['Color']  # 색도
+        self.Detergents = data['Detergents']  # 세제
+        self.pH = data['pH']  # 수소이온농도
+        self.Zinc = data['Zinc']  # 아연
         self.Evaporation_Residue = data['Evaporation_Residue']
-        self.Iron = data['Iron']                    #철
-        self.Manganese = data['Manganese']          #망간
-        self.Turbidity = data['Turbidity']          #탁도
+        self.Iron = data['Iron']  # 철
+        self.Manganese = data['Manganese']  # 망간
+        self.Turbidity = data['Turbidity']  # 탁도
 
-        self.Sulfate_Ion = data['Sulfate_Ion']      #황산이온
-        self.Aluminum = data['Aluminum']            #알루미늄
-        self.Dioxane = data['1,4-Dioxane']          #1,4다이옥신
+        self.Sulfate_Ion = data['Sulfate_Ion']  # 황산이온
+        self.Aluminum = data['Aluminum']  # 알루미늄
+        self.Dioxane = data['1,4-Dioxane']  # 1,4다이옥신
         self.Formaldehyde = data['Formaldehyde']
 
         self.Bromate = data['Bromate']
         self.Uranium = data['Uranium']
 
         # Overall Result
-        self.water_ok = data['water_ok']            #수질 적합, 부적합
+        self.water_ok = data['water_ok']  # 수질 적합, 부적합
 
     @classmethod
     def _validate_data(cls, data: Dict[str, str]):
@@ -395,16 +395,13 @@ class HWPDocumentWriter:
             self.write_field(hwp, 'Nitrate_Nitrogen', water_data.Nitrate_Nitrogen)
             self.write_field(hwp, 'Cadmium', water_data.Cadmium)
 
-
             self.write_field(hwp, 'Boron', water_data.Boron)
             self.write_field(hwp, 'Phenol', water_data.Phenol)
             self.write_field(hwp, 'Diazinon', water_data.Diazinon)
             self.write_field(hwp, 'Fenitrothion', water_data.Fenitrothion)
 
-
             self.write_field(hwp, 'Parathion', water_data.Parathion)
             self.write_field(hwp, 'Carbaryl', water_data.Carbaryl)
-
 
             self.write_field(hwp, 'Trichloroethane', water_data.Trichloroethane)
             self.write_field(hwp, 'Tetrachloroethylene', water_data.Tetrachloroethylene)
@@ -416,11 +413,9 @@ class HWPDocumentWriter:
             self.write_field(hwp, 'Ethylbenzene', water_data.Ethylbenzene)
             self.write_field(hwp, 'Xylene', water_data.Xylene)
 
-
             self.write_field(hwp, 'Dichloroethylene', water_data.Dichloroethylene)
             self.write_field(hwp, 'Carbon_Tetrachloride', water_data.Carbon_Tetrachloride)
             self.write_field(hwp, 'Dibromo_3_chloropropane', water_data.Dibromo_3_chloropropane)
-
 
             self.write_field(hwp, 'Free_Residual_Chlorine', water_data.Free_Residual_Chlorine)
             self.write_field(hwp, 'Dibromochloromethane', water_data.Dibromochloromethane)
@@ -442,7 +437,6 @@ class HWPDocumentWriter:
             self.write_field(hwp, 'Color', water_data.Color)
             self.write_field(hwp, 'Detergents', water_data.Detergents)
             self.write_field(hwp, 'pH', water_data.pH)
-
 
             # Write physical/chemical data
             self.write_field(hwp, 'Zinc', water_data.Zinc)
