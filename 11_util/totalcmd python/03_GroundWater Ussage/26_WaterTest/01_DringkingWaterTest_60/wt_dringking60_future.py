@@ -14,14 +14,14 @@ from typing import Optional
 from merge_hwp_files import merge_hwp_files
 from FileManger_V0_20250406 import FileBase
 
-from pdf_dringking_engine import get_data_hanwool
-from pdf_dringking_engine import get_data_kiwii
-from pdf_dringking_engine import get_data_malgeunmul
-from pdf_dringking_engine import get_data_nurilife
+from pdf_dringking60_engine import get_data_hanwool
+from pdf_dringking60_engine import get_data_kiwii
+from pdf_dringking60_engine import get_data_malgeunmul
+from pdf_dringking60_engine import get_data_nurilife
 
 BASE_DIR = Path("d:/05_Send")
 TEMPLATE_DIR = Path("c:/Program Files/totalcmd/hwp")
-HWP_TEMPLATE = "wt_dringking.hwp"
+HWP_TEMPLATE = "wt_dringking60.hwp"
 
 
 class PDFEngineType(Enum):
@@ -167,13 +167,67 @@ class WaterQualityData:
     """Container for water quality test results."""
 
     REQUIRED_FIELDS = [
-        "General_bacteria", "Total_coliforms", "Fecal_coliforms", "Lead", "Fluoride",
-        "Arsenic", "Selenium", "Mercury", "Cyanide", "Chromium", "Chloride_ion", "Ammonia_nitrogen",
-        "Nitrate_nitrogen", "Cadmium", "Boron", "Phenol", "Diazinon", "Parathion", "Fenitrothion", "Carbaryl",
-        "1,1,1-Trichloroethane", "Tetrachloroethylene", "Trichloroethylene", "Dichloromethane", "Benzene", "Toluene",
-        "Ethylbenzene", "Xylene", "1,1-Dichloroethylene", "Carbon_tetrachloride", "1,2-Dibromo-3-chloropropane",
-        "1,4-Dioxane", "Hardness", "Potassium_permanganate_consumption", "Odor", "Taste", "Copper", "Color",
-        "Detergents", "pH", "Zinc", "Iron", "Manganese", "Turbidity", "Sulfate_ion", "Aluminum", "water_ok"
+        "General_Bacteria",
+        "Total_Coliforms",
+        "Fecal_Coliform",
+        "Lead",
+        "Fluoride",
+        "Arsenic",
+        "Selenium",
+        "Mercury",
+        "Cyanide",
+        "Chromium",
+        "Chloride_Ion",
+        "Ammonia_Nitrogen",
+        "Nitrate_Nitrogen",
+        "Cadmium",
+        "Boron",
+        "Phenol",
+        "Diazinon",
+        "Fenitrothion",
+        "Parathion",
+        "Carbaryl",
+        "1,1,1-Trichloroethane",
+        "Tetrachloroethylene",
+        "Trichloroethylene",
+        "Dichloromethane",
+        "Benzene",
+        "Toluene",
+        "Ethylbenzene",
+        "Xylene",
+        "1,1-Dichloroethylene",
+        "Carbon_Tetrachloride",
+        "1,2-Dibromo-3-chloropropane",
+        "Free_Residual_Chlorine",
+        "Dibromochloromethane",
+        "Bromodichloromethane",
+        "Total_Trihalomethanes",
+        "Chloroform",
+        "Trichloroacetonitrile",
+        "Chloral_Hydrate",
+        "Dichloroacetonitrile",
+        "Dibromoacetonitrile",
+        "Haloacetic_Acids",
+        "Hardness",
+        "Potassium_Permanganate_Consumption",
+        "Odor",
+        "Taste",
+        "Copper",
+        "Color",
+        "Detergents",
+        "pH",
+        "Zinc",
+        "Evaporation_Residue",
+        "Iron",
+        "Manganese",
+        "Turbidity",
+        "Sulfate_Ion",
+        "Aluminum",
+        "1,4-Dioxane",
+        "Formaldehyde",
+        "Bromate",
+        "Uranium",
+        "water_ok"
     ]
 
     def __init__(self, data: Dict[str, str]):
@@ -185,61 +239,82 @@ class WaterQualityData:
         """
         self._validate_data(data)
 
-        self.general_bacteria = data['General_bacteria']        #일반세균
-        self.total_coliform = data['Total_coliforms']            #총대장균군
-        self.fecal_coliforms = data['Fecal_coliforms']          #대장균/분원성대장균군
-        self.lead = data['Lead']                                #납
-        self.fluoride = data['Fluoride']                        #불소
-        self.arsenic = data['Arsenic']                          #비소
-        self.selenium = data['Selenium']                        #세레늄
-        self.mercury = data['Mercury']                          #수은
-        self.cyanide = data['Cyanide']                          #시안
-        self.chromium = data['Chromium']                        #크롬
+        self.General_Bacteria = data['General_Bacteria']        #일반세균
+        self.Total_Coliforms = data['Total_Coliforms']            #총대장균군
+        self.Fecal_Coliform = data['Fecal_Coliform']          #대장균/분원성대장균군
+        self.Lead = data['Lead']                                #납
+        self.Fluoride = data['Fluoride']                        #불소
+        self.Arsenic = data['Arsenic']                          #비소
+        self.Selenium = data['Selenium']                        #세레늄
+        self.Mercury = data['Mercury']                          #수은
+        self.Cyanide = data['Cyanide']                          #시안
+        self.Chromium = data['Chromium']                        #크롬
+        self.Chloride_Ion = data['Chloride_Ion']                        #크롬
 
-        self.ammonia_nitrogen = data['Ammonia_nitrogen']        #암모니아성질소
-        self.nitrate_nitrogen = data['Nitrate_nitrogen']        #질산성질소
-        self.cadmium = data['Cadmium']                          #카드뮴
-        self.boron = data['Boron']                              #붕소
-        self.phenol = data['Phenol']                            #페놀
+        self.Ammonia_Nitrogen = data['Ammonia_Nitrogen']        #암모니아성질소
+        self.Nitrate_Nitrogen = data['Nitrate_Nitrogen']        #질산성질소
+        self.Cadmium = data['Cadmium']                          #카드뮴
+        self.Boron = data['Boron']                              #붕소
+        self.Phenol = data['Phenol']                            #페놀
 
-        self.diazinon = data['Diazinon']                        #다이아지논
-        self.parathion = data['Parathion']                      #파라티논
-        self.fenitrothion = data['Fenitrothion']                #페니트로티논
-        self.carbaryl = data['Carbaryl']                        #카바릴
+        self.Diazinon = data['Diazinon']                        #다이아지논
+        self.Parathion = data['Parathion']                      #파라티논
+        self.Fenitrothion = data['Fenitrothion']                #페니트로티논
+        self.Carbaryl = data['Carbaryl']                        #카바릴
 
-        self.trichloroethane = data['1,1,1-Trichloroethane']    #1,1,1-트리클로로에탄
-        self.tetrachloroethylene = data['Tetrachloroethylene']  #테트라클로로에틸렌
-        self.trichloroethylene = data['Trichloroethylene']      #트리클로로에틸렌
-        self.dichloromethane = data['Dichloromethane']          #디클로로메탄
+        self.Trichloroethane = data['1,1,1-Trichloroethane']    #1,1,1-트리클로로에탄
+        self.Tetrachloroethylene = data['Tetrachloroethylene']  #테트라클로로에틸렌
+        self.Trichloroethylene = data['Trichloroethylene']      #트리클로로에틸렌
+        self.Dichloromethane = data['Dichloromethane']          #디클로로메탄
 
-        self.benzene = data['Benzene']                          #벤젠
-        self.toluene = data['Toluene']                          #톨루엔
-        self.ethylbenzene = data['Ethylbenzene']                #에틸벤젠
-        self.xylene = data['Xylene']                            #크실렌
+        self.Benzene = data['Benzene']                          #벤젠
+        self.Toluene = data['Toluene']                          #톨루엔
+        self.Ethylbenzene = data['Ethylbenzene']                #에틸벤젠
+        self.Xylene = data['Xylene']                            #크실렌
 
-        self.dichloroethylene = data['1,1-Dichloroethylene']                #1.1-디클로로에틸렌
-        self.carbon_tetrachloride = data['Carbon_tetrachloride']            #사염화탄소
-        self.dibromo_3_chloropropane = data['1,2-Dibromo-3-chloropropane']  #1.2-디브로모-3-클로로프로판
-        self.dioxane = data['1,4-Dioxane']                                  #1.4-다이옥산
+        self.Dichloroethylene = data['1,1-Dichloroethylene']                #1.1-디클로로에틸렌
+        self.Carbon_Tetrachloride = data['Carbon_Tetrachloride']            #사염화탄소
+        self.Dibromo_3_chloropropane = data['1,2-Dibromo-3-chloropropane']  #1.2-디브로모-3-클로로프로판
 
-        self.hardness = data['Hardness']        #경도
-        self.potassium_permanganate_consumption = data['Potassium_permanganate_consumption']  #과망간산칼륨소비량
 
-        self.odor = data['Odor']                    #냄새
-        self.taste = data['Taste']                  #맛
-        self.copper = data['Copper']                #동
-        self.color = data['Color']                  #색도
 
-        self.detergents = data['Detergents']        #세제
-        self.ph = data['pH']                        #수소이온농도
+        self.Free_Residual_Chlorine = data['Free_Residual_Chlorine']    #유리잔류염소
+        self.Dibromochloromethane = data['Dibromochloromethane']    # 디브로모클로로메탄
+        self.Bromodichloromethane = data['Bromodichloromethane']    #브로로디클로로메탄
+        self.Total_Trihalomethanes = data['Total_Trihalomethanes']  #총트리할로메탄
+        self.Chloroform = data['Chloroform']    #클로로포름
 
-        self.zinc = data['Zinc']                    #아연
-        self.chloride = data['Chloride_ion']        #염소이온
-        self.iron = data['Iron']                    #철
-        self.manganese = data['Manganese']          #망간
-        self.turbidity = data['Turbidity']          #탁도
-        self.sulfate_ion = data['Sulfate_ion']      #황산이온
-        self.aluminum = data['Aluminum']            #알루미늄
+
+        self.Trichloroacetonitrile = data['Trichloroacetonitrile']      #트리클로로아세토니트릴
+        self.Chloral_Hydrate = data['Chloral_Hydrate']                  #클로랄하이드레이트
+        self.Dichloroacetonitrile = data['Dichloroacetonitrile']        #디클로로아세토니트릴
+        self.Dibromoacetonitrile = data['Dibromoacetonitrile']        #디클로로아세토니트릴
+
+
+        self.Haloacetic_Acids = data['Haloacetic_Acids']                #할로아세틱에시드
+        self.Hardness = data['Hardness']                                #경도
+        self.Potassium_Permanganate_Consumption = data['Potassium_Permanganate_Consumption']        #과망간산칼륨소비량
+
+
+        self.Odor = data['Odor']                #냄새
+        self.Taste = data['Taste']              #맛
+        self.Copper = data['Copper']                  #색도
+        self.Color = data['Color']                  #색도
+        self.Detergents = data['Detergents']        #세제
+        self.pH = data['pH']                        #수소이온농도
+        self.Zinc = data['Zinc']                    #아연
+        self.Evaporation_Residue = data['Evaporation_Residue']
+        self.Iron = data['Iron']                    #철
+        self.Manganese = data['Manganese']          #망간
+        self.Turbidity = data['Turbidity']          #탁도
+
+        self.Sulfate_Ion = data['Sulfate_Ion']      #황산이온
+        self.Aluminum = data['Aluminum']            #알루미늄
+        self.Dioxane = data['1,4-Dioxane']          #1,4다이옥신
+        self.Formaldehyde = data['Formaldehyde']
+
+        self.Bromate = data['Bromate']
+        self.Uranium = data['Uranium']
 
         # Overall Result
         self.water_ok = data['water_ok']            #수질 적합, 부적합
@@ -303,66 +378,83 @@ class HWPDocumentWriter:
             self.write_field(hwp, 'well', well_id)
 
             # Write microbiological data
-            self.write_field(hwp, 'general_bacteria', water_data.general_bacteria)
-            self.write_field(hwp, 'total_coliform', water_data.total_coliform)
-            self.write_field(hwp, 'fecal_coliforms', water_data.fecal_coliforms)
+            self.write_field(hwp, 'General_Bacteria', water_data.General_Bacteria)
+            self.write_field(hwp, 'Total_Coliforms', water_data.Total_Coliforms)
+            self.write_field(hwp, 'Fecal_Coliform', water_data.Fecal_Coliform)
 
-            self.write_field(hwp, 'lead', water_data.lead)
-            self.write_field(hwp, 'fluoride', water_data.fluoride)
-            self.write_field(hwp, 'arsenic', water_data.arsenic)
-            self.write_field(hwp, 'selenium', water_data.selenium)
-            self.write_field(hwp, 'mercury', water_data.mercury)
-            self.write_field(hwp, 'cyanide', water_data.cyanide)
-            self.write_field(hwp, 'chromium', water_data.chromium)
+            self.write_field(hwp, 'Lead', water_data.Lead)
+            self.write_field(hwp, 'Fluoride', water_data.Fluoride)
+            self.write_field(hwp, 'Arsenic', water_data.Arsenic)
+            self.write_field(hwp, 'Selenium', water_data.Selenium)
+            self.write_field(hwp, 'Mercury', water_data.Mercury)
+            self.write_field(hwp, 'Cyanide', water_data.Cyanide)
+            self.write_field(hwp, 'Chromium', water_data.Chromium)
+            self.write_field(hwp, 'Chloride_Ion', water_data.Chloride_Ion)
 
-            self.write_field(hwp, 'ammonia_nitrogen', water_data.ammonia_nitrogen)
-            self.write_field(hwp, 'nitrate_nitrogen', water_data.nitrate_nitrogen)
-            self.write_field(hwp, 'cadmium', water_data.cadmium)
-
-
-            self.write_field(hwp, 'boron', water_data.boron)
-            self.write_field(hwp, 'phenol', water_data.phenol)
-            self.write_field(hwp, 'diazinon', water_data.diazinon)
-            self.write_field(hwp, 'parathion', water_data.parathion)
-            self.write_field(hwp, 'fenitrothion', water_data.fenitrothion)
-            self.write_field(hwp, 'carbaryl', water_data.carbaryl)
+            self.write_field(hwp, 'Ammonia_Nitrogen', water_data.Ammonia_Nitrogen)
+            self.write_field(hwp, 'Nitrate_Nitrogen', water_data.Nitrate_Nitrogen)
+            self.write_field(hwp, 'Cadmium', water_data.Cadmium)
 
 
-            self.write_field(hwp, 'trichloroethane', water_data.trichloroethane)
-            self.write_field(hwp, 'tetrachloroethylene', water_data.tetrachloroethylene)
-            self.write_field(hwp, 'trichloroethylene', water_data.trichloroethylene)
-            self.write_field(hwp, 'dichloromethane', water_data.dichloromethane)
-
-            self.write_field(hwp, 'benzene', water_data.benzene)
-            self.write_field(hwp, 'toluene', water_data.toluene)
-            self.write_field(hwp, 'ethylbenzene', water_data.ethylbenzene)
-            self.write_field(hwp, 'xylene', water_data.xylene)
+            self.write_field(hwp, 'Boron', water_data.Boron)
+            self.write_field(hwp, 'Phenol', water_data.Phenol)
+            self.write_field(hwp, 'Diazinon', water_data.Diazinon)
+            self.write_field(hwp, 'Fenitrothion', water_data.Fenitrothion)
 
 
-            self.write_field(hwp, 'dichloroethylene', water_data.dichloroethylene)
-            self.write_field(hwp, 'carbon_tetrachloride', water_data.carbon_tetrachloride)
-            self.write_field(hwp, 'dibromo_3_chloropropane', water_data.dibromo_3_chloropropane)
-            self.write_field(hwp, 'dioxane', water_data.dioxane)
+            self.write_field(hwp, 'Parathion', water_data.Parathion)
+            self.write_field(hwp, 'Carbaryl', water_data.Carbaryl)
 
-            self.write_field(hwp, 'hardness', water_data.hardness)
-            self.write_field(hwp, 'potassium_permanganate_consumption', water_data.potassium_permanganate_consumption)
-            self.write_field(hwp, 'odor', water_data.odor)
-            self.write_field(hwp, 'taste', water_data.taste)
-            self.write_field(hwp, 'copper', water_data.copper)
-            self.write_field(hwp, 'color', water_data.color)
-            self.write_field(hwp, 'detergents', water_data.detergents)
-            self.write_field(hwp, 'color', water_data.color)
+
+            self.write_field(hwp, 'Trichloroethane', water_data.Trichloroethane)
+            self.write_field(hwp, 'Tetrachloroethylene', water_data.Tetrachloroethylene)
+            self.write_field(hwp, 'Trichloroethylene', water_data.Trichloroethylene)
+            self.write_field(hwp, 'Dichloromethane', water_data.Dichloromethane)
+
+            self.write_field(hwp, 'Benzene', water_data.Benzene)
+            self.write_field(hwp, 'Toluene', water_data.Toluene)
+            self.write_field(hwp, 'Ethylbenzene', water_data.Ethylbenzene)
+            self.write_field(hwp, 'Xylene', water_data.Xylene)
+
+
+            self.write_field(hwp, 'Dichloroethylene', water_data.Dichloroethylene)
+            self.write_field(hwp, 'Carbon_Tetrachloride', water_data.Carbon_Tetrachloride)
+            self.write_field(hwp, 'Dibromo_3_chloropropane', water_data.Dibromo_3_chloropropane)
+
+
+            self.write_field(hwp, 'Free_Residual_Chlorine', water_data.Free_Residual_Chlorine)
+            self.write_field(hwp, 'Dibromochloromethane', water_data.Dibromochloromethane)
+            self.write_field(hwp, 'Bromodichloromethane', water_data.Bromodichloromethane)
+            self.write_field(hwp, 'Total_Trihalomethanes', water_data.Total_Trihalomethanes)
+            self.write_field(hwp, 'Chloroform', water_data.Chloroform)
+            self.write_field(hwp, 'Trichloroacetonitrile', water_data.Trichloroacetonitrile)
+            self.write_field(hwp, 'Chloral_Hydrate', water_data.Chloral_Hydrate)
+            self.write_field(hwp, 'Dichloroacetonitrile', water_data.Dichloroacetonitrile)
+            self.write_field(hwp, 'Dibromoacetonitrile', water_data.Dibromoacetonitrile)
+            self.write_field(hwp, 'Haloacetic_Acids', water_data.Haloacetic_Acids)
+            self.write_field(hwp, 'Dioxane', water_data.Dioxane)
+            self.write_field(hwp, 'Hardness', water_data.Hardness)
+            self.write_field(hwp, 'Potassium_Permanganate_Consumption', water_data.Potassium_Permanganate_Consumption)
+
+            self.write_field(hwp, 'Odor', water_data.Odor)
+            self.write_field(hwp, 'Taste', water_data.Taste)
+            self.write_field(hwp, 'Copper', water_data.Copper)
+            self.write_field(hwp, 'Color', water_data.Color)
+            self.write_field(hwp, 'Detergents', water_data.Detergents)
+            self.write_field(hwp, 'pH', water_data.pH)
 
 
             # Write physical/chemical data
-            self.write_field(hwp, 'ph', water_data.ph)
-            self.write_field(hwp, 'zinc', water_data.zinc)
-            self.write_field(hwp, 'chloride', water_data.chloride)
-            self.write_field(hwp, 'iron', water_data.iron)
-            self.write_field(hwp, 'manganese', water_data.manganese)
-            self.write_field(hwp, 'turbidity', water_data.turbidity)
-            self.write_field(hwp, 'sulfate_ion', water_data.sulfate_ion)
-            self.write_field(hwp, 'aluminum', water_data.aluminum)
+            self.write_field(hwp, 'Zinc', water_data.Zinc)
+            self.write_field(hwp, 'Evaporation_Residue', water_data.Evaporation_Residue)
+            self.write_field(hwp, 'Iron', water_data.Iron)
+            self.write_field(hwp, 'Manganese', water_data.Manganese)
+            self.write_field(hwp, 'Turbidity', water_data.Turbidity)
+            self.write_field(hwp, 'Sulfate_Ion', water_data.Sulfate_Ion)
+            self.write_field(hwp, 'Aluminum', water_data.Aluminum)
+            self.write_field(hwp, 'Formaldehyde', water_data.Formaldehyde)
+            self.write_field(hwp, 'Bromate', water_data.Bromate)
+            self.write_field(hwp, 'Uranium', water_data.Uranium)
 
             # Write overall result
             self.write_field(hwp, 'water_ok', water_data.water_ok)
@@ -396,7 +488,7 @@ class WaterQualityProcessor:
 
     def __init__(self,
                  engine_type: PDFEngineType = PDFEngineType.HANWOOL,
-                 template_path: str = r"c:\Program Files\totalcmd\hwp\wt_dringking.hwp",
+                 template_path: str = r"c:\Program Files\totalcmd\hwp\wt_dringking60.hwp",
                  output_dir: str = r"d:\05_Send"):
         """
         Initialize the processor.
@@ -443,7 +535,7 @@ class WaterQualityProcessor:
             well_id = f"W-{page_num}"
 
             # Create document
-            output_path = self.output_dir / f"ex_dringking_{well_id}.hwp"
+            output_path = self.output_dir / f"ex_dringking60_{well_id}.hwp"
             created_file = self.writer.create_document(well_id, water_data, str(output_path))
             generated_files.append(created_file)
 

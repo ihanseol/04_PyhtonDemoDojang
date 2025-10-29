@@ -61,6 +61,169 @@
 
 
 
+
+        "General_Bacteria",
+        "Total_Coliforms",
+        "Fecal_Coliform",
+        "Lead",
+        "Fluoride",
+        "Arsenic",
+        "Selenium",
+        "Mercury",
+        "Cyanide",
+        "Chromium",
+        "Chloride_Ion",
+        "Ammonia_Nitrogen",
+        "Nitrate_Nitrogen",
+        "Cadmium",
+        "Boron",
+        "Phenol",
+		
+        "Diazinon",
+        "Fenitrothion",
+        "Parathion",
+        "Carbaryl",
+		
+        "Trichloroethane",
+        "Tetrachloroethylene",
+        "Trichloroethylene",
+        "Dichloromethane",
+		
+        "Benzene",
+        "Toluene",
+        "Ethylbenzene",
+        "Xylene",
+		
+        "Dichloroethylene",
+        "Carbon_Tetrachloride",
+        "Dibromo-3-chloropropane",
+		
+		
+		
+        "Free_Residual_Chlorine",
+        "Dibromochloromethane",
+        "Bromodichloromethane",
+        "Total_Trihalomethanes",
+        "Chloroform",
+        "Trichloroacetonitrile",
+        "Chloral_Hydrate",
+        "Dichloroacetonitrile",
+        "Dibromoacetonitrile",
+        "Haloacetic_Acids",
+        "Hardness",
+        "Potassium_Permanganate_Consumption",
+        "Odor",
+        "Taste",
+        "Copper",
+        "Color",
+        "Detergents",
+        "pH",
+        "Zinc",
+        "Evaporation_Residue",
+        "Iron",
+        "Manganese",
+        "Turbidity",
+        "Sulfate_Ion",
+        "Aluminum",
+        "14_Dioxane",
+        "Formaldehyde",
+        "Bromate",
+        "Uranium"
+   
+
+ REQUIRED_FIELDS = [
+        "General_Bacteria", "Total_Coliforms", "Fecal_Coliform", "Lead", "Fluoride", "Arsenic", "Selenium",
+        "Mercury", "Cyanide", "Chromium", "Chloride_Ion", "Ammonia_Nitrogen", "Nitrate_Nitrogen", "Cadmium",
+        "Boron", "Phenol", "Diazinon", "Fenitrothion", "Parathion", "Carbaryl", "Trichloroethane",
+        "Tetrachloroethylene",
+        "Trichloroethylene", "Dichloromethane", "Benzene", "Toluene", "Ethylbenzene", "Xylene", "Dichloroethylene",
+        "Carbon_Tetrachloride", "Dibromo-3-chloropropane", "Free_Residual_Chlorine", "Dibromochloromethane",
+        "Bromodichloromethane", "Total_Trihalomethanes", "Chloroform", "Trichloroacetonitrile", "Chloral_Hydrate",
+        "Dichloroacetonitrile", "Dibromoacetonitrile", "Haloacetic_Acids", "Hardness",
+        "Potassium_Permanganate_Consumption",
+        "Odor", "Taste", "Copper", "Color", "Detergents", "pH", "Zinc", "Evaporation_Residue", "Iron", "Manganese",
+        "Turbidity", "Sulfate_Ion", "Aluminum", "Dioxane", "Formaldehyde", "Bromate", "Uranium", "water_ok"
+    ]
+
+
+key_map = {
+  "일반세균": "General_Bacteria",
+  "총대장균군": "Total_Coliforms",
+  "분원성대장균/대장균": "Fecal_Coliform",
+  "납": "Lead",
+  "불소": "Fluoride",
+  "비소": "Arsenic",
+  "세레늄": "Selenium",
+  "수은": "Mercury",
+  "시안": "Cyanide",
+  "크롬": "Chromium",
+  "염소이온": "Chloride_Ion",
+  
+  "암모니아성질소": "Ammonia_Nitrogen",
+  "질산성질소": "Nitrate_Nitrogen",
+  "카드뮴": "Cadmium",
+  "보론": "Boron",
+  "페놀": "Phenol",
+  
+  "다이아지논": "Diazinon",
+  "페니트로티온": "Fenitrothion",
+  "파라티온": "Parathion",
+  "카바릴": "Carbaryl",
+  
+  "1,1,1-트리클로로에탄": "1,1,1-Trichloroethane",
+  "테트라클로로에틸렌": "Tetrachloroethylene",
+  "트리클로로에틸렌": "Trichloroethylene",
+  "디클로로메탄": "Dichloromethane",
+  
+  "벤젠": "Benzene",
+  "톨루엔": "Toluene",
+  "에틸벤젠": "Ethylbenzene",
+  "크실렌": "Xylene",
+  
+  
+  "1,1-디클로로에틸렌": "1,1-Dichloroethylene",
+  "사염화탄소": "Carbon_Tetrachloride",
+  "1,2-디브로모-3-클로로프로판": "1,2-Dibromo-3-chloropropane",
+  
+  "유리잔류염소": "Free_Residual_Chlorine",
+  "디브로모클로로메탄": "Dibromochloromethane",
+  "브로모디클로로메탄": "Bromodichloromethane",
+  "총트리할로메탄": "Total_Trihalomethanes",
+  "클로로포름": "Chloroform",
+  
+  
+  
+  "트리클로로아세토니트릴": "Trichloroacetonitrile",
+  "클로랄하이드레이트": "Chloral_Hydrate",
+  "디클로로아세토니트릴": "Dichloroacetonitrile",
+  "디브로모아세토니트릴": "Dibromoacetonitrile",
+  "할로아세틱에시드": "Haloacetic_Acids",
+  "경도": "Hardness",
+  "과망간산칼륨소비량": "Potassium_Permanganate_Consumption",
+  
+  "냄새": "Odor",
+  "맛": "Taste",
+  "동": "Copper",
+  "색도": "Color",
+  "세제": "Detergents",
+  "수소이온농도": "pH",
+  "아연": "Zinc",
+  "증발잔류물": "Evaporation_Residue",
+  "철": "Iron",
+  "망간": "Manganese",
+  "탁도": "Turbidity",
+  
+  "황산이온": "Sulfate_Ion",
+  "알루미늄": "Aluminum",
+  "1,4-다이옥산": "1,4-Dioxane",
+  "포름알데히드": "Formaldehyde",
+  
+  "브롬산염": "Bromate",
+  "우라늄": "Uranium"
+}
+
+
+
 {
   "일반세균": "General Bacteria",
   "총대장균군": "Total Coliforms",

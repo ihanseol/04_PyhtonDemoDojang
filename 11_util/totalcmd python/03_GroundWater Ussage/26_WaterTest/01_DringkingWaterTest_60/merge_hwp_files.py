@@ -12,7 +12,7 @@ def pagesetup(hwp):
     print(my_page)
 
 
-def merge_hwp_files(ofilename='ex_wtdringking_result.hwp', mode='normal'):
+def merge_hwp_files(ofilename='ex_wtdringking60_result.hwp', mode='normal'):
     # def merge_hwp_files(ofilename='01_취합본.hwp'):
     hwp = Hwp(visible=False)  # 한/글 실행
     fb = FileBase()

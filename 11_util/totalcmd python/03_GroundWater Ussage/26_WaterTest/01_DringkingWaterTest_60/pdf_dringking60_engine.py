@@ -9,7 +9,7 @@ import datetime
 from merge_hwp_files import merge_hwp_files
 from FileManger_V0_20250406 import FileBase
 
-NOF_INSPECTION = int(46)
+NOF_INSPECTION = int(60)
 
 
 def get_qc_yongdo(pdf_name, page):
@@ -59,7 +59,6 @@ def get_qc_yongdo(pdf_name, page):
     return None
 
 
-
 def get_data_hanwool(pdf_name, page):
     doc = pymupdf.open(pdf_name)
     water_ok = ''
@@ -75,7 +74,7 @@ def get_data_hanwool(pdf_name, page):
     lines = [line.strip() for line in text.split('\n') if line.strip()]
     print(lines)
 
-    if lines[-6] == '적합':
+    if lines[-2] == '적합':
         water_ok = '적합'
     else:
         water_ok = '부적합'
@@ -93,53 +92,67 @@ def get_data_hanwool(pdf_name, page):
     # Korean to English mapping for your specified 20 items (only matches present ones)
     # 'key' : 'item'
     key_map = {
-            "일반세균": "General_bacteria",
-            "총대장균군": "Total_coliforms",
-            "분원성대장균": "Fecal_coliforms",
-            "납": "Lead",
-            "불소": "Fluoride",
-            "비소": "Arsenic",
-            "세레늄": "Selenium",
-            "수은": "Mercury",
-            "시안": "Cyanide",
-            "크롬": "Chromium",
-            "염소이온": "Chloride_ion",
-            "암모니아성질소": "Ammonia_nitrogen",
-            "질산성질소": "Nitrate_nitrogen",
-            "카드뮴": "Cadmium",
-            "붕소": "Boron",
-            "페놀": "Phenol",
-            "다이아지논": "Diazinon",
-            "파라티온": "Parathion",
-            "페니트로티온": "Fenitrothion",
-            "카바릴": "Carbaryl",
-            "1,1,1-트리클로로에탄": "1,1,1-Trichloroethane",
-            "테트라클로로에틸렌": "Tetrachloroethylene",
-            "트리클로로에틸렌": "Trichloroethylene",
-            "디클로로메탄": "Dichloromethane",
-            "벤젠": "Benzene",
-            "톨루엔": "Toluene",
-            "에틸벤젠": "Ethylbenzene",
-            "크실렌": "Xylene",
-            "1,1-디클로로에틸렌": "1,1-Dichloroethylene",
-            "사염화탄소": "Carbon_tetrachloride",
-            "1,2-디브로모-3-클로로프로판": "1,2-Dibromo-3-chloropropane",
-            "1,4-다이옥산": "1,4-Dioxane",
-            "경도": "Hardness",
-            "과망간산칼륨소비량": "Potassium_permanganate_consumption",
-            "냄새": "Odor",
-            "맛": "Taste",
-            "동": "Copper",
-            "색도": "Color",
-            "세제": "Detergents",
-            "수소이온농도": "pH",
-            "아연": "Zinc",
-            "철": "Iron",
-            "망간": "Manganese",
-            "탁도": "Turbidity",
-            "황산이온": "Sulfate_ion",
-            "알루미늄": "Aluminum"
-        }
+        "일반세균": "General_Bacteria",
+        "총대장균군": "Total_Coliforms",
+        "분원성대장균/대장균": "Fecal_Coliform",
+        "납": "Lead",
+        "불소": "Fluoride",
+        "비소": "Arsenic",
+        "세레늄": "Selenium",
+        "수은": "Mercury",
+        "시안": "Cyanide",
+        "크롬": "Chromium",
+        "염소이온": "Chloride_Ion",
+        "암모니아성질소": "Ammonia_Nitrogen",
+        "질산성질소": "Nitrate_Nitrogen",
+        "카드뮴": "Cadmium",
+        "보론": "Boron",
+        "페놀": "Phenol",
+        "다이아지논": "Diazinon",
+        "페니트로티온": "Fenitrothion",
+        "파라티온": "Parathion",
+        "카바릴": "Carbaryl",
+        "1,1,1-트리클로로에탄": "1,1,1-Trichloroethane",
+        "테트라클로로에틸렌": "Tetrachloroethylene",
+        "트리클로로에틸렌": "Trichloroethylene",
+        "디클로로메탄": "Dichloromethane",
+        "벤젠": "Benzene",
+        "톨루엔": "Toluene",
+        "에틸벤젠": "Ethylbenzene",
+        "크실렌": "Xylene",
+        "1,1-디클로로에틸렌": "1,1-Dichloroethylene",
+        "사염화탄소": "Carbon_Tetrachloride",
+        "1,2-디브로모-3-클로로프로판": "1,2-Dibromo-3-chloropropane",
+        "유리잔류염소": "Free_Residual_Chlorine",
+        "디브로모클로로메탄": "Dibromochloromethane",
+        "브로모디클로로메탄": "Bromodichloromethane",
+        "총트리할로메탄": "Total_Trihalomethanes",
+        "클로로포름": "Chloroform",
+        "트리클로로아세토니트릴": "Trichloroacetonitrile",
+        "클로랄하이드레이트": "Chloral_Hydrate",
+        "디클로로아세토니트릴": "Dichloroacetonitrile",
+        "디브로모아세토니트릴": "Dibromoacetonitrile",
+        "할로아세틱에시드": "Haloacetic_Acids",
+        "경도": "Hardness",
+        "과망간산칼륨소비량": "Potassium_Permanganate_Consumption",
+        "냄새": "Odor",
+        "맛": "Taste",
+        "동": "Copper",
+        "색도": "Color",
+        "세제": "Detergents",
+        "수소이온농도": "pH",
+        "아연": "Zinc",
+        "증발잔류물": "Evaporation_Residue",
+        "철": "Iron",
+        "망간": "Manganese",
+        "탁도": "Turbidity",
+        "황산이온": "Sulfate_Ion",
+        "알루미늄": "Aluminum",
+        "1,4-다이옥산": "1,4-Dioxane",
+        "포름알데히드": "Formaldehyde",
+        "브롬산염": "Bromate",
+        "우라늄": "Uranium"
+    }
 
     data = {}
     i = start_idx
@@ -149,7 +162,7 @@ def get_data_hanwool(pdf_name, page):
 
     for j in range(1, NOF_INSPECTION + 1):
         line_title.append(lines[i + 2])
-        line_result.append(lines[i + 3])
+        line_result.append(lines[i + 4])
         i += 4
 
     # print(line_title)
@@ -277,30 +290,71 @@ def get_data_malgeunmul(pdf_name, page):
 
     if start_idx is None:
         return {}
+    key_map = {
+        "일반세균": "General_Bacteria",
+        "총대장균군": "Total_Coliforms",
+        "분원성대장균/대장균": "Fecal_Coliform",
+        "납": "Lead",
+        "불소": "Fluoride",
+        "비소": "Arsenic",
+        "세레늄": "Selenium",
+        "수은": "Mercury",
+        "시안": "Cyanide",
+        "크롬": "Chromium",
+        "암모니아성질소": "Ammonia_Nitrogen",
+        "질산성질소": "Nitrate_Nitrogen",
+        "카드뮴": "Cadmium",
+        "보론": "Boron",
+        "페놀": "Phenol",
+        "다이아지논": "Diazinon",
+        "파라티온": "Parathion",
+        "페니트로티온": "Fenitrothion",
+        "카바릴": "Carbaryl",
+        "1,1,1-트리클로로에탄": "1,1,1-Trichloroethane",
+        "테트라클로로에틸렌": "Tetrachloroethylene",
+        "트리클로로에틸렌": "Trichloroethylene",
+        "디클로로메탄": "Dichloromethane",
+        "벤젠": "Benzene",
+        "톨루엔": "Toluene",
+        "에틸벤젠": "Ethylbenzene",
+        "크실렌": "Xylene",
+        "1,1-디클로로에틸렌": "1,1-Dichloroethylene",
+        "사염화탄소": "Carbon_Tetrachloride",
+        "1,2-디브로모-3-클로로프로판": "1,2-Dibromo-3-chloropropane",
+        "1,4-다이옥산": "1,4-Dioxane",
+        "유리잔류염소": "Free_Residual_Chlorine",
+        "디브로모아세토니트릴": "Dibromoacetonitrile",
+        "브로모디클로로메탄": "Bromodichloromethane",
+        "총트리할로메탄": "Total_Trihalomethanes",
+        "클로로포름": "Chloroform",
+        "디브로모클로로메탄": "Dibromochloromethane",
+        "클로랄하이드레이트": "Chloral_Hydrate",
+        "디클로로아세토니트릴": "Dichloroacetonitrile",
+        "트리클로로아세토니트릴": "Trichloroacetonitrile",
+        "할로아세틱에시드": "Haloacetic_Acids",
+        "경도": "Hardness",
+        "과망간산칼륨소비량": "Potassium_Permanganate_Consumption",
+        "냄새": "Odor",
+        "맛": "Taste",
+        "동": "Copper",
+        "색도": "Color",
+        "세제": "Detergents",
+        "수소이온농도": "pH",
+        "아연": "Zinc",
+        "염소이온": "Chloride_Ion",
+        "증발잔류물": "Evaporation_Residue",
+        "철": "Iron",
+        "망간": "Manganese",
+        "탁도": "Turbidity",
+        "황산이온": "Sulfate_Ion",
+        "알루미늄": "Aluminum",
+        "포름알데히드": "Formaldehyde",
+        "브롬산염": "Bromate",
+        "우라늄": "Uranium"
+    }
 
     # Korean to English mapping for your specified 20 items (only matches present ones)
-    key_map = {
-        '총대장균군': 'Total_Coliform',
-        '수소이온농도': 'pH',
-        '질산성질소': 'Nitrate_Nitrogen',
-        '염소이온': 'Chloride',
-        '카드뮴': 'Cadmium',
-        '비소': 'Arsenic',
-        '크롬': 'Chromium',
-        '수은': 'Mercury',
-        '납': 'Lead',
-        '페놀': 'Phenol',
-        '시안': 'Cyanide',
-        '다이아지논': 'Diazinon',
-        '파라티온': 'Parathion',
-        '1,1,1-트리클로로에탄': '1,1,1-Trichloroethane',
-        '테트라클로로에틸렌': 'Tetrachloroethylene',
-        '트리클로로에틸렌': 'Trichloroethylene',
-        '벤젠': 'Benzene',
-        '톨루엔': 'Toluene',
-        '에틸벤젠': 'Ethylbenzene',
-        '크실렌': 'Xylene'
-    }
+
     # 'key' : 'item'
 
     data = {}
@@ -309,7 +363,7 @@ def get_data_malgeunmul(pdf_name, page):
     line_title = []
     line_result = []
 
-    for j in range(1, 21):
+    for j in range(1, NOF_INSPECTION + 1):
         line_title.append(lines[i + 2])
         line_result.append(lines[i + 4])
         i += 4
@@ -347,10 +401,9 @@ def get_data_nurilife(pdf_name, page):
     lines = [line.strip() for line in text.split('\n') if line.strip()]
     print(lines)
 
-
-    for i in range(1,10):
+    for i in range(1, 10):
         if '종합결과' in lines[-i]:
-            if '부적합' in lines[-i] :
+            if '부적합' in lines[-i]:
                 water_ok = '부적합'
             else:
                 water_ok = '적합'
@@ -421,8 +474,8 @@ def main():
     file_list = fb.get_file_filter(".", "*.pdf")
     pdf_name = file_list[0]
 
-    result = get_data_hanwool(pdf_name, 1)
-    # result = get_data_malgeunmul(pdf_name, 1)
+    # result = get_data_hanwool(pdf_name, 1)
+    result = get_data_malgeunmul(pdf_name, 1)
     # result = get_data_kiwii(pdf_name, 1)
     # result = get_data_nurilife(pdf_name, 1)
 
