@@ -21,7 +21,7 @@ from pdf_dringking46_engine import get_data_nurilife
 
 BASE_DIR = Path("d:/05_Send")
 TEMPLATE_DIR = Path("c:/Program Files/totalcmd/hwp")
-HWP_TEMPLATE = "wt_dringking.hwp"
+HWP_TEMPLATE = "wt_dringking46.hwp"
 
 
 class PDFEngineType(Enum):
@@ -396,7 +396,7 @@ class WaterQualityProcessor:
 
     def __init__(self,
                  engine_type: PDFEngineType = PDFEngineType.HANWOOL,
-                 template_path: str = r"c:\Program Files\totalcmd\hwp\wt_dringking.hwp",
+                 template_path: str = r"c:\Program Files\totalcmd\hwp\wt_dringking46.hwp",
                  output_dir: str = r"d:\05_Send"):
         """
         Initialize the processor.
