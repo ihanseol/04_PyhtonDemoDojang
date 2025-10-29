@@ -14,10 +14,10 @@ from typing import Optional
 from merge_hwp_files import merge_hwp_files
 from FileManger_V0_20250406 import FileBase
 
-from pdf_dringking_engine import get_data_hanwool
-from pdf_dringking_engine import get_data_kiwii
-from pdf_dringking_engine import get_data_malgeunmul
-from pdf_dringking_engine import get_data_nurilife
+from pdf_dringking46_engine import get_data_hanwool
+from pdf_dringking46_engine import get_data_kiwii
+from pdf_dringking46_engine import get_data_malgeunmul
+from pdf_dringking46_engine import get_data_nurilife
 
 BASE_DIR = Path("d:/05_Send")
 TEMPLATE_DIR = Path("c:/Program Files/totalcmd/hwp")
