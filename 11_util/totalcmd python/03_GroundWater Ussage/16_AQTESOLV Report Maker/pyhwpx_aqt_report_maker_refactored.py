@@ -5,6 +5,7 @@ from pyhwpx import Hwp
 import time
 import keyboard
 from FileManger_V0_20250406 import FileBase
+from erase_empty_page import remove_empty_pagemain
 
 
 class WellType:
@@ -197,6 +198,8 @@ def main():
 
     report_generator.line_print(" Merge HWP files  ... ",130)
     report_generator.merge_hwp_files()
+
+    remove_empty_pagemain()
 
     # print("Exit to Press Spacebar !!!")
     # keyboard.wait('space')
