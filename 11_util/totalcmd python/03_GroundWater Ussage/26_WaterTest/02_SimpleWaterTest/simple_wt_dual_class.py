@@ -237,7 +237,7 @@ class HwpDocumentWriter:
         self.template_manager = template_manager
         self.output_dir = output_dir
 
-    def create_document(self, data: WaterQualityData, last_index) -> None:
+    def create_document(self, data: WaterQualityData, last_index, i) -> None:
         """Create an HWP document from water quality data."""
         template_path = self.template_manager.get_template_path(data.is_dual_mode)
 
@@ -245,7 +245,7 @@ class HwpDocumentWriter:
         hwp.open(str(template_path))
 
         try:
-            self._write_placeholders(hwp, data, last_index)
+            self._write_placeholders(hwp, data, last_index, i)
             self._write_table_data(hwp, data)
 
             output_path = self.output_dir / f"ex_water_{data.well_name}.hwp"
@@ -254,11 +254,14 @@ class HwpDocumentWriter:
         finally:
             hwp.Quit(save=False)
 
-    def _write_placeholders(self, hwp, data: WaterQualityData, last_index):
+    def _write_placeholders(self, hwp, data: WaterQualityData, last_index, i):
         """Write data to placeholder fields."""
         temp_min, temp_max = data.temp_stats
         ec_min, ec_max = data.ec_stats
         ph_min, ph_max = data.ph_stats
+
+        # 2025/11/25 - add index main value
+        self._write_field(hwp, 'index_main', i)
 
         if data.is_dual_mode:
             self._write_field(hwp, 'index', last_index)
@@ -383,7 +386,7 @@ def main():
         i = 1
         for data in all_data:
             print(f"\nProcessing {data.well_name}...")
-            writer.create_document(data, last_index + i)
+            writer.create_document(data, last_index + i, i)
             i = i + 1
 
         print("\nMerging HWP files...")
