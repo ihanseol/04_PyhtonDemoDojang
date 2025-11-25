@@ -473,7 +473,9 @@ class YangSooInjector:
             if self.LONG_TERM_TEST_TIME is None:
                 raise ValueError("LONG_TERM_TEST_TIME is None. Ensure it is properly initialized.")
 
-            ws.Range("C10").Value = self.LONG_TERM_TEST_TIME
+            timestamp_value = self.LONG_TERM_TEST_TIME.to_pydatetime()
+            ws.Range("C10").Value = timestamp_value
+
         except Exception as e:
             self.printinfo(f" Error assigning timestamp to Excel cell: {e}")
 
