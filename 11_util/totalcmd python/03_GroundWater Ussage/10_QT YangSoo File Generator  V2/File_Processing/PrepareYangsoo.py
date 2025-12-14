@@ -111,6 +111,7 @@ class PrepareYangsooExcel(FileBase):
         self.fm.copy_file(original_path, destination_path)
         return destination_path
 
+    # 기사용관정의 생성, 갯수만큼 순차적으로
     def copy_and_get_yangsoo_file(self, nof_well):
         # original_file_path = "d:/05_Send/A1_ge_OriginalSaveFile.xlsm"
         original_file_path = "d:/05_Send/A1_ge_OriginalSaveFile.xlsm"
@@ -127,6 +128,23 @@ class PrepareYangsooExcel(FileBase):
         for i in range(2, nof_well + 1):
             new_file_path = self.duplicate_and_rename_file(original_file_path, destination_folder, i)
             print(f"File duplicated and renamed to: {new_file_path}")
+
+    # 기사용관정의 생성, 공리스트를 받아서
+    # 그 리스트 대로 공을 생성해준다.
+    def copy_and_get_yangsoo_file2(self, gong_list):
+        # original_file_path = "d:/05_Send/A1_ge_OriginalSaveFile.xlsm"
+        original_file_path = "d:/05_Send/A1_ge_OriginalSaveFile.xlsm"
+        destination_folder = "d:/05_Send/"
+
+        source = self.fm.get_file_filter(self.YANGSOO_GITHUB, 'A1*집수정*.xlsm')[-1:]
+
+        my_source = ''.join(source)
+        print(my_source)
+
+        if source:
+            for gong in gong_list:
+                self.fm.copy_file(my_source, f"d:/05_Send/A{gong}_ge_OriginalSaveFile.xlsm")
+                print(f"File Generated: d:/05_Send/A{gong}_ge_OriginalSaveFile.xlsm")
 
 
 class TransferYangSooFile(FileBase):

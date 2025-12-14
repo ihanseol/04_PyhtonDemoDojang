@@ -137,7 +137,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 gong_lists = self.spiexcel.get_gong_list()
 
                 # 양수파일을 Send로 복사해 온다.
-                self.pxel.copy_and_get_yangsoo_file(len(gong_lists))
+                # self.pxel.copy_and_get_yangsoo_file(len(gong_lists))
+
+                # 2025-12-14일, 공리스트를 이용해서
+                # 양수파일을 공리스트를 가지고 생성한다.
+                self.pxel.copy_and_get_yangsoo_file2(gong_lists)
+
 
                 for i in gong_lists:
                     self.file_processing.aqtfile_to_send(i, checkbox_state or self.spiexcel.is_jiyeol)
@@ -148,9 +153,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     이것이 체크되어 있으면 
                 """
                 if self.checkBox_addOne.isChecked():
-                    self.spiexcel.process_projectinfo_byexcel(addOne=True)
+                    self.spiexcel.process_projectinfo_byexcel2(addOne=True)
                 else:
-                    self.spiexcel.process_projectinfo_byexcel(addOne=False)
+                    self.spiexcel.process_projectinfo_byexcel2(addOne=False)
 
         else:
             # 양수스펙파일이 없으면

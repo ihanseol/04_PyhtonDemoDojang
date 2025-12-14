@@ -54,6 +54,36 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
         print(str_gong, address)
         return str_gong, address
 
+    def get_gong_n_address2(self, row_index, file_path="d:/05_Send/YanSoo_Spec.xlsx"):
+        try:
+            try:
+                df = pd.read_excel(file_path, sheet_name='Data')
+            except FileNotFoundError:
+                print(f"오류: Excel 파일을 찾을 수 없습니다. 경로를 확인해주세요: {file_path}")
+                return pd.DataFrame()
+            except Exception as e:
+                print(f"Excel 데이터를 읽어오는 중 예상치 못한 오류 발생: {e}")
+                return pd.DataFrame()
+
+            # '공번' 컬럼을 기준으로 필터링합니다.
+            # 안전을 위해 컬럼 이름이 실제로 존재하는지 확인합니다.
+            if 'gong' not in df.columns:
+                # 만약 'gong' 컬럼이 없다면, 첫 번째 컬럼을 '공번'으로 간주하거나 오류를 출력할 수 있습니다.
+                print("오류: DataFrame에 'gong'이라는 컬럼이 없습니다. 컬럼 이름을 확인해 주세요.")
+                return pd.DataFrame()
+
+            # 'gong' 컬럼에서 입력된 gong_number와 일치하는 행을 필터링합니다.
+            result_df = df[df['gong'] == f"W-{row_index}"]
+
+            if result_df.empty:
+                print(f"알림: '공번' {gong_number}에 해당하는 데이터가 파일에 없습니다.")
+
+            return result_df
+
+        except Exception as e:
+            print(f"함수 실행 중 오류 발생: {e}")
+            return pd.DataFrame()
+
     def get_last_gong(self):
         """
           엑셀파일의 마지막 공번을 리턴
@@ -169,6 +199,73 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
             print('All files processed.')
 
         self.unblock_user_input()
+
+
+    # 이것은, 이전과는 다르게, 공리스트를 이용해서
+    # 그 공만 작업하는것으로 ...
+    def process_projectinfo_byexcel2(self, addOne=False):
+
+        # if self.df.empty and self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
+        if self.is_exist(r"d:\05_Send\YanSoo_Spec.xlsx"):
+            df = pd.read_excel(r"d:\05_Send\YanSoo_Spec.xlsx")
+            self.set_dataframe(df)
+
+        company = self.df.loc[0, 'Company']
+        address = self.df.loc[0, 'address']
+
+        self.set_company(company)
+        self.set_address(address)
+        self.change_aqt_filename()
+
+        send_list = self.get_wellno_list_insend()
+        gong_list = self.get_gong_list()
+
+        difference_set = list(set(send_list) - set(gong_list))
+        if difference_set:
+            self.delete_difference(difference_set)
+
+        # aqtfiles = natsorted([f for f in os.listdir() if f.endswith('.aqt')])
+        aqtfiles = self.get_aqt_files()
+        print(f'aqtfiles: {aqtfiles}')
+        # self.block_user_input()
+
+        for i in gong_list:
+            print("="*100)
+            print(f'gong: {i} starting ....')
+            print("=" * 100)
+
+            result_df = self.get_gong_n_address2(i)
+
+            gong = str(result_df['gong'].iloc[0])
+            excel_address = str(result_df['address'].iloc[0])
+            print(f'gong: {gong}, address: "{excel_address}"')
+
+            """
+               여기에서, 공번과, 주소를 가져오는데
+               더힐CC 처럼 , 마지막에 공번 4를 하나 추가하려면
+               가져오질 못한다. 없으니까 ....
+            """
+
+            if gong is None:
+                self.close_aqt()
+                return None
+
+            processed_address = self.process_address(excel_address)
+            print(f'gong: {gong}, address: ""{processed_address}""')
+
+            wfiles = fnmatch.filter(aqtfiles, f"w{i}_*.aqt")
+            print(f"wfiles: {wfiles}")
+
+            if wfiles:
+                if self.DEBUG:
+                    print('Processing file: ', wfiles)
+                self.aqt_mainaction(i, processed_address, wfiles)
+
+        if self.DEBUG:
+            print('All files processed.')
+
+        self.unblock_user_input()
+
 
     def process_projectinfo_likesejong(self, company):
 
