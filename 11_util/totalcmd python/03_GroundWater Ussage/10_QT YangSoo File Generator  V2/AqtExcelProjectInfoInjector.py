@@ -116,12 +116,10 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
 
         g_list = []
         gong_column = self.df['gong'].tolist()
-        for item in gong_column:
-            if item is None:
-                print('item is none')
-            else:
-                n = self.extract_number(item)
-                g_list.append(n)
+        cleaned_list = pd.Series(gong_column).dropna().tolist()
+        for item in cleaned_list:
+            n = self.extract_number(item)
+            g_list.append(n)
 
         print(f'g_list: {g_list}')
         return g_list
