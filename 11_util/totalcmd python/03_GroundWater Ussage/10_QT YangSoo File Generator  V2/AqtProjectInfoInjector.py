@@ -15,7 +15,7 @@ import ctypes
 import pandas as pd
 
 import re
-from .FileManager import FileBase
+from FileManager import FileBase
 
 
 class AqtProjectInfoInjector(FileBase):
@@ -158,12 +158,33 @@ class AqtProjectInfoInjector(FileBase):
     @staticmethod
     def extract_number(s):
         """
-        :param s:
-            주어진 스트링 S값을 입력받아,
-            숫자만 추려서, 정수로 반환한다.
-        :return:
+        주어진 입력값에서 숫자만 추출하여 정수로 반환합니다.
+        비정상적인 입력에 대한 예외 처리가 포함되어 있습니다.
         """
-        return int(re.findall(r'\d+', s)[0])
+        try:
+            # 1. 입력값이 문자열이 아닌 경우를 대비해 타입 체크 또는 변환
+            if not isinstance(s, str):
+                s = str(s)
+
+            # 2. 정규표현식으로 숫자 추출
+            numbers = re.findall(r'\d+', s)
+            num_str = ''.join(numbers)
+
+            # 3. 추출된 숫자가 없을 경우 처리
+            if not num_str:
+                return 0  # 또는 상황에 따라 None이나 raise ValueError를 사용하세요.
+
+            # 4. 정수 변환
+            return int(num_str)
+
+        except ValueError as e:
+            # 숫자로 변환할 수 없는 예기치 못한 상황 처리
+            print(f"Value Error: {e}")
+            return 0
+        except Exception as e:
+            # 기타 발생 가능한 모든 에러 처리
+            print(f"An unexpected error occurred: {e}")
+            return 0
 
     def change_aqt_filename(self):
         """

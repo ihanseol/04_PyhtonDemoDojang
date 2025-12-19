@@ -14,8 +14,8 @@ import pyautogui
 import ctypes
 import pandas as pd
 
-from .FileManager import FileBase
-from .FileManager import PathChecker
+from FileManager import FileBase
+from FileManager import PathChecker
 
 """
     class PrepareYangsoofile(FileBase):

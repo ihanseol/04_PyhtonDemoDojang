@@ -14,8 +14,8 @@ import pyautogui
 import ctypes
 import pandas as pd
 
-from .FileManager import FileBase
-from .AqtProjectInfoInjector import AqtProjectInfoInjector
+from FileManager import FileBase
+from AqtProjectInfoInjector import AqtProjectInfoInjector
 
 
 class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
@@ -116,9 +116,13 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
 
         g_list = []
         gong_column = self.df['gong'].tolist()
-        for f in gong_column:
-            n = self.extract_number(f)
-            g_list.append(n)
+        for item in gong_column:
+            if item is None:
+                print('item is none')
+            else:
+                n = self.extract_number(item)
+                g_list.append(n)
+
         print(f'g_list: {g_list}')
         return g_list
 
@@ -200,7 +204,6 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
 
         self.unblock_user_input()
 
-
     # 이것은, 이전과는 다르게, 공리스트를 이용해서
     # 그 공만 작업하는것으로 ...
     def process_projectinfo_byexcel2(self, addOne=False):
@@ -230,7 +233,7 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
         # self.block_user_input()
 
         for i in gong_list:
-            print("="*100)
+            print("=" * 100)
             print(f'gong: {i} starting ....')
             print("=" * 100)
 
@@ -265,7 +268,6 @@ class AqtExcelProjectInfoInjector(AqtProjectInfoInjector):
             print('All files processed.')
 
         self.unblock_user_input()
-
 
     def process_projectinfo_likesejong(self, company):
 

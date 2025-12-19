@@ -9,18 +9,16 @@
 """
 
 import sys
-import os
-import shutil
 
 from PySide6.QtWidgets import QApplication
 from PySide6.QtWidgets import QMainWindow
 from ui_for_yangsoo_file_generator import Ui_MainWindow
 
-from File_Processing.FileManager import FileBase
-from File_Processing.PrepareYangsoo import PrepareYangsoofile
-from File_Processing.PrepareYangsoo import PrepareYangsooExcel
-from File_Processing.AqtProjectInfoInjector import AqtProjectInfoInjector
-from File_Processing.AqtExcelProjectInfoInjector import AqtExcelProjectInfoInjector
+from FileManager import FileBase
+from PrepareYangsoo import PrepareYangsoofile
+from PrepareYangsoo import PrepareYangsooExcel
+from AqtProjectInfoInjector import AqtProjectInfoInjector
+from AqtExcelProjectInfoInjector import AqtExcelProjectInfoInjector
 
 
 class MyClass:
