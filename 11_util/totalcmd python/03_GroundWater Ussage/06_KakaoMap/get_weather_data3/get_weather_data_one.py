@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
-import time
 import os
-import pandas as pd
-from datetime import datetime
-from typing import List, Optional
 
 from PySide6.QtGui import QStandardItemModel, QStandardItem
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox
@@ -23,6 +19,10 @@ class WeatherDataApp(QMainWindow):
             login_id="hanseol33@naver.com",
             password="dseq%z8^feyham^"
         )
+
+        # 모델 초기화를 여기서 먼저 수행
+        self.model = QStandardItemModel()
+        self.info_model = QStandardItemModel()
 
         # 탭별 체크박스 그룹 정의 (setup_connections 호출 전에 정의)
         self.tab_checkboxes = {
@@ -64,12 +64,10 @@ class WeatherDataApp(QMainWindow):
     def setup_listview(self):
         """ListView 설정"""
         # 선택된 지역 리스트뷰
-        self.model = QStandardItemModel()
         self.ui.listView.setModel(self.model)
         self.model.setHorizontalHeaderLabels(["선택된 지역"])
 
         # 정보 출력 리스트뷰
-        self.info_model = QStandardItemModel()
         self.ui.listView_info.setModel(self.info_model)
         self.info_model.setHorizontalHeaderLabels(["프로그램 정보"])
 

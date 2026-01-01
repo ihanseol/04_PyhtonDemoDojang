@@ -1,6 +1,6 @@
 import pandas as pd
 
-DEFAULT_AREA_DATA = [
+default_area_data_id = [
     {"area": "관악산", "name": "GwanAkSan", "Code": 116, "aCode": 15, "switch": 14},
     {"area": "서울", "name": "Seoul", "Code": 108, "aCode": 16, "switch": 14},
     {"area": "강화", "name": "GangHwa", "Code": 201, "aCode": 24, "switch": 23},
@@ -136,7 +136,7 @@ def find_area_info_v1(area_data, target_area):
 
 
 # 사용 예시
-result1 = find_area_info_v1(DEFAULT_AREA_DATA, "충남")
+result1 = find_area_info_v1(default_area_data_id, "충남")
 print(result1)  # 출력: {'name': 'ChungNam', 'Code': 0, 'switch': 2}
 
 
@@ -157,7 +157,7 @@ def find_area_info_v2(area_data, target_area):
 
 
 # 사용 예시
-result2 = find_area_info_v2(DEFAULT_AREA_DATA, "충남")
+result2 = find_area_info_v2(default_area_data_id, "충남")
 print(result2)  # 출력: {'name': 'ChungNam', 'Code': 0, 'switch': 2}
 
 
@@ -182,7 +182,7 @@ def find_area_info_v3(area_data, target_area):
 
 
 # 사용 예시
-result3 = find_area_info_v3(DEFAULT_AREA_DATA, "충남")
+result3 = find_area_info_v3(default_area_data_id, "충남")
 print(result3)  # 출력: {'name': 'ChungNam', 'Code': 0, 'switch': 2}
 
 
@@ -206,5 +206,5 @@ def find_area_info_v4(area_data, target_area):
 
 
 # 사용 예시
-result4 = find_area_info_v4(DEFAULT_AREA_DATA, "충남")
+result4 = find_area_info_v4(default_area_data_id, "충남")
 print(result4)  # 출력: {'name': 'ChungNam', 'Code': 0, 'switch': 2}
