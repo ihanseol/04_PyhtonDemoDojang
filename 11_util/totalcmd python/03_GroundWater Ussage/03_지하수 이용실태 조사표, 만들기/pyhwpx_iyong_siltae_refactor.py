@@ -1,6 +1,35 @@
 from pyhwpx import Hwp
 import os
 import pandas as pd
+import time
+import psutil
+
+
+def terminate_all_hwp():
+    """
+    프로세스 이름이 'hwp'로 시작하는 모든 실행 파일을 찾아 종료합니다.
+    """
+    killed_count = 0
+    print("이름이 'hwp'로 시작하는 모든 프로세스 종료를 시작합니다...")
+
+    for proc in psutil.process_iter(['pid', 'name']):
+        try:
+            process_name = proc.info['name']
+
+            # 프로세스 이름이 존재하고, 'hwp'로 시작하는지 확인 (대소문자 무시)
+            if process_name and process_name.lower().startswith('hwp'):
+                proc.kill()
+                print(f"종료됨: {process_name} (PID: {proc.info['pid']})")
+                killed_count += 1
+
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            # 프로세스가 이미 종료되었거나 권한 문제 발생 시 무시
+            pass
+
+    if killed_count > 0:
+        print(f"--- 총 {killed_count}개의 프로세스를 종료했습니다. ---")
+    else:
+        print("대상 프로세스를 찾지 못했습니다.")
 
 
 class HwpProcessor:
@@ -77,13 +106,40 @@ class HwpProcessor:
 
             print(f'Processed page {page + 1}: {address}')
 
+    # def save_and_close(self):
+    #     """Save the document and close HWP."""
+    #     self.line_print(' Delete All Fields .... ')
+    #     self.hwp.delete_all_fields()
+    #     self.hwp.save_as(f"{self.XL_BASE}/{self.HWP_OUTPUT}")
+    #     self.hwp.quit()
+    #     self.line_print(f"Document saved to {self.XL_BASE}/{self.HWP_OUTPUT}")
+
     def save_and_close(self):
-        """Save the document and close HWP."""
-        self.line_print(' Delete All Fields .... ')
-        self.hwp.delete_all_fields()
-        self.hwp.save_as(f"{self.XL_BASE}/{self.HWP_OUTPUT}")
-        self.hwp.quit()
-        self.line_print(f"Document saved to {self.XL_BASE}/{self.HWP_OUTPUT}")
+        """Save the document and close HWP with error handling."""
+        try:
+            self.line_print('필드 삭제 중...')
+            self.hwp.delete_all_fields()
+
+            # 저장 경로를 OS에 맞게 정규화
+            output_path = os.path.abspath(os.path.join(self.XL_BASE, self.HWP_OUTPUT))
+
+            self.line_print(f'파일 저장 중: {output_path}')
+            self.hwp.save_as(output_path)
+
+            # 한글 서버가 작업을 마칠 수 있도록 짧은 대기 시간 부여
+            time.sleep(1)
+
+            self.line_print('프로그램 종료 중...')
+            # quit() 대신 Clear() 후 종료하는 방식이 더 안전할 수 있음
+            self.hwp.Clear(option=True)
+            self.hwp.Quit()
+
+
+        except Exception as e:
+            print(f"종료 중 오류 발생: {e}")
+            # 강제 종료가 필요한 경우 등에 대비
+        finally:
+            self.line_print(f"작업 완료: {output_path}")
 
     def process(self):
         """Main processing method that orchestrates the workflow."""
@@ -100,6 +156,7 @@ class HwpProcessor:
 def main():
     processor = HwpProcessor()
     processor.process()
+    terminate_all_hwp()
 
 
 if __name__ == "__main__":
