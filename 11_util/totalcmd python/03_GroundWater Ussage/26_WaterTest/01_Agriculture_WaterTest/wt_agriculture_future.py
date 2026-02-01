@@ -10,7 +10,7 @@ from enum import Enum
 
 import sys
 from typing import Optional
-
+import psutil
 
 from merge_hwp_files import merge_hwp_files
 from FileManger_V0_20250406 import FileBase
@@ -23,6 +23,34 @@ from pdf_agriculture_engine import get_data_nurilife
 BASE_DIR = Path("d:/05_Send")
 TEMPLATE_DIR = Path("c:/Program Files/totalcmd/hwp")
 HWP_TEMPLATE = "wt_agriculture.hwp"
+
+
+def terminate_all_hwp():
+    """
+    프로세스 이름이 'hwp'로 시작하는 모든 실행 파일을 찾아 종료합니다.
+    """
+    killed_count = 0
+    print("이름이 'hwp'로 시작하는 모든 프로세스 종료를 시작합니다...")
+
+    for proc in psutil.process_iter(['pid', 'name']):
+        try:
+            process_name = proc.info['name']
+
+            # 프로세스 이름이 존재하고, 'hwp'로 시작하는지 확인 (대소문자 무시)
+            if process_name and process_name.lower().startswith('hwp'):
+                proc.kill()
+                print(f"종료됨: {process_name} (PID: {proc.info['pid']})")
+                killed_count += 1
+
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            # 프로세스가 이미 종료되었거나 권한 문제 발생 시 무시
+            pass
+
+    if killed_count > 0:
+        print(f"--- 총 {killed_count}개의 프로세스를 종료했습니다. ---")
+    else:
+        print("대상 프로세스를 찾지 못했습니다.")
+
 
 
 class PDFEngineType(Enum):
@@ -521,3 +549,4 @@ def run_menu():
 if __name__ == "__main__":
     # main()
     run_menu()
+    terminate_all_hwp()

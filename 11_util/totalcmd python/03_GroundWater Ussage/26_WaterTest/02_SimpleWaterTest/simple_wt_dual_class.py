@@ -11,10 +11,37 @@ from enum import Enum
 from dataclasses import dataclass
 from typing import List, Optional, Tuple
 
+import psutil
 import openpyxl
 from pyhwpx import Hwp
 
 from merge_hwp_files import merge_hwp_files
+
+def terminate_all_hwp():
+    """
+    프로세스 이름이 'hwp'로 시작하는 모든 실행 파일을 찾아 종료합니다.
+    """
+    killed_count = 0
+    print("이름이 'hwp'로 시작하는 모든 프로세스 종료를 시작합니다...")
+
+    for proc in psutil.process_iter(['pid', 'name']):
+        try:
+            process_name = proc.info['name']
+
+            # 프로세스 이름이 존재하고, 'hwp'로 시작하는지 확인 (대소문자 무시)
+            if process_name and process_name.lower().startswith('hwp'):
+                proc.kill()
+                print(f"종료됨: {process_name} (PID: {proc.info['pid']})")
+                killed_count += 1
+
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            # 프로세스가 이미 종료되었거나 권한 문제 발생 시 무시
+            pass
+
+    if killed_count > 0:
+        print(f"--- 총 {killed_count}개의 프로세스를 종료했습니다. ---")
+    else:
+        print("대상 프로세스를 찾지 못했습니다.")
 
 
 class OpMode(Enum):
@@ -400,5 +427,7 @@ def main():
 if __name__ == "__main__":
     # Import datetime for type checking
     import datetime
-
     main()
+    terminate_all_hwp()
+
+
