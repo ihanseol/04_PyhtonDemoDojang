@@ -31,7 +31,7 @@ def remove_empty_table(hwp, hwp_path):
     page_count = hwp.PageCount
 
     for i in range(page_count, 0, -1):
-        print(f'reve_empty_table : page{i}')
+        print(f'remove_empty_table : page{i}')
         if not is_image(hwp, i):
             delete_table(hwp, i)
 
