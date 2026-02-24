@@ -5,6 +5,29 @@ hwp.clipboard_to_pyfunc()
 
 """
     
+    function OnScriptMacro_사이즈43()
+{
+	HAction.GetDefault("ShapeObjDialog", HParameterSet.HShapeObject.HSet);
+	with (HParameterSet.HShapeObject)
+	{
+		Width = 35149;
+		CreateItemArray("OptLockProperties", 1);
+		OptLockProperties.Item(0) = 16395;
+	}
+	HAction.Execute("ShapeObjDialog", HParameterSet.HShapeObject.HSet);
+	HAction.GetDefault("ShapeObjDialog", HParameterSet.HShapeObject.HSet);
+	with (HParameterSet.HShapeObject)
+	{
+		Height = 26362;
+		CreateItemArray("OptLockProperties", 1);
+		OptLockProperties.Item(0) = 16397;
+	}
+	HAction.Execute("ShapeObjDialog", HParameterSet.HShapeObject.HSet);
+}
+
+
+    
+    
     function OnScriptMacro_script14()
     {
         HAction.GetDefault("PictureSaveAsAll", HParameterSet.HSaveAsImage.HSet);
