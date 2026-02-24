@@ -1,12 +1,13 @@
-import re
-import os
-import shutil
-import time
-import datetime
 from pyhwpx import Hwp
 from pathlib import Path
 from FileManger_V0_20250406 import FileBase
 import psutil
+
+# HWP_BASE = r"d:\09_hardRain\10_ihanseol - 2025\00_data\04_Reference Data\12_보고서, 부록\00_UsedWell\\"
+
+HWP_BASE = r"d:\09_hardRain\11_ihanseol - 2026\00_data\04_Reference Data\17_WaterAnalysis_Report"
+SEND = "d:\\05_Send\\"
+
 
 def terminate_all_hwp():
     """
@@ -26,8 +27,8 @@ def terminate_all_hwp():
                 killed_count += 1
 
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-            # 프로세스가 이미 종료되었거나 권한 문제 발생 시 무시
             pass
+            # 프로세스가 이미 종료되었거나 권한 문제 발생 시 무시
 
     if killed_count > 0:
         print(f"--- 총 {killed_count}개의 프로세스를 종료했습니다. ---")
@@ -35,32 +36,18 @@ def terminate_all_hwp():
         print("대상 프로세스를 찾지 못했습니다.")
 
 
-def delete_table(hwp, page_index):
-    hwp.goto_page(page_index)
+def _goto_page(hwp, page_num):
+    """Navigate to specific page in HWP document."""
+    hwp.goto_page(page_num)
+    hwp.HAction.Run("MoveRight")
+    hwp.HAction.Run("MoveDown")
+
+
+def _delete_page(hwp, page_num):
+    """Navigate to specific page in HWP document."""
+    hwp.goto_page(page_num)
     hwp.Delete()
-
-
-def is_image(hwp, page_index):
-    hwp.goto_page(page_index)
-    hwp.MoveRight()
-    hwp.goto_addr("A2")
-    hwp.SelectCtrlFront()
-    if hwp.CurSelectedCtrl.UserDesc == "그림":
-        hwp.Cancel()
-        return True
-    else:
-        hwp.Cancel()
-        return False
-
-
-def remove_empty_table(hwp, hwp_path):
-    hwp.open(hwp_path)
-    page_count = hwp.PageCount
-
-    for i in range(page_count, 0, -1):
-        print(f'remove_empty_table : page{i}')
-        if not is_image(hwp, i):
-            delete_table(hwp, i)
+    print(f"{page_num} page are deleted.")
 
 
 def is_empty_mypage(hwp, page_index):
@@ -79,46 +66,42 @@ def remove_empty_page(hwp):
             hwp.DeletePage()
 
 
+def pagesetup(hwp):
+    my_page = {'위쪽': 20, '머리말': 10, '왼쪽': 20, '오른쪽': 20, '제본여백': 0, '꼬리말': 10, '아래쪽': 13, '제본타입': 0, '용지방향': 0,
+               '용지길이': 297, '용지폭': 210}
 
-def remove_empty_pagemain():
-    fb = FileBase()
-    hwp_files = fb.get_file_filter(".", "*.hwp*")
-
-    if not hwp_files:
-        print("No PDF files found in current directory")
-        return
-
-    hwp_path = hwp_files[0]
-    print(f"Processing PDF: {hwp_path}\n")
-
-    hwp = Hwp(visible=False)
-    hwp.open(hwp_path)
-    remove_empty_table(hwp, hwp_path)
-    remove_empty_page(hwp)
-    hwp.Quit(save=True)
+    hwp.set_pagedef(my_page, "cur")
+    print(my_page)
 
 
 def main():
     fb = FileBase()
-    hwp_files = fb.get_file_filter(".", "*.hwp*")
 
-    if not hwp_files:
-        print("No PDF files found in current directory")
-        return
-
-    hwp_path = hwp_files[0]
-    print(f"Processing PDF: {hwp_path}\n")
-
+    fb.copy_file(HWP_BASE + "\\wt_image.hwp", SEND)
     hwp = Hwp(visible=False)
-    hwp.open(hwp_path)
-    remove_empty_table(hwp, hwp_path)
+
+    hwp.open(f"d:\\05_Send\\wt_image.hwp")
+    page_count = hwp.PageCount
+
+    jpg_files = fb.get_file_filter(SEND, "*.jpg")
+    jpg_count = len(jpg_files)
+
+    for i, file_name in enumerate(jpg_files):
+        _goto_page(hwp, i + 1)
+        print(i, file_name)
+        hwp.insert_picture(SEND + file_name)
+
+    for i in range(page_count - 1, jpg_count - 1, -1):
+        _delete_page(hwp, i + 1)
+
     remove_empty_page(hwp)
-    hwp.Quit(save=True)
+    pagesetup(hwp)
+
+    hwp.save_as("01_WaterAnalysis_Report.hwp")
+    hwp.quit()
+    fb.delete_file(Path(SEND + "wt_image.hwp"))
 
 
 if __name__ == "__main__":
     main()
     terminate_all_hwp()
-
-
-
