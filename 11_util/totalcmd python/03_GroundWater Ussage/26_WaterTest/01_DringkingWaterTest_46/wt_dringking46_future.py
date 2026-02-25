@@ -16,6 +16,7 @@ from merge_hwp_files import merge_hwp_files
 from FileManger_V0_20250406 import FileBase
 
 from pdf_dringking46_engine import get_data_hanwool
+from pdf_dringking46_engine import get_data_malgun_hwangyung
 from pdf_dringking46_engine import get_data_kiwii
 from pdf_dringking46_engine import get_data_malgeunmul
 from pdf_dringking46_engine import get_data_nurilife
@@ -54,6 +55,7 @@ def terminate_all_hwp():
 class PDFEngineType(Enum):
     """Supported PDF parsing engines."""
     HANWOOL = "hanwool"
+    MALGUN_HWANGYUNG = "malgun_hwangyung"
     KIWII = "kiwii"
     MALGEUNMUL = "malgeunmul"
     NURILIFE = "nurilife"
@@ -106,6 +108,17 @@ class HanwoolPDFEngine(PDFEngine):
         # Add validation logic if needed
         return True
 
+class Malgun_HwanGyungPDFEngine(PDFEngine):
+    """PDF engine for Hanwool format water quality reports."""
+
+    def extract_data(self, pdf_path: str, page_number: int) -> Dict[str, str]:
+        """Extract data using Hanwool-specific parser."""
+        return get_data_malgun_hwangyung(pdf_path, page_number)
+
+    def validate_pdf(self, pdf_path: str) -> bool:
+        """Validate Hanwool format PDF."""
+        # Add validation logic if needed
+        return True
 
 class KiwiiPDFEngine(PDFEngine):
     """PDF engine for Hanwool format water quality reports."""
@@ -151,6 +164,7 @@ class PDFEngineFactory:
 
     _engines: Dict[PDFEngineType, type] = {
         PDFEngineType.HANWOOL: HanwoolPDFEngine,
+        PDFEngineType.MALGUN_HWANGYUNG: Malgun_HwanGyungPDFEngine,
         PDFEngineType.KIWII: KiwiiPDFEngine,
         PDFEngineType.MALGEUNMUL: MalgeunmulPDFEngine,
         PDFEngineType.NURILIFE: NurilifePDFEngine,

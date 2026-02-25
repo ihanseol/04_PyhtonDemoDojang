@@ -166,6 +166,126 @@ def get_data_hanwool(pdf_name, page):
 
     return data
 
+# 맑은환경시험연구원
+def get_data_malgun_hwangyung(pdf_name, page):
+    doc = pymupdf.open(pdf_name)
+    water_ok = ''
+
+    if page > len(doc):
+        doc.close()
+        return {}
+
+    page_obj = doc.load_page(page - 1)
+    text = page_obj.get_text("text")  # Or "blocks" for better table handling if needed
+    doc.close()
+
+    lines = [line.strip() for line in text.split('\n') if line.strip()]
+
+    print('-' * 100)
+    print(lines)
+    print('-' * 100)
+
+
+    if lines[-3] == '적합':
+        water_ok = '적합'
+    else:
+        water_ok = '부적합'
+
+    # Find start of results table (look for key items or NO patterns)
+    start_idx = None
+    for i, line in enumerate(lines):
+        if line == '1':
+            start_idx = i - 1
+            break
+
+    if start_idx is None:
+        return {}
+
+    # Korean to English mapping for your specified 20 items (only matches present ones)
+    # 'key' : 'item'
+    key_map = {
+            "일반세균": "General_bacteria",
+            "총대장균군": "Total_coliforms",
+            "대장균/분원성대장균군": "Fecal_coliforms",
+            "납": "Lead",
+            "불소": "Fluoride",
+            "비소": "Arsenic",
+            "세레늄": "Selenium",
+            "수은": "Mercury",
+            "시안": "Cyanide",
+            "크롬": "Chromium",
+            "암모니아성질소": "Ammonia_nitrogen",
+            "질산성질소": "Nitrate_nitrogen",
+            "카드뮴": "Cadmium",
+            "붕소": "Boron",
+            "페놀류": "Phenol",
+            "다이아지논": "Diazinon",
+            "파라티온": "Parathion",
+            "페니트로티온": "Fenitrothion",
+            "카바릴": "Carbaryl",
+            "1.1.1-트리클로로에탄": "1,1,1-Trichloroethane",
+            "테트라클로로에틸렌": "Tetrachloroethylene",
+            "트리클로로에틸렌": "Trichloroethylene",
+            "디클로로메탄": "Dichloromethane",
+            "벤젠": "Benzene",
+            "톨루엔": "Toluene",
+            "에틸벤젠": "Ethylbenzene",
+            "크실렌": "Xylene",
+            "1.1-디클로로에틸렌": "1,1-Dichloroethylene",
+            "사염화탄소": "Carbon_tetrachloride",
+            "1,2-디브로모-3-클로로프": "1,2-Dibromo-3-chloropropane",
+            "경도": "Hardness",
+            "과망간산칼륨소비량": "Potassium_permanganate_consumption",
+            "냄새": "Odor",
+            "맛": "Taste",
+            "동": "Copper",
+            "색도": "Color",
+            "세제(음이온계면활성제)": "Detergents",
+            "수소이온농도": "pH",
+            "아연": "Zinc",
+            "염소이온": "Chloride_ion",
+            "철": "Iron",
+            "탁도": "Turbidity",
+            "황산이온": "Sulfate_ion",
+            "알루미늄": "Aluminum",
+            "1,4-다이옥산": "1,4-Dioxane",
+            "망간": "Manganese"
+        }
+
+    data = {}
+    i = start_idx
+
+    line_title = []
+    line_result = []
+
+    for j in range(1, NOF_INSPECTION + 1):
+        title = lines[i + 2]
+        line_title.append(lines[i + 2])
+        if title in "1,2-디브로모-3-클로로프":
+            print("found 1,2-디브로모-3-클로로프")
+            line_result.append(lines[i + 5])
+            i += 5
+        else:
+            line_result.append(lines[i + 4])
+            i += 4
+
+
+
+    print(line_title)
+    print(line_result)
+
+    for i, item in enumerate(key_map):
+        data[key_map[item]] = line_result[i]
+        print(item, data[key_map[item]])
+
+    data['water_ok'] = water_ok
+
+    print('=' * 100)
+    print(data)
+
+    return data
+
+
 
 def get_data_kiwii(pdf_name, page):
     doc = pymupdf.open(pdf_name)
@@ -421,7 +541,8 @@ def main():
     file_list = fb.get_file_filter(".", "*.pdf")
     pdf_name = file_list[0]
 
-    result = get_data_hanwool(pdf_name, 1)
+    result = get_data_malgun_hwangyung(pdf_name, 1)
+    # result = get_data_hanwool(pdf_name, 1)
     # result = get_data_malgeunmul(pdf_name, 1)
     # result = get_data_kiwii(pdf_name, 1)
     # result = get_data_nurilife(pdf_name, 1)
