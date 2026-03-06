@@ -30,10 +30,10 @@
      </sizepolicy>
     </property>
     <property name="tabPosition">
-     <enum>QTabWidget::North</enum>
+     <enum>QTabWidget::TabPosition::North</enum>
     </property>
     <property name="tabShape">
-     <enum>QTabWidget::Rounded</enum>
+     <enum>QTabWidget::TabShape::Rounded</enum>
     </property>
     <property name="currentIndex">
      <number>1</number>
@@ -45,7 +45,7 @@
      </size>
     </property>
     <property name="elideMode">
-     <enum>Qt::ElideLeft</enum>
+     <enum>Qt::TextElideMode::ElideLeft</enum>
     </property>
     <widget class="QWidget" name="tab_1">
      <attribute name="title">
@@ -523,7 +523,7 @@
       </font>
      </property>
      <property name="text">
-      <string>주식회사 한일지하수</string>
+      <string>주식회사 현우건설</string>
      </property>
      <property name="checked">
       <bool>true</bool>
@@ -660,10 +660,10 @@
      </font>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
     <property name="buttonSymbols">
-     <enum>QAbstractSpinBox::UpDownArrows</enum>
+     <enum>QAbstractSpinBox::ButtonSymbols::UpDownArrows</enum>
     </property>
     <property name="showGroupSeparator" stdset="0">
      <bool>false</bool>

@@ -1,24 +1,25 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'aqt_inputlKVCbS.ui'
+## Form generated from reading UI file 'aqt_inputIqgOgN.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.4.3
+## Created by: Qt User Interface Compiler version 6.9.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
+                            QMetaObject, QObject, QPoint, QRect,
+                            QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
+                           QFont, QFontDatabase, QGradient, QIcon,
+                           QImage, QKeySequence, QLinearGradient, QPainter,
+                           QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QCheckBox, QGroupBox,
-    QLabel, QMainWindow, QPushButton, QRadioButton,
-    QSizePolicy, QSpinBox, QTabWidget, QTextEdit,
-    QWidget)
+                               QLabel, QMainWindow, QPushButton, QRadioButton,
+                               QSizePolicy, QSpinBox, QTabWidget, QTextEdit,
+                               QWidget)
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -30,15 +31,15 @@ class Ui_MainWindow(object):
         self.tabWidget = QTabWidget(self.centralwidget)
         self.tabWidget.setObjectName(u"tabWidget")
         self.tabWidget.setGeometry(QRect(20, 720, 601, 281))
-        sizePolicy = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Maximum)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.tabWidget.sizePolicy().hasHeightForWidth())
         self.tabWidget.setSizePolicy(sizePolicy)
-        self.tabWidget.setTabPosition(QTabWidget.North)
-        self.tabWidget.setTabShape(QTabWidget.Rounded)
+        self.tabWidget.setTabPosition(QTabWidget.TabPosition.North)
+        self.tabWidget.setTabShape(QTabWidget.TabShape.Rounded)
         self.tabWidget.setIconSize(QSize(32, 32))
-        self.tabWidget.setElideMode(Qt.ElideLeft)
+        self.tabWidget.setElideMode(Qt.TextElideMode.ElideLeft)
         self.tab_1 = QWidget()
         self.tab_1.setObjectName(u"tab_1")
         self.textEdit_3 = QTextEdit(self.tab_1)
@@ -193,9 +194,9 @@ class Ui_MainWindow(object):
         self.spinBox.setObjectName(u"spinBox")
         self.spinBox.setGeometry(QRect(470, 150, 151, 41))
         self.spinBox.setFont(font4)
-        self.spinBox.setAlignment(Qt.AlignCenter)
-        self.spinBox.setButtonSymbols(QAbstractSpinBox.UpDownArrows)
-        self.spinBox.setProperty("showGroupSeparator", False)
+        self.spinBox.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.spinBox.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.UpDownArrows)
+        self.spinBox.setProperty(u"showGroupSeparator", False)
         self.spinBox.setValue(1)
         self.textEdit_company = QTextEdit(self.centralwidget)
         self.textEdit_company.setObjectName(u"textEdit_company")
@@ -215,8 +216,8 @@ class Ui_MainWindow(object):
 
         self.tabWidget.setCurrentIndex(1)
 
-
         QMetaObject.connectSlotsByName(MainWindow)
+
     # setupUi
 
     def retranslateUi(self, MainWindow):
@@ -224,28 +225,42 @@ class Ui_MainWindow(object):
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Message", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Run", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Exit", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_1), QCoreApplication.translate("MainWindow", u"Initial Generation", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_1),
+                                  QCoreApplication.translate("MainWindow", u"Initial Generation", None))
         self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"Run", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Project Info Setting", None))
-        self.textEdit_4.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\uc774\uac83\uc740, \ud504\ub85c\uc81d\ud2b8\uc778\ud3ec \uc138\ud305\uc73c\ub85c, \uc8fc\uc5b4\uc9c4 \uc870\uc0ac\uc790(\uc5d4\uc9c0\ub2c8\uc5b4\ub9c1 \ud68c\uc0ac)\ub97c \uae30\uc900\uc73c\ub85c ... \uc8fc\uc5b4\uc9c4 \uc8fc\uc18c\uac12\uc73c\ub85c \ud544\ub4dc\ub97c \ucc44\uc6cc\ub098\uac00\ub294 \uac83\uc774\ub2e4. \ub9cc\uc77c, \ud30c\uc77c\uc774 \uc5c6\uc73c\uba74, \ud30c\uc77c\uc744 \ubcf5\uc0ac\ud574\uc640\uc11c \ucc44\uc6b0\uace0 \ud30c\uc77c\uc774 \uc788\uc73c\uba74, \uae30\uc874\uc758 \ud30c\uc77c\uc758 \ub0b4\uc6a9\ub9cc \uc5c5\ub370\uc774\ud2b8 \uc2dc\ud0a8\ub2e4. \uadf8\ub9ac\uace0, \uc138\uc885\uc5d0\uba38\uc2a8 \uc2a4\ud0c0\uc77c\ucc98\ub7fc, YanSoo.xlsx \ud30c\uc77c\uc774 \uc788\ub2e4\uba74 \uae30\uc874\uc758 \uc8fc\uc18c\ud544\ub4dc\ub294 \ubb34\uc2dc\ud558\uace0, \uadf8 \uc5d1\uc140\ud30c\uc77c \ub370\uc774\ud130\ub97c \uc774\uc6a9\ud558\uace0 \uc774\uac83\ub3c4 \uc5ed\uc2dc, Aqt\ud30c\uc77c\uc774 Send\uc5d0 \uc788\uc73c\uba74, \uadf8\ub0e5 \uadf8\ud30c\uc77c\ub9cc \uc5c5\ub370\uc774\ud2b8 \ud574"
-                        "\uc8fc\uace0 \uc5c6\uc73c\uba74, \uad00\uc815\uc758 \uac2f\uc218\ub9cc\ud07c \ud30c\uc77c\uc744 \ubcf5\uc0ac\ud55c\ub4a4, \ub0b4\uc6a9\uc744 \uc5c5\ub370\uc774\ud2b8 \ud574\uc8fc\uac8c \ub41c\ub2e4.", None))
+        self.textEdit_4.setPlaceholderText(QCoreApplication.translate("MainWindow",
+                                                                      u"\uc774\uac83\uc740, \ud504\ub85c\uc81d\ud2b8\uc778\ud3ec \uc138\ud305\uc73c\ub85c, \uc8fc\uc5b4\uc9c4 \uc870\uc0ac\uc790(\uc5d4\uc9c0\ub2c8\uc5b4\ub9c1 \ud68c\uc0ac)\ub97c \uae30\uc900\uc73c\ub85c ... \uc8fc\uc5b4\uc9c4 \uc8fc\uc18c\uac12\uc73c\ub85c \ud544\ub4dc\ub97c \ucc44\uc6cc\ub098\uac00\ub294 \uac83\uc774\ub2e4. \ub9cc\uc77c, \ud30c\uc77c\uc774 \uc5c6\uc73c\uba74, \ud30c\uc77c\uc744 \ubcf5\uc0ac\ud574\uc640\uc11c \ucc44\uc6b0\uace0 \ud30c\uc77c\uc774 \uc788\uc73c\uba74, \uae30\uc874\uc758 \ud30c\uc77c\uc758 \ub0b4\uc6a9\ub9cc \uc5c5\ub370\uc774\ud2b8 \uc2dc\ud0a8\ub2e4. \uadf8\ub9ac\uace0, \uc138\uc885\uc5d0\uba38\uc2a8 \uc2a4\ud0c0\uc77c\ucc98\ub7fc, YanSoo.xlsx \ud30c\uc77c\uc774 \uc788\ub2e4\uba74 \uae30\uc874\uc758 \uc8fc\uc18c\ud544\ub4dc\ub294 \ubb34\uc2dc\ud558\uace0, \uadf8 \uc5d1\uc140\ud30c\uc77c \ub370\uc774\ud130\ub97c \uc774\uc6a9\ud558\uace0 \uc774\uac83\ub3c4 \uc5ed\uc2dc, Aqt\ud30c\uc77c\uc774 Send\uc5d0 \uc788\uc73c\uba74, \uadf8\ub0e5 \uadf8\ud30c\uc77c\ub9cc \uc5c5\ub370\uc774\ud2b8 \ud574"
+                                                                      "\uc8fc\uace0 \uc5c6\uc73c\uba74, \uad00\uc815\uc758 \uac2f\uc218\ub9cc\ud07c \ud30c\uc77c\uc744 \ubcf5\uc0ac\ud55c\ub4a4, \ub0b4\uc6a9\uc744 \uc5c5\ub370\uc774\ud2b8 \ud574\uc8fc\uac8c \ub41c\ub2e4.",
+                                                                      None))
         self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"Exit", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"ProjectInfo Setting", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2),
+                                  QCoreApplication.translate("MainWindow", u"ProjectInfo Setting", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"\uc8fc\uc18c, Address", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Engireering Company", None))
-        self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"\uc9c0\ud558\uc218 \uc601\ud5a5\uc870\uc0ac\uc790", None))
+        self.groupBox.setTitle(
+            QCoreApplication.translate("MainWindow", u"\uc9c0\ud558\uc218 \uc601\ud5a5\uc870\uc0ac\uc790", None))
         self.radio12.setText(QCoreApplication.translate("MainWindow", u"(\ud569) \uccad\ub300\uac1c\ubc1c", None))
-        self.radio13.setText(QCoreApplication.translate("MainWindow", u"\uc8fc\uc2dd\ud68c\uc0ac \ubcf4\uc131\uac74\uc124", None))
-        self.radio5.setText(QCoreApplication.translate("MainWindow", u"(\uc8fc)\ub3d9\ud574\uc5d4\uc9c0\ub2c8\uc5b4\ub9c1", None))
-        self.radio3.setText(QCoreApplication.translate("MainWindow", u"(\uc8fc)\uc6b0\uacbd\uc5d4\uc9c0\ub2c8\uc5b4\ub9c1", None))
-        self.radio8.setText(QCoreApplication.translate("MainWindow", u"\ubd80\uc5ec\uc9c0\ud558\uc218\uac1c\ubc1c \uc8fc\uc2dd\ud68c\uc0ac", None))
+        self.radio13.setText(
+            QCoreApplication.translate("MainWindow", u"\uc8fc\uc2dd\ud68c\uc0ac \ubcf4\uc131\uac74\uc124", None))
+        self.radio5.setText(
+            QCoreApplication.translate("MainWindow", u"(\uc8fc)\ub3d9\ud574\uc5d4\uc9c0\ub2c8\uc5b4\ub9c1", None))
+        self.radio3.setText(
+            QCoreApplication.translate("MainWindow", u"(\uc8fc)\uc6b0\uacbd\uc5d4\uc9c0\ub2c8\uc5b4\ub9c1", None))
+        self.radio8.setText(QCoreApplication.translate("MainWindow",
+                                                       u"\ubd80\uc5ec\uc9c0\ud558\uc218\uac1c\ubc1c \uc8fc\uc2dd\ud68c\uc0ac",
+                                                       None))
         self.radio7.setText(QCoreApplication.translate("MainWindow", u"(\uc8fc)\ud0dc\uc591\uc774\uc5d4\uc9c0", None))
         self.radio6.setText(QCoreApplication.translate("MainWindow", u"(\uc8fc)\ud604\uc724\uc774\uc564\uc528", None))
-        self.radio11.setText(QCoreApplication.translate("MainWindow", u"\ub9c8\uc778\uc9c0\uc624 \uc8fc\uc2dd\ud68c\uc0ac", None))
+        self.radio11.setText(
+            QCoreApplication.translate("MainWindow", u"\ub9c8\uc778\uc9c0\uc624 \uc8fc\uc2dd\ud68c\uc0ac", None))
         self.radio9.setText(QCoreApplication.translate("MainWindow", u"(\uc8fc)\uc804\uc77c", None))
         self.radio10.setText(QCoreApplication.translate("MainWindow", u"\uc0bc\uc6d0\uac1c\ubc1c(\uc8fc)", None))
-        self.radio2.setText(QCoreApplication.translate("MainWindow", u"\ub300\uc6c5\uc5d4\uc9c0\ub2c8\uc5b4\ub9c1 \uc8fc\uc2dd\ud68c\uc0ac", None))
-        self.radio4.setText(QCoreApplication.translate("MainWindow", u"\uc8fc\uc2dd\ud68c\uc0ac \ud55c\uc77c\uc9c0\ud558\uc218", None))
+        self.radio2.setText(QCoreApplication.translate("MainWindow",
+                                                       u"\ub300\uc6c5\uc5d4\uc9c0\ub2c8\uc5b4\ub9c1 \uc8fc\uc2dd\ud68c\uc0ac",
+                                                       None))
+        self.radio4.setText(
+            QCoreApplication.translate("MainWindow", u"\uc8fc\uc2dd\ud68c\uc0ac \ud604\uc6b0\uac74\uc124", None))
         self.radio1.setText(QCoreApplication.translate("MainWindow", u"\uc0b0\uc218\uac1c\ubc1c(\uc8fc)", None))
         self.radio14.setText(QCoreApplication.translate("MainWindow", u"\ub2e4\ub2e4\uac74\uc124(\uc8fc)", None))
         self.radio15.setText(QCoreApplication.translate("MainWindow", u"(\uc8fc)\ud658\uc77c", None))
@@ -255,4 +270,3 @@ class Ui_MainWindow(object):
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"\uc870\uc0ac\uc790", None))
         self.checkBox_addOne.setText(QCoreApplication.translate("MainWindow", u"\uacf5\ud558\ub098\ucd94\uac00", None))
     # retranslateUi
-
