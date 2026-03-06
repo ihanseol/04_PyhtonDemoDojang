@@ -64,8 +64,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             radio_button = getattr(self, f'radio{i}')
             radio_button.toggled.connect(self.on_radio_button_toggled)
 
-        self.textEdit_2.setText("항목: 주식회사 한일지하수")
-        self.Company = "주식회사 한일지하수"
+        self.textEdit_2.setText("항목: 주식회사 현우건설")
+        self.Company = "주식회사 현우건설"
         self.Address = "주소는 없어요"
         self.spi = AqtProjectInfoInjector("d:\\05_Send\\", "")
         self.spiexcel = AqtExcelProjectInfoInjector("d:\\05_Send\\", "")
