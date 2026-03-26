@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
+import asyncio
 
 from PySide6.QtGui import QStandardItemModel, QStandardItem
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox
 from ui_file import Ui_MainWindow
 import convert_to_bas as cb
 from web_scraper_class import RainfallDataScraper
+#from web_scraper_class_using_playwright import RainfallDataScraper
 
 
 class WeatherDataApp(QMainWindow):
@@ -157,6 +159,7 @@ class WeatherDataApp(QMainWindow):
             # print(f"수집할 지역: {selected_locations}")
 
             downloaded_files, message = self.scraper.download_rainfall_data(selected_locations)
+            #asyncio.run(downloaded_files, message = self.scraper.download_rainfall_data(selected_locations))
 
             # for i, location in enumerate(selected_locations):
             #     get_rainfall_data(location)
