@@ -121,14 +121,35 @@ class AqtProjectInfoInjector(FileBase):
         :return:
         """
 
-        input_str = input_str.strip().replace('특별', '').replace('광역', '')
+        # 2026.04.12
+        # add feature just in case "세종특별자치시"
+
+        input_str = input_str.strip().replace('특별', '').replace('광역', '').replace('자치', '')
+        print("------------------------------------------------------------")
+        print(f"  Erase 특별, 광역, 자치 from string")
+        print(f"  input_str: {input_str}, length: {len(input_str)}")
+        print("------------------------------------------------------------\n")
+
         input_str = re.sub(r'\s+', ' ', input_str).strip()
+
+        print("------------------------------------------------------------")
+        print(f"  Erase  empty space from string ...")
+        print(f"  input_str: {input_str}, length: {len(input_str)}")
+        print("------------------------------------------------------------\n")
 
         if ',' in input_str:
             input_str = input_str.split(',')[0]
+            print("------------------------------------------------------------")
+            print(f"  , in string ...")
+            print(f"  input_str: {input_str}, length: {len(input_str)}")
+            print("------------------------------------------------------------\n")
 
         if '(' in input_str:
             input_str = input_str.split('(')[0]
+            print("------------------------------------------------------------")
+            print(f"  ( in string ...")
+            print(f"  input_str: {input_str}, length: {len(input_str)}")
+            print("------------------------------------------------------------\n")
 
         if len(input_str) >= 18:
             if input_str.endswith('호'):
