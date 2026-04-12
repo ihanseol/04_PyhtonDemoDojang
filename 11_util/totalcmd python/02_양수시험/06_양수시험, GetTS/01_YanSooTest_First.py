@@ -29,7 +29,10 @@
 # 신규로 수정한 양수시험일보를 적용하기위해
 # 구버전과 신버전을 동시 지원을 위해 self.isOLD 추가해주고, 처리
 
-# 그리고 리팩토
+# 2026.4.12
+# 양수일보에 기반암을 추가해서 입력하는것으로 추가해줌 ....
+#
+# 그리고 리팩토링
 # *************************************************************************
 """
 from typing import Any
@@ -101,7 +104,6 @@ class YangSooInjector:
         except Exception as e:
             print(f"YanSoo.xlsx Not Found - {e}")
 
-
         # self.df = pd.DataFrame()
         self.isOLD = True
         self.debug_yes = True
@@ -116,7 +118,6 @@ class YangSooInjector:
         """
             yangsoo_files = ge_Original_SaveFiles
         """
-
 
     @staticmethod
     def countdown(n):
@@ -251,7 +252,6 @@ class YangSooInjector:
             print(f"Error parsing, localizing, and adjusting timestamp: {e}")
             return None  # Handle this appropriately in your code
 
-
     def make_cell_values(self, row_index):
         """
         여기에서 row_index 는 공번으로 주어진다.
@@ -300,6 +300,9 @@ class YangSooInjector:
         yangsoo_time = row_data['yangsoo_time'].iloc[0]
         print(f"yangsoo_time : {yangsoo_time}")
 
+        # 2026.04.12, add bedrock info to yansooilbo excel file
+        bedrock = row_data['bedrock'].iloc[0]
+
         # Swap natural and stable if stable is less than natural to prevent errors
         if stable < natural:
             natural, stable = stable, natural
@@ -326,9 +329,9 @@ class YangSooInjector:
             "I45": jigu_name,
             "I47": company_name,
             "c9": ph,
-            "z999": yangsoo_time
+            "z999": yangsoo_time,
+            "I43": bedrock
         }
-
 
         return cell_values
 
@@ -350,8 +353,9 @@ class YangSooInjector:
             "I45": "jigu_name",
             "I47": "company_name",
             "c9": "ph",
-            "z999": "yangsoo_time"
-            }
+            "z999": "yangsoo_time",
+            "I43": "bedrock"
+        }
 
         sheet = book.Worksheets("Input")
         sheet_w1 = book.Worksheets("w1")
@@ -381,7 +385,7 @@ class YangSooInjector:
 
     def inject_values(self, wb, excel):
         if self.debug_yes:
-            print('='*100)
+            print('=' * 100)
             print('* inject value to cell, _inject_input is started ...')
             print('=' * 100)
 
@@ -420,7 +424,8 @@ class YangSooInjector:
         print(" YangSoo Type - New Version")
 
         temp_ref = [14.8, 14.9, 15.1, 15.2, 15.3, 15.4, 15.5, 15.6, 15.7]
-        ec_ref = [200, 201, 202, 219, 203, 204, 218, 205, 206, 213, 207, 208, 209, 210, 211, 215, 217]
+        # 2026.04.12, modify ec value to reveal real ec value
+        ec_ref = [220, 224, 226, 230, 233, 204, 218, 210, 216, 218]
 
         temp = random.choice(temp_ref)
         ec = random.choice(ec_ref)
@@ -466,7 +471,6 @@ class YangSooInjector:
             self.click_excel_button(ws, button)
             print(f'_inject_input -- {label}')
             time.sleep(1)
-
 
     def _inject_step_test(self, wb):
         ws = wb.Worksheets("stepTest")
@@ -516,10 +520,12 @@ class YangSooInjector:
         except Exception as e:
             print(f"Error assigning timestamp to Excel cell: {e}")
 
-            ws.Range("C10").Value = timestamp_value
+            # ws.Range("C10").Value = timestamp_value
+            # mod next value
+            ws.Range("C10").Value = self.LONG_TERM_TEST_TIME
             ws.Range("C10").NumberFormat = 'hh:mm'
 
-            print(f"Excel에 입력된 시간: {timestamp_value}")
+            print(f"Excel에 입력된 시간: {self.LONG_TERM_TEST_TIME}")
 
         for action in actions:
             if "button" in action:
