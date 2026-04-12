@@ -253,7 +253,7 @@ class WaterQualityData:
 class HWPDocumentWriter:
     """Handles HWP document creation and manipulation."""
 
-    def __init__(self, template_path: str):
+    def __init__(self, template_path: str, company: str):
         """
         Initialize the HWP writer.
 
@@ -261,6 +261,9 @@ class HWPDocumentWriter:
             template_path: Path to the HWP template file
         """
         self.template_path = Path(template_path)
+        # 2026-4-13, add company
+        self.company = company
+
         if not self.template_path.exists():
             raise FileNotFoundError(f"Template not found: {template_path}")
 
@@ -328,6 +331,11 @@ class HWPDocumentWriter:
             # Write overall result
             self.write_field(hwp, 'water_ok', water_data.water_ok)
 
+            # 2026-4-13, add Company
+            # by pdf_engine_type determine company name
+            self.write_field(hwp, 'company', self.company)
+
+
             # Save document
             output_file = Path(output_path)
             hwp.save_as(str(output_file))
@@ -368,9 +376,24 @@ class WaterQualityProcessor:
             output_dir: Directory for output files
         """
         self.engine = PDFEngineFactory.create_engine(engine_type)
-        self.writer = HWPDocumentWriter(template_path)
+        # 2026-4-13, add Company
+        self.company = self.get_company(engine_type.value)
+
+        self.writer = HWPDocumentWriter(template_path, self.company)
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
+
+    # 2026-4-13, add Company
+    @staticmethod
+    def get_company(key):
+        companies = {
+            "hanwool": "한울생명과학(주)",
+            "malgun_hwangyung": "맑은환경시험연구원",
+            "kiwii": "(주)키위수질시험센터",
+            "malgeunmul": "(주)맑은물분석연구원",
+            "nurilife": "누리생명과학원(주)"
+        }
+        return companies.get(key, "해당하는 업체가 없습니다.")
 
     def process_pdf(self, pdf_path: str) -> List[Path]:
         """

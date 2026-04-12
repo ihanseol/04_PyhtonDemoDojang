@@ -25,6 +25,7 @@ BASE_DIR = Path("d:/05_Send")
 TEMPLATE_DIR = Path("c:/Program Files/totalcmd/hwp")
 HWP_TEMPLATE = "wt_dringking46.hwp"
 
+
 def terminate_all_hwp():
     """
     프로세스 이름이 'hwp'로 시작하는 모든 실행 파일을 찾아 종료합니다.
@@ -108,6 +109,7 @@ class HanwoolPDFEngine(PDFEngine):
         # Add validation logic if needed
         return True
 
+
 class Malgun_HwanGyungPDFEngine(PDFEngine):
     """PDF engine for Hanwool format water quality reports."""
 
@@ -119,6 +121,7 @@ class Malgun_HwanGyungPDFEngine(PDFEngine):
         """Validate Hanwool format PDF."""
         # Add validation logic if needed
         return True
+
 
 class KiwiiPDFEngine(PDFEngine):
     """PDF engine for Hanwool format water quality reports."""
@@ -226,64 +229,65 @@ class WaterQualityData:
         """
         self._validate_data(data)
 
-        self.general_bacteria = data['General_bacteria']        #일반세균
-        self.total_coliform = data['Total_coliforms']            #총대장균군
-        self.fecal_coliforms = data['Fecal_coliforms']          #대장균/분원성대장균군
-        self.lead = data['Lead']                                #납
-        self.fluoride = data['Fluoride']                        #불소
-        self.arsenic = data['Arsenic']                          #비소
-        self.selenium = data['Selenium']                        #세레늄
-        self.mercury = data['Mercury']                          #수은
-        self.cyanide = data['Cyanide']                          #시안
-        self.chromium = data['Chromium']                        #크롬
+        self.general_bacteria = data['General_bacteria']  # 일반세균
+        self.total_coliform = data['Total_coliforms']  # 총대장균군
+        self.fecal_coliforms = data['Fecal_coliforms']  # 대장균/분원성대장균군
+        self.lead = data['Lead']  # 납
+        self.fluoride = data['Fluoride']  # 불소
+        self.arsenic = data['Arsenic']  # 비소
+        self.selenium = data['Selenium']  # 세레늄
+        self.mercury = data['Mercury']  # 수은
+        self.cyanide = data['Cyanide']  # 시안
+        self.chromium = data['Chromium']  # 크롬
 
-        self.ammonia_nitrogen = data['Ammonia_nitrogen']        #암모니아성질소
-        self.nitrate_nitrogen = data['Nitrate_nitrogen']        #질산성질소
-        self.cadmium = data['Cadmium']                          #카드뮴
-        self.boron = data['Boron']                              #붕소
-        self.phenol = data['Phenol']                            #페놀
+        self.ammonia_nitrogen = data['Ammonia_nitrogen']  # 암모니아성질소
+        self.nitrate_nitrogen = data['Nitrate_nitrogen']  # 질산성질소
+        self.cadmium = data['Cadmium']  # 카드뮴
+        self.boron = data['Boron']  # 붕소
+        self.phenol = data['Phenol']  # 페놀
 
-        self.diazinon = data['Diazinon']                        #다이아지논
-        self.parathion = data['Parathion']                      #파라티논
-        self.fenitrothion = data['Fenitrothion']                #페니트로티논
-        self.carbaryl = data['Carbaryl']                        #카바릴
+        self.diazinon = data['Diazinon']  # 다이아지논
+        self.parathion = data['Parathion']  # 파라티논
+        self.fenitrothion = data['Fenitrothion']  # 페니트로티논
+        self.carbaryl = data['Carbaryl']  # 카바릴
 
-        self.trichloroethane = data['1,1,1-Trichloroethane']    #1,1,1-트리클로로에탄
-        self.tetrachloroethylene = data['Tetrachloroethylene']  #테트라클로로에틸렌
-        self.trichloroethylene = data['Trichloroethylene']      #트리클로로에틸렌
-        self.dichloromethane = data['Dichloromethane']          #디클로로메탄
+        self.trichloroethane = data['1,1,1-Trichloroethane']  # 1,1,1-트리클로로에탄
+        self.tetrachloroethylene = data['Tetrachloroethylene']  # 테트라클로로에틸렌
+        self.trichloroethylene = data['Trichloroethylene']  # 트리클로로에틸렌
+        self.dichloromethane = data['Dichloromethane']  # 디클로로메탄
 
-        self.benzene = data['Benzene']                          #벤젠
-        self.toluene = data['Toluene']                          #톨루엔
-        self.ethylbenzene = data['Ethylbenzene']                #에틸벤젠
-        self.xylene = data['Xylene']                            #크실렌
+        self.benzene = data['Benzene']  # 벤젠
+        self.toluene = data['Toluene']  # 톨루엔
+        self.ethylbenzene = data['Ethylbenzene']  # 에틸벤젠
+        self.xylene = data['Xylene']  # 크실렌
 
-        self.dichloroethylene = data['1,1-Dichloroethylene']                #1.1-디클로로에틸렌
-        self.carbon_tetrachloride = data['Carbon_tetrachloride']            #사염화탄소
-        self.dibromo_3_chloropropane = data['1,2-Dibromo-3-chloropropane']  #1.2-디브로모-3-클로로프로판
-        self.dioxane = data['1,4-Dioxane']                                  #1.4-다이옥산
+        self.dichloroethylene = data['1,1-Dichloroethylene']  # 1.1-디클로로에틸렌
+        self.carbon_tetrachloride = data['Carbon_tetrachloride']  # 사염화탄소
+        self.dibromo_3_chloropropane = data['1,2-Dibromo-3-chloropropane']  # 1.2-디브로모-3-클로로프로판
+        self.dioxane = data['1,4-Dioxane']  # 1.4-다이옥산
 
-        self.hardness = data['Hardness']        #경도
-        self.potassium_permanganate_consumption = data['Potassium_permanganate_consumption']  #과망간산칼륨소비량
+        self.hardness = data['Hardness']  # 경도
+        self.potassium_permanganate_consumption = data['Potassium_permanganate_consumption']  # 과망간산칼륨소비량
 
-        self.odor = data['Odor']                    #냄새
-        self.taste = data['Taste']                  #맛
-        self.copper = data['Copper']                #동
-        self.color = data['Color']                  #색도
+        self.odor = data['Odor']  # 냄새
+        self.taste = data['Taste']  # 맛
+        self.copper = data['Copper']  # 동
+        self.color = data['Color']  # 색도
 
-        self.detergents = data['Detergents']        #세제
-        self.ph = data['pH']                        #수소이온농도
+        self.detergents = data['Detergents']  # 세제
+        self.ph = data['pH']  # 수소이온농도
 
-        self.zinc = data['Zinc']                    #아연
-        self.chloride = data['Chloride_ion']        #염소이온
-        self.iron = data['Iron']                    #철
-        self.manganese = data['Manganese']          #망간
-        self.turbidity = data['Turbidity']          #탁도
-        self.sulfate_ion = data['Sulfate_ion']      #황산이온
-        self.aluminum = data['Aluminum']            #알루미늄
+        self.zinc = data['Zinc']  # 아연
+        self.chloride = data['Chloride_ion']  # 염소이온
+        self.iron = data['Iron']  # 철
+        self.manganese = data['Manganese']  # 망간
+        self.turbidity = data['Turbidity']  # 탁도
+        self.sulfate_ion = data['Sulfate_ion']  # 황산이온
+        self.aluminum = data['Aluminum']  # 알루미늄
 
         # Overall Result
-        self.water_ok = data['water_ok']            #수질 적합, 부적합
+        self.water_ok = data['water_ok']  # 수질 적합, 부적합
+
 
     @classmethod
     def _validate_data(cls, data: Dict[str, str]):
@@ -296,7 +300,7 @@ class WaterQualityData:
 class HWPDocumentWriter:
     """Handles HWP document creation and manipulation."""
 
-    def __init__(self, template_path: str):
+    def __init__(self, template_path: str, company : str):
         """
         Initialize the HWP writer.
 
@@ -304,6 +308,10 @@ class HWPDocumentWriter:
             template_path: Path to the HWP template file
         """
         self.template_path = Path(template_path)
+
+        #2026-4-13, add company
+        self.company = company
+
         if not self.template_path.exists():
             raise FileNotFoundError(f"Template not found: {template_path}")
 
@@ -360,14 +368,12 @@ class HWPDocumentWriter:
             self.write_field(hwp, 'nitrate_nitrogen', water_data.nitrate_nitrogen)
             self.write_field(hwp, 'cadmium', water_data.cadmium)
 
-
             self.write_field(hwp, 'boron', water_data.boron)
             self.write_field(hwp, 'phenol', water_data.phenol)
             self.write_field(hwp, 'diazinon', water_data.diazinon)
             self.write_field(hwp, 'parathion', water_data.parathion)
             self.write_field(hwp, 'fenitrothion', water_data.fenitrothion)
             self.write_field(hwp, 'carbaryl', water_data.carbaryl)
-
 
             self.write_field(hwp, 'trichloroethane', water_data.trichloroethane)
             self.write_field(hwp, 'tetrachloroethylene', water_data.tetrachloroethylene)
@@ -378,7 +384,6 @@ class HWPDocumentWriter:
             self.write_field(hwp, 'toluene', water_data.toluene)
             self.write_field(hwp, 'ethylbenzene', water_data.ethylbenzene)
             self.write_field(hwp, 'xylene', water_data.xylene)
-
 
             self.write_field(hwp, 'dichloroethylene', water_data.dichloroethylene)
             self.write_field(hwp, 'carbon_tetrachloride', water_data.carbon_tetrachloride)
@@ -394,7 +399,6 @@ class HWPDocumentWriter:
             self.write_field(hwp, 'detergents', water_data.detergents)
             self.write_field(hwp, 'color', water_data.color)
 
-
             # Write physical/chemical data
             self.write_field(hwp, 'ph', water_data.ph)
             self.write_field(hwp, 'zinc', water_data.zinc)
@@ -407,6 +411,11 @@ class HWPDocumentWriter:
 
             # Write overall result
             self.write_field(hwp, 'water_ok', water_data.water_ok)
+
+            # 2026-4-13, add Company
+            # by pdf_engine_type determine company name
+
+            self.write_field(hwp, 'company', self.company)
 
             # Save document
             output_file = Path(output_path)
@@ -432,6 +441,9 @@ class HWPDocumentWriter:
         return int(match.group(0)) if match else None
 
 
+# 2026-4-13
+# here is the main part of the program
+
 class WaterQualityProcessor:
     """Main processor for water quality reports."""
 
@@ -448,9 +460,24 @@ class WaterQualityProcessor:
             output_dir: Directory for output files
         """
         self.engine = PDFEngineFactory.create_engine(engine_type)
-        self.writer = HWPDocumentWriter(template_path)
+        # 2026-4-13, add Company
+        self.company = self.get_company(engine_type.value)
+
+        self.writer = HWPDocumentWriter(template_path, self.company)
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
+
+    # 2026-4-13, add Company
+    @staticmethod
+    def get_company(key):
+        companies = {
+            "hanwool": "한울생명과학(주)",
+            "malgun_hwangyung": "맑은환경시험연구원",
+            "kiwii": "(주)키위수질시험센터",
+            "malgeunmul": "(주)맑은물분석연구원",
+            "nurilife": "누리생명과학원(주)"
+        }
+        return companies.get(key, "해당하는 업체가 없습니다.")
 
     def process_pdf(self, pdf_path: str) -> List[Path]:
         """
@@ -481,6 +508,7 @@ class WaterQualityProcessor:
             water_data = WaterQualityData(raw_data)
 
             # Generate well ID
+            water_data.company = self.company
             well_id = f"W-{page_num}"
 
             # Create document
@@ -628,5 +656,3 @@ if __name__ == "__main__":
     # main()
     run_menu()
     terminate_all_hwp()
-
-
