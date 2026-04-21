@@ -4,6 +4,7 @@ import pandas as pd
 import time
 import psutil
 
+
 def terminate_all_hwp():
     """
     프로세스 이름이 'hwp'로 시작하는 모든 실행 파일을 찾아 종료합니다.
@@ -80,7 +81,7 @@ class HwpProcessor:
         self.hwp.Run('Copy')
         self.hwp.MovePos(3)
 
-        print('-'*80)
+        print('-' * 80)
         print('Page copy started...')
         print(f"Creating {len(self.excel)} pages")
 
