@@ -34,7 +34,7 @@ class AQTBASE:
         self.YANSOO_SPEC = "d:\\05_Send\\YanSoo_Spec.xlsx"
 
         #2025-9-28, Add Github folder path
-        self.YANGSOO_GITHUB = "d:\\12_dev\\02_Excel3\\01_Acquifer Pumping Test\\01_양수시험"
+        self.YANGSOO_GITHUB = "d:\\12_dev\\02_Excel4\\01_Acquifer Pumping Test\\01_양수시험"
         self.TC_DIR = 'C:\\Program Files\\totalcmd\\AqtSolv\\'
 
         self.STEP_FILE = "_01_step.aqt"

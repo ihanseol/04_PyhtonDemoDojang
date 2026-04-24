@@ -317,6 +317,7 @@ if __name__ == "__main__":
     # 명령행 인수가 있는 경우 메인 프로세스 실행
     if len(sys.argv) > 1:
         extractor.run_main_process()
+        input("계속하시려면 엔터키를 누르세요 ....")
     else:
         # 테스트 실행 예제
         print("ExtractSmart 테스트 모드")
@@ -340,3 +341,4 @@ if __name__ == "__main__":
         print("사용법:")
         print("1. 명령행에서: python ExtractSmart_TC2_Unified.py <source_file> <target_dir>")
         print("2. 코드에서: extractor = ExtractSmart(); extractor.extract_archive(archive_path, target_dir)")
+        input("계속하시려면 엔터키를 누르세요 ....")
