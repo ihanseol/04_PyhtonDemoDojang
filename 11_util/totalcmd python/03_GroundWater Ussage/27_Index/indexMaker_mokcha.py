@@ -126,6 +126,8 @@ def process_table_of_contents_01(file_path, target_list):
         current_page = hwp.KeyIndicator()[3]
         results[target] = current_page
 
+    # hwp.quit()
+    
     return results
 
 
