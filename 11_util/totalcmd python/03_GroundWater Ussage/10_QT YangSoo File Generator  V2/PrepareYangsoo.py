@@ -1,18 +1,6 @@
-import shutil
-import tkinter as tk
-from tkinter import filedialog
 from tkinter import messagebox
 from datetime import datetime
-
-import fnmatch
-import time
 import os
-import pyperclip
-import re
-from natsort import natsorted
-import pyautogui
-import ctypes
-import pandas as pd
 
 from FileManager import FileBase
 from FileManager import PathChecker
@@ -41,6 +29,8 @@ class PrepareYangsoofile(FileBase):
             super().__init__(directory)
         else:
             super().__init__(r"d:\05_Send\\")
+
+        self.fm = FileBase()
 
     def initial_set_yangsoo_excel(self):
         """Copy the initial Yangsoo Excel file to the SEND directory."""
@@ -98,8 +88,8 @@ class PrepareYangsoofile(FileBase):
 
 
 class PrepareYangsooExcel(FileBase):
-    def __init__(self, directory=''):
-        super().__init__()
+    def __init__(self, directory='D:\\05_Send\\'):
+        super().__init__(directory)
         self.fm = FileBase()
 
     def duplicate_and_rename_file(self, original_path, destination_folder, cnt):
@@ -131,20 +121,69 @@ class PrepareYangsooExcel(FileBase):
 
     # 기사용관정의 생성, 공리스트를 받아서
     # 그 리스트 대로 공을 생성해준다.
-    def copy_and_get_yangsoo_file2(self, gong_list):
+
+    def copy_and_get_yangsoo_file2(self, gong_list) -> bool | None:
         # original_file_path = "d:/05_Send/A1_ge_OriginalSaveFile.xlsm"
-        original_file_path = "d:/05_Send/A1_ge_OriginalSaveFile.xlsm"
         destination_folder = "d:/05_Send/"
 
-        source = self.fm.get_file_filter(self.YANGSOO_GITHUB, 'A1*집수정*.xlsm')[-1:]
+        try:
+            # 1. 대상 파일 리스트 확보
+            source_files = self.fm.get_file_filter(self.YANGSOO_GITHUB, 'A1*집수정*.xlsm')
 
-        my_source = ''.join(source)
-        print(my_source)
+            if not source_files:
+                print("에러: 원본 파일을 찾을 수 없습니다.")
+                return False
 
-        if source:
+            # 마지막 파일 선택 및 경로 설정
+            my_source = source_files[-1]
+
+            # 2. 목적지 폴더 존재 여부 확인 및 생성
+            if not os.path.exists(destination_folder):
+                os.makedirs(destination_folder)
+                print(f"폴더 생성됨: {destination_folder}")
+
+            # 3. 공 리스트 순회 및 복사 실행
             for gong in gong_list:
-                self.fm.copy_file(my_source, f"d:/05_Send/A{gong}_ge_OriginalSaveFile.xlsm")
-                print(f"File Generated: d:/05_Send/A{gong}_ge_OriginalSaveFile.xlsm")
+                destination_path = f"d:/05_Send/A{gong}_ge_OriginalSaveFile.xlsm"
+
+                try:
+                    self.fm.copy_file(my_source, destination_path)
+                    print(f"파일 생성 성공: {destination_path}")
+                    return True
+                except Exception as e:
+                    # 개별 파일 복사 실패 시 프로세스 유지
+                    print(f"파일 생성 실패 (공 {gong}): {e}")
+                    return False
+
+        except PermissionError:
+            messagebox.showerror("에러: 파일이 열려 있거나 권한이 없어 접근할 수 없습니다.")
+            return False
+        except FileNotFoundError:
+            messagebox.showerror("에러: 지정된 경로를 찾을 수 없습니다.")
+            return False
+        except Exception as e:
+            # 기타 예상치 못한 모든 에러 처리
+            messagebox.showerror(f"프로그램 실행 중 예기치 못한 에러 발생: {e}")
+            return False
+
+    """
+    # Original Save File
+    # 
+    # def copy_and_get_yangsoo_file2(self, gong_list):
+    #     # original_file_path = "d:/05_Send/A1_ge_OriginalSaveFile.xlsm"
+    #     original_file_path = "d:/05_Send/A1_ge_OriginalSaveFile.xlsm"
+    #     destination_folder = "d:/05_Send/"
+    #
+    #     source = self.fm.get_file_filter(self.YANGSOO_GITHUB, 'A1*집수정*.xlsm')[-1:]
+    #
+    #     my_source = ''.join(source)
+    #     print(my_source)
+    #
+    #     if source:
+    #         for gong in gong_list:
+    #             self.fm.copy_file(my_source, f"d:/05_Send/A{gong}_ge_OriginalSaveFile.xlsm")
+    #             print(f"File Generated: d:/05_Send/A{gong}_ge_OriginalSaveFile.xlsm")
+    """
 
 
 class TransferYangSooFile(FileBase):
